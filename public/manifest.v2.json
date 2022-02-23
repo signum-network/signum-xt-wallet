@@ -56,14 +56,14 @@
   },
 
   "background": {
-    "scripts": ["scripts/background.js"],
+    "scripts": ["background.js"],
     "__chrome|opera__persistent": true
   },
 
   "content_scripts": [
     {
       "matches": ["http://localhost/*", "http://127.0.0.1/*", "https://*/*"],
-      "js": ["scripts/contentScript.js"],
+      "js": ["contentScript.js"],
       "run_at": "document_start",
       "all_frames": true
     }

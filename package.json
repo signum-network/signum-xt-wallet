@@ -5,7 +5,7 @@
   "scripts": {
     "start": "yarn watch:src",
     "dev": "concurrently yarn:watch:*",
-    "watch:src": "cross-env NODE_ENV=development MANIFEST_VERSION=2 webpack --watch --progress",
+    "watch:src": "cross-env NODE_ENV=development MANIFEST_VERSION=3 webpack --watch --progress",
     "watch:dist": "mv3-hot-reload",
     "build": "cross-env NODE_ENV=production webpack",
     "build-all": "run-s build:*",
