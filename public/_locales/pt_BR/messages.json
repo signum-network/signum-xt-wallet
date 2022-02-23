@@ -1,0 +1,1747 @@
+{
+  "about": {
+    "message": "Sobre"
+  },
+  "aboutDescription": {
+    "message": "Use esta seção para visualizar informações sobre esta extensão."
+  },
+  "acceptTerms": {
+    "message": "Aceitar os termos"
+  },
+  "acceptTermsInputDescription": {
+    "message": "Eu tenho\nLi e concordo com os $termsOfUsageLink$ e $privacyPolicyLink$",
+    "placeholders": {
+      "termsOfUsageLink": {
+        "content": "$1"
+      },
+      "privacyPolicyLink": {
+        "content": "$2"
+      }
+    }
+  },
+  "account": {
+    "message": "Conta"
+  },
+  "accountActivated": {
+    "message": "Sua conta foi ativada com sucesso!"
+  },
+  "accountAddressLabel": {
+    "message": "O endereço da sua conta atual. Compartilhe-os para ganhar dinheiro."
+  },
+  "accountAlreadyActivated": {
+    "message": "Sua conta já está ativada."
+  },
+  "accountName": {
+    "message": "nome da conta"
+  },
+  "accountNameInputDescription": {
+    "message": "Como será chamada a nova conta?"
+  },
+  "accountNameInputTitle": {
+    "message": "1-16 caracteres, sem caracteres especiais"
+  },
+  "accountNumber": {
+    "message": "Número de conta"
+  },
+  "accountToBeActivated": {
+    "message": "A conta precisa ser ativada."
+  },
+  "accountToBeRemoved": {
+    "message": "Conta para remover:"
+  },
+  "accounts": {
+    "message": "Contas"
+  },
+  "actionConfirmation": {
+    "message": "Confirmar Ação"
+  },
+  "activate": {
+    "message": "Ativar"
+  },
+  "activateAccount": {
+    "message": "Ativar conta"
+  },
+  "activateAccountDescription": {
+    "message": "Isso pode ser necessário para contas de torneiras de ICO/fundador ou testnet."
+  },
+  "activateAccountSecret": {
+    "message": "Segredo"
+  },
+  "activateAccountSecretDescription": {
+    "message": "Campo 'secreto' da conta ou torneira do financiador"
+  },
+  "activateAccountSecretPlaceholder": {
+    "message": "por exemplo, n4hs7sd3..."
+  },
+  "activationOperationType": {
+    "message": "Ativação"
+  },
+  "activity": {
+    "message": "Atividade"
+  },
+  "add": {
+    "message": "Adicionar à"
+  },
+  "addAsset": {
+    "message": "Adicionar ativo"
+  },
+  "addCollectible": {
+    "message": "Adicionar colecionável"
+  },
+  "addContact": {
+    "message": "Adicionar Contato"
+  },
+  "addLedgerAccount": {
+    "message": "Adicionar conta contábil",
+    "description": "Razão = https://www.ledger.com/"
+  },
+  "addNetwork": {
+    "message": "Adicionar Nó"
+  },
+  "addNewContact": {
+    "message": "Novo Contato"
+  },
+  "addNewToken": {
+    "message": "Adicionar Novo Token"
+  },
+  "addThisAddressToContacts": {
+    "message": "Adicionar este endereço aos contatos?"
+  },
+  "addToken": {
+    "message": "Adicionar Ativo"
+  },
+  "additionalFee": {
+    "message": "Taxa Adicional"
+  },
+  "address": {
+    "message": "Endereço"
+  },
+  "addressBook": {
+    "message": "Favoritos"
+  },
+  "addressBookDescription": {
+    "message": "Adicione, remova e gerencie seus contatos."
+  },
+  "addressInputDescription": {
+    "message": "Endereço ou ID da conta Signum"
+  },
+  "addressInputDescriptionWithDomain": {
+    "message": "Endereço, ID ou alias da conta"
+  },
+  "addressOfDeployedTokenContract": {
+    "message": "Endereço de um contrato de ativo fornecido."
+  },
+  "addressOfTokenContract": {
+    "message": "Endereço de um contrato de token $assetSymbol$.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "alert": {
+    "message": "Alerta"
+  },
+  "alpha": {
+    "message": "Alfa"
+  },
+  "amount": {
+    "message": "Montante"
+  },
+  "amountMustBePositive": {
+    "message": "Deve ser positivo"
+  },
+  "amountPlaceholder": {
+    "message": "por exemplo, 123,45"
+  },
+  "analyticsConfirmationCancelButton": {
+    "message": "Cancelar"
+  },
+  "analyticsConfirmationCollect": {
+    "message": "O que coletamos:"
+  },
+  "analyticsConfirmationCollectDescription": {
+    "message": "Eventos anônimos de clique e visualização de página"
+  },
+  "analyticsConfirmationConfirmButton": {
+    "message": "confirme"
+  },
+  "analyticsConfirmationDescription": {
+    "message": "Estamos constantemente melhorando a Carteira XT e precisamos da sua ajuda. Para entender melhor qual seção da carteira deve ser atualizada, coletamos dados de uso anônimos. Esses dados são usados apenas para melhorar a usabilidade do XT Wallet."
+  },
+  "analyticsConfirmationNeverCollect": {
+    "message": "NUNCA rastreamos:"
+  },
+  "analyticsConfirmationNeverCollectDescription": {
+    "message": "Suas chaves, endereços, transações, saldos, hashes, IP ou outras informações pessoais."
+  },
+  "analyticsConfirmationSettingsDescription": {
+    "message": "Você pode desativar o rastreamento de análises a qualquer momento nas configurações da sua carteira."
+  },
+  "analyticsConfirmationTitle": {
+    "message": "Ajude-nos a melhorar a Carteira XT"
+  },
+  "analyticsSettings": {
+    "message": "Análise anônima"
+  },
+  "analyticsSettingsDescription": {
+    "message": "Aqui você pode configurar o envio de análises anônimas que nos ajudam a melhorar o produto."
+  },
+  "anotherAccount": {
+    "message": "Outra conta"
+  },
+  "appDesc": {
+    "message": "Carteira de criptomoedas para o blockchain verde Signum 🍀 como uma extensão para o seu navegador."
+  },
+  "appName": {
+    "message": "Carteira Signum XT"
+  },
+  "appRequestsToSign": {
+    "message": "$origin$ solicita que você confirme a transação",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appWouldLikeToConnectToYourWallet": {
+    "message": "$origin$ quer se conectar à sua carteira",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "applied": {
+    "message": "Confirmado"
+  },
+  "approveForSmb": {
+    "message": "para $donor$",
+    "placeholders": {
+      "donor": {
+        "content": "$1"
+      }
+    }
+  },
+  "approveToken": {
+    "message": "Aprovar Tokens"
+  },
+  "asset": {
+    "message": "Ativo"
+  },
+  "assetId": {
+    "message": "ID do recurso"
+  },
+  "assets": {
+    "message": "Ativos"
+  },
+  "atLeast1LowercaseLetter": {
+    "message": "Pelo menos 1 letra minúscula"
+  },
+  "atLeast1Number": {
+    "message": "Pelo menos 1 número"
+  },
+  "atLeast1UppercaseLetter": {
+    "message": "Pelo menos 1 letra maiúscula"
+  },
+  "atLeast8Characters": {
+    "message": "pelo menos 8 caracteres"
+  },
+  "attentionExclamation": {
+    "message": "Cuidado!"
+  },
+  "authorizedDApps": {
+    "message": "DApps autorizados",
+    "description": "DApps = Aplicativos Descentralizados"
+  },
+  "availableToSend": {
+    "message": "Disponível para enviar (máximo):"
+  },
+  "back": {
+    "message": "Voltar"
+  },
+  "backToUnlockPage": {
+    "message": "Voltar para desbloquear a página"
+  },
+  "backtracked": {
+    "message": "Rastreado"
+  },
+  "backupNewSeedPhrase": {
+    "message": "Salvar nova frase secreta"
+  },
+  "backupedInputDescription": {
+    "message": "E aceite os riscos que se eu perder a frase\nmeus fundos podem ser perdidos."
+  },
+  "backupedInputLabel": {
+    "message": "Eu fiz um backup da frase secreta"
+  },
+  "baker": {
+    "message": "padeiro"
+  },
+  "balance": {
+    "message": "Saldo:"
+  },
+  "balanceTooLow": {
+    "message": "Saldo insufuciente"
+  },
+  "billionFormat": {
+    "message": "$billion$B",
+    "placeholders": {
+      "billion": {
+        "content": "$1"
+      }
+    }
+  },
+  "bytes": {
+    "message": "bytes"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "cannotBeRemoved": {
+    "message": "Não pode ser removido"
+  },
+  "cantConnectToNetwork": {
+    "message": "Não é possível alcançar o nó da rede"
+  },
+  "clean": {
+    "message": "Limpar"
+  },
+  "clickIconToResetPermissions": {
+    "message": "Clique no ícone X para redefinir as permissões."
+  },
+  "clickOnCustomDerivationPath": {
+    "message": "Clique em 'Caminho de derivação personalizado' para personalizá-lo."
+  },
+  "clickOnRecipientAccount": {
+    "message": "Clique na conta para a qual deseja enviar dinheiro."
+  },
+  "clickToRevealOrEditField": {
+    "message": "Clique aqui para visualizar ou editar este campo"
+  },
+  "collectibles": {
+    "message": "Colecionáveis"
+  },
+  "comingSoon": {
+    "message": "Em breve"
+  },
+  "communityResourcesTitle": {
+    "message": "Você sempre pode encontrar informações adicionais sobre a carteira Signum XT ou pedir ajuda:"
+  },
+  "confirm": {
+    "message": "Confirmar"
+  },
+  "confirmAction": {
+    "message": "Confirmar $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmActionOnDevice": {
+    "message": "Confirme a ação"
+  },
+  "confirmTermsError": {
+    "message": "Não é possível prosseguir sem aceitar os Termos de Serviço"
+  },
+  "confirmation": {
+    "message": "Confirmação"
+  },
+  "connect": {
+    "message": "Conectar"
+  },
+  "connectLedger": {
+    "message": "conectar livros",
+    "description": "Razão = https://www.ledger.com/"
+  },
+  "connection": {
+    "message": "Conexão"
+  },
+  "connectionUnavailable": {
+    "message": "Não disponível"
+  },
+  "contact": {
+    "message": "Contato"
+  },
+  "contactWithTheSameAddressAlreadyExists": {
+    "message": "Já existe contato com o mesmo endereço"
+  },
+  "continue": {
+    "message": "Continuar"
+  },
+  "copiedAddress": {
+    "message": "Copiado."
+  },
+  "copiedHash": {
+    "message": "Copiado."
+  },
+  "copyAddressToClipboard": {
+    "message": "Copiar para área de transferência"
+  },
+  "copyHashToClipboard": {
+    "message": "Copiar para área de transferência"
+  },
+  "counterErrorDescription": {
+    "message": "Você não pode realizar a operação no momento!\nAguarde se sua operação anterior foi concluída e tente novamente."
+  },
+  "create": {
+    "message": "Criar"
+  },
+  "createAccount": {
+    "message": "Criar Conta"
+  },
+  "createNewWallet": {
+    "message": "Criar nova carteira"
+  },
+  "createNewWalletDescription": {
+    "message": "Você é novo no Signum e ainda não tem uma carteira Signum? Pois então vá! Vamos criar uma nova carteira"
+  },
+  "currentContacts": {
+    "message": "Contatos atuais"
+  },
+  "currentNetworks": {
+    "message": "Nós de rede atuais"
+  },
+  "customDerivationPath": {
+    "message": "Caminho de derivação personalizado"
+  },
+  "customFeeDescription": {
+    "message": "Personalizado"
+  },
+  "dApps": {
+    "message": "DApps",
+    "description": "DApps = Aplicativos Descentralizados"
+  },
+  "dAppsCheckmarkPrompt": {
+    "message": "Clique na marca de seleção $action$ para ativar as interações do DApps",
+    "description": "DApps = Aplicativos Descentralizados",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "dAppsDescription": {
+    "message": "Nesta seção, você pode habilitar a capacidade de interagir com aplicativos descentralizados."
+  },
+  "dAppsInteraction": {
+    "message": "Interação de DApps",
+    "description": "DApps = Aplicativos Descentralizados"
+  },
+  "dAppsListTvlDescription": {
+    "message": "bloqueado total. O valor em tez é a quantidade total de tez bloqueada em dApps. O valor em USD é a quantidade total de tez e tokens bloqueados lá."
+  },
+  "decimals": {
+    "message": "Decimais"
+  },
+  "decimalsInputDescription": {
+    "message": "Um número de casas decimais após o ponto. Por exemplo: 8 para BTC, 2 para USD."
+  },
+  "decline": {
+    "message": "Rejeitar"
+  },
+  "defaultAccount": {
+    "message": "Conta padrão"
+  },
+  "defaultAccountName": {
+    "message": "Conta $accountNumber$",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultDerivationPathLabel": {
+    "message": "Por padrão, a derivação $path$ é usada.",
+    "placeholders": {
+      "path": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultLedgerName": {
+    "message": "Razão $number$",
+    "description": "Razão = https://www.ledger.com/",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultManagedKTAccountName": {
+    "message": "KT gerenciado $accountNumber$",
+    "description": "KT não traduzido",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultWatchOnlyAccountName": {
+    "message": "Apenas Observar $accountNumber$",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "delegation": {
+    "message": "Delegação"
+  },
+  "delegationToSmb": {
+    "message": "para $delegate$",
+    "placeholders": {
+      "delegate": {
+        "content": "$1"
+      }
+    }
+  },
+  "delete": {
+    "message": "Remover"
+  },
+  "deleteCollectibleConfirm": {
+    "message": "Tem certeza de que deseja excluir este colecionável?"
+  },
+  "deleteContactConfirm": {
+    "message": "Deseja mesmo excluir este contato?"
+  },
+  "deleteNetworkConfirm": {
+    "message": "Você realmente deseja excluir este nó?"
+  },
+  "deleteNetworkHint": {
+    "message": "Clique no ícone X para excluir o nó. Se você quiser editá-lo, basta excluí-lo e adicionar novamente com novos parâmetros."
+  },
+  "deleteTokenConfirm": {
+    "message": "Você realmente deseja excluir este token?"
+  },
+  "deployNew": {
+    "message": "Implantar novamente"
+  },
+  "derivation": {
+    "message": "derivação"
+  },
+  "derivationPath": {
+    "message": "caminho de derivação"
+  },
+  "derivationPathExample": {
+    "message": "m/44'/1729'/<account_index>'/0'"
+  },
+  "derivationPathExample2": {
+    "message": "por exemplo, m/44'/1729'/..."
+  },
+  "derivationPathMustStartWithM": {
+    "message": "Deve começar com 'm'"
+  },
+  "derivationSeparatorMustBeSlash": {
+    "message": "O separador deve ser '/'"
+  },
+  "derivationType": {
+    "message": "tipo de derivação"
+  },
+  "derivationTypeFieldDescription": {
+    "message": "A curva elíptica que a conta usa."
+  },
+  "deviceName": {
+    "message": "$device$ dispositivo",
+    "placeholders": {
+      "device": {
+        "content": "$1"
+      }
+    }
+  },
+  "disable": {
+    "message": "Desativar"
+  },
+  "disabled": {
+    "message": "Desativado"
+  },
+  "disabledForWatchOnlyAccount": {
+    "message": "Desativado para selecionada conta de observação"
+  },
+  "doNotSharePhrase": {
+    "message": "<b>NÃO compartilhe</b> esta frase com NINGUÉM! Ele pode ser usado para roubar seu crédito."
+  },
+  "domainDoesntResolveToAddress": {
+    "message": "Alias \"$value$\" não pôde ser resolvido para um endereço",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "edit": {
+    "message": "Editar"
+  },
+  "email": {
+    "message": "Email"
+  },
+  "emptyImplicitContract": {
+    "message": "Sua conta está vazia. Deposite qualquer quantia de Tez nesta conta para ativá-la"
+  },
+  "enable": {
+    "message": "Ativar"
+  },
+  "enablePopup": {
+    "message": "Ativar pop-up"
+  },
+  "enabled": {
+    "message": "Ativado"
+  },
+  "enterPasswordToRemoveAccount": {
+    "message": "Digite a senha para remover a conta."
+  },
+  "error": {
+    "message": "Erro"
+  },
+  "errorChangingAccountName": {
+    "message": "Ocorreu um erro ao alterar o nome da conta"
+  },
+  "exchangeRate": {
+    "message": "Taxa de câmbio:"
+  },
+  "explore": {
+    "message": "Explorar"
+  },
+  "failed": {
+    "message": "Falhado"
+  },
+  "failedToParseMetadata": {
+    "message": "Erro ao analisar metadados"
+  },
+  "failedToResetExtension": {
+    "message": "A extensão não pôde ser redefinida: $errorMessage$",
+    "placeholders": {
+      "errorMessage": {
+        "content": "$1"
+      }
+    }
+  },
+  "failureSecretMayBeInvalid": {
+    "message": "Falhado. Isso pode acontecer porque o segredo especificado é inválido"
+  },
+  "farming": {
+    "message": "agricultura"
+  },
+  "fastFeeDescription": {
+    "message": "Rápido"
+  },
+  "fee": {
+    "message": "Taxa"
+  },
+  "feeInputDescription": {
+    "message": "A taxa mínima para esta operação é: $fee$\nTaxas mais altas podem acelerar a confirmação.",
+    "placeholders": {
+      "fee": {
+        "content": "$1"
+      }
+    }
+  },
+  "fetchingConfirmationDetails": {
+    "message": "Os detalhes de confirmação são recuperados"
+  },
+  "file": {
+    "message": "Arquivo"
+  },
+  "finish": {
+    "message": "Fim"
+  },
+  "firefoxLedgerConnectionError": {
+    "message": "$sorry$ A conexão com o $device$ via $browser$ está temporariamente $unavailable$.",
+    "placeholders": {
+      "sorry": {
+        "content": "$1"
+      },
+      "device": {
+        "content": "$2"
+      },
+      "browser": {
+        "content": "$ 3"
+      },
+      "unavailable": {
+        "content": "$ 4"
+      }
+    }
+  },
+  "formatsAllowed": {
+    "message": "Apenas imagens .png, .jpg, .jpeg, .gif, .webp são permitidas"
+  },
+  "from": {
+    "message": "de"
+  },
+  "fundraiser": {
+    "message": "angariação de fundos"
+  },
+  "game": {
+    "message": "Jogo"
+  },
+  "gasFee": {
+    "message": "taxa de gás"
+  },
+  "generalSettings": {
+    "message": "Geral"
+  },
+  "generalSettingsDescription": {
+    "message": "Aqui você pode gerenciar as configurações de idioma e o modo de exibição."
+  },
+  "hash": {
+    "message": "Hash"
+  },
+  "helpAndCommunity": {
+    "message": "Ajuda e Comunidade"
+  },
+  "helpAndCommunityDescription": {
+    "message": "Use esta seção se quiser se juntar à nossa comunidade ou precisar de ajuda."
+  },
+  "iconURL": {
+    "message": "URL do ícone"
+  },
+  "iconURLInputDescription": {
+    "message": "URL da imagem do logotipo do recurso."
+  },
+  "id": {
+    "message": "ID"
+  },
+  "ifYouDontSeeYourAsset": {
+    "message": "Se você não vir seus ativos,\ntente clicar em $toClick$.",
+    "placeholders": {
+      "toClick": {
+        "content": "$1"
+      }
+    }
+  },
+  "ifYouWantToActivateAnotherAccount": {
+    "message": "Se você deseja ativar uma conta diferente, selecione-a na lista suspensa no canto superior direito."
+  },
+  "ifYouWantToRemoveAnotherAccount": {
+    "message": "Se você deseja remover outra conta, selecione-a no menu suspenso no canto superior direito. Você sempre pode reimportar a conta. Nenhum dado é perdido."
+  },
+  "import": {
+    "message": "Importar"
+  },
+  "importAccount": {
+    "message": "Importar Conta"
+  },
+  "importExistingWallet": {
+    "message": "Importar carteira existente"
+  },
+  "importExistingWalletDescription": {
+    "message": "Já tem carteira? Importe-os com sua frase secreta"
+  },
+  "importNewAccountTitle": {
+    "message": "Quer recuperar a conta? Deseja fazer login com uma conta diferente?"
+  },
+  "importWalletUsingSeedPhrase": {
+    "message": "Importar carteira com a frase secreta"
+  },
+  "important": {
+    "message": "Importante"
+  },
+  "importedAccount": {
+    "message": "Importado"
+  },
+  "inAsset": {
+    "message": "em $assetSymbol$",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "inUSD": {
+    "message": "em dólares"
+  },
+  "incorrectTokenIdErrorMessage": {
+    "message": "Erro ao processar o ativo com os dados fornecidos. Verifique se o ID do recurso está correto."
+  },
+  "interaction": {
+    "message": "Interação"
+  },
+  "interactionWith": {
+    "message": "Interação contratual com"
+  },
+  "interactionWithContract": {
+    "message": "com $contract$",
+    "placeholders": {
+      "contract": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidAddress": {
+    "message": "Endereço inválido"
+  },
+  "invalidAddressOrDomain": {
+    "message": "Endereço ou alias inválido"
+  },
+  "invalidPath": {
+    "message": "Caminho inválido"
+  },
+  "joinPrompt": {
+    "message": "Sinta-se à vontade para participar e tirar suas dúvidas"
+  },
+  "lambdaContract": {
+    "message": "Contrato do Lambda View"
+  },
+  "lambdaContractPlaceholder": {
+    "message": "por exemplo, KT1v9CmPy..."
+  },
+  "languageAndCountry": {
+    "message": "Idioma"
+  },
+  "ledgerLiveBridgeGuide": {
+    "message": "Para se conectar ao Ledger, ative o aplicativo Ledger ao vivo em seu dispositivo, abra o aplicativo de carteira Tezos e permita uma conexão WebSocket à sua conta."
+  },
+  "ledgerLiveSettings": {
+    "message": "Use o Ledger ao vivo"
+  },
+  "ledgerLiveSettingsDescription": {
+    "message": "O novo Ledger Live Bridge permite que você use seu ledger de uma maneira diferente."
+  },
+  "ledgerNameConstraint": {
+    "message": "1-16 caracteres, sem caracteres especiais"
+  },
+  "ledgerNameInputDescription": {
+    "message": "Como será chamada a nova conta do Razão?",
+    "description": "Razão = https://www.ledger.com/"
+  },
+  "ledgerNano": {
+    "message": "Razão Nano",
+    "description": "Razão = https://www.ledger.com/"
+  },
+  "less": {
+    "message": "menos",
+    "description": "Mostrar menos"
+  },
+  "links": {
+    "message": "Links"
+  },
+  "loadMore": {
+    "message": "Carregar Mais"
+  },
+  "lock": {
+    "message": "Bloquear"
+  },
+  "lockUpSettings": {
+    "message": "Bloqueio automático"
+  },
+  "lockUpSettingsDescription": {
+    "message": "A extensão será bloqueada automaticamente após 5 minutos de inatividade."
+  },
+  "lockedWalletAlreadyExists": {
+    "message": "Carteira suspensa <b>já existe</b>.\nA importação de um novo <b>substituirá o existente</b>."
+  },
+  "madeWithLove": {
+    "message": "Criado com $loveIcon$ por $companyName$",
+    "placeholders": {
+      "loveIcon": {
+        "content": "$1"
+      },
+      "companyName": {
+        "content": "$2"
+      }
+    }
+  },
+  "mainAssetBalanceIsZero": {
+    "message": "Seu saldo é zero. Signa é necessária para a taxa."
+  },
+  "manage": {
+    "message": "Administrador"
+  },
+  "manageCollectibles": {
+    "message": "Gerenciar colecionáveis"
+  },
+  "manageTokens": {
+    "message": "Gerenciar tokens"
+  },
+  "managedKTAccount": {
+    "message": "KT Gerenciado"
+  },
+  "marketplace": {
+    "message": "Mercado"
+  },
+  "max": {
+    "message": "Máx."
+  },
+  "maximalAmount": {
+    "message": "Máximo: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "maximiseView": {
+    "message": "Maximizar a visualização"
+  },
+  "mayHappenBecauseYouAreOffline": {
+    "message": "Isso pode acontecer porque você está off-line no momento"
+  },
+  "messageTo": {
+    "message": "Mensagem para"
+  },
+  "millionFormat": {
+    "message": "$million$M",
+    "placeholders": {
+      "million": {
+        "content": "$1"
+      }
+    }
+  },
+  "min": {
+    "message": "Mínimo:"
+  },
+  "minimalFeeDescription": {
+    "message": "Mínimo"
+  },
+  "minimalFeeGreaterThanBalance": {
+    "message": "A taxa mínima para esta transação é superior ao seu saldo."
+  },
+  "minimalFeeGreaterThanBalanceVerbose": {
+    "message": "A taxa mínima para esta transação é superior ao seu saldo."
+  },
+  "mnemonic": {
+    "message": "Frase Secreta"
+  },
+  "mnemonicInputDescription": {
+    "message": "Sua frase secreta; geralmente 12 palavras."
+  },
+  "mnemonicInputLabel": {
+    "message": "Frase Secreta"
+  },
+  "mnemonicInputPlaceholder": {
+    "message": "por exemplo, venue sock milk update..."
+  },
+  "more": {
+    "message": "Mais",
+    "description": "mostre mais"
+  },
+  "mustBeEqualToPasswordAbove": {
+    "message": "Deve ser igual à senha acima"
+  },
+  "mustBeNonNegative": {
+    "message": "Não pode ser negativo"
+  },
+  "mustBeUnique": {
+    "message": "Deve ser único"
+  },
+  "mustBeValidURL": {
+    "message": "Deve ser um URL válido"
+  },
+  "name": {
+    "message": "Nome"
+  },
+  "network": {
+    "message": "Rede"
+  },
+  "networkLabel": {
+    "message": "Rede: $network$",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkNamePlaceholder": {
+    "message": "Nome do nó de rede"
+  },
+  "networkOrOtherIssue": {
+    "message": "Rede ou outro problema técnico."
+  },
+  "networks": {
+    "message": "Redes"
+  },
+  "networksDescription": {
+    "message": "Nesta seção, você pode adicionar ou excluir nós de rede de Signum personalizados."
+  },
+  "newContactPlaceholder": {
+    "message": "por exemplo, Jane Doe"
+  },
+  "no": {
+    "message": "Não"
+  },
+  "noAssetsFound": {
+    "message": "Nenhum recurso encontrado"
+  },
+  "noContactsFound": {
+    "message": "Nenhum contato encontrado"
+  },
+  "noFavoriteDApps": {
+    "message": "Você não tem dApps favoritos"
+  },
+  "noMatchingDAppsFound": {
+    "message": "Nenhum dApp correspondente foi encontrado"
+  },
+  "noOperationsFound": {
+    "message": "Nenhuma transação encontrada"
+  },
+  "noResults": {
+    "message": "Sem resultados"
+  },
+  "nonNegativeIntMessage": {
+    "message": "Inteiro, 0 ou maior"
+  },
+  "notAllowed": {
+    "message": "Não permitido"
+  },
+  "notEnoughCurrencyFunds": {
+    "message": "Fundos $currency$ insuficientes",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
+  },
+  "notEnoughFunds": {
+    "message": "Saldo insuficiente"
+  },
+  "notIdentified": {
+    "message": "Não identificado"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "onlyHTTPS": {
+    "message": "Somente HTTPS"
+  },
+  "onlyKTContractAddressAllowed": {
+    "message": "Apenas KT... Endereço do contrato permitido",
+    "description": "KT não traduzido"
+  },
+  "oops": {
+    "message": "Eita!"
+  },
+  "openNewTab": {
+    "message": "Abrir nova guia"
+  },
+  "operationHash": {
+    "message": "Hash de operação"
+  },
+  "operationHistoryWhileMessage": {
+    "message": "O histórico de atividades é recuperado ou processado"
+  },
+  "operationSuccessfullyAccepted": {
+    "message": "$type$ aceito com sucesso e aguardando confirmação!",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "operationSuccessfullyProcessed": {
+    "message": "$type$ processado e confirmado com sucesso!",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "operations": {
+    "message": "Operação"
+  },
+  "optionalComment": {
+    "message": "(opcional)"
+  },
+  "orIPFSImageURL": {
+    "message": "Ou URL da imagem IPFS"
+  },
+  "originLabel": {
+    "message": "Origem: $origin$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "origination": {
+    "message": "Aparecimento"
+  },
+  "other": {
+    "message": "Outros"
+  },
+  "ownAccount": {
+    "message": "Próprio"
+  },
+  "password": {
+    "message": "Senha"
+  },
+  "passwordInputDescription": {
+    "message": "Usado para derivação mnemônica adicional. Esta NÃO é uma senha de carteira."
+  },
+  "payloadToSign": {
+    "message": "Carga para assinar"
+  },
+  "pending": {
+    "message": "Confirmando..."
+  },
+  "popupDisabled": {
+    "message": "Desativado"
+  },
+  "popupEnabled": {
+    "message": "Ativado"
+  },
+  "popupSettings": {
+    "message": "Modo pop-up"
+  },
+  "popupSettingsDescription": {
+    "message": "Aqui você pode definir se a carteira deve ser aberta no modo pop-up - ou seja, no canto superior direito do navegador - ou como uma página inteira no navegador."
+  },
+  "positiveIntMessage": {
+    "message": "Inteiro, 1 ou maior"
+  },
+  "preview": {
+    "message": "Visualização"
+  },
+  "priceImpact": {
+    "message": "Impacto do preço:"
+  },
+  "privacyPolicy": {
+    "message": "Política de Privacidade"
+  },
+  "privateKey": {
+    "message": "Chave privada"
+  },
+  "processing": {
+    "message": "Está sendo processado..."
+  },
+  "promoted": {
+    "message": "Patrocinadas"
+  },
+  "protectedFormField": {
+    "message": "Protegido"
+  },
+  "qrCode": {
+    "message": "Código QR"
+  },
+  "rank": {
+    "message": "Classificação"
+  },
+  "raw": {
+    "message": "Cru"
+  },
+  "receive": {
+    "message": "Receber"
+  },
+  "recipient": {
+    "message": "Destinatário"
+  },
+  "recipientInputPlaceholder": {
+    "message": "por exemplo, S-6SJC-... ou 17332..."
+  },
+  "recipientInputPlaceholderWithDomain": {
+    "message": "por exemplo, S-6SJC-..., 17332... ou joão",
+    "description": "foobar = alias de sinal"
+  },
+  "referredByTokenContractNotFound": {
+    "message": "O contrato $address$ referenciado pelo contrato de token não foi encontrado.",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "reject": {
+    "message": "Rejeitar"
+  },
+  "remove": {
+    "message": "Remover"
+  },
+  "removeAccount": {
+    "message": "Excluir conta"
+  },
+  "removeAccountDescription": {
+    "message": "Use esta seção para remover sua conta selecionada."
+  },
+  "repeatPassword": {
+    "message": "Repetir a senha"
+  },
+  "repeatPasswordInputDescription": {
+    "message": "Por favor, reinsira a senha."
+  },
+  "repo": {
+    "message": "Repositório"
+  },
+  "requestSent": {
+    "message": "Pedido $type$ enviado! será confirmado...",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "required": {
+    "message": "Necessário"
+  },
+  "resetExtension": {
+    "message": "Redefinir extensão"
+  },
+  "resetExtensionConfirmation": {
+    "message": "Tem certeza de que deseja redefinir a Carteira XT?\nIsso apagará todos os seus dados localmente.\nVocê pode importar suas contas ativas novamente a qualquer momento."
+  },
+  "resetPermissionsConfirmation": {
+    "message": "Você quer permissões para\nRealmente redefinir $origin$?",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "resolvedAddress": {
+    "message": "Endereço resolvido"
+  },
+  "restoreWallet": {
+    "message": "Restaure sua carteira"
+  },
+  "retry": {
+    "message": "Tentar Novamente"
+  },
+  "reveal": {
+    "message": "Revelar"
+  },
+  "revealNewSeedPhrase": {
+    "message": "<b>Clique abaixo</b> para ver sua nova senha.\nEm seguida, escreva essa frase em um pedaço de papel e/ou <b>guarde-o em um local seguro</b>. "
+  },
+  "rocketFeeDescription": {
+    "message": "Foguete"
+  },
+  "rpcBaseURL": {
+    "message": "URL do nó de rede"
+  },
+  "save": {
+    "message": "Salvar"
+  },
+  "searchAssets": {
+    "message": "Localizar recursos..."
+  },
+  "searchByName": {
+    "message": "Procura por nome..."
+  },
+  "searchDApps": {
+    "message": "Procurar DApps"
+  },
+  "seedPhrase": {
+    "message": "Frase Secreta"
+  },
+  "selectAnotherAssetPrompt": {
+    "message": "Clique na área para selecionar um ativo ou token diferente."
+  },
+  "send": {
+    "message": "Enviar"
+  },
+  "sendToMyAccounts": {
+    "message": "Enviar para minhas contas"
+  },
+  "settings": {
+    "message": "Configurações"
+  },
+  "showIncomingTransactions": {
+    "message": "Ver transações recebidas"
+  },
+  "signAction": {
+    "message": "Assinar"
+  },
+  "skipped": {
+    "message": "Ignorado"
+  },
+  "smthWentWrong": {
+    "message": "Algo deu errado"
+  },
+  "smthWentWrongWhile": {
+    "message": "$action$ encontrou um erro",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "social": {
+    "message": "Social"
+  },
+  "soon": {
+    "message": "Em Breve"
+  },
+  "sorry": {
+    "message": "Desculpe!"
+  },
+  "sortBy": {
+    "message": "Ordenar por"
+  },
+  "space": {
+    "message": "Capacidade livre"
+  },
+  "step": {
+    "message": "Passo"
+  },
+  "storageFee": {
+    "message": "taxa de armazenamento"
+  },
+  "storageFeeMax": {
+    "message": "Taxa de armazenamento (máx.)"
+  },
+  "storageLimit": {
+    "message": "Ajustar limite de memória"
+  },
+  "submit": {
+    "message": "Enviar"
+  },
+  "success": {
+    "message": "Sucesso"
+  },
+  "swap": {
+    "message": "trocar"
+  },
+  "swapNoun": {
+    "message": "Troco"
+  },
+  "symbol": {
+    "message": "Símbolo"
+  },
+  "templeWalletOptions": {
+    "message": "XT Wallet | opções"
+  },
+  "termsOfUsage": {
+    "message": "Termos de uso"
+  },
+  "termsOfUse": {
+    "message": "Termos de uso"
+  },
+  "thisMayHappenBecause": {
+    "message": "Isso pode acontecer porque:"
+  },
+  "thousandFormat": {
+    "message": "$thousand$k",
+    "placeholders": {
+      "thousand": {
+        "content": "$1"
+      }
+    }
+  },
+  "timedOutOperationConfirmation": {
+    "message": "A confirmação expirou. Você pode esperar mais ou tentar novamente mais tarde."
+  },
+  "toAsset": {
+    "message": "Para"
+  },
+  "toBeConnectedWithDApp": {
+    "message": "deve ser conectado com DApp."
+  },
+  "toContinue": {
+    "message": "Continuar"
+  },
+  "tokenContractPlaceholder": {
+    "message": "por exemplo, KT1v9CmPy..."
+  },
+  "tokenDoesNotMatchStandard": {
+    "message": "O contrato de ativo presumido não está em conformidade com o padrão $standard$",
+    "placeholders": {
+      "standard": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenId": {
+    "message": "Código do token"
+  },
+  "tokenIdInputDescription": {
+    "message": "Um número inteiro não negativo que identifica o ativo dentro do contrato FA2"
+  },
+  "tokenNameInputDescription": {
+    "message": "Nome do ativo, por exemplo, 'Bitcoin' para ativo BTC."
+  },
+  "tokenNameInputPlaceholder": {
+    "message": "por exemplo, MySuperToken"
+  },
+  "tokenNamePatternDescription": {
+    "message": "Sem caracteres especiais, comprimento 3-50"
+  },
+  "tokenSymbolInputDescription": {
+    "message": "Símbolo de ativo, como 'USD' para dólares americanos."
+  },
+  "tokenSymbolInputPlaceholder": {
+    "message": "por exemplo, WEW, BOW, LAL etc."
+  },
+  "tokenSymbolPatternDescription": {
+    "message": "Apenas a-z, A-Z, 0-9 caracteres permitidos, 2-5 comprimento"
+  },
+  "tokenType": {
+    "message": "Tipo de token"
+  },
+  "tokens": {
+    "message": "Fichas"
+  },
+  "tokensRecepientInputDescription": {
+    "message": "Endereço ou ID para o qual enviar $assetSymbol$.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokensRecepientInputDescriptionWithDomain": {
+    "message": "Endereço, ID ou alias para o qual enviar $assetSymbol$.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "totalAmount": {
+    "message": "Valor Total"
+  },
+  "totalBalance": {
+    "message": "Saldo Total"
+  },
+  "transaction": {
+    "message": "Transação"
+  },
+  "transactionId": {
+    "message": "ID da transação:"
+  },
+  "transactionOfSomeType": {
+    "message": "Transação do tipo '$type$'",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "transfer": {
+    "message": "Transferência"
+  },
+  "transferFromSmb": {
+    "message": "de $sender$",
+    "placeholders": {
+      "sender": {
+        "content": "$1"
+      }
+    }
+  },
+  "transferTo": {
+    "message": "Transferir para"
+  },
+  "transferToSmb": {
+    "message": "para $receiver$",
+    "placeholders": {
+      "receiver": {
+        "content": "$1"
+      }
+    }
+  },
+  "transfers": {
+    "message": "Transferências"
+  },
+  "tryAgain": {
+    "message": "Tentar novamente"
+  },
+  "tryingToTransferToYourself": {
+    "message": "Você está tentando transferir dinheiro para si mesmo.\nPor favor, certifique-se de que é exatamente o que você gostaria."
+  },
+  "tvl": {
+    "message": "TVL"
+  },
+  "txIsLikelyToFail": {
+    "message": "Aviso! A transação provavelmente falhará"
+  },
+  "unableToContinueWithoutConfirming": {
+    "message": "Não é possível continuar sem confirmação"
+  },
+  "unableToEstimateTransactionAction": {
+    "message": "A transação para o destinatário especificado não pode ser estimada."
+  },
+  "unableToSendTransactionAction": {
+    "message": "A transação não pode ser enviada para o destinatário especificado."
+  },
+  "undelegation": {
+    "message": "não delegação"
+  },
+  "unknownErrorCheckingSomeEntrypoint": {
+    "message": "Ocorreu um erro desconhecido ao validar o ponto de entrada '$name$'.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "unknownNetwork": {
+    "message": "Desconhecido:"
+  },
+  "unknownParseErrorOccurred": {
+    "message": "Ocorreu um erro de análise desconhecido."
+  },
+  "unlock": {
+    "message": "Desbloquear"
+  },
+  "unlockPasswordInputDescription": {
+    "message": "Uma senha é usada para proteger a carteira."
+  },
+  "unlockWallet": {
+    "message": "Desbloquear a carteira"
+  },
+  "unlockWalletPrompt": {
+    "message": "Se você quiser salvar algo de uma carteira já existente - $link$ e desbloqueie-a.",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "updateContactDescription": {
+    "message": "Para atualizar um contato existente, basta removê-lo\ne adicione-o novamente com nomes diferentes."
+  },
+  "upload": {
+    "message": "Upload"
+  },
+  "usePhoenixWallet": {
+    "message": "Use a Phoenix Mobile Wallet para processar o código"
+  },
+  "validImageURL": {
+    "message": "URL de imagem válido"
+  },
+  "verifySeedPhrase": {
+    "message": "Verificar frase secreta"
+  },
+  "verifySeedPhraseDescription": {
+    "message": "Preencha os espaços em branco com as palavras para verificar sua frase secreta"
+  },
+  "versionLabel": {
+    "message": "Versão: $version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "via": {
+    "message": "Via"
+  },
+  "viewAccountAddressWarning": {
+    "message": "Este site solicita acesso para visualizar o endereço da sua conta. Sempre certifique-se de confiar nos sites com os quais você interage."
+  },
+  "viewAll": {
+    "message": "Ver tudo"
+  },
+  "watchOnlyAccount": {
+    "message": "Observando"
+  },
+  "website": {
+    "message": "Site"
+  },
+  "welcomeTo": {
+    "message": "Bem-vindo ao"
+  },
+  "word": {
+    "message": "Palavra $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "yes": {
+    "message": "Sim"
+  },
+  "youWillNeedThisSeedPhrase": {
+    "message": "Se você mudar de navegador ou dispositivo, precisará dessa frase secreta para acessar suas contas."
+  },
+  "yourBalanceIsZero": {
+    "message": "Seu saldo é zero."
+  },
+  "zeroCollectibleText": {
+    "message": "Você ainda não tem colecionáveis!\nBoa hora para pegar um"
+  },
+  "addressBalanceDescription": {
+    "message": "Depois de criar uma conta, você receberá um endereço exclusivo - seu identificador pessoal no blockchain Signum. Você precisa deste endereço para receber SIGNA e executar transações, ou seja, enviar SIGNA, mensagens, interagir com Smart Contracts, emitir tokens, etc."
+  },
+  "addressBalanceHint": {
+    "message": "O endereço está sendo representado como <b>S-A1B2-...</b> para rede principal ou <b>TS-A1B2-...</b> para rede de teste. Se você adquiriu um nome de <b>alias</b> para sua conta, ele também poderá ser exibido. Depois de ter um saldo positivo, ele aparece abaixo do seu endereço."
+  },
+  "addressBalanceDetails": {
+    "message": "Seu endereço e saldo"
+  },
+  "atLeast1SpecialCharacter": {
+    "message": "Inclusão de pelo menos um caractere especial, por exemplo, ! @#? ] - (opcional, recomendado)."
+  },
+  "addCommitment": {
+    "message": "Adicionar compromisso"
+  },
+  "aliasBuy": {
+    "message": "Comprar Alias"
+  },
+  "aliasCreation": {
+    "message": "Criar Alias"
+  },
+  "browserVersionIsOutOfDate": {
+    "message": "A versão do seu navegador está desatualizada, recomendamos a atualização para a versão mais recente!"
+  },
+  "congratsDescription1": {
+    "message": "Excelente! Você está integrado 🏆"
+  },
+  "congratsDescription2": {
+    "message": "Agora você conhece as funções básicas e mais importantes da carteira Signum XT."
+  },
+  "congratsDescription3": {
+    "message": "Você pode aprender todos os recursos do XT em nossa “Série Educacional” no YouTube."
+  },
+  "congratsDescription4": {
+    "message": "Além disso, instruções e guias estão disponíveis em nossa base de conhecimento."
+  },
+  "congratsDescription5": {
+    "message": "Junte-se às nossas comunidades no Telegram e no Discord."
+  },
+  "congratsDescription6": {
+    "message": "Bem-vindo ao mundo Signum!"
+  },
+  "contractCreation": {
+    "message": "Criar contrato"
+  },
+  "done": {
+    "message": "Feito!"
+  },
+  "howToStartDescription1": {
+    "message": "Para começar a usar sua carteira e interagir com o ecossistema Signum DApps, o saldo da conta deve ser positivo, pois cada transação custa uma taxa baixa"
+  },
+  "howToStartDescription2": {
+    "message": "Você pode obter o SIGNA comprando em uma das exchanges, minerando com discos rígidos ou participando de compromissos da comunidade. Junte-se a nós no Discord"
+  },
+  "howToStartDetails": {
+    "message": "Como começar"
+  },
+  "howToStartHint": {
+    "message": "Além disso, você pode copiar seu endereço e enviar moedas para ele de outra carteira ou Exchange. Para copiar o endereço, clique nele na tela principal da carteira ou use \"Receber\"."
+  },
+  "joinPool": {
+    "message": "Juntar-se ao Pool"
+  },
+  "mixtureOfLettersAndNumbers": {
+    "message": "Uma mistura de letras e números."
+  },
+  "mixtureOfUppercaseAndLowercaseLetters": {
+    "message": "Uma mistura de letras maiúsculas e minúsculas."
+  },
+  "networkIsTestnetDescription": {
+    "message": "As redes de teste não possuem valor monetário e são apenas para experimentação e/ou desenvolvimento."
+  },
+  "networkIsTestnetLabel": {
+    "message": "É uma rede de teste"
+  },
+  "next": {
+    "message": "Próximo"
+  },
+  "onboarding": {
+    "message": "Introdução"
+  },
+  "profileRpcDescription": {
+    "message": "Na parte superior da interface, você pode ver o ícone da sua conta. Ao clicar nele, você abrirá um menu com outras ações, por exemplo. configurações e gerenciamento de contas."
+  },
+  "profileRpcDetails": {
+    "message": "Perfile e Nós de Rede"
+  },
+  "profileRpcHint1": {
+    "message": "Abaixo do nome da sua conta, você pode ver o seletor “Redes”, que permite selecionar um nó ao qual sua carteira será conectada.\nOs nós da rede principal são esverdeados, enquanto os nós da rede de teste têm indicadores laranja. Nós de rede de teste são para experimentar sem usar dinheiro real"
+  },
+  "profileRpcHint2": {
+    "message": "Se seu saldo não for exibido, tente alterar o nó."
+  },
+  "profileRpcHint3": {
+    "message": "Você pode escolher em uma lista predefinida ou adicionar nós manualmente na seção Configurações"
+  },
+  "removeCommitment": {
+    "message": "Recuperar Compromisso"
+  },
+  "start": {
+    "message": "Vamos lá"
+  },
+  "tokensCollectibleDescription1": {
+    "message": "Seus saldos de tokens FA1.2 e FA2 são exibidos na guia \"Tokens\"."
+  },
+  "tokensCollectibleDescription2": {
+    "message": "Você pode enviar, verificar saldos ou endereços de contrato de qualquer token clicando nele nesta seção."
+  },
+  "tokensCollectibleDetails": {
+    "message": "Tokens e colecionáveis"
+  },
+  "tokensCollectibleHint": {
+    "message": "Seus tokens não fungíveis (NFT) são exibidos na guia “Colecionáveis”. Aqui você também pode interagir com seus próprios NFTs, ver sua visualização completa, ID e endereço do contrato."
+  },
+  "updateAccountInfo": {
+    "message": "Atualização das informações da conta"
+  },
+  "welcomeToOnboarding": {
+    "message": "Bem-vindo ao Onboarding"
+  },
+  "attention": {
+    "message": "Atenção"
+  },
+  "attentionDescription": {
+    "message": "Nunca, sob nenhuma circunstância, divulgue suas chaves privadas e frases secretas para terceiros."
+  },
+  "attentionListItem1": {
+    "message": "Sua carteira pode ser direcionada por meio de uma exploração de dia zero do navegador ou por meio de outra extensão maliciosa instalada;"
+  },
+  "attentionListItem2": {
+    "message": "A tela pode ser potencialmente manipulada por software malicioso instalado no sistema;"
+  },
+  "attentionListItem3": {
+    "message": "A máquina host do usuário pode ser alvo de malware para roubar carteira criptografada;"
+  },
+  "attentionListItem4": {
+    "message": "Escolher senhas fracas pode reduzir a capacidade de uma carteira de resistir à força bruta adversária."
+  },
+  "attentionListItem5": {
+    "message": "Mova seus fundos da carteira “quente” para “fria” o mais rápido possível;"
+  },
+  "attentionListItem6": {
+    "message": "Use navegadores separados para navegação na web e operação da carteira;"
+  },
+  "attentionListItem7": {
+    "message": "Use uma só guia do navegador por vez para fazer transações;"
+  },
+  "attentionListItem8": {
+    "message": "Mantenha a carteira bloqueada quando não estiver em uso."
+  },
+  "attentionListTitle1": {
+    "message": "Além disso, lembre-se:"
+  },
+  "attentionListTitle2": {
+    "message": "Para manter seus ativos seguros, recomendamos:"
+  },
+  "readMore": {
+    "message": "Leia mais pelo"
+  },
+  "takeCare": {
+    "message": "Cuide da sua segurança no mundo das criptomoedas!"
+  },
+  "thanks": {
+    "message": "Entendi!"
+  },
+  "example": {
+    "message": "Exemplo"
+  },
+  "createWalletDescription": {
+    "message": "Crie uma conta de carteira Signum e você pode:"
+  },
+  "createWalletDescriptionOption1": {
+    "message": "enviar e receber Signa."
+  },
+  "createWalletDescriptionOption2": {
+    "message": "conectar e interagir com Signum DApps."
+  },
+  "accountActivationAlertDescription": {
+    "message": "Esta conta ainda não está totalmente registrada no blockchain. Ative sua conta para garantir sua segurança e torná-la totalmente utilizável para todos os serviços, incluindo os câmbios."
+  },
+  "accountActivationAlertTitle": {
+    "message": "Conta não ativada"
+  },
+  "activationFailed": {
+    "message": "Oh não, a ativação falhou."
+  },
+  "cantConnectToNetworkHint": {
+    "message": "Tente selecionar outro nó ou verifique sua conexão com a Internet."
+  },
+  "accountActivationSuccessDescription": {
+    "message": "Bem-vindo ao Signum! Se ainda não estiver visível, você receberá uma transação de ativação em alguns instantes."
+  },
+  "accountActivationSuccessTitle": {
+    "message": "Conta ativada com sucesso"
+  }
+}

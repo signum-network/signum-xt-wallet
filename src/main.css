@@ -1,0 +1,122 @@
+/**
+ * Inter UI font
+ */
+
+@import '~inter-ui/inter.css';
+
+* {
+  font-variant-ligatures: none;
+}
+
+/**
+ * Popper JS
+ */
+
+[data-popper-reference-hidden] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/**
+ * Tippy JS
+ */
+
+@import '~tippy.js/dist/tippy.css';
+@import '~tippy.js/animations/shift-away-subtle.css';
+
+/**
+ * React Modal
+ */
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+
+.ReactModal__Content {
+  transform: scale(0.75);
+  transition: transform 200ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Overlay--after-open .ReactModal__Content {
+  transform: scale(1);
+}
+
+.ReactModal__Overlay--before-close .ReactModal__Content {
+  transform: scale(0.75);
+}
+
+/**
+ * TailwindCSS
+ */
+
+@tailwind base;
+
+/**
+ * Appearance for iOS and Safari
+ */
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  appearance: none;
+}
+
+@tailwind components;
+
+@tailwind utilities;
+
+/**
+ * Text shadow utils.
+ */
+
+.text-shadow-black {
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.text-shadow-black-orange {
+  text-shadow: 0 1px 0 rgba(39, 19, 3, 0.06);
+}
+
+/**
+ * Scroll bar utils
+ */
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/**
+ * Misc
+ */
+
+.filter-brightness-75 {
+  filter: brightness(0.75);
+}
+
+.font-tnum {
+  font-feature-settings: 'tnum';
+}
+
+/* Fix CSS transition flickering in Firefox */
+.grayscale-firefox-fix {
+  filter: grayscale(1%);
+}
+
+/* Fix letter truncated */
+.letter-truncated-fix {
+  line-height: normal;
+  padding-bottom: 0;
+  padding-top: 0;
+}
