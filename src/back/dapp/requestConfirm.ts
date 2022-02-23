@@ -1,6 +1,7 @@
 import browser, { Runtime } from 'webextension-polyfill';
 
-import { TempleDAppPayload, TempleMessageType, TempleRequest } from '../../types';
+import { TempleDAppPayload, TempleMessageType, TempleRequest } from 'lib/messaging';
+
 import { intercom } from '../defaults';
 
 const CONFIRM_WINDOW_WIDTH = 380;

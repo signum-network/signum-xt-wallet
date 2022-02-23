@@ -1,9 +1,10 @@
 import { Runtime } from 'webextension-polyfill';
 
-import * as Actions from 'lib/temple/back/actions';
-import { intercom } from 'lib/temple/back/defaults';
-import { store, toFront } from 'lib/temple/back/store';
-import { TempleMessageType, TempleRequest, TempleResponse } from 'lib/temple/types';
+import { TempleMessageType, TempleRequest, TempleResponse } from 'lib/messaging';
+
+import * as Actions from './actions';
+import { intercom } from './defaults';
+import { store, toFront } from './store';
 
 export async function start() {
   intercom.onRequest(processRequest);
@@ -14,6 +15,7 @@ export async function start() {
   });
 }
 
+// TODO: clean up all unused methods
 async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<TempleResponse | void> {
   switch (req?.type) {
     case TempleMessageType.GetStateRequest:
@@ -118,23 +120,10 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         type: TempleMessageType.ImportWatchOnlyAccountResponse
       };
 
-    // case TempleMessageType.CreateLedgerAccountRequest:
-    //   await Actions.craeteLedgerAccount(req.name, req.derivationPath, req.derivationType);
-    //   return {
-    //     type: TempleMessageType.CreateLedgerAccountResponse
-    //   };
-
     case TempleMessageType.UpdateSettingsRequest:
       await Actions.updateSettings(req.settings);
       return {
         type: TempleMessageType.UpdateSettingsResponse
-      };
-
-    case TempleMessageType.OperationsRequest:
-      const { opHash } = await Actions.sendOperations(port, req.id, req.sourcePkh, req.networkRpc, req.opParams);
-      return {
-        type: TempleMessageType.OperationsResponse,
-        opHash
       };
 
     case TempleMessageType.SignRequest:

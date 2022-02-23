@@ -1,8 +1,9 @@
 import { createStore, createEvent } from 'effector';
 
-import { Vault } from 'lib/temple/back/vault';
+import { TempleState, TempleStatus, TempleAccount, TempleSettings } from 'lib/messaging';
 import { NETWORKS } from 'lib/temple/networks';
-import { TempleState, TempleStatus, TempleAccount, TempleSettings } from 'lib/temple/types';
+
+import { Vault } from './vault';
 
 export interface StoreState extends TempleState {
   inited: boolean;

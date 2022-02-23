@@ -14,7 +14,6 @@ import constate from 'constate';
 import { v4 as uuid } from 'uuid';
 
 import { IntercomClient } from 'lib/intercom';
-import { useRetryableSWR } from 'lib/swr';
 import {
   TempleConfirmationPayload,
   TempleMessageType,
@@ -24,7 +23,8 @@ import {
   TempleNotification,
   TempleSettings,
   DerivationType
-} from 'lib/temple/types';
+} from 'lib/messaging';
+import { useRetryableSWR } from 'lib/swr';
 import toBuffer from 'typedarray-to-buffer';
 
 type Confirmation = {

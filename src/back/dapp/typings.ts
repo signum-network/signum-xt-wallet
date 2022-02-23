@@ -1,18 +1,9 @@
-export type ExtensionMessage = ExtensionRequest | ExtensionResponse;
-
-export type ExtensionRequest =
-  | ExtensionGetCurrentPermissionRequest
-  | ExtensionPermissionRequest
-  // | ExtensionOperationRequest
-  | ExtensionSignRequest;
-// | ExtensionBroadcastRequest;
+export type ExtensionRequest = ExtensionGetCurrentPermissionRequest | ExtensionPermissionRequest | ExtensionSignRequest;
 
 export type ExtensionResponse =
   | ExtensionGetCurrentPermissionResponse
   | ExtensionPermissionResponse
-  // | ExtensionOperationResponse
   | ExtensionSignResponse;
-// | ExtensionBroadcastResponse;
 
 export interface ExtensionMessageBase {
   type: ExtensionMessageType;
@@ -23,12 +14,8 @@ export enum ExtensionMessageType {
   GetCurrentPermissionResponse = 'GET_CURRENT_PERMISSION_RESPONSE',
   PermissionRequest = 'PERMISSION_REQUEST',
   PermissionResponse = 'PERMISSION_RESPONSE',
-  OperationRequest = 'OPERATION_REQUEST',
-  OperationResponse = 'OPERATION_RESPONSE',
   SignRequest = 'SIGN_REQUEST',
-  SignResponse = 'SIGN_RESPONSE',
-  BroadcastRequest = 'BROADCAST_REQUEST',
-  BroadcastResponse = 'BROADCAST_RESPONSE'
+  SignResponse = 'SIGN_RESPONSE'
 }
 
 /**
@@ -58,17 +45,6 @@ export interface ExtensionPermissionResponse extends ExtensionMessageBase {
   rpc: string;
 }
 
-// export interface ExtensionOperationRequest extends ExtensionMessageBase {
-//   type: ExtensionMessageType.OperationRequest;
-//   sourcePkh: string;
-//   opParams: any[];
-// }
-//
-// export interface ExtensionOperationResponse extends ExtensionMessageBase {
-//   type: ExtensionMessageType.OperationResponse;
-//   opHash: string;
-// }
-
 export interface ExtensionSignRequest extends ExtensionMessageBase {
   type: ExtensionMessageType.SignRequest;
   sourcePkh: string;
@@ -80,16 +56,6 @@ export interface ExtensionSignResponse extends ExtensionMessageBase {
   transactionId: string;
   fullHash: string;
 }
-
-// export interface ExtensionBroadcastRequest extends ExtensionMessageBase {
-//   type: ExtensionMessageType.BroadcastRequest;
-//   signedOpBytes: string;
-// }
-//
-// export interface ExtensionBroadcastResponse extends ExtensionMessageBase {
-//   type: ExtensionMessageType.BroadcastResponse;
-//   opHash: string;
-// }
 
 export enum ExtensionErrorType {
   NotGranted = 'NOT_GRANTED',

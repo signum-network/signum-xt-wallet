@@ -1,5 +1,5 @@
 // DO NOT CHANGE THE ORDER :eyes :shrug :wtf
-export * from 'lib/temple/types';
+export * from 'lib/messaging';
 export * from 'lib/temple/helpers';
 export * from 'lib/temple/assets';
 export * from 'lib/temple/metadata';

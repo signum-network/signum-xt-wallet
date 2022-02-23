@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { TempleContact } from '../types';
 import { useTempleClient } from './client';
 import { useRelevantAccounts, useSettings } from './ready';
+import {TempleContact} from 'lib/messaging';
 
 export function useFilteredContacts() {
   const { updateSettings } = useTempleClient();

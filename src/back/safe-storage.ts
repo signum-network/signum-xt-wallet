@@ -1,7 +1,7 @@
 import { Buffer } from 'buffer';
 import browser from 'webextension-polyfill';
 
-import * as Passworder from 'lib/temple/passworder';
+import * as Passworder from './passworder';
 
 interface EncryptedStorage {
   encrypted: Passworder.EncryptedPayload;

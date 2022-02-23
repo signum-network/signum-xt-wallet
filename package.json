@@ -88,8 +88,7 @@
     "use-force-update": "1.0.7",
     "use-onclickoutside": "0.3.1",
     "uuid": "^8.3.2",
-    "webextension-polyfill": "^0.8.0",
-    "webextension-polyfill-ts": "0.19.0"
+    "webextension-polyfill": "^0.8.0"
   },
   "resolutions": {
     "@taquito/**/braces": "2.3.1",

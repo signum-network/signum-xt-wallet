@@ -12,7 +12,6 @@ const pkg = require('./package.json');
 const htmlTemplatesPlugins = require('./webpack.html.config');
 const publicAssetsPlugin = require('./webpack.public.config');
 
-process.env.VERSION = pkg.version;
 const { TARGET_BROWSER = 'chrome' } = process.env;
 
 const MANIFEST = process.env.MANIFEST_VERSION === '3' ? 'manifest.json' : 'manifest.v2.json';
@@ -76,6 +75,10 @@ module.exports = {
   },
   plugins: [
     new Dotenv(),
+    new webpack.EnvironmentPlugin({
+      'VERSION': pkg.version
+    }),
+
     new webpack.ProvidePlugin({
       process: 'process/browser'
     }),

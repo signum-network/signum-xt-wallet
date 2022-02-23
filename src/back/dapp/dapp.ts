@@ -1,8 +1,8 @@
 import browser from 'webextension-polyfill';
 
+import { TempleDAppSession, TempleDAppSessions } from 'lib/messaging';
 import { loadChainId } from 'lib/temple/helpers';
 import { NETWORKS } from 'lib/temple/networks';
-import { TempleDAppSession, TempleDAppSessions } from 'lib/temple/types';
 
 import { ExtensionNetwork } from './typings';
 

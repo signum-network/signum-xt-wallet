@@ -1,9 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo } from 'react';
 
 import { LedgerClientFactory } from '@signumjs/core';
-import { RpcClient } from '@taquito/rpc';
 import { TezosToolkit } from '@taquito/taquito';
-import { Tzip16Module } from '@taquito/tzip16';
 import constate from 'constate';
 
 import { IS_DEV_ENV } from 'app/env';
@@ -160,25 +158,6 @@ function useReadyTemple() {
   };
 }
 
-// export function useChainId(suspense?: boolean) {
-//   const tezos = useTezos();
-//   const rpcUrl = useMemo(() => tezos.rpc.getRpcUrl(), [tezos]);
-//   return useCustomChainId(rpcUrl, suspense);
-// }
-//
-// export function useCustomChainId(rpcUrl: string, suspense?: boolean) {
-//   const fetchChainId = useCallback(async () => {
-//     try {
-//       return await loadChainId(rpcUrl);
-//     } catch (_err) {
-//       return null;
-//     }
-//   }, [rpcUrl]);
-//
-//   const { data: chainId } = useRetryableSWR(['chain-id', rpcUrl], fetchChainId, { suspense, revalidateOnFocus: false });
-//   return chainId;
-// }
-
 export function useRelevantAccounts(withExtraTypes = true) {
   const allAccounts = useAllAccounts();
   const account = useAccount();
@@ -192,10 +171,11 @@ export function useRelevantAccounts(withExtraTypes = true) {
   return useMemo(() => allAccounts, [allAccounts]);
 }
 
+// FIXME: remove it
 export class ReactiveTezosToolkit extends TezosToolkit {
-  constructor(rpc: string | RpcClient, public checksum: string, public lambdaContract?: string) {
+  constructor(rpc: string | any, public checksum: string, public lambdaContract?: string) {
     super(rpc);
-    this.addExtension(new Tzip16Module());
+    // this.addExtension(new Tzip16Module());
   }
 }
 

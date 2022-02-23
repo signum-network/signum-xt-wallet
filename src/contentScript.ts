@@ -1,6 +1,6 @@
 import { IntercomClient } from 'lib/intercom/client';
 import { serializeError } from 'lib/intercom/helpers';
-import { TempleMessageType, TempleResponse } from 'lib/temple/types';
+import { TempleMessageType, TempleResponse } from 'lib/messaging';
 
 interface SignumPageMessage {
   type: SignumPageMessageType;

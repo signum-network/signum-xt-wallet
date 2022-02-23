@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-import { TempleChainId } from 'lib/temple/types';
+import { TempleChainId } from 'lib/messaging';
 import {
   allInt32ParameterKeys,
   TzktGetOperationsParams,

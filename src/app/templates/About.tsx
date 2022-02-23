@@ -4,6 +4,9 @@ import Logo from 'app/atoms/Logo';
 import SubTitle from 'app/atoms/SubTitle';
 import { T } from 'lib/i18n/react';
 
+// // @ts-ignore
+// const Version = manifest.version as String;
+
 const About: FC = () => (
   <div className="flex flex-col items-center my-8">
     <div className="flex flex-col items-center justify-center">

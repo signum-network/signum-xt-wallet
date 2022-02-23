@@ -1,5 +1,5 @@
 import { enUS, de, ru, es, ptBR } from 'date-fns/locale';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 import cldrjsLocales from './cldrjs-locales.json';
 import { processTemplate, toList } from './helpers';

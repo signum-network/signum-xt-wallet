@@ -1,8 +1,8 @@
 import './xhr-shim';
 import { tabs, runtime } from 'webextension-polyfill';
 
-import { lock } from 'lib/temple/back/actions';
-import { start } from 'lib/temple/back/main';
+import { lock } from './back/actions';
+import { start } from './back/main';
 // import { isLockUpEnabled } from 'lib/ui/useLockUp';
 
 runtime.onInstalled.addListener(({ reason }) => (reason === 'install' ? openFullPage() : null));

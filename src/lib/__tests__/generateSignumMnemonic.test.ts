@@ -1,6 +1,6 @@
-import { generateSignumMnemonic } from '../signumMnemonic';
+import { generateSignumMnemonic } from '../generateSignumMnemonic';
 
-describe('signumMnemonic', () => {
+describe('generateSignumMnemonic', () => {
   // just a smoke test that does not test randomness at all.
   it('should generate random passphrases - this is a long running test', async () => {
     const mSet = new Set<string>();

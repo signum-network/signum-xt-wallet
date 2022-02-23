@@ -1,5 +1,5 @@
 import makeBuildQueryFn from 'lib/makeBuildQueryFn';
-import { TempleChainId } from 'lib/temple/types';
+import { TempleChainId } from 'lib/messaging';
 
 export const BASE_URL = 'https://api.better-call.dev/v1';
 export const BCD_NETWORKS_NAMES = new Map<TempleChainId, BcdNetwork>([

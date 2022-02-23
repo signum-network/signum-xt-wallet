@@ -11,7 +11,7 @@ import CustomSelect, { OptionRenderProps } from 'app/templates/CustomSelect';
 import SignView from 'app/templates/SignumSignView/SignView';
 import { T } from 'lib/i18n/react';
 import { SIGNA_METADATA, TempleDAppSignPayload, useRelevantAccounts } from 'lib/temple/front';
-import { TempleAccount, TempleDAppPayload } from 'lib/temple/types';
+import { TempleAccount, TempleDAppPayload } from 'lib/messaging';
 
 import IdenticonSignum from '../../atoms/IdenticonSignum';
 

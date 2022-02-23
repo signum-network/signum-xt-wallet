@@ -1,10 +1,11 @@
-import { TezosOperationError } from '@taquito/taquito';
 import browser, { Runtime } from 'webextension-polyfill';
 
+import { TempleState, TempleMessageType, TempleRequest, TempleSettings, TempleSharedStorageKey } from 'lib/messaging';
 import { createQueue } from 'lib/queue';
-import { addLocalOperation } from 'lib/temple/activity';
-import { intercom } from 'lib/temple/back/defaults';
-import { buildFinalOpParmas, dryRunOpParams } from 'lib/temple/back/dryrun';
+
+import { getCurrentPermission, requestPermission, requestSign, getAllDApps, removeDApp } from './dapp';
+import { ExtensionMessageType, ExtensionRequest, ExtensionResponse } from './dapp/typings';
+import { intercom } from './defaults';
 import {
   toFront,
   store,
@@ -15,19 +16,8 @@ import {
   settingsUpdated,
   withInited,
   withUnlocked
-} from 'lib/temple/back/store';
-import { Vault } from 'lib/temple/back/vault';
-import { loadChainId } from 'lib/temple/helpers';
-import {
-  TempleState,
-  TempleMessageType,
-  TempleRequest,
-  TempleSettings,
-  TempleSharedStorageKey
-} from 'lib/temple/types';
-
-import { getCurrentPermission, requestPermission, requestSign, getAllDApps, removeDApp } from './dapp';
-import { ExtensionMessageType, ExtensionRequest, ExtensionResponse } from './dapp/typings';
+} from './store';
+import { Vault } from './vault';
 
 const ACCOUNT_NAME_PATTERN = /^.{0,16}$/;
 const AUTODECLINE_AFTER = 60_000;
@@ -173,13 +163,6 @@ export function importWatchOnlyAccount(address: string, chainId?: string) {
     accountsUpdated(updatedAccounts);
   });
 }
-//
-// export function craeteLedgerAccount(name: string, derivationPath?: string, derivationType?: DerivationType) {
-//   return withUnlocked(async ({ vault }) => {
-//     const updatedAccounts = await vault.createLedgerAccount(name, derivationPath, derivationType);
-//     accountsUpdated(updatedAccounts);
-//   });
-// }
 
 export function updateSettings(settings: Partial<TempleSettings>) {
   return withUnlocked(async ({ vault }) => {
@@ -202,111 +185,6 @@ export function getSignumTxKeys(accPublicKeyHash: string) {
 }
 
 // ---------------------------------------------------------
-
-export function sendOperations(
-  port: Runtime.Port,
-  id: string,
-  sourcePkh: string,
-  networkRpc: string,
-  opParams: any[]
-): Promise<{ opHash: string }> {
-  return withUnlocked(async () => {
-    const sourcePublicKey = await revealPublicKey(sourcePkh);
-    const dryRunResult = await dryRunOpParams({
-      opParams,
-      networkRpc,
-      sourcePkh,
-      sourcePublicKey
-    });
-    if (dryRunResult) {
-      opParams = dryRunResult.opParams;
-    }
-
-    return new Promise(async (resolve, reject) => {
-      intercom.notify(port, {
-        type: TempleMessageType.ConfirmationRequested,
-        id,
-        payload: {
-          type: 'operations',
-          sourcePkh,
-          networkRpc,
-          opParams,
-          ...(dryRunResult ?? {})
-        }
-      });
-
-      let closing = false;
-      const close = () => {
-        if (closing) return;
-        closing = true;
-
-        try {
-          stopTimeout();
-          stopRequestListening();
-          stopDisconnectListening();
-
-          intercom.notify(port, {
-            type: TempleMessageType.ConfirmationExpired,
-            id
-          });
-        } catch (_err) {}
-      };
-
-      const decline = () => {
-        reject(new Error('Declined'));
-      };
-      const declineAndClose = () => {
-        decline();
-        close();
-      };
-
-      const stopRequestListening = intercom.onRequest(async (req: TempleRequest, reqPort) => {
-        if (reqPort === port && req?.type === TempleMessageType.ConfirmationRequest && req?.id === id) {
-          if (req.confirmed) {
-            try {
-              const op = await withUnlocked(({ vault }) =>
-                vault.sendOperations(
-                  sourcePkh,
-                  networkRpc,
-                  buildFinalOpParmas(opParams, req.modifiedTotalFee, req.modifiedStorageLimit)
-                )
-              );
-
-              try {
-                const chainId = await loadChainId(networkRpc);
-                await addLocalOperation(chainId, op.hash, op.results);
-              } catch {}
-
-              resolve({ opHash: op.hash });
-            } catch (err: any) {
-              if (err instanceof TezosOperationError) {
-                reject(err);
-              } else {
-                throw err;
-              }
-            }
-          } else {
-            decline();
-          }
-
-          close();
-
-          return {
-            type: TempleMessageType.ConfirmationResponse
-          };
-        }
-        return;
-      });
-
-      const stopDisconnectListening = intercom.onDisconnect(port, declineAndClose);
-
-      // Decline after timeout
-      const t = setTimeout(declineAndClose, AUTODECLINE_AFTER);
-      const stopTimeout = () => clearTimeout(t);
-    });
-  });
-}
-
 export function sign(port: Runtime.Port, id: string, sourcePkh: string, bytes: string, watermark?: string) {
   return withUnlocked(
     () =>

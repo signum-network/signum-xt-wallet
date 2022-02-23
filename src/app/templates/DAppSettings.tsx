@@ -10,7 +10,7 @@ import DAppLogo from 'app/templates/DAppLogo';
 import { T, t } from 'lib/i18n/react';
 import { useRetryableSWR } from 'lib/swr';
 import { useStorage, TempleSharedStorageKey, useTempleClient } from 'lib/temple/front';
-import { TempleDAppSession, TempleDAppSessions } from 'lib/temple/types';
+import { TempleDAppSession, TempleDAppSessions } from 'lib/messaging';
 import { useConfirm } from 'lib/ui/dialog';
 
 import HashShortView from '../atoms/HashShortView';

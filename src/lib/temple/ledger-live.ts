@@ -1,4 +1,4 @@
-import { TempleSharedStorageKey } from 'lib/temple/types';
+import { TempleSharedStorageKey } from 'lib/messaging';
 
 export async function isLedgerLiveEnabledByDefault() {
   return process.env.TARGET_BROWSER === 'chrome';

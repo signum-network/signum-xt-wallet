@@ -4,7 +4,7 @@ import classNames from 'clsx';
 
 import IdenticonSignum from 'app/atoms/IdenticonSignum';
 import Money from 'app/atoms/Money';
-import { TempleContact } from 'lib/temple/types';
+import { TempleContact } from 'lib/messaging';
 
 import Balance from '../Balance';
 

@@ -1,15 +1,23 @@
-import { composeApi, LedgerClientFactory, Transaction } from '@signumjs/core';
+import { Address, LedgerClientFactory, Transaction } from '@signumjs/core';
 import { TempleDAppErrorType } from '@temple-wallet/dapp/dist/types';
 import { v4 as uuid } from 'uuid';
 
-import { HttpAdapterFetch } from 'lib/temple/back/httpAdapterFetch';
+import { TempleMessageType } from 'lib/messaging';
 
-import { isSignumAddress } from '../../helpers';
-import { TempleMessageType } from '../../types';
+import { HttpAdapterFetch } from '../httpAdapterFetch';
 import { withUnlocked } from '../store';
 import { getDApp, getNetworkRPC } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import { ExtensionMessageType, ExtensionSignRequest, ExtensionSignResponse } from './typings';
+
+function isSignumAddress(address: string): boolean {
+  try {
+    Address.create(address);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
 
 const HEX_PATTERN = /^[0-9a-fA-F]+$/;
 

@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
-import { TempleMessageType } from '../../types';
+import { TempleMessageType } from 'lib/messaging';
+
 import { getDApp, getNetworkRPC, setDApp, isAllowedNetwork, isNetworkEquals } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import {

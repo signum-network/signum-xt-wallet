@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { BcdTokenTransfer } from 'lib/better-call-dev';
+// import { BcdTokenTransfer } from 'lib/better-call-dev';
 
 export function tryParseTokenTransfers(
   parameters: any,
@@ -71,6 +71,6 @@ export function toTokenId(contractAddress: string, tokenId: string | number = 0)
   return `${contractAddress}_${tokenId}`;
 }
 
-export function getBcdTokenTransferId(tokenTrans: BcdTokenTransfer) {
+export function getBcdTokenTransferId(tokenTrans: any) {
   return `${tokenTrans.hash}_${tokenTrans.nonce}`;
 }

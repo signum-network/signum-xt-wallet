@@ -1,7 +1,6 @@
 import browser from 'webextension-polyfill';
 
-import { generateKey } from 'lib/temple/passworder';
-
+import { generateKey } from './passworder';
 import { encryptAndSaveMany, fetchAndDecryptOne, isStored, removeMany } from './safe-storage';
 
 const storageKey = 'test';

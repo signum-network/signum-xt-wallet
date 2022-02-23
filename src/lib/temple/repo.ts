@@ -1,7 +1,6 @@
 import { OperationContentsAndResult } from '@taquito/rpc';
 import Dexie from 'dexie';
 
-import { BcdTokenTransfer } from 'lib/better-call-dev';
 import { TzktOperation } from 'lib/tzkt';
 
 export enum Table {
@@ -64,7 +63,7 @@ export interface IOperation {
 export type IOperationData = AtLeastOne<{
   localGroup: OperationContentsAndResult[];
   tzktGroup: TzktOperation[];
-  bcdTokenTransfers: BcdTokenTransfer[];
+  // bcdTokenTransfers: BcdTokenTransfer[];
 }>;
 
 export interface ISyncTime {

@@ -2,7 +2,7 @@ import { Amount } from '@signumjs/util';
 import BigNumber from 'bignumber.js';
 
 import { useRetryableSWR } from 'lib/swr';
-import { useTezos, ReactiveTezosToolkit, useSignum } from 'lib/temple/front';
+import { useTezos, useSignum } from 'lib/temple/front';
 
 type UseBalanceOptions = {
   suspense?: boolean;
@@ -41,6 +41,6 @@ export function useBalanceSWRKey(assetSlug: string, address: string) {
   return getBalanceSWRKey(tezos, assetSlug, address);
 }
 
-export function getBalanceSWRKey(tezos: ReactiveTezosToolkit, assetSlug: string, address: string) {
+export function getBalanceSWRKey(tezos: any, assetSlug: string, address: string) {
   return ['balance', tezos.checksum, assetSlug, address];
 }

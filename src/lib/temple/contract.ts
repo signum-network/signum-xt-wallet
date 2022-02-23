@@ -2,7 +2,7 @@ import { TezosToolkit, WalletContract } from '@taquito/taquito';
 import memoize from 'micro-memoize';
 
 import { michelEncoder } from 'lib/temple/helpers';
-import { TempleChainId } from 'lib/temple/types';
+import { TempleChainId } from 'lib/messaging';
 
 export type TokenMetadata = {
   decimals: number;

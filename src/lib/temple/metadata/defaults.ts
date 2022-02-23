@@ -1,7 +1,8 @@
 import { CurrencySymbol } from '@signumjs/util';
 import browser from 'webextension-polyfill';
 
-import { browserInfo } from '../../browser-info';
+import { browserInfo } from 'lib/browser-info';
+
 import { AssetMetadata } from './types';
 
 export const TEZOS_METADATA: AssetMetadata = {

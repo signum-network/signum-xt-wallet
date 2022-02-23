@@ -11,20 +11,19 @@ import { InMemorySigner } from '@taquito/signer';
 import * as TaquitoUtils from '@taquito/utils';
 import * as Bip39 from 'bip39';
 
-import { PublicError } from 'lib/temple/back/defaults';
-import { encryptAndSaveMany, fetchAndDecryptOne, isStored, removeMany } from 'lib/temple/back/safe-storage';
-import * as Passworder from 'lib/temple/passworder';
+import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
+import { TempleAccount, TempleAccountType, TempleSettings } from 'lib/messaging';
 import { clearStorage } from 'lib/temple/reset';
-import { TempleAccount, TempleAccountType, TempleSettings } from 'lib/temple/types';
 
-import { generateSignumMnemonic } from '../signumMnemonic';
+import { PublicError } from './defaults';
+import * as Passworder from './passworder';
+import { encryptAndSaveMany, fetchAndDecryptOne, isStored, removeMany } from './safe-storage';
 
 const STORAGE_KEY_PREFIX = 'vault';
 const DEFAULT_SETTINGS: TempleSettings = {};
 
 enum StorageEntity {
   Check = 'check',
-  MigrationLevel = 'migration',
   Mnemonic = 'mnemonic',
   AccPrivKey = 'accprivkey',
   AccPrivP2PKey = 'accprivp2pkey',

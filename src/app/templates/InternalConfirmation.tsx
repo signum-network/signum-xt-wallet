@@ -47,8 +47,6 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
 
   const getContentToParse = useCallback(async () => {
     switch (payload.type) {
-      case 'operations':
-        return payload.opParams || [];
       case 'sign':
         const unsignedBytes = payload.bytes.substr(0, payload.bytes.length - 128);
         try {
@@ -63,7 +61,7 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
   }, [payload]);
   const { data: contentToParse } = useRetryableSWR(['content-to-parse'], getContentToParse, { suspense: true });
 
-  const networkRpc = payload.type === 'operations' ? payload.networkRpc : currentNetworkRpc;
+  const networkRpc = currentNetworkRpc;
 
   const mainnet = true; //chainId === TempleChainId.Mainnet;
 
@@ -87,33 +85,6 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
   }, [rawExpensesData]);
 
   const signPayloadFormats: ViewsSwitcherItemProps[] = useMemo(() => {
-    if (payload.type === 'operations') {
-      return [
-        {
-          key: 'preview',
-          name: t('preview'),
-          Icon: EyeIcon,
-          testID: InternalConfirmationSelectors.PreviewTab
-        },
-        {
-          key: 'raw',
-          name: t('raw'),
-          Icon: CodeAltIcon,
-          testID: InternalConfirmationSelectors.RawTab
-        },
-        ...(payload.bytesToSign
-          ? [
-              {
-                key: 'bytes',
-                name: t('bytes'),
-                Icon: HashIcon,
-                testID: InternalConfirmationSelectors.BytesTab
-              }
-            ]
-          : [])
-      ];
-    }
-
     return [
       {
         key: 'preview',
@@ -136,25 +107,11 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
   const [declining, setDeclining] = useSafeState(false);
 
   const revealFee = useMemo(() => {
-    if (
-      payload.type === 'operations' &&
-      payload.estimates &&
-      payload.estimates.length === payload.opParams.length + 1
-    ) {
-      return payload.estimates[0].suggestedFeeMutez;
-    }
-
     return 0;
   }, [payload]);
 
-  const [modifiedTotalFeeValue, setModifiedTotalFeeValue] = useSafeState(
-    (payload.type === 'operations' &&
-      payload.opParams.reduce((sum, op) => sum + (op.fee ? +op.fee : 0), 0) + revealFee) ||
-      0
-  );
-  const [modifiedStorageLimitValue, setModifiedStorageLimitValue] = useSafeState(
-    (payload.type === 'operations' && payload.opParams[0].storageLimit) || 0
-  );
+  const [modifiedTotalFeeValue, setModifiedTotalFeeValue] = useSafeState(0);
+  const [modifiedStorageLimitValue, setModifiedStorageLimitValue] = useSafeState(0);
 
   const gasFeeError = useMemo(() => modifiedTotalFeeValue <= MIN_GAS_FEE, [modifiedTotalFeeValue]);
 
@@ -190,10 +147,7 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
 
   const handleErrorAlertClose = useCallback(() => setError(null), [setError]);
 
-  const modifiedStorageLimitDisplayed = useMemo(
-    () => payload.type === 'operations' && payload.opParams.length < 2,
-    [payload]
-  );
+  const modifiedStorageLimitDisplayed = false;
 
   const modifyFeeAndLimit = useMemo<ModifyFeeAndLimit>(
     () => ({
@@ -248,7 +202,7 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
             <>
               <AccountBanner account={account} labelIndent="sm" className="w-full mb-4" />
 
-              <NetworkBanner rpc={payload.type === 'operations' ? payload.networkRpc : currentNetworkRpc} />
+              <NetworkBanner rpc={currentNetworkRpc} />
 
               {signPayloadFormats.length > 1 && (
                 <div className="w-full flex justify-end mb-3 items-center">
@@ -273,16 +227,9 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
                 </>
               )}
 
-              {payload.type === 'operations' && payload.bytesToSign && spFormat.key === 'bytes' && (
-                <>
-                  <RawPayloadView payload={payload.bytesToSign} className="mb-4" style={{ height: '11rem' }} />
-                </>
-              )}
-
               {spFormat.key === 'preview' && (
                 <ExpensesView
                   expenses={expensesData}
-                  estimates={payload.type === 'operations' ? payload.estimates : undefined}
                   modifyFeeAndLimit={modifyFeeAndLimit}
                   mainnet={mainnet}
                   gasFeeError={gasFeeError}

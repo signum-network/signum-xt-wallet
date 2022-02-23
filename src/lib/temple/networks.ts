@@ -1,4 +1,4 @@
-import { TempleNetwork } from 'lib/temple/types';
+import { TempleNetwork } from 'lib/messaging';
 
 export const NETWORKS: TempleNetwork[] = [
   {

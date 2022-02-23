@@ -23,6 +23,7 @@ export async function fetchBalance(
 
   if (asset === 'tez') {
     try {
+      // @ts-ignore
       nat = await tezos.tz.getBalance(account);
     } catch {}
   } else {
