@@ -4,8 +4,8 @@ import { TempleDAppPayload, TempleMessageType, TempleRequest } from 'lib/messagi
 
 import { intercom } from '../defaults';
 
-const CONFIRM_WINDOW_WIDTH = 380;
-const CONFIRM_WINDOW_HEIGHT = 632;
+const CONFIRM_WINDOW_WIDTH = 400;
+const CONFIRM_WINDOW_HEIGHT = 640;
 const AUTODECLINE_AFTER = 120_000;
 
 type RequestConfirmParams = {

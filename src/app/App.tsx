@@ -1,9 +1,9 @@
 import React, { ComponentProps, FC, Suspense } from 'react';
 
 import AwaitFonts from 'app/a11y/AwaitFonts';
-import AwaitI18N from 'app/a11y/InitI18n';
 import BootAnimation from 'app/a11y/BootAnimation';
 import DisableOutlinesForClick from 'app/a11y/DisableOutlinesForClick';
+import AwaitI18N from 'app/a11y/InitI18n';
 import RootSuspenseFallback from 'app/a11y/RootSuspenseFallback';
 import ConfirmPage from 'app/ConfirmPage';
 import { AppEnvProvider } from 'app/env';

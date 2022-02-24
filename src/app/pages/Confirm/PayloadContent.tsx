@@ -10,8 +10,8 @@ import Balance from 'app/templates/Balance';
 import CustomSelect, { OptionRenderProps } from 'app/templates/CustomSelect';
 import SignView from 'app/templates/SignumSignView/SignView';
 import { T } from 'lib/i18n/react';
-import { SIGNA_METADATA, TempleDAppSignPayload, useRelevantAccounts } from 'lib/temple/front';
 import { TempleAccount, TempleDAppPayload } from 'lib/messaging';
+import { SIGNA_METADATA, TempleAccountType, TempleDAppSignPayload, useRelevantAccounts } from 'lib/temple/front';
 
 import IdenticonSignum from '../../atoms/IdenticonSignum';
 
@@ -55,6 +55,10 @@ interface PayloadContentProps {
 const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, setAccountPkhToConnect, payload }) => {
   const allAccounts = useRelevantAccounts(false);
   const AccountOptionContent = useMemo(() => AccountOptionContentHOC(payload.networkRpc), [payload.networkRpc]);
+  const eigenAccounts = useMemo(
+    () => allAccounts.filter((a: TempleAccount) => a.type !== TempleAccountType.WatchOnly),
+    [allAccounts]
+  );
 
   return payload.type === 'connect' ? (
     <div className={classNames('w-full', 'flex flex-col')}>
@@ -73,7 +77,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, se
       <CustomSelect<TempleAccount, string>
         activeItemId={accountPkhToConnect}
         getItemId={getPkh}
-        items={allAccounts}
+        items={eigenAccounts}
         maxHeight="8rem"
         onSelect={setAccountPkhToConnect}
         OptionIcon={AccountIcon}

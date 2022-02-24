@@ -172,11 +172,11 @@ const ConfirmDAppForm: FC = () => {
       <div
         className="relative bg-white rounded-md shadow-md overflow-y-auto flex flex-col"
         style={{
-          width: 380,
-          height: 610
+          width: 400,
+          height: 640
         }}
       >
-        <div className="flex flex-col items-center px-4 py-2">
+        <div className="flex flex-col items-center p-4">
           <SubTitle small className={payload.type === 'connect' ? 'mt-4 mb-6' : 'mt-4 mb-2'}>
             {content.title}
           </SubTitle>
@@ -253,8 +253,6 @@ const ConfirmDAppForm: FC = () => {
             </FormSubmitButton>
           </div>
         </div>
-
-        {/*<ConfirmLedgerOverlay displayed={confirming && connectedAccount?.type === TempleAccountType.Ledger} />*/}
       </div>
     </CustomRpsContext.Provider>
   );

@@ -1,12 +1,13 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { Amount } from '@signumjs/util';
 import classNames from 'clsx';
 
 import { ReactComponent as CodeAltIcon } from 'app/icons/code-alt.svg';
 import { ReactComponent as EyeIcon } from 'app/icons/eye.svg';
 import ViewsSwitcher from 'app/templates/ViewsSwitcher/ViewsSwitcher';
 import { T, t } from 'lib/i18n/react';
-import { TempleDAppSignPayload, useSignum } from 'lib/temple/front';
+import { SIGNA_METADATA, TempleDAppSignPayload, useSignum } from 'lib/temple/front';
 import { parseSignumTransaction, ParsedTransaction } from 'lib/temple/front/parseSignumTransaction';
 
 import { withErrorHumanDelay } from '../../../lib/ui/humanDelay';
@@ -18,20 +19,20 @@ type OperationViewProps = {
   payload: TempleDAppSignPayload;
 };
 
-const SigningViewFormats = [
-  {
-    key: 'preview',
-    name: t('preview'),
-    Icon: EyeIcon
-  },
-  {
-    key: 'raw',
-    name: t('raw'),
-    Icon: CodeAltIcon
-  }
-];
-
 const SignView: FC<OperationViewProps> = ({ payload }) => {
+  const SigningViewFormats = [
+    {
+      key: 'preview',
+      name: t('preview'),
+      Icon: EyeIcon
+    },
+    {
+      key: 'raw',
+      name: t('raw'),
+      Icon: CodeAltIcon
+    }
+  ];
+
   const signum = useSignum();
   const [parsedTransaction, setParsedTransaction] = useState<ParsedTransaction | null>(null);
   const [jsonTransaction, setJsonTransaction] = useState<object>({});
@@ -51,6 +52,16 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
         });
       });
   }, [payload, signum]);
+
+  const totalSigna = useMemo(() => {
+    if (!parsedTransaction) return '';
+
+    const signa = Amount.fromPlanck(parsedTransaction.fee.toString());
+    if (parsedTransaction.amount) {
+      signa.add(Amount.fromPlanck(parsedTransaction.amount.toString()));
+    }
+    return signa.getSigna();
+  }, [parsedTransaction]);
 
   const handleErrorAlertClose = useCallback(() => setError(''), [setError]);
 
@@ -90,6 +101,13 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
 
       <div className={classNames(signViewFormat.key !== 'preview' && 'hidden')}>
         <TransactionView transaction={parsedTransaction} />
+      </div>
+
+      <div className="mt-4 leading-tight flex text-base font-semibold text-gray-700 items-center justify-between w-full">
+        <span>{t('totalAmount')}</span>
+        <span>
+          {totalSigna}&nbsp;{SIGNA_METADATA.symbol}
+        </span>
       </div>
     </div>
   );
