@@ -125,7 +125,6 @@ export function editAccountName(accPublicKeyHash: string, name: string) {
 export function setAccountActivated(accPublicKeyHash: string) {
   return withUnlocked(async ({ vault }) => {
     const updatedAccounts = await vault.setAccountIsActivated(accPublicKeyHash);
-    console.log('setAccountActivated', updatedAccounts)
     accountsUpdated(updatedAccounts);
   });
 }

@@ -7,9 +7,8 @@ import useSWR from 'swr';
 import Alert from 'app/atoms/Alert';
 import { Button } from 'app/atoms/Button';
 import Spinner from 'app/atoms/Spinner';
-
-import { T, t } from '../../../lib/i18n/react';
-import { useAccount, useNetwork, useSignum, useTempleClient } from '../../../lib/temple/front';
+import { T, t } from 'lib/i18n/react';
+import { useAccount, useNetwork, useSignum, useTempleClient } from 'lib/temple/front';
 
 async function activateAccount(isTestnet: boolean, publicKey: string): Promise<void> {
   const activatorUrl = isTestnet
@@ -38,7 +37,6 @@ export const ActivationSection: FC = () => {
   const [activationError, setActivationError] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  console.log('ActivationSection', account)
   const { data: isActivatedOnChain } = useSWR(
     ['getAccountActivationStatus', account.publicKeyHash, account.isActivated, signum],
     async () => {

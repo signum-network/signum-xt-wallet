@@ -60,9 +60,6 @@ const getLocaleCode = ({ code }: LocaleOption) => code;
 const LocaleSelect: FC<LocaleSelectProps> = ({ className }) => {
   const selectedLocale = getCurrentLocale();
   const { trackEvent } = useAnalytics();
-
-  console.log('locale', selectedLocale);
-
   const value = useMemo(
     () => localeOptions.find(({ code }) => code === selectedLocale) || localeOptions[0],
     [selectedLocale]

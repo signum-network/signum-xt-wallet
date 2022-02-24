@@ -21,7 +21,6 @@ function isSignumAddress(address: string): boolean {
 const HEX_PATTERN = /^[0-9a-fA-F]+$/;
 
 export async function requestSign(origin: string, req: ExtensionSignRequest): Promise<ExtensionSignResponse> {
-  console.log('requestSign');
   if (req?.payload?.startsWith('0x')) {
     req = { ...req, payload: req.payload.substring(2) };
   }
