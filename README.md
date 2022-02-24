@@ -11,14 +11,6 @@ Providing ability to manage Signa and interact with DApps.
 
 You can install the wallet through the Chrome Web Store or via Mozilla Add-Ons respectively.
 
----
-
-> NOTE: At this moment, the extension submission is in review. Due to the forced migration from Manifest V2 to V3 by Google, we were not able to submit the extension yet, as this is far more complicated than expected. We are working hard on this. We apologize for this inconvenience. If you cannot wait to use the wallet in Chrome and its derivates, follow the manual installation instructions:
-
-https://github.com/signum-network/signum-xt-wallet/releases/
-
----
-
 ## Browser Support
 
 | [![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png)](https://github.com/signum-network/signum-xt-wallet/releases) | [![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png)](https://addons.mozilla.org/en-US/firefox/addon/signum-xt-wallet/) | [![Brave](https://raw.githubusercontent.com/alrra/browser-logos/master/src/brave/brave_48x48.png)](https://github.com/signum-network/signum-xt-wallet/releases) | [![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png)](https://github.com/signum-network/signum-xt-wallet/releases) | [![Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png)](https://github.com/signum-network/signum-xt-wallet/releases) |
@@ -68,18 +60,22 @@ It correctly bundles in production mode and optimizes the build for the best per
 yarn build
 ```
 
+> Use MANIFEST_VERSION=3 or MANIFEST_VERSION=2 to distinguish between both versions while building
+
 Optional for different browsers:
 
 ```bash
-# for Chrome directly
+# for Chrome and compatible directly (using  Manifest version 3) 
 yarn build:chrome
-# for Firefox directly
+# for Firefox directly (using  Manifest version 2)
 yarn build:firefox
-# for Opera directly
-yarn build:opera
 
 # for all at once
 yarn build-all
 ```
 
 > The compiled code is available under `./dist`
+
+## Credits
+
+This project is a fork of the [amazing work](https://templewallet.com/) from [Madfish Solutions](https://www.madfish.solutions/)

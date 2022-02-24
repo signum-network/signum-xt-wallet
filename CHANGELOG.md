@@ -2,7 +2,17 @@
 
 ## 1.1.0
 
+-----
+
 Manifest Version 3 Compatible
+
+-----
+
+This version was significantly refactored to be conformant with the new Manifest Version 3 format. 
+
+### New features
+
+### Bug fixes
 
 ## 1.0.2
 
