@@ -38,6 +38,9 @@ module.exports = {
     type: 'filesystem',
     allowCollectingMemory: true
   },
+  performance: {
+    hints: false
+  },
   entry: {
     confirm: './src/confirm.tsx',
     fullpage: './src/fullpage.tsx',
@@ -76,7 +79,7 @@ module.exports = {
   plugins: [
     new Dotenv(),
     new webpack.EnvironmentPlugin({
-      'VERSION': pkg.version
+      VERSION: pkg.version
     }),
 
     new webpack.ProvidePlugin({

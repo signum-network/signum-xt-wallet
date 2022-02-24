@@ -7,9 +7,7 @@ import constate from 'constate';
 import { IS_DEV_ENV } from 'app/env';
 import {
   loadFastRpcClient,
-  michelEncoder,
   ReadyTempleState,
-  TempleAccountType,
   TempleState,
   TempleStatus,
   usePassiveStorage,
@@ -53,8 +51,6 @@ function useReadyTemple() {
     networks: allNetworks,
     accounts: allAccounts,
     settings,
-    createTaquitoSigner,
-    createTaquitoWallet
   } = templeFront;
 
   /**
@@ -120,14 +116,14 @@ function useReadyTemple() {
   const tezos = useMemo(() => {
     const checksum = [network.id, account.publicKeyHash].join('_');
     const rpc = network.rpcBaseURL;
-    const pkh = account.type === TempleAccountType.ManagedKT ? account.owner : account.publicKeyHash;
+    // const pkh = account.type === TempleAccountType.ManagedKT ? account.owner : account.publicKeyHash;
 
     const t = new ReactiveTezosToolkit(loadFastRpcClient(rpc), checksum);
-    t.setSignerProvider(createTaquitoSigner(pkh));
-    t.setWalletProvider(createTaquitoWallet(pkh, rpc));
-    t.setPackerProvider(michelEncoder);
+    // t.setSignerProvider(createTaquitoSigner(pkh));
+    // t.setWalletProvider(createTaquitoWallet(pkh, rpc));
+    // t.setPackerProvider(michelEncoder);
     return t;
-  }, [createTaquitoSigner, createTaquitoWallet, network, account]);
+  }, [network, account]);
 
   useEffect(() => {
     if (IS_DEV_ENV) {

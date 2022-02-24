@@ -1,9 +1,10 @@
 import './xhr-shim';
-import { tabs, runtime } from 'webextension-polyfill';
+import { tabs, runtime, storage } from 'webextension-polyfill';
+
+import { getConnectionControl, getLockUpEnabled, updateConnectionControl } from 'lib/lockup';
 
 import { lock } from './back/actions';
 import { start } from './back/main';
-// import { isLockUpEnabled } from 'lib/ui/useLockUp';
 
 runtime.onInstalled.addListener(({ reason }) => (reason === 'install' ? openFullPage() : null));
 
@@ -21,25 +22,25 @@ function openFullPage() {
   });
 }
 
-const LOCK_TIME = 5 * 60_000;
-let disconnectTimestamp = 0;
-let connectionsCount = 0;
+runtime.onConnect.addListener(async externalPort => {
+  const LockTimeout = 5 * 60_000;
+  const [lockUpEnabled, connection] = await Promise.all([getLockUpEnabled(), getConnectionControl()]);
+  connection.count++;
 
-runtime.onConnect.addListener(externalPort => {
-  connectionsCount++;
-  // const lockUpEnabled = isLockUpEnabled();
+  updateConnectionControl(connection);
   if (
-    connectionsCount === 1 &&
-    Date.now() - disconnectTimestamp >= LOCK_TIME &&
-    disconnectTimestamp !== 0
-    // lockUpEnabled
+    connection.count === 1 &&
+    connection.disconnectTimestamp !== 0 &&
+    Date.now() - connection.disconnectTimestamp >= LockTimeout &&
+    lockUpEnabled
   ) {
     lock();
   }
   externalPort.onDisconnect.addListener(() => {
-    connectionsCount--;
-    if (connectionsCount === 0) {
-      disconnectTimestamp = Date.now();
+    connection.count--;
+    if (connection.count === 0) {
+      connection.disconnectTimestamp = Date.now();
     }
+    updateConnectionControl(connection);
   });
 });

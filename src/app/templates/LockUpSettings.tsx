@@ -1,14 +1,14 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import FormCheckbox from 'app/atoms/FormCheckbox';
 import { t, T } from 'lib/i18n/react';
-import { isLockUpEnabled, setLockUp } from 'lib/ui/useLockUp';
+import { useLockUpState } from 'lib/ui/useLockUpState';
 
 const LockUpSettings: FC<{}> = () => {
-  const lockUpEnabled = isLockUpEnabled();
+  const [lockUpEnabled, setLockupEnabled] = useLockUpState();
 
   const handleLockUpChange = useCallback(evt => {
-    setLockUp(evt.target.checked);
+    setLockupEnabled(!!evt.target.checked);
   }, []);
 
   return (

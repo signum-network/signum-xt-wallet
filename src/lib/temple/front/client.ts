@@ -1,17 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import {
-  WalletProvider,
-  createOriginationOperation,
-  createSetDelegateOperation,
-  createTransferOperation,
-  WalletDelegateParams,
-  WalletOriginateParams,
-  WalletTransferParams
-} from '@taquito/taquito';
-import { buf2hex } from '@taquito/utils';
 import constate from 'constate';
-import { v4 as uuid } from 'uuid';
 
 import { IntercomClient } from 'lib/intercom';
 import {
@@ -25,7 +14,6 @@ import {
   DerivationType
 } from 'lib/messaging';
 import { useRetryableSWR } from 'lib/swr';
-import toBuffer from 'typedarray-to-buffer';
 
 type Confirmation = {
   id: string;
@@ -301,24 +289,6 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     assertResponse(res.type === TempleMessageType.DAppSignConfirmationResponse);
   }, []);
 
-  const createTaquitoWallet = useCallback(
-    (sourcePkh: string, networkRpc: string) =>
-      new TaquitoWallet(sourcePkh, networkRpc, {
-        onBeforeSend: id => {
-          confirmationIdRef.current = id;
-        }
-      }),
-    []
-  );
-
-  const createTaquitoSigner = useCallback(
-    (sourcePkh: string) =>
-      new TempleSigner(sourcePkh, id => {
-        confirmationIdRef.current = id;
-      }),
-    []
-  );
-
   const getAllDAppSessions = useCallback(async () => {
     const res = await request({
       type: TempleMessageType.DAppGetAllSessionsRequest
@@ -375,109 +345,11 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     getDAppPayload,
     confirmDAppPermission,
     confirmDAppSign,
-    createTaquitoWallet,
-    createTaquitoSigner,
     getAllDAppSessions,
     removeDAppSession,
     getSignumTransactionKeyPair
   };
 });
-
-type TaquitoWalletOps = {
-  onBeforeSend?: (id: string) => void;
-};
-
-class TaquitoWallet implements WalletProvider {
-  constructor(private pkh: string, private rpc: string, private opts: TaquitoWalletOps = {}) {}
-
-  async getPKH() {
-    return this.pkh;
-  }
-
-  async mapTransferParamsToWalletParams(params: () => Promise<WalletTransferParams>) {
-    const walletParams = await params();
-    return withoutFeesOverride(walletParams, await createTransferOperation(walletParams));
-  }
-
-  async mapOriginateParamsToWalletParams(params: () => Promise<WalletOriginateParams>) {
-    const walletParams = await params();
-    return withoutFeesOverride(walletParams, await createOriginationOperation(walletParams));
-  }
-
-  async mapDelegateParamsToWalletParams(params: () => Promise<WalletDelegateParams>) {
-    const walletParams = await params();
-    return withoutFeesOverride(walletParams, await createSetDelegateOperation(walletParams as any));
-  }
-
-  async sendOperations(opParams: any[]) {
-    const id = uuid();
-    if (this.opts.onBeforeSend) {
-      this.opts.onBeforeSend(id);
-    }
-    const res = await request({
-      type: TempleMessageType.OperationsRequest,
-      id,
-      sourcePkh: this.pkh,
-      networkRpc: this.rpc,
-      opParams: opParams.map(formatOpParams)
-    });
-    assertResponse(res.type === TempleMessageType.OperationsResponse);
-    return res.opHash;
-  }
-}
-
-class TempleSigner {
-  constructor(private pkh: string, private onBeforeSign?: (id: string) => void) {}
-
-  async publicKeyHash() {
-    return this.pkh;
-  }
-
-  async publicKey(): Promise<string> {
-    return getPublicKey(this.pkh);
-  }
-
-  async secretKey(): Promise<string> {
-    throw new Error('Secret key cannot be exposed');
-  }
-
-  async sign(bytes: string, watermark?: Uint8Array) {
-    const id = uuid();
-    if (this.onBeforeSign) {
-      this.onBeforeSign(id);
-    }
-    const res = await request({
-      type: TempleMessageType.SignRequest,
-      sourcePkh: this.pkh,
-      id,
-      bytes,
-      watermark: watermark ? buf2hex(toBuffer(watermark)) : undefined
-    });
-    assertResponse(res.type === TempleMessageType.SignResponse);
-    return res.result;
-  }
-}
-
-function formatOpParams(op: any) {
-  switch (op.kind) {
-    case 'origination':
-      return {
-        ...op,
-        mutez: true // The balance was already converted from Tez (ꜩ) to Mutez (uꜩ)
-      };
-    case 'transaction':
-      const { destination, amount, parameters, ...txRest } = op;
-      return {
-        ...txRest,
-        to: destination,
-        amount: +amount,
-        mutez: true,
-        parameter: parameters
-      };
-    default:
-      return op;
-  }
-}
 
 async function getPublicKey(accountPublicKeyHash: string) {
   const res = await request({
@@ -497,19 +369,5 @@ async function request<T extends TempleRequest>(req: T) {
 function assertResponse(condition: any): asserts condition {
   if (!condition) {
     throw new Error('Invalid response received');
-  }
-}
-
-function withoutFeesOverride<T>(params: any, op: T): T {
-  try {
-    const { fee, gasLimit, storageLimit } = params;
-    return {
-      ...op,
-      fee,
-      gas_limit: gasLimit,
-      storage_limit: storageLimit
-    };
-  } catch {
-    return params;
   }
 }
