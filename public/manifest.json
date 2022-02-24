@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Signum XT Wallet",
-  "version": "1.0.2",
+  "version": "__VERSION__",
 
   "icons": {
     "16": "misc/signum-icon-16.png",
@@ -9,8 +9,7 @@
     "38": "misc/signum-icon-38.png",
     "128": "misc/signum-icon-128.png"
   },
-
-  "description": "__MSG_appDesc__",
+  "description": "Cryptocurrency wallet for the green Signum \uD83C\uDF40 blockchain as an extension for your browser.",
   "__chrome|firefox|opera__homepage_url": "https://github.com/signum-network/signum-xt-wallet",
   "short_name": "Signum XT Wallet",
 

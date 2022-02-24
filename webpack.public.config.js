@@ -1,5 +1,8 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+
+const pkg = require('./package.json');
+
 module.exports = (publicPath, outputPath, manifestFile, targetBrowser) => {
   return new CopyWebpackPlugin({
     patterns: [
@@ -46,6 +49,8 @@ const transformManifestKeys = (manifest, vendor) => {
         if (vendors.indexOf(vendor) > -1) {
           newManifest[match[2]] = value;
         }
+      } else if (key === 'version') {
+        newManifest[key] = pkg.version;
       } else {
         newManifest[key] = transformManifestKeys(value, vendor);
       }
