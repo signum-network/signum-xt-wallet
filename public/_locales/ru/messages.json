@@ -1725,5 +1725,23 @@
   },
   "createWalletDescriptionOption2": {
     "message": "Подключать и взаимодействовать с Signum DApps."
+  },
+  "accountActivationAlertDescription": {
+    "message": "Эта учетная запись еще не полностью зарегистрирована в блокчейне. Пожалуйста, активируйте свою учетную запись, для обеспечения ее безопасности и пригодной для использования во всех сервисах, включая обмены."
+  },
+  "accountActivationAlertTitle": {
+    "message": "Аккаунт не активирован"
+  },
+  "accountActivationSuccessDescription": {
+    "message": "Добро пожаловать в Сигнум! Через несколько секунд вы получите входящую транзакцию активации, если она еще не видна."
+  },
+  "accountActivationSuccessTitle": {
+    "message": "Аккаунт успешно активирован"
+  },
+  "activationFailed": {
+    "message": "О нет, активация не удалась."
+  },
+  "cantConnectToNetworkHint": {
+    "message": "Попробуйте выбрать другой сетевой узел или проверьте интернет соединение."
   }
 }
