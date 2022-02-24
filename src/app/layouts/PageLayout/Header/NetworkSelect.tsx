@@ -5,13 +5,15 @@ import classNames from 'clsx';
 import { Button } from 'app/atoms/Button';
 import DropdownWrapper from 'app/atoms/DropdownWrapper';
 import Name from 'app/atoms/Name';
+import { ReactComponent as AddIcon } from 'app/icons/add.svg';
 import { ReactComponent as ChevronDownIcon } from 'app/icons/chevron-down.svg';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
-import { T } from 'lib/i18n/react';
+import { t, T } from 'lib/i18n/react';
 import { TempleNetwork, useAllNetworks, useNetwork, useSetNetworkId } from 'lib/temple/front';
 import Popper from 'lib/ui/Popper';
+import useTippy from 'lib/ui/useTippy';
+import Link from 'lib/woozie/Link';
 
-import useTippy from '../../../../lib/ui/useTippy';
 import styles from './NetworkSelect.module.css';
 import { NetworkSelectSelectors } from './NetworkSelect.selectors';
 
@@ -36,6 +38,7 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
     },
     [setNetworkId]
   );
+
   return (
     <Popper
       placement="bottom-end"
@@ -48,12 +51,17 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
                 'mb-2',
                 'border-b border-white border-opacity-25',
                 'px-1 pb-1',
-                'flex items-center',
+                'flex items-center justify-between',
                 'text-white text-opacity-90 text-sm text-center'
               )}
             >
-              <SignalAltIcon className="w-auto h-4 mr-1 stroke-current" />
-              <T id="networks">{networks => <>{networks}</>}</T>
+              <span className="flex items-center flex-row">
+                <SignalAltIcon className="w-auto h-4 mr-1 stroke-current" />
+                <T id="networks">{networks => <>{networks}</>}</T>
+              </span>
+              <Link to="/settings/networks">
+                <AddIcon className="w-auto h-6 stroke-current" />
+              </Link>
             </h2>
 
             {allNetworks
