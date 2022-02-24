@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import { TempleDAppMetadata } from '@temple-wallet/dapp/dist/types';
 import classNames from 'clsx';
 
 import Logo from 'app/atoms/Logo';
@@ -8,11 +7,12 @@ import Name from 'app/atoms/Name';
 import { ReactComponent as LayersIcon } from 'app/icons/layers.svg';
 import { ReactComponent as OkIcon } from 'app/icons/ok.svg';
 import DAppLogo from 'app/templates/DAppLogo';
+import { ExtensionDAppMetadata } from 'lib/messaging';
 
 type ConnectBannerProps = {
   type: 'connect' | 'confirm_operations';
   origin: string;
-  appMeta: TempleDAppMetadata;
+  appMeta: ExtensionDAppMetadata;
   className?: string;
 };
 

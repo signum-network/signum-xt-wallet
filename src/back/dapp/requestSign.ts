@@ -1,5 +1,4 @@
 import { Address, LedgerClientFactory, Transaction } from '@signumjs/core';
-import { TempleDAppErrorType } from '@temple-wallet/dapp/dist/types';
 import { v4 as uuid } from 'uuid';
 
 import { TempleMessageType } from 'lib/messaging';
@@ -8,7 +7,7 @@ import { HttpAdapterFetch } from '../httpAdapterFetch';
 import { withUnlocked } from '../store';
 import { getDApp, getNetworkRPC } from './dapp';
 import { requestConfirm } from './requestConfirm';
-import { ExtensionMessageType, ExtensionSignRequest, ExtensionSignResponse } from './typings';
+import { ExtensionErrorType, ExtensionMessageType, ExtensionSignRequest, ExtensionSignResponse } from './typings';
 
 function isSignumAddress(address: string): boolean {
   try {
@@ -28,17 +27,17 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
   }
 
   if (![isSignumAddress(req?.sourcePkh), HEX_PATTERN.test(req?.payload)].every(Boolean)) {
-    throw new Error(TempleDAppErrorType.InvalidParams);
+    throw new Error(ExtensionErrorType.InvalidParams);
   }
 
   const dApp = await getDApp(origin);
 
   if (!dApp) {
-    throw new Error(TempleDAppErrorType.NotGranted);
+    throw new Error(ExtensionErrorType.NotGranted);
   }
 
   if (req.sourcePkh !== dApp.pkh) {
-    throw new Error(TempleDAppErrorType.NotFound);
+    throw new Error(ExtensionErrorType.NotFound);
   }
 
   return new Promise(async (resolve, reject) => {
@@ -68,7 +67,7 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
         preview
       },
       onDecline: () => {
-        reject(new Error(TempleDAppErrorType.NotGranted));
+        reject(new Error(ExtensionErrorType.NotGranted));
       },
       handleIntercomRequest: async (confirmReq, decline) => {
         if (confirmReq?.type === TempleMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {

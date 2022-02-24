@@ -1,6 +1,6 @@
 type ExtensionNetwork = string | { name: string; rpc: string };
 
-interface ExtensionDAppMetadata {
+export interface ExtensionDAppMetadata {
   name: string;
 }
 

@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useMemo } from 'react';
 
-import { localForger } from '@taquito/local-forging';
 import classNames from 'clsx';
 
 import Alert from 'app/atoms/Alert';
@@ -10,7 +9,6 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Logo from 'app/atoms/Logo';
 import SubTitle from 'app/atoms/SubTitle';
 import { useAppEnv } from 'app/env';
-import { ReactComponent as CodeAltIcon } from 'app/icons/code-alt.svg';
 import { ReactComponent as EyeIcon } from 'app/icons/eye.svg';
 import { ReactComponent as HashIcon } from 'app/icons/hash.svg';
 import AccountBanner from 'app/templates/AccountBanner';
@@ -46,22 +44,9 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
   const { popup } = useAppEnv();
 
   const getContentToParse = useCallback(async () => {
-    switch (payload.type) {
-      case 'sign':
-        const unsignedBytes = payload.bytes.substr(0, payload.bytes.length - 128);
-        try {
-          return (await localForger.parse(unsignedBytes)) || [];
-        } catch (err: any) {
-          console.error(err);
-          return [];
-        }
-      default:
-        return [];
-    }
+    return [];
   }, [payload]);
   const { data: contentToParse } = useRetryableSWR(['content-to-parse'], getContentToParse, { suspense: true });
-
-  const networkRpc = currentNetworkRpc;
 
   const mainnet = true; //chainId === TempleChainId.Mainnet;
 

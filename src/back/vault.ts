@@ -9,7 +9,6 @@ import {
 import { convertByteArrayToHexString } from '@signumjs/util';
 import { InMemorySigner } from '@taquito/signer';
 import * as TaquitoUtils from '@taquito/utils';
-import * as Bip39 from 'bip39';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
 import { TempleAccount, TempleAccountType, TempleSettings } from 'lib/messaging';
@@ -252,9 +251,7 @@ export class Vault {
   // TODO: remove, we dont have it
   async importFundraiserAccount(email: string, password: string, mnemonic: string) {
     return withError('Failed to import fundraiser account', async () => {
-      const seed = Bip39.mnemonicToSeedSync(mnemonic, `${email}${password}`);
-      const privateKey = seedToPrivateKey(seed);
-      return this.importAccount(privateKey);
+      throw new Error('Not implemented');
     });
   }
 

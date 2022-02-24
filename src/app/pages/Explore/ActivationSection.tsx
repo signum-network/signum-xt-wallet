@@ -38,6 +38,7 @@ export const ActivationSection: FC = () => {
   const [activationError, setActivationError] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
+  console.log('ActivationSection', account)
   const { data: isActivatedOnChain } = useSWR(
     ['getAccountActivationStatus', account.publicKeyHash, account.isActivated, signum],
     async () => {
