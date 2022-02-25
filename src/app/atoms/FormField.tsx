@@ -38,6 +38,7 @@ interface FormFieldProps extends FormFieldAttrs {
   containerClassName?: string;
   containerStyle?: React.CSSProperties;
   textarea?: boolean;
+  maxLength?: number;
   secret?: boolean;
   cleanable?: boolean;
   extraButton?: ReactNode;
@@ -63,6 +64,7 @@ const FormField = forwardRef<FormFieldRef, FormFieldProps>(
       errorCaption,
       containerClassName,
       textarea,
+      maxLength,
       secret: secretProp,
       cleanable,
       extraButton = null,
@@ -100,6 +102,7 @@ const FormField = forwardRef<FormFieldRef, FormFieldProps>(
 
     const { copy } = useCopyToClipboard();
 
+    const [textValue, setTextValue] = useState(value ?? defaultValue ?? '');
     const [localValue, setLocalValue] = useState(value ?? defaultValue ?? '');
     const [focused, setFocused] = useState(false);
 
@@ -108,6 +111,7 @@ const FormField = forwardRef<FormFieldRef, FormFieldProps>(
         checkedHandler(e, onChange!, setLocalValue);
 
         const tempValue = e.target.value;
+        setTextValue(tempValue);
         if (setPasswordValidation) {
           setPasswordValidation({
             minChar: tempValue.length >= MIN_PASSWORD_LENGTH,
@@ -210,9 +214,14 @@ const FormField = forwardRef<FormFieldRef, FormFieldProps>(
             onChange={handleChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            max={maxLength || undefined}
             {...rest}
           />
-
+          {maxLength && typeof(textValue) === 'string' && (
+            <div className="absolute text-xs text-gray-600" style={{ bottom: '-20px', right: '0px' }}>
+              {textValue?.length || 0}/{maxLength}
+            </div>
+          )}
           {localValue !== '' && isPasswordInput && TogglePasswordIcon}
           <ExtraInner innerComponent={extraInner} useDefaultInnerWrapper={useDefaultInnerWrapper} />
 

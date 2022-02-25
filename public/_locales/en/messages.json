@@ -1743,5 +1743,37 @@
   },
   "accountActivationSuccessDescription": {
     "message": "Welcome to Signum! If not already visible, you'll get an incoming activation transaction in a few moments."
+  },
+  "attachmentDescription" : {
+    "message": "You may attach some text or binary data to this transaction. Here you also enter the memo required by many exchanges"
+  },
+  "textAttachment" : {
+    "message": "Additional Text"
+  },
+  "hexCodeAttachment" : {
+    "message": "Additional Data"
+  },
+  "enterText": {
+    "message": "Enter Text Message"
+  },
+  "enterHexCode": {
+    "message": "Enter Hexadecimal Data"
+  },
+  "mustBeHexCode": {
+    "message": "Data must be a hexadecimal string"
+  },
+  "attachmentIsBinary": {
+    "message": "Attached data is binary"
+  },
+  "attachmentIsBinaryDescription": {
+    "message": "Binary data is encoded in hexadecimal form and mostly used for Smart Contract calls. Use this option only if you know what you are doing"
+  },
+  "mustBeLessThanChars": {
+    "message": "Must be less than $count$ characters",
+    "placeholders": {
+        "count": {
+          "content": "$1"
+        }
+    }
   }
 }

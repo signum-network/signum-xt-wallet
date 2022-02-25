@@ -10,7 +10,7 @@ type UseBalanceOptions = {
   displayed?: boolean;
   initial?: BigNumber;
 };
-
+// FIXME: Consider getting all kinds of balance, like committed, locked etc
 export function useBalance(assetSlug: string, accountId: string, opts: UseBalanceOptions = {}) {
   // TODO: accept assetSlugs to get the tokens amounts also
   const signum = useSignum();

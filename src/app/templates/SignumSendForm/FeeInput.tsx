@@ -14,9 +14,8 @@ import React, {
 
 import { FeeQuantPlanck } from '@signumjs/util';
 import classNames from 'clsx';
-import { Controller, ControllerProps, EventFunction, FieldError } from 'react-hook-form';
+import useSWR from 'swr';
 
-import AssetField from 'app/atoms/AssetField';
 import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
 import Spinner from 'app/atoms/Spinner';
@@ -28,22 +27,22 @@ import { toLocalFixed } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
 import { SIGNA_METADATA, useSignum } from 'lib/temple/front';
 
-type AssetFieldProps = typeof AssetField extends ForwardRefExoticComponent<infer T> ? T : never;
-
-export type AdditionalFeeInputProps = Pick<ControllerProps<ComponentType>, 'name' | 'control' | 'onChange'> & {
-  assetSymbol: string;
-  error?: FieldError;
-  id: string;
+export type AdditionalFeeInputProps = {
+  onChange: (fee: string) => void;
+  factor: number;
 };
+
+type FeeType = 'minimal' | 'fast' | 'rocket' | 'custom';
 
 type FeeOption = {
   Icon?: FunctionComponent<SVGProps<SVGSVGElement>>;
   descriptionI18nKey: string;
-  type: 'minimal' | 'fast' | 'rocket' | 'custom';
+  type: FeeType;
   amount?: number;
 };
 
-const feeOptions: FeeOption[] = [
+const getFeeOptionId = (option: FeeOption) => option.type;
+const FeeOptions: FeeOption[] = [
   {
     Icon: CoffeeIcon,
     descriptionI18nKey: 'minimalFeeDescription',
@@ -64,37 +63,35 @@ const feeOptions: FeeOption[] = [
   }
 ];
 
-const getFeeOptionId = (option: FeeOption) => option.type;
-
 const FeeInput: FC<AdditionalFeeInputProps> = props => {
-  const { assetSymbol, control, id, name, onChange } = props;
-  const [isFetchingFees, setIsFetchingFees] = useState<boolean>(true);
-  // const { trackEvent } = useAnalytics();
-
-  const customFeeInputRef = useRef<HTMLInputElement>(null);
+  const { onChange, factor } = props;
   const signum = useSignum();
-  const focusCustomFeeInput = useCallback(() => {
-    customFeeInputRef.current?.focus();
-  }, []);
+  const [feeOptions, updateFeeOptions] = useState(FeeOptions);
+  const [selectedType, setSelectedType] = useState<FeeType>(FeeOptions[0].type);
+  const { data: baseFees, isValidating: isFetchingFees } = useSWR(
+    ['getSuggestedFees', signum],
+    signum.network.getSuggestedFees,
+    {
+      revalidateOnMount: true,
+      dedupingInterval: 60_000
+    }
+  );
 
   useEffect(() => {
-    if (!signum) return;
+    if (!baseFees) return;
+    const { cheap, standard, priority } = baseFees;
+    feeOptions[0].amount = (cheap * factor) / 1e8;
+    feeOptions[1].amount = (standard * factor) / 1e8;
+    feeOptions[2].amount = (priority * factor) / 1e8;
+    updateFeeOptions([...feeOptions]);
+  }, [baseFees, factor]);
 
-    async function fetchFees() {
-      setIsFetchingFees(true);
-      const { cheap, standard, priority } = await signum.network.getSuggestedFees();
-      feeOptions[0].amount = cheap / 1e8;
-      feeOptions[1].amount = standard / 1e8;
-      feeOptions[2].amount = priority / 1e8;
-      setIsFetchingFees(false);
+  useEffect(() => {
+    const selectedFee = feeOptions.find(({ type }) => selectedType === type);
+    if (onChange && selectedFee) {
+      onChange(`${selectedFee.amount}`);
     }
-
-    fetchFees();
-  }, [signum]);
-
-  const handleChange: EventFunction = event => {
-    return onChange !== undefined && onChange(event);
-  };
+  }, [selectedType, baseFees, factor]);
 
   if (isFetchingFees) {
     return (
@@ -104,76 +101,53 @@ const FeeInput: FC<AdditionalFeeInputProps> = props => {
     );
   }
 
-  return (
-    <Controller
-      name={name}
-      as={AdditionalFeeInputContent}
-      control={control}
-      customFeeInputRef={customFeeInputRef}
-      onChange={handleChange}
-      id={id}
-      assetSymbol={assetSymbol}
-      onFocus={focusCustomFeeInput}
-      label={t('additionalFee')}
-      labelDescription={
-        <T
-          id="feeInputDescription"
-          substitutions={[
-            <Fragment key={0}>
-              <span className="font-normal">{toLocalFixed(FeeQuantPlanck / 1e8)}</span>
-            </Fragment>
-          ]}
-        />
-      }
-      placeholder="0"
-    />
-  );
+  return <FeeSelector options={feeOptions} onChange={(type: any) => setSelectedType(type as FeeType)} />;
 };
 
 export default FeeInput;
 
-type AdditionalFeeInputContentProps = AssetFieldProps & {
-  customFeeInputRef: MutableRefObject<HTMLInputElement | null>;
-};
+interface FeeSelectorProps {
+  onChange: Function;
+  options: FeeOption[];
+}
 
-const AdditionalFeeInputContent: FC<AdditionalFeeInputContentProps> = props => {
-  const { onChange, id, label, labelDescription, value } = props;
+const FeeSelector: FC<FeeSelectorProps> = props => {
+  const { onChange, options } = props;
 
-  const [selectedPreset, setSelectedPreset] = useState<FeeOption['type']>(
-    feeOptions.find(({ amount }) => amount === value)?.type || 'minimal'
-  );
+  const [selectedPreset, setSelectedPreset] = useState<FeeOption['type']>('minimal');
   const handlePresetSelected = useCallback(
     (newType: FeeOption['type']) => {
       setSelectedPreset(newType);
-      const option = feeOptions.find(({ type }) => type === newType)!;
-      if (option.amount) {
-        onChange?.(`${option.amount}`);
-      }
+      onChange && onChange(newType);
     },
     [onChange]
   );
 
   return (
     <div className="flex flex-col w-full mb-2">
-      {label && (
-        <label className="flex flex-col mb-4 leading-tight" htmlFor={`${id}-select`}>
-          <span className="text-base font-semibold text-gray-700">{label}</span>
+      <label className="flex flex-col mb-4 leading-tight" htmlFor="fee-select">
+        <span className="text-base font-semibold text-gray-700">
+          <T id="additionalFee" />
+        </span>
 
-          {labelDescription && (
-            <span className={classNames('mt-1', 'text-xs font-light text-gray-600')} style={{ maxWidth: '90%' }}>
-              {labelDescription}
-            </span>
-          )}
-        </label>
-      )}
-
+        <span className={classNames('mt-1', 'text-xs font-light text-gray-600')} style={{ maxWidth: '90%' }}>
+          <T
+            id="feeInputDescription"
+            substitutions={[
+              <Fragment key={0}>
+                <span className="font-normal">{toLocalFixed(options[0].amount!)}</span>
+              </Fragment>
+            ]}
+          />
+        </span>
+      </label>
       <div className="relative flex flex-col items-stretch">
         <CustomSelect
           activeItemId={selectedPreset}
           className="mb-4"
           getItemId={getFeeOptionId}
-          id={`${id}-select`}
-          items={feeOptions}
+          id="fee-select"
+          items={options}
           onSelect={handlePresetSelected}
           padding="0.2rem 0.375rem 0.2rem 0.375rem"
           OptionIcon={FeeOptionIcon}

@@ -1,6 +1,6 @@
 import React, { Dispatch, FC, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import { Address, TransactionId } from '@signumjs/core';
+import { Address, AttachmentMessage, TransactionId } from '@signumjs/core';
 import { Amount, FeeQuantPlanck } from '@signumjs/util';
 import classNames from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ import AssetField from 'app/atoms/AssetField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Money from 'app/atoms/Money';
 import NoSpaceField from 'app/atoms/NoSpaceField';
+import { MessageForm, MessageFormData } from 'app/templates/SignumSendForm/MessageForm';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import {
@@ -49,6 +50,7 @@ type FormProps = {
 const MinimumFee = Amount.fromPlanck(FeeQuantPlanck).getSigna();
 
 export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested }) => {
+  const messageFormRef = useRef();
   const { registerBackHandler } = useAppEnv();
   const assetMetadata = useSignumAssetMetadata();
   const { resolveAliasToAccountId } = useSignumAliasResolver();
@@ -58,6 +60,12 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const signum = useSignum();
   const prefix = useSignumAccountPrefix();
   const client = useTempleClient();
+  const [messageFormData, setMessageFormData] = useState<MessageFormData>({
+    message: '',
+    isBinary: false,
+    isValid: true
+  });
+  const [feeValue, setFeeValue] = useState(MinimumFee);
 
   const assetSymbol = assetMetadata.symbol;
   const accountPkh = acc.publicKeyHash;
@@ -65,15 +73,11 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const balance = balanceData && Amount.fromSigna(balanceData.toNumber());
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
-    mode: 'onChange',
-    defaultValues: {
-      fee: MinimumFee
-    }
+    mode: 'onChange'
   });
 
   const toValue = watch('to');
   const amountValue = watch('amount');
-  const feeValue = watch('fee');
 
   const toFieldRef = useRef<HTMLTextAreaElement>(null);
   const amountFieldRef = useRef<HTMLInputElement>(null);
@@ -140,7 +144,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const totalAmount = useMemo(() => {
     if (!amountValue) return;
     return Amount.fromSigna(amountValue).add(Amount.fromSigna(feeValue || MinimumFee));
-  }, [amountValue, feeValue]);
+  }, [amountValue, feeValue, messageFormData.message]);
 
   const validateAmount = useCallback(
     (v?: number) => {
@@ -193,26 +197,39 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     [resolveAliasToAccountId]
   );
 
+  const getTransactionAttachment = () => {
+    if (messageFormData && messageFormData.isValid) {
+      return new AttachmentMessage({
+        messageIsText: !messageFormData.isBinary,
+        message: messageFormData.message
+      });
+    }
+    return undefined;
+  };
+
   const onSubmit = useCallback(
-    async ({ amount, fee }: FormData) => {
+    async ({ amount }: FormData) => {
       if (formState.isSubmitting) return;
       setSubmitError(null);
       setOperation(null);
       try {
         const { signingKey, publicKey } = await client.getSignumTransactionKeyPair(acc.publicKeyHash);
+        const attachment = getTransactionAttachment();
         const { transaction, fullHash } = (await signum.transaction.sendAmountToSingleRecipient({
           amountPlanck: Amount.fromSigna(amount).getPlanck(),
-          feePlanck: Amount.fromSigna(fee).getPlanck(),
+          feePlanck: Amount.fromSigna(feeValue).getPlanck(),
           recipientId: toResolved,
           senderPrivateKey: signingKey,
-          senderPublicKey: publicKey
+          senderPublicKey: publicKey,
+          attachment
         })) as TransactionId;
         setOperation({
           txId: transaction,
           hash: fullHash
         });
-        reset({ to: '', fee: '', amount: '0' });
-
+        reset({ to: '', amount: '0' });
+        // @ts-ignore
+        messageFormRef.current.reset();
         formAnalytics.trackSubmitSuccess();
       } catch (err) {
         formAnalytics.trackSubmitFail();
@@ -232,6 +249,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       setSubmitError,
       setOperation,
       reset,
+      messageFormRef,
       toResolved,
       formAnalytics
     ]
@@ -262,6 +280,8 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     () => allContacts.filter(c => c.address !== accountPkh),
     [allContacts, accountPkh]
   );
+
+  const feeFactor = messageFormData.message ? Math.ceil(messageFormData.message.length / 176) : 1;
 
   return (
     <form style={{ minHeight: '24rem' }} onSubmit={handleSubmit(onSubmit)}>
@@ -358,15 +378,9 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
         errorCaption={restFormDisplayed && errors.amount?.message}
         autoFocus={Boolean(maxAmount)}
       />
-      {totalAmount && (
-        <div className={'flex flex-row items-center justify-start text-gray-600 mb-4'}>
-          <T id="totalAmount" />
-          {': '}
-          <span className={'text-xs leading-none ml-1'}>
-            <Money>{totalAmount.getSigna()}</Money> <span style={{ fontSize: '0.75em' }}>{assetSymbol}</span>
-          </span>
-        </div>
-      )}
+
+      <MessageForm ref={messageFormRef} onChange={setMessageFormData} />
+
       {restFormDisplayed ? (
         <>
           {(() => {
@@ -385,16 +399,20 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
             return null;
           })()}
 
-          <FeeInput
-            name="fee"
-            control={control}
-            assetSymbol={assetSymbol}
-            onChange={([v]) => v}
-            error={errors.fee}
-            id="send-fee"
-          />
+          <FeeInput onChange={setFeeValue} factor={feeFactor} />
 
-          {totalAmount && errors.amount === undefined && (
+          {totalAmount && (
+            <div className={'flex flex-row items-center justify-start text-gray-600 mb-4 text-lg font-bold'}>
+              <T id="totalAmount" />
+              {': '}
+              <span className={'leading-none ml-1'}>
+                <Money>{totalAmount.getSigna()}</Money>
+                {assetSymbol}
+              </span>
+            </div>
+          )}
+
+          {totalAmount && errors.amount === undefined && messageFormData.isValid && (
             <div className={'flex flex-row items-center justify-center'}>
               <T id="send">
                 {message => <FormSubmitButton loading={formState.isSubmitting}>{message}</FormSubmitButton>}
