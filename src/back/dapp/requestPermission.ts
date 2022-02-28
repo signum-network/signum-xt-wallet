@@ -20,12 +20,14 @@ export async function requestPermission(
   }
 
   const networkHosts = await getNetworkHosts(req.network);
+  const hostUrls = networkHosts.map(({rpcBaseURL}) => rpcBaseURL)
+
   const dApp = await getDApp(origin);
 
   if (!req.force && dApp && req.network === dApp.network && req.appMeta.name === dApp.appMeta.name) {
     return {
       type: ExtensionMessageType.PermissionResponse,
-      nodeHosts: networkHosts,
+      nodeHosts: hostUrls,
       accountId: dApp.accountId,
       publicKey: dApp.publicKey
     };
@@ -59,7 +61,7 @@ export async function requestPermission(
               type: ExtensionMessageType.PermissionResponse,
               accountId: accountPublicKeyHash,
               publicKey: accountPublicKey,
-              nodeHosts: networkHosts
+              nodeHosts: hostUrls
             });
           } else {
             decline();

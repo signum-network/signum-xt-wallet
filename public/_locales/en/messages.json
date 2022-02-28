@@ -1781,7 +1781,13 @@
       }
     }
   },
-  "currentNetworkNode": {
-    "message": "Current Network Node"
+  "wrongCurrentNetworkNode": {
+    "message": "Your currently selected node does not belong to the requested network: $networkName$. Please, select a correct node and retry",
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    }
+
   }
 }

@@ -41,8 +41,8 @@ export async function getCurrentNetworkHost() {
     'custom_networks_snapshot'
   ]);
 
-  const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])];
-  return allNetworks.find(n => !n.isDisabled && !n.hidden && n.networkId === networkId) as TempleNetwork;
+  const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])] as TempleNetwork[];
+  return allNetworks.find(n => !n.disabled && !n.hidden && n.id === networkId) as TempleNetwork;
 }
 
 export async function getNetworkHosts(networkName: string) {
@@ -50,8 +50,8 @@ export async function getNetworkHosts(networkName: string) {
     'custom_networks_snapshot'
   );
 
-  const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])];
-  return allNetworks.filter(n => !n.isDisabled && !n.hidden && n.networkName === networkName);
+  const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])] as TempleNetwork[];
+  return allNetworks.filter(n => !n.disabled && !n.hidden && n.networkName === networkName);
 }
 
 export function isAllowedNetwork(network: string) {

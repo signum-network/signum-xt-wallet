@@ -169,6 +169,8 @@ const ConfirmDAppForm: FC = () => {
     }
   }, [payload.type, payload.origin, payload.appMeta.name, error]);
 
+  const hasCorrectNetwork = payload.network === network.networkName;
+
   return (
     <CustomRpsContext.Provider value={payload.network}>
       <div
@@ -217,6 +219,12 @@ const ConfirmDAppForm: FC = () => {
               )}
 
               <NetworkBanner networkName={payload.network} narrow={payload.type === 'connect'} />
+
+              {!hasCorrectNetwork && (
+                <T id="wrongCurrentNetworkNode" substitutions={[payload.network]}>
+                  {message => <p className="mb-4 text-xs font-medium text-center text-red-500">{message}</p>}
+                </T>
+              )}
               <PayloadContent
                 payload={payload}
                 accountPkhToConnect={accountPkhToConnect}
@@ -239,7 +247,7 @@ const ConfirmDAppForm: FC = () => {
               onClick={handleDeclineClick}
               testID={content.declineActionTestID}
             >
-              {content.declineActionTitle}
+              {hasCorrectNetwork ? content.declineActionTitle : t('cancel')}
             </FormSecondaryButton>
           </div>
 
@@ -249,6 +257,7 @@ const ConfirmDAppForm: FC = () => {
               className="justify-center w-full"
               loading={confirming}
               onClick={handleConfirmClick}
+              disabled={!hasCorrectNetwork}
               testID={content.confirmActionTestID}
             >
               {content.confirmActionTitle}

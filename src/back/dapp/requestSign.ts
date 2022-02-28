@@ -32,9 +32,9 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
   }
 
   const networkHost = await getCurrentNetworkHost();
-  if (networkHost.networkName !== dApp.network) {
-    throw new Error(ExtensionErrorType.NotGranted);
-  }
+  // if (networkHost.networkName !== dApp.network) {
+  //   throw new Error(ExtensionErrorType.NotGranted);
+  // }
 
   if (req.sourcePkh !== dApp.accountId) {
     throw new Error(ExtensionErrorType.NotFound);

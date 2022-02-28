@@ -9,7 +9,8 @@ export async function getCurrentPermission(origin: string): Promise<ExtensionGet
       permission: null
     };
 
-  const nodeHosts = await getNetworkHosts(dApp?.network);
+  const networkHosts = await getNetworkHosts(dApp?.network);
+  const nodeHosts = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
   return {
     type: ExtensionMessageType.GetCurrentPermissionResponse,
     permission: {
