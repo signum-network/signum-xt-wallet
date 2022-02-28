@@ -3,17 +3,18 @@ import React, { FC, useMemo } from 'react';
 import classNames from 'clsx';
 
 import Name from 'app/atoms/Name';
+import NetworkBadge from 'app/atoms/NetworkBadge';
 import { T } from 'lib/i18n/react';
-import { useAllNetworks } from 'lib/temple/front';
+import { useAllNetworks, useNetwork } from 'lib/temple/front';
 
 type NetworkBannerProps = {
-  rpc: string;
+  networkName: string;
   narrow?: boolean;
 };
 
-const NetworkBanner: FC<NetworkBannerProps> = ({ rpc, narrow = false }) => {
+const NetworkBanner: FC<NetworkBannerProps> = ({ networkName, narrow = false }) => {
   const allNetworks = useAllNetworks();
-  const knownNetwork = useMemo(() => allNetworks.find(n => n.rpcBaseURL === rpc), [allNetworks, rpc]);
+  const networkIsKnown = useMemo(() => allNetworks.some(n => n.networkName === networkName), [allNetworks]);
 
   return (
     <div className={classNames('w-full', narrow ? '-mt-1 mb-2' : 'mb-4', 'flex flex-col')}>
@@ -26,45 +27,24 @@ const NetworkBanner: FC<NetworkBannerProps> = ({ rpc, narrow = false }) => {
           )}
         </T>
 
-        {knownNetwork ? (
-          <div className={classNames('mb-1', 'flex items-center')}>
-            <div
-              className={classNames('mr-1 w-3 h-3', 'border border-primary-white', 'rounded-full', 'shadow-xs')}
-              style={{
-                backgroundColor: knownNetwork.color
-              }}
-            />
-
-            <span className="text-gray-700 text-sm">{knownNetwork.name}</span>
+        <div className={classNames('mb-1', 'flex flex-col')}>
+          <div className={'mt-1 flex flex-row items-center justify-center'}>
+            <div className="mr-1">
+              <NetworkBadge networkName={networkName} large />
+            </div>
           </div>
-        ) : (
-          <div className={classNames('w-full mb-1', 'flex items-center')}>
-            <div
-              className={classNames(
-                'flex-shrink-0',
-                'mr-1 w-3 h-3',
-                'bg-red-500',
-                'border border-primary-white',
-                'rounded-full',
-                'shadow-xs'
-              )}
-            />
-
-            <T id="unknownNetwork">
-              {message => (
-                <>
-                  <span className={classNames('flex-shrink-0 mr-2', 'text-xs font-medium uppercase text-red-500')}>
+          {!networkIsKnown && (
+            <div className="mt-4 mb-1">
+              <T id="unknownNetwork" substitutions={[networkName]}>
+                {message => (
+                  <span className={classNames('flex-shrink-0 mr-2', 'text-xs font-medium text-red-500')}>
                     {message}
                   </span>
-
-                  <Name className="text-xs font-mono italic text-gray-900" style={{ maxWidth: '15rem' }}>
-                    {rpc}
-                  </Name>
-                </>
-              )}
-            </T>
-          </div>
-        )}
+                )}
+              </T>
+            </div>
+          )}
+        </div>
       </h2>
     </div>
   );

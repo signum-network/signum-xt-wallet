@@ -1463,7 +1463,12 @@
     }
   },
   "unknownNetwork": {
-    "message": "Unbekannt:"
+    "message": "Das von der DApp angeforderte Netzwerk ist der Wallet unbekannt. Bitte fügen Sie zuerst einen Netzwerkknoten hinzu, der zum Netzwerk „$networkName$“ gehört",
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    }
   },
   "unknownParseErrorOccurred": {
     "message": "Ein unbekannter Parsing-Fehler ist aufgetreten."
@@ -1743,5 +1748,40 @@
   },
   "accountActivationSuccessTitle": {
     "message": "Konto erfolgreich aktiviert"
+  },
+  "attachmentDescription": {
+    "message": "Sie können dieser Transaktion einige Text- oder Binärdaten anhängen. Hier geben Sie auch das von vielen Börsen geforderte Memo ein"
+  },
+  "attachmentIsBinary": {
+    "message": "Angehängte Daten sind binär"
+  },
+  "attachmentIsBinaryDescription": {
+    "message": "Binäre Daten werden in hexadezimaler Form codiert und hauptsächlich für Smart Contract-Aufrufe verwendet. Verwenden Sie diese Option nur, wenn Sie wissen, was Sie tun"
+  },
+  "currentNetworkNode": {
+    "message": "Aktueller Netzwerkknoten"
+  },
+  "enterHexCode": {
+    "message": "Geben Sie Hexadezimaldaten ein"
+  },
+  "enterText": {
+    "message": "Textnachricht eingeben"
+  },
+  "hexCodeAttachment": {
+    "message": "Zusätzliche Daten"
+  },
+  "mustBeHexCode": {
+    "message": "Die Daten müssen eine hexadezimale Zeichenfolge sein"
+  },
+  "mustBeLessThanChars": {
+    "message": "Muss weniger als $count$ Zeichen sein",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "textAttachment": {
+    "message": "Zusätzlicher Text"
   }
 }

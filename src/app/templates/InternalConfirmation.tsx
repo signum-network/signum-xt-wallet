@@ -40,7 +40,7 @@ const MIN_GAS_FEE = 0;
 
 // TODO: Do we need internal confirmation???
 const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfirm }) => {
-  const { rpcBaseURL: currentNetworkRpc } = useNetwork();
+  const { networkName: currentNetworkName } = useNetwork();
   const { popup } = useAppEnv();
 
   const getContentToParse = useCallback(async () => {
@@ -187,7 +187,7 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
             <>
               <AccountBanner account={account} labelIndent="sm" className="w-full mb-4" />
 
-              <NetworkBanner rpc={currentNetworkRpc} />
+              <NetworkBanner networkName={currentNetworkName} />
 
               {signPayloadFormats.length > 1 && (
                 <div className="w-full flex justify-end mb-3 items-center">

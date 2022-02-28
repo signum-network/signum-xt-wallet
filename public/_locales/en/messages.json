@@ -1466,7 +1466,12 @@
     }
   },
   "unknownNetwork": {
-    "message": "Unknown Network:"
+    "message": "The DApps requested network is unknown to the wallet. Please, add a network node first that belongs to '$networkName$' network",
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    }
   },
   "unknownParseErrorOccurred": {
     "message": "An unknown parsing error has occurred."
@@ -1744,13 +1749,13 @@
   "accountActivationSuccessDescription": {
     "message": "Welcome to Signum! If not already visible, you'll get an incoming activation transaction in a few moments."
   },
-  "attachmentDescription" : {
+  "attachmentDescription": {
     "message": "You may attach some text or binary data to this transaction. Here you also enter the memo required by many exchanges"
   },
-  "textAttachment" : {
+  "textAttachment": {
     "message": "Additional Text"
   },
-  "hexCodeAttachment" : {
+  "hexCodeAttachment": {
     "message": "Additional Data"
   },
   "enterText": {
@@ -1771,9 +1776,12 @@
   "mustBeLessThanChars": {
     "message": "Must be less than $count$ characters",
     "placeholders": {
-        "count": {
-          "content": "$1"
-        }
+      "count": {
+        "content": "$1"
+      }
     }
+  },
+  "currentNetworkNode": {
+    "message": "Current Network Node"
   }
 }

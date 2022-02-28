@@ -1463,7 +1463,12 @@
     }
   },
   "unknownNetwork": {
-    "message": "Red desconocida:"
+    "message": "La red solicitada de DApp es desconocida para la billetera. Por favor, agregue primero un nodo de red que pertenezca a la red '$networkName$'",
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    }
   },
   "unknownParseErrorOccurred": {
     "message": "Se ha producido un error de análisis desconocido."
@@ -1743,5 +1748,40 @@
   },
   "accountActivationSuccessTitle": {
     "message": "Cuenta activada con éxito"
+  },
+  "attachmentDescription": {
+    "message": "Puede adjuntar texto o datos binarios a esta transacción. Aquí también ingresa la nota requerida por muchos intercambios"
+  },
+  "attachmentIsBinary": {
+    "message": "Los datos adjuntos son binarios"
+  },
+  "attachmentIsBinaryDescription": {
+    "message": "Los datos binarios se codifican en forma hexadecimal y se utilizan principalmente para llamadas de contrato inteligente. Use esta opción solo si sabe lo que está haciendo"
+  },
+  "currentNetworkNode": {
+    "message": "Nodo de red actual"
+  },
+  "enterHexCode": {
+    "message": "Ingrese datos hexadecimales"
+  },
+  "enterText": {
+    "message": "Ingresar mensaje de texto"
+  },
+  "hexCodeAttachment": {
+    "message": "Datos adicionales"
+  },
+  "mustBeHexCode": {
+    "message": "Los datos deben ser una cadena hexadecimal"
+  },
+  "mustBeLessThanChars": {
+    "message": "Debe tener menos de $count$ caracteres",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "textAttachment": {
+    "message": "Texto adicional"
   }
 }

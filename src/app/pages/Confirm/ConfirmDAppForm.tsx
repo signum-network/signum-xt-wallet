@@ -216,7 +216,7 @@ const ConfirmDAppForm: FC = () => {
                 />
               )}
 
-              <NetworkBanner rpc={network.rpcBaseURL} narrow={payload.type === 'connect'} />
+              <NetworkBanner networkName={payload.network} narrow={payload.type === 'connect'} />
               <PayloadContent
                 payload={payload}
                 accountPkhToConnect={accountPkhToConnect}
