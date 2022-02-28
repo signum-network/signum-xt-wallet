@@ -1,8 +1,15 @@
 import { TempleNetwork } from 'lib/messaging';
 
+// get from getConstants of the nodes
+export const NetworkName = {
+  Mainnet: 'Signum',
+  Testnet: 'Signum-TESTNET'
+};
+
 export const NETWORKS: TempleNetwork[] = [
   {
     id: 'signum-europe',
+    networkName: NetworkName.Mainnet,
     name: 'Europe 1',
     description: 'Featured Node from Europe',
     type: 'main',
@@ -12,6 +19,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-europe-1',
+    networkName: NetworkName.Mainnet,
     name: 'Europe 2',
     description: 'Another Featured Node from Europe',
     type: 'main',
@@ -21,6 +29,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-europe-2',
+    networkName: NetworkName.Mainnet,
     name: 'Europe 3',
     description: 'Another Featured Node from Europe',
     type: 'main',
@@ -30,6 +39,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-uk',
+    networkName: NetworkName.Mainnet,
     name: 'United Kingdom',
     description: 'Featured Node from the UK',
     type: 'main',
@@ -39,6 +49,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-us-east',
+    networkName: NetworkName.Mainnet,
     name: 'US East',
     description: 'Featured Node from the US',
     type: 'main',
@@ -48,6 +59,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-canada',
+    networkName: NetworkName.Mainnet,
     name: 'Canada',
     description: 'Featured Node from Canada',
     type: 'main',
@@ -57,6 +69,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-latam',
+    networkName: NetworkName.Mainnet,
     name: 'Latin America US',
     description: 'Featured Node from Latin America',
     type: 'main',
@@ -64,17 +77,19 @@ export const NETWORKS: TempleNetwork[] = [
     color: '#00B7AE',
     disabled: false
   },
-  {
-    id: 'signum-brazil',
-    name: 'Latin America BR',
-    description: 'Featured Node from South America',
-    type: 'main',
-    rpcBaseURL: 'https://brazil.signum.network',
-    color: '#0090A2',
-    disabled: false
-  },
+  // {
+  //   id: 'signum-brazil',
+  //   networkName: NetworkName.Mainnet,
+  //   name: 'Latin America BR',
+  //   description: 'Featured Node from South America',
+  //   type: 'main',
+  //   rpcBaseURL: 'https://brazil.signum.network',
+  //   color: '#0090A2',
+  //   disabled: false
+  // },
   {
     id: 'signum-australia',
+    networkName: NetworkName.Mainnet,
     name: 'Australia',
     description: 'Featured Node from Australia',
     type: 'main',
@@ -84,6 +99,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-singapore',
+    networkName: NetworkName.Mainnet,
     name: 'Asia SG',
     description: 'Featured Node from Singapore',
     type: 'main',
@@ -93,6 +109,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-mainnet-local',
+    networkName: NetworkName.Mainnet,
     name: 'Local Mainnet',
     description: 'For those who run a local main net node on standard port 8125',
     type: 'main',
@@ -102,6 +119,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-testnet-europe',
+    networkName: NetworkName.Testnet,
     name: 'Europe Testnet ',
     description: 'Public Testnet Node Europe',
     type: 'test',
@@ -111,6 +129,7 @@ export const NETWORKS: TempleNetwork[] = [
   },
   {
     id: 'signum-testnet-local',
+    networkName: NetworkName.Testnet,
     name: 'Local Testnet',
     description: 'For those hackers who run a local test net node on standard port 6876',
     type: 'test',

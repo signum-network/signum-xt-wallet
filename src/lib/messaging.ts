@@ -1,5 +1,3 @@
-type ExtensionNetwork = string | { name: string; rpc: string };
-
 export interface ExtensionDAppMetadata {
   name: string;
 }
@@ -13,10 +11,10 @@ export interface ReadyTempleState extends TempleState {
   settings: TempleSettings;
 }
 
-export interface TempleDAppSession {
-  network: ExtensionNetwork;
+export interface DAppSession {
+  network: string;
   appMeta: ExtensionDAppMetadata;
-  pkh: string;
+  accountId: string;
   publicKey: string;
 }
 
@@ -27,6 +25,7 @@ export interface TempleState {
   settings: TempleSettings | null;
 }
 
+// TODO: remove me - it's obsolete
 export enum TempleChainId {
   Mainnet = 'NetXdQprcVkpaWU',
   Granadanet = 'NetXz969SFaFn8k',
@@ -98,6 +97,7 @@ export enum TempleAccountType {
 
 export interface TempleNetwork {
   id: string;
+  networkName: string;
   name: string;
   nameI18nKey?: string;
   description: string;
@@ -132,7 +132,7 @@ export enum TempleSharedStorageKey {
   TimeLock = 'timelock'
 }
 
-export type TempleDAppSessions = Record<string, TempleDAppSession>;
+export type DAppSessions = Record<string, DAppSession>;
 
 /**
  * Internal confirmation payloads
@@ -167,7 +167,7 @@ export type TempleConfirmationPayload = TempleSignConfirmationPayload;
 export interface TempleDAppPayloadBase {
   type: string;
   origin: string;
-  networkRpc: string;
+  network: string;
   appMeta: ExtensionDAppMetadata;
 }
 
@@ -628,7 +628,7 @@ export interface TempleGetAllDAppSessionsRequest extends TempleMessageBase {
 
 export interface TempleGetAllDAppSessionsResponse extends TempleMessageBase {
   type: TempleMessageType.DAppGetAllSessionsResponse;
-  sessions: TempleDAppSessions;
+  sessions: DAppSessions;
 }
 
 export interface TempleRemoveDAppSessionRequest extends TempleMessageBase {
@@ -638,7 +638,7 @@ export interface TempleRemoveDAppSessionRequest extends TempleMessageBase {
 
 export interface TempleRemoveDAppSessionResponse extends TempleMessageBase {
   type: TempleMessageType.DAppRemoveSessionResponse;
-  sessions: TempleDAppSessions;
+  sessions: DAppSessions;
 }
 
 export type OperationsPreview = any[] | { branch: string; contents: any[] };

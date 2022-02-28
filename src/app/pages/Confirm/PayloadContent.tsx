@@ -53,8 +53,8 @@ interface PayloadContentProps {
 }
 
 const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, setAccountPkhToConnect, payload }) => {
-  const allAccounts = useRelevantAccounts(false);
-  const AccountOptionContent = useMemo(() => AccountOptionContentHOC(payload.networkRpc), [payload.networkRpc]);
+  const allAccounts = useRelevantAccounts();
+  const AccountOptionContent = useMemo(() => AccountOptionContentHOC(payload.network), [payload.network]);
   const eigenAccounts = useMemo(
     () => allAccounts.filter((a: TempleAccount) => a.type !== TempleAccountType.WatchOnly),
     [allAccounts]

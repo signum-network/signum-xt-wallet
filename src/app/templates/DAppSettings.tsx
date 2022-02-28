@@ -10,12 +10,12 @@ import DAppLogo from 'app/templates/DAppLogo';
 import { T, t } from 'lib/i18n/react';
 import { useRetryableSWR } from 'lib/swr';
 import { useStorage, TempleSharedStorageKey, useTempleClient } from 'lib/temple/front';
-import { TempleDAppSession, TempleDAppSessions } from 'lib/messaging';
+import { DAppSession, DAppSessions } from 'lib/messaging';
 import { useConfirm } from 'lib/ui/dialog';
 
 import HashShortView from '../atoms/HashShortView';
 
-type DAppEntry = [string, TempleDAppSession];
+type DAppEntry = [string, DAppSession];
 type DAppActions = {
   remove: (origin: string) => void;
 };
@@ -26,7 +26,7 @@ const DAppSettings: FC = () => {
   const { getAllDAppSessions, removeDAppSession } = useTempleClient();
   const confirm = useConfirm();
 
-  const { data, revalidate } = useRetryableSWR<TempleDAppSessions>(['getAllDAppSessions'], getAllDAppSessions, {
+  const { data, revalidate } = useRetryableSWR<DAppSessions>(['getAllDAppSessions'], getAllDAppSessions, {
     suspense: true,
     shouldRetryOnError: false,
     revalidateOnFocus: false,
@@ -138,7 +138,7 @@ const DAppIcon: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = props =>
 const DAppDescription: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = props => {
   const {
     actions,
-    item: [origin, { appMeta, network, pkh }]
+    item: [origin, { appMeta, network, accountId }]
   } = props;
   const { remove: onRemove } = actions!;
 
@@ -154,7 +154,7 @@ const DAppDescription: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = p
     () => [
       {
         key: '',
-        value: <HashShortView hash={pkh} isAccount />,
+        value: <HashShortView hash={accountId} isAccount />,
         Component: 'span'
       },
       {
@@ -173,12 +173,12 @@ const DAppDescription: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = p
       },
       {
         key: 'networkLabel',
-        value: typeof network === 'string' ? network : network.name || network.rpc,
-        valueClassName: (typeof network === 'string' || network.name) && 'capitalize',
+        value: network,
+        valueClassName: network && 'capitalize',
         Component: Name
       }
     ],
-    [origin, network, pkh]
+    [origin, network, accountId]
   );
 
   return (

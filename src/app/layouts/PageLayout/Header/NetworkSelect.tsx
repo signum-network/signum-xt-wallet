@@ -59,13 +59,13 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
                 <SignalAltIcon className="w-auto h-4 mr-1 stroke-current" />
                 <T id="networks">{networks => <>{networks}</>}</T>
               </span>
-              <Link to="/settings/networks">
+              <Link to="/settings/networks" onClick={() => setOpened(false)}>
                 <AddIcon className="w-auto h-6 stroke-current" />
               </Link>
             </h2>
 
             {allNetworks
-              .filter(n => !n.hidden)
+              .filter(n => !n.hidden && !n.disabled)
               .map(n => (
                 <NetworkSelectItem
                   key={n.id}
@@ -119,12 +119,12 @@ interface NetworkSelectItemProps {
 }
 
 const NetworkSelectItem: FC<NetworkSelectItemProps> = ({ network, selected, onSelected }) => {
-  const { disabled, description, color, nameI18nKey, name } = network;
+  const { disabled, description, color, nameI18nKey, name, networkName } = network;
   const buttonRef = useTippy<HTMLButtonElement>({
     delay: 1000,
     trigger: 'mouseenter',
     hideOnClick: false,
-    content: description,
+    content: `[${networkName}] ${description}`,
     animation: 'shift-away-subtle'
   });
   return (

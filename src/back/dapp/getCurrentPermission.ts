@@ -1,17 +1,21 @@
-import { getDApp, getNetworkRPC } from './dapp';
-import { ExtensionMessageType, ExtensionGetCurrentPermissionResponse } from './typings';
+import { getDApp, getNetworkHosts } from './dapp';
+import { ExtensionGetCurrentPermissionResponse, ExtensionMessageType } from './typings';
 
 export async function getCurrentPermission(origin: string): Promise<ExtensionGetCurrentPermissionResponse> {
   const dApp = await getDApp(origin);
-  const permission = dApp
-    ? {
-        rpc: await getNetworkRPC(dApp.network),
-        pkh: dApp.pkh,
-        publicKey: dApp.publicKey
-      }
-    : null;
+  if (!dApp)
+    return {
+      type: ExtensionMessageType.GetCurrentPermissionResponse,
+      permission: null
+    };
+
+  const nodeHosts = await getNetworkHosts(dApp?.network);
   return {
     type: ExtensionMessageType.GetCurrentPermissionResponse,
-    permission
+    permission: {
+      nodeHosts,
+      accountId: dApp.accountId,
+      publicKey: dApp.publicKey
+    }
   };
 }

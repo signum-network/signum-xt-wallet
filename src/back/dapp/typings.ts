@@ -33,16 +33,16 @@ export interface ExtensionGetCurrentPermissionResponse extends ExtensionMessageB
 
 export interface ExtensionPermissionRequest extends ExtensionMessageBase {
   type: ExtensionMessageType.PermissionRequest;
-  network: ExtensionNetwork;
+  network: string;
   appMeta: ExtensionDAppMetadata;
   force?: boolean;
 }
 
 export interface ExtensionPermissionResponse extends ExtensionMessageBase {
   type: ExtensionMessageType.PermissionResponse;
-  pkh: string;
+  accountId: string;
   publicKey: string;
-  rpc: string;
+  nodeHosts: string[];
 }
 
 export interface ExtensionSignRequest extends ExtensionMessageBase {
@@ -65,8 +65,8 @@ export enum ExtensionErrorType {
 }
 
 export type ExtensionPermission = {
-  rpc: string;
-  pkh: string;
+  nodeHosts: string[];
+  accountId: string;
   publicKey: string;
 } | null;
 
@@ -74,8 +74,6 @@ export type ExtensionSigned = {
   transactionId: string;
   fullHash: string;
 } | null;
-
-export type ExtensionNetwork = string | { name: string; rpc: string };
 
 export interface ExtensionDAppMetadata {
   name: string;

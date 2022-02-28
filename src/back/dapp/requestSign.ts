@@ -5,7 +5,7 @@ import { TempleMessageType } from 'lib/messaging';
 
 import { HttpAdapterFetch } from '../httpAdapterFetch';
 import { withUnlocked } from '../store';
-import { getDApp, getNetworkRPC } from './dapp';
+import { getCurrentNetworkHost, getDApp } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import { ExtensionErrorType, ExtensionMessageType, ExtensionSignRequest, ExtensionSignResponse } from './typings';
 
@@ -21,10 +21,6 @@ function isSignumAddress(address: string): boolean {
 const HEX_PATTERN = /^[0-9a-fA-F]+$/;
 
 export async function requestSign(origin: string, req: ExtensionSignRequest): Promise<ExtensionSignResponse> {
-  if (req?.payload?.startsWith('0x')) {
-    req = { ...req, payload: req.payload.substring(2) };
-  }
-
   if (![isSignumAddress(req?.sourcePkh), HEX_PATTERN.test(req?.payload)].every(Boolean)) {
     throw new Error(ExtensionErrorType.InvalidParams);
   }
@@ -35,15 +31,20 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
     throw new Error(ExtensionErrorType.NotGranted);
   }
 
-  if (req.sourcePkh !== dApp.pkh) {
+  const networkHost = await getCurrentNetworkHost();
+  if (networkHost.networkName !== dApp.network) {
+    throw new Error(ExtensionErrorType.NotGranted);
+  }
+
+  if (req.sourcePkh !== dApp.accountId) {
     throw new Error(ExtensionErrorType.NotFound);
   }
 
   return new Promise(async (resolve, reject) => {
     const id = uuid();
-    const networkRpc = await getNetworkRPC(dApp.network);
-    const httpClient = new HttpAdapterFetch(networkRpc);
-    const ledger = LedgerClientFactory.createClient({ nodeHost: networkRpc, httpClient });
+    const { rpcBaseURL } = networkHost;
+    const httpClient = new HttpAdapterFetch(rpcBaseURL);
+    const ledger = LedgerClientFactory.createClient({ nodeHost: rpcBaseURL, httpClient });
     let preview: any;
     try {
       const transaction = await ledger.service.query<Transaction>('parseTransaction', {
@@ -59,7 +60,7 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
       payload: {
         type: 'sign',
         origin,
-        networkRpc,
+        network: dApp.network,
         appMeta: dApp.appMeta,
         sourcePkh: req.sourcePkh,
         payload: req.payload,
@@ -71,7 +72,7 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
       handleIntercomRequest: async (confirmReq, decline) => {
         if (confirmReq?.type === TempleMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {
           if (confirmReq.confirmed) {
-            const signedTransaction = await withUnlocked(({ vault }) => vault.signumSign(dApp.pkh, req.payload));
+            const signedTransaction = await withUnlocked(({ vault }) => vault.signumSign(dApp.accountId, req.payload));
             const { transaction, fullHash } = await ledger.transaction.broadcastTransaction(signedTransaction);
             resolve({
               type: ExtensionMessageType.SignResponse,

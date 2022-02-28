@@ -18,20 +18,22 @@ import {
   TempleAccountType,
   TempleDAppPayload,
   useAccount,
+  useNetwork,
   useRelevantAccounts,
   useTempleClient
 } from 'lib/temple/front';
+import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 import useSafeState from 'lib/ui/useSafeState';
 import { useLocation } from 'lib/woozie';
 
-import { withErrorHumanDelay } from '../../../lib/ui/humanDelay';
 import { ConfirmPageSelectors } from './ConfirmPage.selectors';
 import PayloadContent from './PayloadContent';
 
 const ConfirmDAppForm: FC = () => {
   const { getDAppPayload, confirmDAppPermission, confirmDAppSign } = useTempleClient();
-  const relevantAccounts = useRelevantAccounts(false);
+  const relevantAccounts = useRelevantAccounts();
   const account = useAccount();
+  const network = useNetwork();
 
   const [accountPkhToConnect, setAccountPkhToConnect] = useState(account.publicKeyHash);
 
@@ -168,7 +170,7 @@ const ConfirmDAppForm: FC = () => {
   }, [payload.type, payload.origin, payload.appMeta.name, error]);
 
   return (
-    <CustomRpsContext.Provider value={payload.networkRpc}>
+    <CustomRpsContext.Provider value={payload.network}>
       <div
         className="relative bg-white rounded-md shadow-md overflow-y-auto flex flex-col"
         style={{
@@ -208,13 +210,13 @@ const ConfirmDAppForm: FC = () => {
               {payload.type !== 'connect' && connectedAccount && (
                 <AccountBanner
                   account={connectedAccount}
-                  networkRpc={payload.networkRpc}
+                  networkRpc={network.rpcBaseURL}
                   labelIndent="sm"
                   className="w-full mb-4"
                 />
               )}
 
-              <NetworkBanner rpc={payload.networkRpc} narrow={payload.type === 'connect'} />
+              <NetworkBanner rpc={network.rpcBaseURL} narrow={payload.type === 'connect'} />
               <PayloadContent
                 payload={payload}
                 accountPkhToConnect={accountPkhToConnect}

@@ -47,11 +47,7 @@ function useReadyTemple() {
   const templeFront = useTempleClient();
   assertReady(templeFront);
 
-  const {
-    networks: allNetworks,
-    accounts: allAccounts,
-    settings,
-  } = templeFront;
+  const { networks: allNetworks, accounts: allAccounts, settings } = templeFront;
 
   /**
    * Networks
@@ -154,7 +150,7 @@ function useReadyTemple() {
   };
 }
 
-export function useRelevantAccounts(withExtraTypes = true) {
+export function useRelevantAccounts() {
   const allAccounts = useAllAccounts();
   const account = useAccount();
   const setAccountPkh = useSetAccountPkh();

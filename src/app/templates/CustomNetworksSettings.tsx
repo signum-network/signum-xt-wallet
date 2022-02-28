@@ -6,11 +6,12 @@ import { useForm } from 'react-hook-form';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Name from 'app/atoms/Name';
+import NetworkBadge from 'app/atoms/NetworkBadge';
 import SubTitle from 'app/atoms/SubTitle';
 import { URL_PATTERN } from 'app/defaults';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import { T, t } from 'lib/i18n/react';
-import { TempleNetwork, useSettings, useTempleClient, canConnectToNetwork } from 'lib/temple/front';
+import { TempleNetwork, useSettings, useTempleClient, canConnectToNetwork, NetworkName } from 'lib/temple/front';
 import { COLORS } from 'lib/ui/colors';
 import { useConfirm } from 'lib/ui/dialog';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
@@ -30,6 +31,8 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+// TODO: When multiverse is active in practice we should give the option for adding network names also.
+// At this moment, we support only Signum and Signum-TESTNET
 const CustomNetworksSettings: FC = () => {
   const { updateSettings, defaultNetworks } = useTempleClient();
   const { customNetworks = [] } = useSettings();
@@ -69,6 +72,7 @@ const CustomNetworksSettings: FC = () => {
             {
               rpcBaseURL,
               name,
+              networkName: isTestnet ? NetworkName.Testnet : NetworkName.Mainnet,
               description: name,
               type,
               disabled: false,
@@ -219,7 +223,7 @@ type NetworksListItemProps = {
 
 const NetworksListItem: FC<NetworksListItemProps> = props => {
   const {
-    network: { name, nameI18nKey, rpcBaseURL, color },
+    network: { name, nameI18nKey, rpcBaseURL, color, networkName },
     canRemove,
     onRemoveClick,
     last
@@ -248,9 +252,12 @@ const NetworksListItem: FC<NetworksListItemProps> = props => {
       />
 
       <div className="flex flex-col justify-between flex-1">
-        <Name className="mb-1 text-sm font-medium leading-tight">
-          {(nameI18nKey && <T id={nameI18nKey} />) || name}
-        </Name>
+        <div className="flex flex-row justify-between">
+          <Name className="mb-1 text-sm font-medium leading-tight">
+            {(nameI18nKey && <T id={nameI18nKey} />) || name}
+          </Name>
+          <NetworkBadge networkName={networkName} />
+        </div>
 
         <div
           className={classNames('text-xs text-gray-700 font-light', 'flex items-center')}
