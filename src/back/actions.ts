@@ -1,6 +1,6 @@
 import browser, { Runtime } from 'webextension-polyfill';
 
-import { TempleState, TempleMessageType, TempleRequest, TempleSettings, TempleSharedStorageKey } from 'lib/messaging';
+import { AppState, XTMessageType, TempleRequest, XTSettings, TempleSharedStorageKey } from 'lib/messaging';
 import { createQueue } from 'lib/queue';
 
 import { getCurrentPermission, requestPermission, requestSign, getAllDApps, removeDApp } from './dapp';
@@ -29,7 +29,7 @@ export async function init() {
   inited(vaultExist);
 }
 
-export async function getFrontState(): Promise<TempleState> {
+export async function getFrontState(): Promise<AppState> {
   const state = store.getState();
   if (state.inited) {
     return toFront(state);
@@ -164,7 +164,7 @@ export function importWatchOnlyAccount(address: string, chainId?: string) {
   });
 }
 
-export function updateSettings(settings: Partial<TempleSettings>) {
+export function updateSettings(settings: Partial<XTSettings>) {
   return withUnlocked(async ({ vault }) => {
     const updatedSettings = await vault.updateSettings(settings);
     createCustomNetworksSnapshot(updatedSettings);
@@ -190,7 +190,7 @@ export function sign(port: Runtime.Port, id: string, sourcePkh: string, bytes: s
     () =>
       new Promise(async (resolve, reject) => {
         intercom.notify(port, {
-          type: TempleMessageType.ConfirmationRequested,
+          type: XTMessageType.ConfirmationRequested,
           id,
           payload: {
             type: 'sign',
@@ -211,7 +211,7 @@ export function sign(port: Runtime.Port, id: string, sourcePkh: string, bytes: s
             stopDisconnectListening();
 
             intercom.notify(port, {
-              type: TempleMessageType.ConfirmationExpired,
+              type: XTMessageType.ConfirmationExpired,
               id
             });
           } catch (_err) {}
@@ -226,7 +226,7 @@ export function sign(port: Runtime.Port, id: string, sourcePkh: string, bytes: s
         };
 
         const stopRequestListening = intercom.onRequest(async (req: TempleRequest, reqPort) => {
-          if (reqPort === port && req?.type === TempleMessageType.ConfirmationRequest && req?.id === id) {
+          if (reqPort === port && req?.type === XTMessageType.ConfirmationRequest && req?.id === id) {
             if (req.confirmed) {
               const result = await withUnlocked(({ vault }) => vault.signumSign(sourcePkh, bytes));
               resolve(result);
@@ -237,7 +237,7 @@ export function sign(port: Runtime.Port, id: string, sourcePkh: string, bytes: s
             close();
 
             return {
-              type: TempleMessageType.ConfirmationResponse
+              type: XTMessageType.ConfirmationResponse
             };
           }
           return;
@@ -260,20 +260,12 @@ export async function processDApp(origin: string, req: ExtensionRequest): Promis
     case ExtensionMessageType.PermissionRequest:
       return withInited(() => requestPermission(origin, req));
 
-    // TODO: seems that signum does not need this
-    // case TempleDAppMessageType.OperationRequest:
-    //   return withInited(() => enqueueDApp(() => requestOperation(origin, req)));
-
     case ExtensionMessageType.SignRequest:
       return withInited(() => requestSign(origin, req));
-
-    // TODO: seems that signum does not need this
-    // case TempleDAppMessageType.BroadcastRequest:
-    //   return withInited(() => requestBroadcast(origin, req));
   }
 }
 
-async function createCustomNetworksSnapshot(settings: TempleSettings) {
+async function createCustomNetworksSnapshot(settings: XTSettings) {
   try {
     if (settings.customNetworks) {
       await browser.storage.local.set({

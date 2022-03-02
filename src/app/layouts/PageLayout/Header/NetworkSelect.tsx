@@ -9,7 +9,7 @@ import { ReactComponent as AddIcon } from 'app/icons/add.svg';
 import { ReactComponent as ChevronDownIcon } from 'app/icons/chevron-down.svg';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
 import { t, T } from 'lib/i18n/react';
-import { TempleNetwork, useAllNetworks, useNetwork, useSetNetworkId } from 'lib/temple/front';
+import { Network, useAllNetworks, useNetwork, useSetNetworkId } from 'lib/temple/front';
 import Popper from 'lib/ui/Popper';
 import useTippy from 'lib/ui/useTippy';
 import Link from 'lib/woozie/Link';
@@ -113,9 +113,9 @@ const NetworkSelect: FC<NetworkSelectProps> = () => {
 };
 
 interface NetworkSelectItemProps {
-  network: TempleNetwork;
+  network: Network;
   selected: boolean;
-  onSelected: (n: TempleNetwork) => void;
+  onSelected: (n: Network) => void;
 }
 
 const NetworkSelectItem: FC<NetworkSelectItemProps> = ({ network, selected, onSelected }) => {

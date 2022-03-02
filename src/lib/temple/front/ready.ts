@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 
 import { LedgerClientFactory } from '@signumjs/core';
 import { TezosToolkit } from '@taquito/taquito';
@@ -7,9 +7,9 @@ import constate from 'constate';
 import { IS_DEV_ENV } from 'app/env';
 import {
   loadFastRpcClient,
-  ReadyTempleState,
-  TempleState,
-  TempleStatus,
+  ReadyState,
+  AppState,
+  WalletStatus,
   usePassiveStorage,
   useTempleClient
 } from 'lib/temple/front';
@@ -54,7 +54,15 @@ function useReadyTemple() {
    */
 
   const defaultNet = allNetworks[0];
-  const [networkId, setNetworkId] = usePassiveStorage('network_id', '');
+  const [networkId, updateNetworkId] = usePassiveStorage('network_id', '');
+
+  const setNetworkId = useCallback(
+    (id: string) => {
+      templeFront.selectNetwork(id); // propagate to back and dapp
+      updateNetworkId(id);
+    },
+    [updateNetworkId]
+  );
 
   useEffect(() => {
     async function getBestNetwork() {
@@ -171,8 +179,8 @@ export class ReactiveTezosToolkit extends TezosToolkit {
   }
 }
 
-function assertReady(state: TempleState): asserts state is ReadyTempleState {
-  if (state.status !== TempleStatus.Ready) {
+function assertReady(state: AppState): asserts state is ReadyState {
+  if (state.status !== WalletStatus.Ready) {
     throw new Error('Temple not ready');
   }
 }

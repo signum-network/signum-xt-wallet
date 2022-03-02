@@ -13,7 +13,7 @@ import { ReactComponent as SendIcon } from 'app/icons/send-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Activity from 'app/templates/SignumActivity/Activity';
 import { T, t } from 'lib/i18n/react';
-import { getAssetSymbol, TempleAccountType, useAccount, useSignumAssetMetadata } from 'lib/temple/front';
+import { getAssetSymbol, XTAccountType, useAccount, useSignumAssetMetadata } from 'lib/temple/front';
 import useTippy from 'lib/ui/useTippy';
 import { HistoryAction, Link, navigate, useLocation } from 'lib/woozie';
 
@@ -50,7 +50,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug }) => {
   }, [registerBackHandler, assetSlug, search]);
 
   const accountId = account.publicKeyHash;
-  const canSend = account.type !== TempleAccountType.WatchOnly;
+  const canSend = account.type !== XTAccountType.WatchOnly;
   const fullpageClassName = fullPage ? 'mb-10' : 'mb-6';
   // const swapLink = assetSlug ? `/swap/${assetSlug}` : '/swap';
   const sendLink = assetSlug ? `/send/${assetSlug}` : '/send';

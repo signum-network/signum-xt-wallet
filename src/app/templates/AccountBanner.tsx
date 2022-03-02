@@ -7,13 +7,13 @@ import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
 import Balance from 'app/templates/Balance';
 import { t } from 'lib/i18n/react';
-import { SIGNA_METADATA, TempleAccount } from 'lib/temple/front';
+import { SIGNA_METADATA, XTAccount } from 'lib/temple/front';
 
 import HashShortView from '../atoms/HashShortView';
 import IdenticonSignum from '../atoms/IdenticonSignum';
 
 type AccountBannerProps = HTMLAttributes<HTMLDivElement> & {
-  account: TempleAccount;
+  account: XTAccount;
   displayBalance?: boolean;
   networkRpc?: string;
   label?: ReactNode;

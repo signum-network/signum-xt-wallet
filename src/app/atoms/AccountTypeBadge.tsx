@@ -2,17 +2,17 @@ import React, { memo } from 'react';
 
 import classNames from 'clsx';
 
-import { TempleAccount, TempleAccountType } from 'lib/temple/front';
+import { XTAccount, XTAccountType } from 'lib/temple/front';
 
 import { t } from '../../lib/i18n/react';
 
 type AccountTypeBadgeProps = {
-  account: Pick<TempleAccount, 'type'>;
+  account: Pick<XTAccount, 'type'>;
   darkTheme?: boolean;
 };
 
 const AccountTypeBadge = memo<AccountTypeBadgeProps>(({ account, darkTheme = false }) => {
-  if (account.type !== TempleAccountType.WatchOnly) return null;
+  if (account.type !== XTAccountType.WatchOnly) return null;
 
   const title = t('watchOnlyAccount');
 

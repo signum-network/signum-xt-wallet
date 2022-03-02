@@ -14,7 +14,7 @@ import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import {
   DerivationType,
-  TempleAccountType,
+  XTAccountType,
   useAllAccounts,
   useSetAccountPkh,
   useTempleClient,
@@ -65,7 +65,7 @@ const ConnectLedger: FC = () => {
   const setAccountPkh = useSetAccountPkh();
   const formAnalytics = useFormAnalytics('ConnectLedger');
 
-  const allLedgers = useMemo(() => allAccounts.filter(acc => acc.type === TempleAccountType.Ledger), [allAccounts]);
+  const allLedgers = useMemo(() => allAccounts.filter(acc => acc.type === XTAccountType.Ledger), [allAccounts]);
 
   const defaultName = useMemo(() => t('defaultLedgerName', String(allLedgers.length + 1)), [allLedgers.length]);
 

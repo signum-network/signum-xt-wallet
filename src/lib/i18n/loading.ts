@@ -3,7 +3,7 @@ import { runtime } from 'webextension-polyfill';
 import { init } from './core';
 import { saveLocale } from './saving';
 
-export const REFRESH_MSGTYPE = 'TEMPLE_I18N_REFRESH';
+export const REFRESH_MSGTYPE = 'XT_I18N_REFRESH';
 
 runtime.onMessage.addListener(msg => {
   if (msg?.type === REFRESH_MSGTYPE) {

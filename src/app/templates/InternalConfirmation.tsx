@@ -20,7 +20,7 @@ import { ViewsSwitcherItemProps } from 'app/templates/ViewsSwitcher/ViewsSwitche
 import { T, t } from 'lib/i18n/react';
 import { useRetryableSWR } from 'lib/swr';
 import {
-  TempleAccountType,
+  XTAccountType,
   TempleConfirmationPayload,
   toTokenSlug,
   tryParseExpenses,
@@ -271,7 +271,7 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
           </div>
         </div>
 
-        <ConfirmLedgerOverlay displayed={confirming && account.type === TempleAccountType.Ledger} />
+        <ConfirmLedgerOverlay displayed={confirming && account.type === XTAccountType.Ledger} />
       </div>
     </div>
   );

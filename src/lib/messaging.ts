@@ -4,11 +4,11 @@ export interface ExtensionDAppMetadata {
 
 type NonEmptyArray<T> = [T, ...T[]];
 
-export interface ReadyTempleState extends TempleState {
-  status: TempleStatus.Ready;
-  accounts: NonEmptyArray<TempleAccount>;
-  networks: NonEmptyArray<TempleNetwork>;
-  settings: TempleSettings;
+export interface ReadyState extends AppState {
+  status: WalletStatus.Ready;
+  accounts: NonEmptyArray<XTAccount>;
+  networks: NonEmptyArray<Network>;
+  settings: XTSettings;
 }
 
 export interface DAppSession {
@@ -18,11 +18,11 @@ export interface DAppSession {
   publicKey: string;
 }
 
-export interface TempleState {
-  status: TempleStatus;
-  accounts: TempleAccount[];
-  networks: TempleNetwork[];
-  settings: TempleSettings | null;
+export interface AppState {
+  status: WalletStatus;
+  accounts: XTAccount[];
+  networks: Network[];
+  settings: XTSettings | null;
 }
 
 // TODO: remove me - it's obsolete
@@ -33,18 +33,13 @@ export enum TempleChainId {
   Idiazabalnet = 'NetXxkAx4woPLyu'
 }
 
-export enum TempleStatus {
+export enum WalletStatus {
   Idle,
   Locked,
   Ready
 }
 
-export type TempleAccount =
-  | TempleHDAccount
-  | TempleImportedAccount
-  | TempleLedgerAccount
-  | TempleManagedKTAccount
-  | TempleWatchOnlyAccount;
+export type XTAccount = HDAccount | ImportedAccount | LedgerAccount | XTManagedKTAccount | WatchOnlyAccount;
 
 export enum DerivationType {
   ED25519 = 0,
@@ -52,33 +47,34 @@ export enum DerivationType {
   P256 = 2
 }
 
-export interface TempleLedgerAccount extends TempleAccountBase {
-  type: TempleAccountType.Ledger;
+export interface LedgerAccount extends XTAccountBase {
+  type: XTAccountType.Ledger;
   derivationPath: string;
 }
 
-export interface TempleImportedAccount extends TempleAccountBase {
-  type: TempleAccountType.Imported;
+export interface ImportedAccount extends XTAccountBase {
+  type: XTAccountType.Imported;
 }
 
-export interface TempleHDAccount extends TempleAccountBase {
-  type: TempleAccountType.HD;
+export interface HDAccount extends XTAccountBase {
+  type: XTAccountType.HD;
   hdIndex: number;
 }
 
-export interface TempleManagedKTAccount extends TempleAccountBase {
-  type: TempleAccountType.ManagedKT;
+// TODO: remove - it's obsolete
+export interface XTManagedKTAccount extends XTAccountBase {
+  type: XTAccountType.ManagedKT;
   chainId: string;
   owner: string;
 }
 
-export interface TempleWatchOnlyAccount extends TempleAccountBase {
-  type: TempleAccountType.WatchOnly;
+export interface WatchOnlyAccount extends XTAccountBase {
+  type: XTAccountType.WatchOnly;
   chainId?: string;
 }
 
-export interface TempleAccountBase {
-  type: TempleAccountType;
+export interface XTAccountBase {
+  type: XTAccountType;
   name: string;
   publicKeyHash: string;
   isActivated?: boolean;
@@ -87,7 +83,7 @@ export interface TempleAccountBase {
   derivationType?: DerivationType;
 }
 
-export enum TempleAccountType {
+export enum XTAccountType {
   HD,
   Imported,
   Ledger,
@@ -95,39 +91,37 @@ export enum TempleAccountType {
   WatchOnly
 }
 
-export interface TempleNetwork {
+export interface Network {
   id: string;
   networkName: string;
   name: string;
   nameI18nKey?: string;
   description: string;
   descriptionI18nKey?: string;
-  type: TempleNetworkType;
+  type: NetworkType;
   rpcBaseURL: string;
   color: string;
   disabled: boolean;
   hidden?: boolean;
 }
 
-export type TempleNetworkType = 'main' | 'test';
+export type NetworkType = 'main' | 'test';
 
-export interface TempleContact {
+export interface Contact {
   address: string;
   name: string;
   addedAt?: number;
   accountInWallet?: boolean;
 }
 
-export interface TempleSettings {
-  customNetworks?: TempleNetwork[];
+export interface XTSettings {
+  customNetworks?: Network[];
   lambdaContracts?: Record<string, string>;
-  contacts?: TempleContact[];
+  contacts?: Contact[];
 }
 
 export enum TempleSharedStorageKey {
   DAppEnabled = 'dappenabled',
-  LocaleCode = 'localecode',
-  UseLedgerLive = 'useledgerlive',
   PasswordAttempts = 'passwordAttempts',
   TimeLock = 'timelock'
 }
@@ -147,18 +141,8 @@ export interface TempleSignConfirmationPayload extends TempleConfirmationPayload
   bytes: string;
   watermark?: string;
 }
-//
-// export interface TempleOpsConfirmationPayload extends TempleConfirmationPayloadBase {
-//   type: 'operations';
-//   networkRpc: string;
-//   opParams: any[];
-//   bytesToSign?: string;
-//   rawToSign?: any;
-//   estimates?: Estimate[];
-// }
 
 export type TempleConfirmationPayload = TempleSignConfirmationPayload;
-// | TempleOpsConfirmationPayload;
 
 /**
  * DApp confirmation payloads
@@ -188,73 +172,87 @@ export type TempleDAppPayload = TempleDAppConnectPayload | TempleDAppSignPayload
  * Messages
  */
 
-export enum TempleMessageType {
+export enum XTMessageType {
   // Notifications
-  StateUpdated = 'TEMPLE_STATE_UPDATED',
-  ConfirmationRequested = 'TEMPLE_CONFIRMATION_REQUESTED',
-  ConfirmationExpired = 'TEMPLE_CONFIRMATION_EXPIRED',
+  StateUpdated = 'XT_STATE_UPDATED',
+  ConfirmationRequested = 'XT_CONFIRMATION_REQUESTED',
+  ConfirmationExpired = 'XT_CONFIRMATION_EXPIRED',
+
+  // DAppNotifications
+  DAppNetworkChanged = 'XT_DAPP_NETWORK_CHANGED',
+  DAppPermissionRemoved = 'XT_DAPP_PERMISSION_REMOVED',
+  DAppAccountRemoved = 'XT_DAPP_ACCOUNT_REMOVED',
+
   // Request-Response pairs
-  GetStateRequest = 'TEMPLE_GET_STATE_REQUEST',
-  GetStateResponse = 'TEMPLE_GET_STATE_RESPONSE',
-  GetSignumTxKeysRequest = 'TEMPLE_GET_SIGNUM_TX_KEYS_REQUEST',
-  GetSignumTxKeysResponse = 'TEMPLE_GET_SIGNUM_TX_KEYS_RESPONSE',
-  NewWalletRequest = 'TEMPLE_NEW_WALLET_REQUEST',
-  NewWalletResponse = 'TEMPLE_NEW_WALLET_RESPONSE',
-  UnlockRequest = 'TEMPLE_UNLOCK_REQUEST',
-  UnlockResponse = 'TEMPLE_UNLOCK_RESPONSE',
-  LockRequest = 'TEMPLE_LOCK_REQUEST',
-  LockResponse = 'TEMPLE_LOCK_RESPONSE',
-  CreateAccountRequest = 'TEMPLE_CREATE_ACCOUNT_REQUEST',
-  CreateAccountResponse = 'TEMPLE_CREATE_ACCOUNT_RESPONSE',
-  RevealPublicKeyRequest = 'TEMPLE_REVEAL_PUBLIC_KEY_REQUEST',
-  RevealPublicKeyResponse = 'TEMPLE_REVEAL_PUBLIC_KEY_RESPONSE',
-  RevealPrivateKeyRequest = 'TEMPLE_REVEAL_PRIVATE_KEY_REQUEST',
-  RevealPrivateKeyResponse = 'TEMPLE_REVEAL_PRIVATE_KEY_RESPONSE',
-  RevealMnemonicRequest = 'TEMPLE_REVEAL_MNEMONIC_REQUEST',
-  RevealMnemonicResponse = 'TEMPLE_REVEAL_MNEMONIC_RESPONSE',
-  RemoveAccountRequest = 'TEMPLE_REMOVE_ACCOUNT_REQUEST',
-  RemoveAccountResponse = 'TEMPLE_REMOVE_ACCOUNT_RESPONSE',
-  ActivateAccountRequest = 'TEMPLE_SET_ACCOUNT_ACTIVATED_REQUEST',
-  ActivateAccountResponse = 'TEMPLE_SET_ACCOUNT_ACTIVATED_RESPONSE',
-  EditAccountRequest = 'TEMPLE_EDIT_ACCOUNT_REQUEST',
-  EditAccountResponse = 'TEMPLE_EDIT_ACCOUNT_RESPONSE',
-  ImportAccountRequest = 'TEMPLE_IMPORT_ACCOUNT_REQUEST',
-  ImportAccountResponse = 'TEMPLE_IMPORT_ACCOUNT_RESPONSE',
-  ImportMnemonicAccountRequest = 'TEMPLE_IMPORT_MNEMONIC_ACCOUNT_REQUEST',
-  ImportMnemonicAccountResponse = 'TEMPLE_IMPORT_MNEMONIC_ACCOUNT_RESPONSE',
-  ImportFundraiserAccountRequest = 'TEMPLE_IMPORT_FUNDRAISER_ACCOUNT_REQUEST',
-  ImportFundraiserAccountResponse = 'TEMPLE_IMPORT_FUNDRAISER_ACCOUNT_RESPONSE',
-  ImportManagedKTAccountRequest = 'TEMPLE_IMPORT_MANAGED_KT_ACCOUNT_REQUEST',
-  ImportManagedKTAccountResponse = 'TEMPLE_IMPORT_MANAGED_KT_ACCOUNT_RESPONSE',
-  ImportWatchOnlyAccountRequest = 'TEMPLE_IMPORT_WATCH_ONLY_ACCOUNT_REQUEST',
-  ImportWatchOnlyAccountResponse = 'TEMPLE_IMPORT_WATCH_ONLY_ACCOUNT_RESPONSE',
-  CreateLedgerAccountRequest = 'TEMPLE_CREATE_LEDGER_ACCOUNT_REQUEST',
-  CreateLedgerAccountResponse = 'TEMPLE_CREATE_LEDGER_ACCOUNT_RESPONSE',
-  UpdateSettingsRequest = 'TEMPLE_UPDATE_SETTINGS_REQUEST',
-  UpdateSettingsResponse = 'TEMPLE_UPDATE_SETTINGS_RESPONSE',
-  OperationsRequest = 'TEMPLE_OPERATIONS_REQUEST',
-  OperationsResponse = 'TEMPLE_OPERATIONS_RESPONSE',
-  SignRequest = 'TEMPLE_SIGN_REQUEST',
-  SignResponse = 'TEMPLE_SIGN_RESPONSE',
-  ConfirmationRequest = 'TEMPLE_CONFIRMATION_REQUEST',
-  ConfirmationResponse = 'TEMPLE_CONFIRMATION_RESPONSE',
+  GetStateRequest = 'XT_GET_STATE_REQUEST',
+  GetStateResponse = 'XT_GET_STATE_RESPONSE',
+  GetSignumTxKeysRequest = 'XT_GET_SIGNUM_TX_KEYS_REQUEST',
+  GetSignumTxKeysResponse = 'XT_GET_SIGNUM_TX_KEYS_RESPONSE',
+  NewWalletRequest = 'XT_NEW_WALLET_REQUEST',
+  NewWalletResponse = 'XT_NEW_WALLET_RESPONSE',
+  UnlockRequest = 'XT_UNLOCK_REQUEST',
+  UnlockResponse = 'XT_UNLOCK_RESPONSE',
+  LockRequest = 'XT_LOCK_REQUEST',
+  LockResponse = 'XT_LOCK_RESPONSE',
+  CreateAccountRequest = 'XT_CREATE_ACCOUNT_REQUEST',
+  CreateAccountResponse = 'XT_CREATE_ACCOUNT_RESPONSE',
+  RevealPublicKeyRequest = 'XT_REVEAL_PUBLIC_KEY_REQUEST',
+  RevealPublicKeyResponse = 'XT_REVEAL_PUBLIC_KEY_RESPONSE',
+  RevealPrivateKeyRequest = 'XT_REVEAL_PRIVATE_KEY_REQUEST',
+  RevealPrivateKeyResponse = 'XT_REVEAL_PRIVATE_KEY_RESPONSE',
+  RevealMnemonicRequest = 'XT_REVEAL_MNEMONIC_REQUEST',
+  RevealMnemonicResponse = 'XT_REVEAL_MNEMONIC_RESPONSE',
+  RemoveAccountRequest = 'XT_REMOVE_ACCOUNT_REQUEST',
+  RemoveAccountResponse = 'XT_REMOVE_ACCOUNT_RESPONSE',
+  ActivateAccountRequest = 'XT_SET_ACCOUNT_ACTIVATED_REQUEST',
+  ActivateAccountResponse = 'XT_SET_ACCOUNT_ACTIVATED_RESPONSE',
+  EditAccountRequest = 'XT_EDIT_ACCOUNT_REQUEST',
+  EditAccountResponse = 'XT_EDIT_ACCOUNT_RESPONSE',
+  ImportAccountRequest = 'XT_IMPORT_ACCOUNT_REQUEST',
+  ImportAccountResponse = 'XT_IMPORT_ACCOUNT_RESPONSE',
+  ImportMnemonicAccountRequest = 'XT_IMPORT_MNEMONIC_ACCOUNT_REQUEST',
+  ImportMnemonicAccountResponse = 'XT_IMPORT_MNEMONIC_ACCOUNT_RESPONSE',
+  ImportFundraiserAccountRequest = 'XT_IMPORT_FUNDRAISER_ACCOUNT_REQUEST',
+  ImportFundraiserAccountResponse = 'XT_IMPORT_FUNDRAISER_ACCOUNT_RESPONSE',
+  ImportManagedKTAccountRequest = 'XT_IMPORT_MANAGED_KT_ACCOUNT_REQUEST',
+  ImportManagedKTAccountResponse = 'XT_IMPORT_MANAGED_KT_ACCOUNT_RESPONSE',
+  ImportWatchOnlyAccountRequest = 'XT_IMPORT_WATCH_ONLY_ACCOUNT_REQUEST',
+  ImportWatchOnlyAccountResponse = 'XT_IMPORT_WATCH_ONLY_ACCOUNT_RESPONSE',
+  CreateLedgerAccountRequest = 'XT_CREATE_LEDGER_ACCOUNT_REQUEST',
+  CreateLedgerAccountResponse = 'XT_CREATE_LEDGER_ACCOUNT_RESPONSE',
+  UpdateSettingsRequest = 'XT_UPDATE_SETTINGS_REQUEST',
+  UpdateSettingsResponse = 'XT_UPDATE_SETTINGS_RESPONSE',
+  OperationsRequest = 'XT_OPERATIONS_REQUEST',
+  OperationsResponse = 'XT_OPERATIONS_RESPONSE',
+  SignRequest = 'XT_SIGN_REQUEST',
+  SignResponse = 'XT_SIGN_RESPONSE',
+  ConfirmationRequest = 'XT_CONFIRMATION_REQUEST',
+  ConfirmationResponse = 'XT_CONFIRMATION_RESPONSE',
   PageRequest = 'PAGE_REQUEST',
   PageResponse = 'PAGE_RESPONSE',
-  DAppGetPayloadRequest = 'TEMPLE_DAPP_GET_PAYLOAD_REQUEST',
-  DAppGetPayloadResponse = 'TEMPLE_DAPP_GET_PAYLOAD_RESPONSE',
-  DAppPermConfirmationRequest = 'TEMPLE_DAPP_PERM_CONFIRMATION_REQUEST',
-  DAppPermConfirmationResponse = 'TEMPLE_DAPP_PERM_CONFIRMATION_RESPONSE',
-  DAppOpsConfirmationRequest = 'TEMPLE_DAPP_OPS_CONFIRMATION_REQUEST',
-  DAppOpsConfirmationResponse = 'TEMPLE_DAPP_OPS_CONFIRMATION_RESPONSE',
-  DAppSignConfirmationRequest = 'TEMPLE_DAPP_SIGN_CONFIRMATION_REQUEST',
-  DAppSignConfirmationResponse = 'TEMPLE_DAPP_SIGN_CONFIRMATION_RESPONSE',
-  DAppGetAllSessionsRequest = 'TEMPLE_DAPP_GET_ALL_SESSIONS_REQUEST',
-  DAppGetAllSessionsResponse = 'TEMPLE_DAPP_GET_ALL_SESSIONS_RESPONSE',
-  DAppRemoveSessionRequest = 'TEMPLE_DAPP_REMOVE_SESSION_REQUEST',
-  DAppRemoveSessionResponse = 'TEMPLE_DAPP_REMOVE_SESSION_RESPONSE'
+  DAppGetPayloadRequest = 'XT_DAPP_GET_PAYLOAD_REQUEST',
+  DAppGetPayloadResponse = 'XT_DAPP_GET_PAYLOAD_RESPONSE',
+  DAppPermConfirmationRequest = 'XT_DAPP_PERM_CONFIRMATION_REQUEST',
+  DAppPermConfirmationResponse = 'XT_DAPP_PERM_CONFIRMATION_RESPONSE',
+  DAppOpsConfirmationRequest = 'XT_DAPP_OPS_CONFIRMATION_REQUEST',
+  DAppOpsConfirmationResponse = 'XT_DAPP_OPS_CONFIRMATION_RESPONSE',
+  DAppSignConfirmationRequest = 'XT_DAPP_SIGN_CONFIRMATION_REQUEST',
+  DAppSignConfirmationResponse = 'XT_DAPP_SIGN_CONFIRMATION_RESPONSE',
+  DAppGetAllSessionsRequest = 'XT_DAPP_GET_ALL_SESSIONS_REQUEST',
+  DAppGetAllSessionsResponse = 'XT_DAPP_GET_ALL_SESSIONS_RESPONSE',
+  DAppRemoveSessionRequest = 'XT_DAPP_REMOVE_SESSION_REQUEST',
+  DAppRemoveSessionResponse = 'XT_DAPP_REMOVE_SESSION_RESPONSE',
+  DAppSelectNetworkRequest = 'XT_DAPP_SELECT_NETWORK_REQUEST',
+  DAppSelectNetworkResponse = 'XT_DAPP_SELECT_NETWORK_RESPONSE'
 }
 
-export type TempleNotification = TempleStateUpdated | TempleConfirmationRequested | TempleConfirmationExpired;
+export type TempleNotification =
+  | TempleStateUpdated
+  | TempleConfirmationRequested
+  | TempleConfirmationExpired
+  | TemplePermissionRemoved
+  | TempleAccountRemoved
+  | TempleNetworkChanged;
 
 export type TempleRequest =
   | TempleGetStateRequest
@@ -285,7 +283,8 @@ export type TempleRequest =
   | TempleDAppSignConfirmationRequest
   | TempleUpdateSettingsRequest
   | TempleGetAllDAppSessionsRequest
-  | TempleRemoveDAppSessionRequest;
+  | TempleRemoveDAppSessionRequest
+  | TempleDAppSelectNetworkRequest;
 
 export type TempleResponse =
   | TempleGetStateResponse
@@ -316,218 +315,235 @@ export type TempleResponse =
   | TempleDAppSignConfirmationResponse
   | TempleUpdateSettingsResponse
   | TempleGetAllDAppSessionsResponse
-  | TempleRemoveDAppSessionResponse;
+  | TempleRemoveDAppSessionResponse
+  | TempleDAppSelectNetworkResponse;
 
 export interface TempleMessageBase {
-  type: TempleMessageType;
+  type: XTMessageType;
 }
 
 export interface TempleStateUpdated extends TempleMessageBase {
-  type: TempleMessageType.StateUpdated;
+  type: XTMessageType.StateUpdated;
 }
 
 export interface TempleConfirmationRequested extends TempleMessageBase {
-  type: TempleMessageType.ConfirmationRequested;
+  type: XTMessageType.ConfirmationRequested;
   id: string;
   payload: TempleConfirmationPayload;
 }
 
 export interface TempleConfirmationExpired extends TempleMessageBase {
-  type: TempleMessageType.ConfirmationExpired;
+  type: XTMessageType.ConfirmationExpired;
   id: string;
 }
 
+export interface TemplePermissionRemoved extends TempleMessageBase {
+  type: XTMessageType.DAppPermissionRemoved;
+  url: string;
+}
+
+export interface TempleAccountRemoved extends TempleMessageBase {
+  type: XTMessageType.DAppAccountRemoved;
+  accountId: string;
+}
+
+export interface TempleNetworkChanged extends TempleMessageBase {
+  type: XTMessageType.DAppNetworkChanged;
+  networkName: string;
+  nodeHost: string;
+}
+
 export interface TempleGetStateRequest extends TempleMessageBase {
-  type: TempleMessageType.GetStateRequest;
+  type: XTMessageType.GetStateRequest;
 }
 
 export interface TempleGetStateResponse extends TempleMessageBase {
-  type: TempleMessageType.GetStateResponse;
-  state: TempleState;
+  type: XTMessageType.GetStateResponse;
+  state: AppState;
 }
 
 export interface TempleGetSignumTxKeysRequest extends TempleMessageBase {
-  type: TempleMessageType.GetSignumTxKeysRequest;
+  type: XTMessageType.GetSignumTxKeysRequest;
   accountPublicKeyHash: string;
 }
 
 export interface TempleGetSignumTxKeysResponse extends TempleMessageBase {
-  type: TempleMessageType.GetSignumTxKeysResponse;
+  type: XTMessageType.GetSignumTxKeysResponse;
   publicKey: string;
   signingKey: string;
 }
 
 export interface TempleNewWalletRequest extends TempleMessageBase {
-  type: TempleMessageType.NewWalletRequest;
+  type: XTMessageType.NewWalletRequest;
   password: string;
   mnemonic?: string;
 }
 
 export interface TempleNewWalletResponse extends TempleMessageBase {
-  type: TempleMessageType.NewWalletResponse;
+  type: XTMessageType.NewWalletResponse;
 }
 
 export interface TempleUnlockRequest extends TempleMessageBase {
-  type: TempleMessageType.UnlockRequest;
+  type: XTMessageType.UnlockRequest;
   password: string;
 }
 
 export interface TempleUnlockResponse extends TempleMessageBase {
-  type: TempleMessageType.UnlockResponse;
+  type: XTMessageType.UnlockResponse;
 }
 
 export interface TempleLockRequest extends TempleMessageBase {
-  type: TempleMessageType.LockRequest;
+  type: XTMessageType.LockRequest;
 }
 
 export interface TempleLockResponse extends TempleMessageBase {
-  type: TempleMessageType.LockResponse;
+  type: XTMessageType.LockResponse;
 }
 
 export interface TempleCreateAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.CreateAccountRequest;
+  type: XTMessageType.CreateAccountRequest;
   name?: string;
 }
 
 export interface TempleCreateAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.CreateAccountResponse;
+  type: XTMessageType.CreateAccountResponse;
   mnemonic: string;
 }
 
 export interface TempleRevealPublicKeyRequest extends TempleMessageBase {
-  type: TempleMessageType.RevealPublicKeyRequest;
+  type: XTMessageType.RevealPublicKeyRequest;
   accountPublicKeyHash: string;
 }
 
 export interface TempleRevealPublicKeyResponse extends TempleMessageBase {
-  type: TempleMessageType.RevealPublicKeyResponse;
+  type: XTMessageType.RevealPublicKeyResponse;
   publicKey: string;
 }
 
 export interface TempleRevealPrivateKeyRequest extends TempleMessageBase {
-  type: TempleMessageType.RevealPrivateKeyRequest;
+  type: XTMessageType.RevealPrivateKeyRequest;
   accountPublicKeyHash: string;
   password: string;
 }
 
 export interface TempleRevealPrivateKeyResponse extends TempleMessageBase {
-  type: TempleMessageType.RevealPrivateKeyResponse;
+  type: XTMessageType.RevealPrivateKeyResponse;
   privateKey: string;
 }
 
 export interface TempleRevealMnemonicRequest extends TempleMessageBase {
-  type: TempleMessageType.RevealMnemonicRequest;
+  type: XTMessageType.RevealMnemonicRequest;
   password: string;
 }
 
 export interface TempleRevealMnemonicResponse extends TempleMessageBase {
-  type: TempleMessageType.RevealMnemonicResponse;
+  type: XTMessageType.RevealMnemonicResponse;
   mnemonic: string;
 }
 
 export interface TempleRemoveAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.RemoveAccountRequest;
+  type: XTMessageType.RemoveAccountRequest;
   accountPublicKeyHash: string;
   password: string;
 }
 
 export interface TempleRemoveAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.RemoveAccountResponse;
+  type: XTMessageType.RemoveAccountResponse;
 }
 
 export interface TempleActivateAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.ActivateAccountRequest;
+  type: XTMessageType.ActivateAccountRequest;
   accountPublicKeyHash: string;
 }
 
 export interface TempleActivateAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.ActivateAccountResponse;
+  type: XTMessageType.ActivateAccountResponse;
 }
 
 export interface TempleEditAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.EditAccountRequest;
+  type: XTMessageType.EditAccountRequest;
   accountPublicKeyHash: string;
   name: string;
 }
 
 export interface TempleEditAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.EditAccountResponse;
+  type: XTMessageType.EditAccountResponse;
 }
 
 export interface TempleImportAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.ImportAccountRequest;
+  type: XTMessageType.ImportAccountRequest;
   privateKey: string;
   encPassword?: string;
 }
 
 export interface TempleImportAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.ImportAccountResponse;
+  type: XTMessageType.ImportAccountResponse;
 }
 
 export interface TempleImportMnemonicAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.ImportMnemonicAccountRequest;
+  type: XTMessageType.ImportMnemonicAccountRequest;
   mnemonic: string;
   name?: string;
 }
 
 export interface TempleImportMnemonicAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.ImportMnemonicAccountResponse;
+  type: XTMessageType.ImportMnemonicAccountResponse;
 }
 
 export interface TempleImportFundraiserAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.ImportFundraiserAccountRequest;
+  type: XTMessageType.ImportFundraiserAccountRequest;
   email: string;
   password: string;
   mnemonic: string;
 }
 
 export interface TempleImportFundraiserAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.ImportFundraiserAccountResponse;
+  type: XTMessageType.ImportFundraiserAccountResponse;
 }
 
 export interface TempleImportManagedKTAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.ImportManagedKTAccountRequest;
+  type: XTMessageType.ImportManagedKTAccountRequest;
   address: string;
   chainId: string;
   owner: string;
 }
 
 export interface TempleImportManagedKTAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.ImportManagedKTAccountResponse;
+  type: XTMessageType.ImportManagedKTAccountResponse;
 }
 
 export interface TempleImportWatchOnlyAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.ImportWatchOnlyAccountRequest;
+  type: XTMessageType.ImportWatchOnlyAccountRequest;
   address: string;
   chainId?: string;
 }
 
 export interface TempleImportWatchOnlyAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.ImportWatchOnlyAccountResponse;
+  type: XTMessageType.ImportWatchOnlyAccountResponse;
 }
 
 export interface TempleCreateLedgerAccountRequest extends TempleMessageBase {
-  type: TempleMessageType.CreateLedgerAccountRequest;
+  type: XTMessageType.CreateLedgerAccountRequest;
   name: string;
   derivationPath?: string;
   derivationType?: DerivationType;
 }
 
 export interface TempleCreateLedgerAccountResponse extends TempleMessageBase {
-  type: TempleMessageType.CreateLedgerAccountResponse;
+  type: XTMessageType.CreateLedgerAccountResponse;
 }
 
 export interface TempleUpdateSettingsRequest extends TempleMessageBase {
-  type: TempleMessageType.UpdateSettingsRequest;
-  settings: Partial<TempleSettings>;
+  type: XTMessageType.UpdateSettingsRequest;
+  settings: Partial<XTSettings>;
 }
 
 export interface TempleUpdateSettingsResponse extends TempleMessageBase {
-  type: TempleMessageType.UpdateSettingsResponse;
+  type: XTMessageType.UpdateSettingsResponse;
 }
 
 export interface TempleOperationsRequest extends TempleMessageBase {
-  type: TempleMessageType.OperationsRequest;
+  type: XTMessageType.OperationsRequest;
   id: string;
   sourcePkh: string;
   networkRpc: string;
@@ -535,12 +551,12 @@ export interface TempleOperationsRequest extends TempleMessageBase {
 }
 
 export interface TempleOperationsResponse extends TempleMessageBase {
-  type: TempleMessageType.OperationsResponse;
+  type: XTMessageType.OperationsResponse;
   opHash: string;
 }
 
 export interface TempleSignRequest extends TempleMessageBase {
-  type: TempleMessageType.SignRequest;
+  type: XTMessageType.SignRequest;
   id: string;
   sourcePkh: string;
   bytes: string;
@@ -548,12 +564,12 @@ export interface TempleSignRequest extends TempleMessageBase {
 }
 
 export interface TempleSignResponse extends TempleMessageBase {
-  type: TempleMessageType.SignResponse;
+  type: XTMessageType.SignResponse;
   result: any;
 }
 
 export interface TempleConfirmationRequest extends TempleMessageBase {
-  type: TempleMessageType.ConfirmationRequest;
+  type: XTMessageType.ConfirmationRequest;
   id: string;
   confirmed: boolean;
   modifiedTotalFee?: number;
@@ -561,11 +577,11 @@ export interface TempleConfirmationRequest extends TempleMessageBase {
 }
 
 export interface TempleConfirmationResponse extends TempleMessageBase {
-  type: TempleMessageType.ConfirmationResponse;
+  type: XTMessageType.ConfirmationResponse;
 }
 
 export interface TemplePageRequest extends TempleMessageBase {
-  type: TempleMessageType.PageRequest;
+  type: XTMessageType.PageRequest;
   origin: string;
   payload: any;
   beacon?: boolean;
@@ -573,23 +589,23 @@ export interface TemplePageRequest extends TempleMessageBase {
 }
 
 export interface TemplePageResponse extends TempleMessageBase {
-  type: TempleMessageType.PageResponse;
+  type: XTMessageType.PageResponse;
   payload: any;
   encrypted?: boolean;
 }
 
 export interface TempleDAppGetPayloadRequest extends TempleMessageBase {
-  type: TempleMessageType.DAppGetPayloadRequest;
+  type: XTMessageType.DAppGetPayloadRequest;
   id: string;
 }
 
 export interface TempleDAppGetPayloadResponse extends TempleMessageBase {
-  type: TempleMessageType.DAppGetPayloadResponse;
+  type: XTMessageType.DAppGetPayloadResponse;
   payload: TempleDAppPayload;
 }
 
 export interface TempleDAppPermConfirmationRequest extends TempleMessageBase {
-  type: TempleMessageType.DAppPermConfirmationRequest;
+  type: XTMessageType.DAppPermConfirmationRequest;
   id: string;
   confirmed: boolean;
   accountPublicKey: string;
@@ -597,11 +613,11 @@ export interface TempleDAppPermConfirmationRequest extends TempleMessageBase {
 }
 
 export interface TempleDAppPermConfirmationResponse extends TempleMessageBase {
-  type: TempleMessageType.DAppPermConfirmationResponse;
+  type: XTMessageType.DAppPermConfirmationResponse;
 }
 
 export interface TempleDAppOpsConfirmationRequest extends TempleMessageBase {
-  type: TempleMessageType.DAppOpsConfirmationRequest;
+  type: XTMessageType.DAppOpsConfirmationRequest;
   id: string;
   confirmed: boolean;
   modifiedTotalFee?: number;
@@ -609,45 +625,45 @@ export interface TempleDAppOpsConfirmationRequest extends TempleMessageBase {
 }
 
 export interface TempleDAppOpsConfirmationResponse extends TempleMessageBase {
-  type: TempleMessageType.DAppOpsConfirmationResponse;
+  type: XTMessageType.DAppOpsConfirmationResponse;
 }
 
 export interface TempleDAppSignConfirmationRequest extends TempleMessageBase {
-  type: TempleMessageType.DAppSignConfirmationRequest;
+  type: XTMessageType.DAppSignConfirmationRequest;
   id: string;
   confirmed: boolean;
 }
 
 export interface TempleDAppSignConfirmationResponse extends TempleMessageBase {
-  type: TempleMessageType.DAppSignConfirmationResponse;
+  type: XTMessageType.DAppSignConfirmationResponse;
 }
 
 export interface TempleGetAllDAppSessionsRequest extends TempleMessageBase {
-  type: TempleMessageType.DAppGetAllSessionsRequest;
+  type: XTMessageType.DAppGetAllSessionsRequest;
 }
 
 export interface TempleGetAllDAppSessionsResponse extends TempleMessageBase {
-  type: TempleMessageType.DAppGetAllSessionsResponse;
+  type: XTMessageType.DAppGetAllSessionsResponse;
   sessions: DAppSessions;
 }
 
 export interface TempleRemoveDAppSessionRequest extends TempleMessageBase {
-  type: TempleMessageType.DAppRemoveSessionRequest;
+  type: XTMessageType.DAppRemoveSessionRequest;
   origin: string;
 }
 
 export interface TempleRemoveDAppSessionResponse extends TempleMessageBase {
-  type: TempleMessageType.DAppRemoveSessionResponse;
+  type: XTMessageType.DAppRemoveSessionResponse;
   sessions: DAppSessions;
 }
 
-export type OperationsPreview = any[] | { branch: string; contents: any[] };
-
-export enum ImportAccountFormType {
-  PrivateKey = 'ImportAccountFormType.PrivateKey',
-  Mnemonic = 'ImportAccountFormType.Mnemonic',
-  Fundraiser = 'ImportAccountFormType.Fundraiser',
-  FaucetFile = 'ImportAccountFormType.FaucetFile',
-  ManagedKT = 'ImportAccountFormType.ManagedKT',
-  WatchOnly = 'ImportAccountFormType.WatchOnly'
+export interface TempleDAppSelectNetworkRequest extends TempleMessageBase {
+  type: XTMessageType.DAppSelectNetworkRequest;
+  network: Network;
 }
+
+export interface TempleDAppSelectNetworkResponse extends TempleMessageBase {
+  type: XTMessageType.DAppSelectNetworkResponse;
+}
+
+export type OperationsPreview = any[] | { branch: string; contents: any[] };

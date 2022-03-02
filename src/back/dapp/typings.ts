@@ -35,14 +35,14 @@ export interface ExtensionPermissionRequest extends ExtensionMessageBase {
   type: ExtensionMessageType.PermissionRequest;
   network: string;
   appMeta: ExtensionDAppMetadata;
-  force?: boolean;
 }
 
 export interface ExtensionPermissionResponse extends ExtensionMessageBase {
   type: ExtensionMessageType.PermissionResponse;
   accountId: string;
   publicKey: string;
-  nodeHosts: string[];
+  availableNodeHosts: string[];
+  currentNodeHost: string;
 }
 
 export interface ExtensionSignRequest extends ExtensionMessageBase {
@@ -61,7 +61,7 @@ export enum ExtensionErrorType {
   NotGranted = 'NOT_GRANTED',
   NotFound = 'NOT_FOUND',
   InvalidParams = 'INVALID_PARAMS',
-  Operation = 'OPERATION'
+  InvalidNetwork = 'INVALID_NETWORK'
 }
 
 export type ExtensionPermission = {

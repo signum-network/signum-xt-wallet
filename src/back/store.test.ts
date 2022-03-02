@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 
-import { TempleAccountType, TempleStatus } from 'lib/messaging';
+import { XTAccountType, WalletStatus } from 'lib/messaging';
 
 import { accountsUpdated, inited as initEvent, locked, settingsUpdated, store, unlocked } from './store';
 import { Vault } from './vault';
@@ -16,7 +16,7 @@ describe('Store tests', () => {
     const { inited, vault, status, accounts, networks, settings } = store.getState();
     expect(inited).toBeFalsy();
     expect(vault).toBeNull();
-    expect(status).toBe(TempleStatus.Idle);
+    expect(status).toBe(WalletStatus.Idle);
     expect(accounts).toEqual([]);
     expect(networks).toEqual([]);
     expect(settings).toBeNull();
@@ -25,35 +25,35 @@ describe('Store tests', () => {
     initEvent(false);
     const { inited, status } = store.getState();
     expect(inited).toBeTruthy();
-    expect(status).toBe(TempleStatus.Idle);
+    expect(status).toBe(WalletStatus.Idle);
   });
   it('Inited event with Vault', () => {
     initEvent(true);
     const { status } = store.getState();
-    expect(status).toBe(TempleStatus.Locked);
+    expect(status).toBe(WalletStatus.Locked);
   });
   it('Locked event', () => {
     locked();
     const { status } = store.getState();
-    expect(status).toBe(TempleStatus.Locked);
+    expect(status).toBe(WalletStatus.Locked);
   });
   it('Unlocked event', () => {
     unlocked({ vault: {} as Vault, accounts: [], settings: {} });
     const { status } = store.getState();
-    expect(status).toBe(TempleStatus.Ready);
+    expect(status).toBe(WalletStatus.Ready);
   });
   it('Accounts updated event', () => {
     accountsUpdated([
       {
         name: 'testName',
-        type: TempleAccountType.Imported,
+        type: XTAccountType.Imported,
         publicKeyHash: 'testHashKey'
       }
     ]);
     const { accounts } = store.getState();
     const { name, type, publicKeyHash } = accounts[0];
     expect(name).toBe('testName');
-    expect(type).toBe(TempleAccountType.Imported);
+    expect(type).toBe(XTAccountType.Imported);
     expect(publicKeyHash).toBe('testHashKey');
   });
   it('Settings updated event', () => {

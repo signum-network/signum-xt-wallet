@@ -1,6 +1,7 @@
+import { MessageType } from 'lib/intercom';
 import { IntercomClient } from 'lib/intercom/client';
 import { serializeError } from 'lib/intercom/helpers';
-import { TempleMessageType, TempleResponse } from 'lib/messaging';
+import { XTMessageType, TempleResponse } from 'lib/messaging';
 
 interface SignumPageMessage {
   type: SignumPageMessageType;
@@ -31,12 +32,12 @@ function walletRequest(evt: MessageEvent) {
 
   getIntercom()
     .request({
-      type: TempleMessageType.PageRequest,
+      type: XTMessageType.PageRequest,
       origin: evt.origin,
       payload
     })
     .then((res: TempleResponse) => {
-      if (res?.type === TempleMessageType.PageResponse) {
+      if (res?.type === XTMessageType.PageResponse) {
         send(
           {
             type: SignumPageMessageType.Response,
@@ -64,11 +65,24 @@ function send(msg: SignumPageMessage, targetOrigin: string) {
   window.postMessage(msg, targetOrigin);
 }
 
+const AcceptedMessageTypes = new Set([
+  XTMessageType.DAppNetworkChanged,
+  XTMessageType.DAppPermissionRemoved,
+  XTMessageType.DAppAccountRemoved
+]);
+
+function handleWalletNotification(msg: any) {
+  if (AcceptedMessageTypes.has(msg?.type)) {
+    window.postMessage(msg, window.location.origin);
+  }
+}
+
 let intercom: IntercomClient;
 
 function getIntercom() {
   if (!intercom) {
     intercom = new IntercomClient();
+    intercom.subscribe(handleWalletNotification);
   }
   return intercom;
 }

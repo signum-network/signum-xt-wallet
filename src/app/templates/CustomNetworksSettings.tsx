@@ -11,7 +11,7 @@ import SubTitle from 'app/atoms/SubTitle';
 import { URL_PATTERN } from 'app/defaults';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import { T, t } from 'lib/i18n/react';
-import { TempleNetwork, useSettings, useTempleClient, canConnectToNetwork, NetworkName } from 'lib/temple/front';
+import { Network, useSettings, useTempleClient, canConnectToNetwork, NetworkName } from 'lib/temple/front';
 import { COLORS } from 'lib/ui/colors';
 import { useConfirm } from 'lib/ui/dialog';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
@@ -216,7 +216,7 @@ export default CustomNetworksSettings;
 
 type NetworksListItemProps = {
   canRemove: boolean;
-  network: TempleNetwork;
+  network: Network;
   onRemoveClick?: (baseUrl: string) => void;
   last: boolean;
 };

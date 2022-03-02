@@ -15,7 +15,7 @@ import { CustomRpsContext } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { useRetryableSWR } from 'lib/swr';
 import {
-  TempleAccountType,
+  XTAccountType,
   TempleDAppPayload,
   useAccount,
   useNetwork,
@@ -55,7 +55,7 @@ const ConfirmDAppForm: FC = () => {
   });
   const payload = data!;
   const allAccounts = useMemo(
-    () => relevantAccounts.filter(({ type }) => type !== TempleAccountType.WatchOnly),
+    () => relevantAccounts.filter(({ type }) => type !== XTAccountType.WatchOnly),
     [relevantAccounts]
   );
 

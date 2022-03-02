@@ -7,12 +7,12 @@ import HashShortView from 'app/atoms/HashShortView';
 import IdenticonSignum from 'app/atoms/IdenticonSignum';
 import Name from 'app/atoms/Name';
 import { T } from 'lib/i18n/react';
-import { TempleContact } from 'lib/temple/front';
+import { Contact } from 'lib/temple/front';
 
 import { SendFormSelectors } from './SendForm.selectors';
 
 type ContactsDropdownItemProps = ComponentProps<typeof Button> & {
-  contact: TempleContact;
+  contact: Contact;
   active?: boolean;
 };
 

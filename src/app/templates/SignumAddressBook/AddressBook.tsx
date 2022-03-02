@@ -6,7 +6,7 @@ import Name from 'app/atoms/Name';
 import SubTitle from 'app/atoms/SubTitle';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import { t, T } from 'lib/i18n/react';
-import { useContacts, TempleContact } from 'lib/temple/front';
+import { useContacts, Contact } from 'lib/temple/front';
 import { useFilteredContacts } from 'lib/temple/front/use-filtered-contacts.hook';
 import { useConfirm } from 'lib/ui/dialog';
 
@@ -81,11 +81,11 @@ const AddressBook: React.FC = () => {
 
 export default AddressBook;
 
-const ContactIcon: React.FC<OptionRenderProps<TempleContact, string, ContactActions>> = ({ item }) => (
+const ContactIcon: React.FC<OptionRenderProps<Contact, string, ContactActions>> = ({ item }) => (
   <IdenticonSignum accountId={item.address} size={32} className="flex-shrink-0 shadow-xs" />
 );
 
-const ContactContent: React.FC<OptionRenderProps<TempleContact, string, ContactActions>> = ({ item, actions }) => (
+const ContactContent: React.FC<OptionRenderProps<Contact, string, ContactActions>> = ({ item, actions }) => (
   <div className="flex flex-1 w-full">
     <div className="flex flex-col justify-between flex-1">
       <Name className="mb-px text-sm font-medium leading-tight text-left">{item.name}</Name>
@@ -130,6 +130,6 @@ const ContactContent: React.FC<OptionRenderProps<TempleContact, string, ContactA
   </div>
 );
 
-function getContactKey(contact: TempleContact) {
+function getContactKey(contact: Contact) {
   return contact.address;
 }

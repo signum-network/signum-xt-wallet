@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
-import { TempleMessageType } from 'lib/messaging';
+import { XTMessageType } from 'lib/messaging';
 
-import { getDApp, getNetworkHosts, setDApp, isAllowedNetwork } from './dapp';
+import { getDApp, getNetworkHosts, setDApp, isAllowedNetwork, getCurrentNetworkHost } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import {
   ExtensionErrorType,
@@ -15,19 +15,24 @@ export async function requestPermission(
   origin: string,
   req: ExtensionPermissionRequest
 ): Promise<ExtensionPermissionResponse> {
-  if (![isAllowedNetwork(req?.network), typeof req?.appMeta?.name === 'string'].every(Boolean)) {
-    throw new Error(ExtensionErrorType.InvalidParams);
+  if (isAllowedNetwork(req.network)) {
+    throw new Error(ExtensionErrorType.InvalidNetwork);
   }
 
+  const currentNodeHost = await getCurrentNetworkHost();
+  if (currentNodeHost.networkName !== req.network) {
+    throw new Error(ExtensionErrorType.InvalidNetwork);
+  }
+  const currentHostUrl = currentNodeHost.rpcBaseURL;
   const networkHosts = await getNetworkHosts(req.network);
-  const hostUrls = networkHosts.map(({rpcBaseURL}) => rpcBaseURL)
-
+  const hostUrls = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
   const dApp = await getDApp(origin);
 
-  if (!req.force && dApp && req.network === dApp.network && req.appMeta.name === dApp.appMeta.name) {
+  if (dApp && req.network === dApp.network && req.appMeta.name === dApp.appMeta.name) {
     return {
       type: ExtensionMessageType.PermissionResponse,
-      nodeHosts: hostUrls,
+      availableNodeHosts: hostUrls,
+      currentNodeHost: currentHostUrl,
       accountId: dApp.accountId,
       publicKey: dApp.publicKey
     };
@@ -48,7 +53,7 @@ export async function requestPermission(
         reject(new Error(ExtensionErrorType.NotGranted));
       },
       handleIntercomRequest: async (confirmReq, decline) => {
-        if (confirmReq?.type === TempleMessageType.DAppPermConfirmationRequest && confirmReq?.id === id) {
+        if (confirmReq?.type === XTMessageType.DAppPermConfirmationRequest && confirmReq?.id === id) {
           const { confirmed, accountPublicKeyHash, accountPublicKey } = confirmReq;
           if (confirmed && accountPublicKeyHash && accountPublicKey) {
             await setDApp(origin, {
@@ -61,14 +66,15 @@ export async function requestPermission(
               type: ExtensionMessageType.PermissionResponse,
               accountId: accountPublicKeyHash,
               publicKey: accountPublicKey,
-              nodeHosts: hostUrls
+              availableNodeHosts: hostUrls,
+              currentNodeHost: currentHostUrl
             });
           } else {
             decline();
           }
 
           return {
-            type: TempleMessageType.DAppPermConfirmationResponse
+            type: XTMessageType.DAppPermConfirmationResponse
           };
         }
         return;

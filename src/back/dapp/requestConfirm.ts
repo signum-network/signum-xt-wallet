@@ -1,6 +1,6 @@
 import browser, { Runtime } from 'webextension-polyfill';
 
-import { TempleDAppPayload, TempleMessageType, TempleRequest } from 'lib/messaging';
+import { TempleDAppPayload, XTMessageType, TempleRequest } from 'lib/messaging';
 
 import { intercom } from '../defaults';
 
@@ -37,11 +37,11 @@ export async function requestConfirm({ id, payload, onDecline, handleIntercomReq
 
   let knownPort: Runtime.Port | undefined;
   const stopRequestListening = intercom.onRequest(async (req: TempleRequest, port) => {
-    if (req?.type === TempleMessageType.DAppGetPayloadRequest && req.id === id) {
+    if (req?.type === XTMessageType.DAppGetPayloadRequest && req.id === id) {
       knownPort = port;
 
       return {
-        type: TempleMessageType.DAppGetPayloadResponse,
+        type: XTMessageType.DAppGetPayloadResponse,
         payload
       };
     } else {

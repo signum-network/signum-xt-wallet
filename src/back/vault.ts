@@ -11,7 +11,7 @@ import { InMemorySigner } from '@taquito/signer';
 import * as TaquitoUtils from '@taquito/utils';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
-import { TempleAccount, TempleAccountType, TempleSettings } from 'lib/messaging';
+import { XTAccount, XTAccountType, XTSettings } from 'lib/messaging';
 import { clearStorage } from 'lib/temple/reset';
 
 import { PublicError } from './defaults';
@@ -19,7 +19,7 @@ import * as Passworder from './passworder';
 import { encryptAndSaveMany, fetchAndDecryptOne, isStored, removeMany } from './safe-storage';
 
 const STORAGE_KEY_PREFIX = 'vault';
-const DEFAULT_SETTINGS: TempleSettings = {};
+const DEFAULT_SETTINGS: XTSettings = {};
 
 enum StorageEntity {
   Check = 'check',
@@ -58,8 +58,8 @@ export class Vault {
       }
       const keys = generateMasterKeys(mnemonic);
       const accountId = Address.fromPublicKey(keys.publicKey).getNumericId();
-      const initialAccount: TempleAccount = {
-        type: TempleAccountType.Imported,
+      const initialAccount: XTAccount = {
+        type: XTAccountType.Imported,
         name: 'Account 1',
         publicKeyHash: accountId
       };
@@ -98,12 +98,12 @@ export class Vault {
   static async removeAccount(accPublicKeyHash: string, password: string) {
     const passKey = await Vault.toValidPassKey(password);
     return withError('Failed to remove account', async doThrow => {
-      const allAccounts = await fetchAndDecryptOne<TempleAccount[]>(accountsStrgKey, passKey);
+      const allAccounts = await fetchAndDecryptOne<XTAccount[]>(accountsStrgKey, passKey);
       if (allAccounts.length === 1) {
         doThrow();
       }
       const acc = allAccounts.find(a => a.publicKeyHash === accPublicKeyHash);
-      if (!acc || acc.type === TempleAccountType.HD) {
+      if (!acc || acc.type === XTAccountType.HD) {
         doThrow();
       }
 
@@ -138,26 +138,26 @@ export class Vault {
   }
 
   fetchAccounts() {
-    return fetchAndDecryptOne<TempleAccount[]>(accountsStrgKey, this.passKey);
+    return fetchAndDecryptOne<XTAccount[]>(accountsStrgKey, this.passKey);
   }
 
   async fetchSettings() {
     let saved;
     try {
-      saved = await fetchAndDecryptOne<TempleSettings>(settingsStrgKey, this.passKey);
+      saved = await fetchAndDecryptOne<XTSettings>(settingsStrgKey, this.passKey);
     } catch {}
     return saved ? { ...DEFAULT_SETTINGS, ...saved } : DEFAULT_SETTINGS;
   }
 
-  async createSignumAccount(name?: string, hdAccIndex?: number): Promise<[string, TempleAccount[]]> {
+  async createSignumAccount(name?: string, hdAccIndex?: number): Promise<[string, XTAccount[]]> {
     return withError('Failed to create account', async () => {
       const allAccounts = await this.fetchAccounts();
       const mnemonic = await generateSignumMnemonic();
       const keys = generateMasterKeys(mnemonic);
       const accountId = Address.fromPublicKey(keys.publicKey).getNumericId();
       const accName = name || getNewAccountName(allAccounts);
-      const newAccount: TempleAccount = {
-        type: TempleAccountType.Imported,
+      const newAccount: XTAccount = {
+        type: XTAccountType.Imported,
         name: accName,
         publicKeyHash: accountId
       };
@@ -189,8 +189,8 @@ export class Vault {
         signer.publicKeyHash()
       ]);
 
-      const newAccount: TempleAccount = {
-        type: TempleAccountType.Imported,
+      const newAccount: XTAccount = {
+        type: XTAccountType.Imported,
         name: getNewAccountName(allAccounts),
         publicKeyHash: accPublicKeyHash
       };
@@ -209,14 +209,14 @@ export class Vault {
     });
   }
 
-  async importAccountSignum(keys: Keys, name?: string): Promise<TempleAccount[]> {
+  async importAccountSignum(keys: Keys, name?: string): Promise<XTAccount[]> {
     const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
 
     return withError(errMessage, async () => {
       const allAccounts = await this.fetchAccounts();
       const accountId = Address.fromPublicKey(keys.publicKey).getNumericId();
-      const newAccount: TempleAccount = {
-        type: TempleAccountType.Imported,
+      const newAccount: XTAccount = {
+        type: XTAccountType.Imported,
         name: name || getNewAccountName(allAccounts),
         publicKeyHash: accountId
       };
@@ -259,10 +259,10 @@ export class Vault {
   async importManagedKTAccount(accPublicKeyHash: string, chainId: string, owner: string) {
     return withError('Failed to import Managed KT account', async () => {
       const allAccounts = await this.fetchAccounts();
-      const newAccount: TempleAccount = {
-        type: TempleAccountType.ManagedKT,
+      const newAccount: XTAccount = {
+        type: XTAccountType.ManagedKT,
         name: getNewAccountName(
-          allAccounts.filter(({ type }) => type === TempleAccountType.ManagedKT),
+          allAccounts.filter(({ type }) => type === XTAccountType.ManagedKT),
           'defaultManagedKTAccountName'
         ),
         publicKeyHash: accPublicKeyHash,
@@ -280,10 +280,10 @@ export class Vault {
   async importWatchOnlyAccount(accPublicKeyHash: string, chainId?: string) {
     return withError('Failed to import Watch Only account', async () => {
       const allAccounts = await this.fetchAccounts();
-      const newAccount: TempleAccount = {
-        type: TempleAccountType.WatchOnly,
+      const newAccount: XTAccount = {
+        type: XTAccountType.WatchOnly,
         name: getNewAccountName(
-          allAccounts.filter(({ type }) => type === TempleAccountType.WatchOnly),
+          allAccounts.filter(({ type }) => type === XTAccountType.WatchOnly),
           'defaultWatchOnlyAccountName'
         ),
         publicKeyHash: accPublicKeyHash,
@@ -365,7 +365,7 @@ export class Vault {
     });
   }
 
-  async updateSettings(settings: Partial<TempleSettings>) {
+  async updateSettings(settings: Partial<XTSettings>) {
     return withError('Failed to update settings', async () => {
       const current = await this.fetchSettings();
       const newSettings = { ...current, ...settings };
@@ -413,7 +413,7 @@ function generateCheck() {
   return convertByteArrayToHexString(values);
 }
 
-function concatAccount(current: TempleAccount[], newOne: TempleAccount) {
+function concatAccount(current: XTAccount[], newOne: XTAccount) {
   if (current.every(a => a.publicKeyHash !== newOne.publicKeyHash)) {
     return [...current, newOne];
   }
@@ -421,7 +421,7 @@ function concatAccount(current: TempleAccount[], newOne: TempleAccount) {
   throw new PublicError('Account already exists');
 }
 
-function getNewAccountName(allAccounts: TempleAccount[], templateI18nKey = 'defaultAccountName') {
+function getNewAccountName(allAccounts: XTAccount[], templateI18nKey = 'defaultAccountName') {
   return `Account ${allAccounts.length + 1}`;
 }
 

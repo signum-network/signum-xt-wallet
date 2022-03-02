@@ -1,4 +1,4 @@
-import { TempleNetwork } from 'lib/messaging';
+import { Network } from 'lib/messaging';
 
 // get from getConstants of the nodes
 export const NetworkName = {
@@ -6,7 +6,7 @@ export const NetworkName = {
   Testnet: 'Signum-TESTNET'
 };
 
-export const NETWORKS: TempleNetwork[] = [
+export const NETWORKS: Network[] = [
   {
     id: 'signum-europe',
     networkName: NetworkName.Mainnet,

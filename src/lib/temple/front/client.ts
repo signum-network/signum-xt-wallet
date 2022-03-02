@@ -2,16 +2,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import constate from 'constate';
 
-import { IntercomClient } from 'lib/intercom';
+import { IntercomClient, MessageType } from 'lib/intercom';
 import {
+  DerivationType,
   TempleConfirmationPayload,
-  TempleMessageType,
-  TempleStatus,
+  XTMessageType,
+  TempleNotification,
   TempleRequest,
   TempleResponse,
-  TempleNotification,
-  TempleSettings,
-  DerivationType
+  XTSettings,
+  WalletStatus
 } from 'lib/messaging';
 import { useRetryableSWR } from 'lib/swr';
 
@@ -28,8 +28,8 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
    */
 
   const fetchState = useCallback(async () => {
-    const res = await request({ type: TempleMessageType.GetStateRequest });
-    assertResponse(res.type === TempleMessageType.GetStateResponse);
+    const res = await request({ type: XTMessageType.GetStateRequest });
+    assertResponse(res.type === XTMessageType.GetStateResponse);
     return res.state;
   }, []);
 
@@ -51,17 +51,17 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
   useEffect(() => {
     return intercom.subscribe((msg: TempleNotification) => {
       switch (msg?.type) {
-        case TempleMessageType.StateUpdated:
+        case XTMessageType.StateUpdated:
           revalidate();
           break;
 
-        case TempleMessageType.ConfirmationRequested:
+        case XTMessageType.ConfirmationRequested:
           if (msg.id === confirmationIdRef.current) {
             setConfirmation({ id: msg.id, payload: msg.payload });
           }
           break;
 
-        case TempleMessageType.ConfirmationExpired:
+        case XTMessageType.ConfirmationExpired:
           if (msg.id === confirmationIdRef.current) {
             resetConfirmation();
           }
@@ -75,9 +75,9 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
    */
 
   const { status, networks: defaultNetworks, accounts, settings } = state;
-  const idle = status === TempleStatus.Idle;
-  const locked = status === TempleStatus.Locked;
-  const ready = status === TempleStatus.Ready;
+  const idle = status === WalletStatus.Idle;
+  const locked = status === WalletStatus.Locked;
+  const ready = status === WalletStatus.Ready;
 
   const customNetworks = useMemo(() => settings?.customNetworks ?? [], [settings]);
   const networks = useMemo(() => [...defaultNetworks, ...customNetworks], [defaultNetworks, customNetworks]);
@@ -88,54 +88,54 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
 
   const registerWallet = useCallback(async (password: string, mnemonic?: string) => {
     const res = await request({
-      type: TempleMessageType.NewWalletRequest,
+      type: XTMessageType.NewWalletRequest,
       password,
       mnemonic
     });
-    assertResponse(res.type === TempleMessageType.NewWalletResponse);
+    assertResponse(res.type === XTMessageType.NewWalletResponse);
   }, []);
 
   const unlock = useCallback(async (password: string) => {
     const res = await request({
-      type: TempleMessageType.UnlockRequest,
+      type: XTMessageType.UnlockRequest,
       password
     });
-    assertResponse(res.type === TempleMessageType.UnlockResponse);
+    assertResponse(res.type === XTMessageType.UnlockResponse);
   }, []);
 
   const lock = useCallback(async () => {
     const res = await request({
-      type: TempleMessageType.LockRequest
+      type: XTMessageType.LockRequest
     });
-    assertResponse(res.type === TempleMessageType.LockResponse);
+    assertResponse(res.type === XTMessageType.LockResponse);
   }, []);
 
   // TODO: not needed - we can use import Mnemonic Account
   const createAccount = useCallback(async (name?: string) => {
     const res = await request({
-      type: TempleMessageType.CreateAccountRequest,
+      type: XTMessageType.CreateAccountRequest,
       name
     });
-    assertResponse(res.type === TempleMessageType.CreateAccountResponse);
+    assertResponse(res.type === XTMessageType.CreateAccountResponse);
   }, []);
 
   // TODO: remove not used
   const revealPrivateKey = useCallback(async (accountPublicKeyHash: string, password: string) => {
     const res = await request({
-      type: TempleMessageType.RevealPrivateKeyRequest,
+      type: XTMessageType.RevealPrivateKeyRequest,
       accountPublicKeyHash,
       password
     });
-    assertResponse(res.type === TempleMessageType.RevealPrivateKeyResponse);
+    assertResponse(res.type === XTMessageType.RevealPrivateKeyResponse);
     return res.privateKey;
   }, []);
 
   const getSignumTransactionKeyPair = useCallback(async (accountPublicKeyHash: string) => {
     const res = await request({
-      type: TempleMessageType.GetSignumTxKeysRequest,
+      type: XTMessageType.GetSignumTxKeysRequest,
       accountPublicKeyHash
     });
-    assertResponse(res.type === TempleMessageType.GetSignumTxKeysResponse);
+    assertResponse(res.type === XTMessageType.GetSignumTxKeysResponse);
     return {
       publicKey: res.publicKey,
       signingKey: res.signingKey
@@ -145,165 +145,175 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
   // TODO: remove not used
   const revealMnemonic = useCallback(async (password: string) => {
     const res = await request({
-      type: TempleMessageType.RevealMnemonicRequest,
+      type: XTMessageType.RevealMnemonicRequest,
       password
     });
-    assertResponse(res.type === TempleMessageType.RevealMnemonicResponse);
+    assertResponse(res.type === XTMessageType.RevealMnemonicResponse);
     return res.mnemonic;
   }, []);
 
   const removeAccount = useCallback(async (accountPublicKeyHash: string, password: string) => {
     const res = await request({
-      type: TempleMessageType.RemoveAccountRequest,
+      type: XTMessageType.RemoveAccountRequest,
       accountPublicKeyHash,
       password
     });
-    assertResponse(res.type === TempleMessageType.RemoveAccountResponse);
+    assertResponse(res.type === XTMessageType.RemoveAccountResponse);
   }, []);
 
   const editAccountName = useCallback(async (accountPublicKeyHash: string, name: string) => {
     const res = await request({
-      type: TempleMessageType.EditAccountRequest,
+      type: XTMessageType.EditAccountRequest,
       accountPublicKeyHash,
       name
     });
-    assertResponse(res.type === TempleMessageType.EditAccountResponse);
+    assertResponse(res.type === XTMessageType.EditAccountResponse);
   }, []);
 
   const setAccountActivated = useCallback(async (accountPublicKeyHash: string) => {
     const res = await request({
-      type: TempleMessageType.ActivateAccountRequest,
+      type: XTMessageType.ActivateAccountRequest,
       accountPublicKeyHash
     });
-    assertResponse(res.type === TempleMessageType.ActivateAccountResponse);
+    assertResponse(res.type === XTMessageType.ActivateAccountResponse);
   }, []);
 
   const importAccount = useCallback(async (privateKey: string, encPassword?: string) => {
     const res = await request({
-      type: TempleMessageType.ImportAccountRequest,
+      type: XTMessageType.ImportAccountRequest,
       privateKey,
       encPassword
     });
-    assertResponse(res.type === TempleMessageType.ImportAccountResponse);
+    assertResponse(res.type === XTMessageType.ImportAccountResponse);
   }, []);
 
   const importMnemonicAccount = useCallback(async (mnemonic: string, name?) => {
     const res = await request({
-      type: TempleMessageType.ImportMnemonicAccountRequest,
+      type: XTMessageType.ImportMnemonicAccountRequest,
       mnemonic,
       name
     });
-    assertResponse(res.type === TempleMessageType.ImportMnemonicAccountResponse);
+    assertResponse(res.type === XTMessageType.ImportMnemonicAccountResponse);
   }, []);
 
   const importFundraiserAccount = useCallback(async (email: string, password: string, mnemonic: string) => {
     const res = await request({
-      type: TempleMessageType.ImportFundraiserAccountRequest,
+      type: XTMessageType.ImportFundraiserAccountRequest,
       email,
       password,
       mnemonic
     });
-    assertResponse(res.type === TempleMessageType.ImportFundraiserAccountResponse);
+    assertResponse(res.type === XTMessageType.ImportFundraiserAccountResponse);
   }, []);
 
   const importKTManagedAccount = useCallback(async (address: string, chainId: string, owner: string) => {
     const res = await request({
-      type: TempleMessageType.ImportManagedKTAccountRequest,
+      type: XTMessageType.ImportManagedKTAccountRequest,
       address,
       chainId,
       owner
     });
-    assertResponse(res.type === TempleMessageType.ImportManagedKTAccountResponse);
+    assertResponse(res.type === XTMessageType.ImportManagedKTAccountResponse);
   }, []);
 
   const importWatchOnlyAccount = useCallback(async (address: string, chainId?: string) => {
     const res = await request({
-      type: TempleMessageType.ImportWatchOnlyAccountRequest,
+      type: XTMessageType.ImportWatchOnlyAccountRequest,
       address,
       chainId
     });
-    assertResponse(res.type === TempleMessageType.ImportWatchOnlyAccountResponse);
+    assertResponse(res.type === XTMessageType.ImportWatchOnlyAccountResponse);
   }, []);
 
   const createLedgerAccount = useCallback(
     async (name: string, derivationType?: DerivationType, derivationPath?: string) => {
       const res = await request({
-        type: TempleMessageType.CreateLedgerAccountRequest,
+        type: XTMessageType.CreateLedgerAccountRequest,
         name,
         derivationPath,
         derivationType
       });
-      assertResponse(res.type === TempleMessageType.CreateLedgerAccountResponse);
+      assertResponse(res.type === XTMessageType.CreateLedgerAccountResponse);
     },
     []
   );
 
-  const updateSettings = useCallback(async (settings: Partial<TempleSettings>) => {
+  const updateSettings = useCallback(async (settings: Partial<XTSettings>) => {
     const res = await request({
-      type: TempleMessageType.UpdateSettingsRequest,
+      type: XTMessageType.UpdateSettingsRequest,
       settings
     });
-    assertResponse(res.type === TempleMessageType.UpdateSettingsResponse);
+    assertResponse(res.type === XTMessageType.UpdateSettingsResponse);
   }, []);
 
   const confirmInternal = useCallback(
     async (id: string, confirmed: boolean, modifiedTotalFee?: number, modifiedStorageLimit?: number) => {
       const res = await request({
-        type: TempleMessageType.ConfirmationRequest,
+        type: XTMessageType.ConfirmationRequest,
         id,
         confirmed,
         modifiedTotalFee,
         modifiedStorageLimit
       });
-      assertResponse(res.type === TempleMessageType.ConfirmationResponse);
+      assertResponse(res.type === XTMessageType.ConfirmationResponse);
     },
     []
   );
 
   const getDAppPayload = useCallback(async (id: string) => {
     const res = await request({
-      type: TempleMessageType.DAppGetPayloadRequest,
+      type: XTMessageType.DAppGetPayloadRequest,
       id
     });
-    assertResponse(res.type === TempleMessageType.DAppGetPayloadResponse);
+    assertResponse(res.type === XTMessageType.DAppGetPayloadResponse);
     return res.payload;
   }, []);
 
   const confirmDAppPermission = useCallback(async (id: string, confirmed: boolean, pkh: string) => {
     const res = await request({
-      type: TempleMessageType.DAppPermConfirmationRequest,
+      type: XTMessageType.DAppPermConfirmationRequest,
       id,
       confirmed,
       accountPublicKeyHash: pkh,
       accountPublicKey: confirmed ? await getPublicKey(pkh) : ''
     });
-    assertResponse(res.type === TempleMessageType.DAppPermConfirmationResponse);
+    assertResponse(res.type === XTMessageType.DAppPermConfirmationResponse);
   }, []);
 
   const confirmDAppSign = useCallback(async (id: string, confirmed: boolean) => {
     const res = await request({
-      type: TempleMessageType.DAppSignConfirmationRequest,
+      type: XTMessageType.DAppSignConfirmationRequest,
       id,
       confirmed
     });
-    assertResponse(res.type === TempleMessageType.DAppSignConfirmationResponse);
+    assertResponse(res.type === XTMessageType.DAppSignConfirmationResponse);
   }, []);
 
   const getAllDAppSessions = useCallback(async () => {
     const res = await request({
-      type: TempleMessageType.DAppGetAllSessionsRequest
+      type: XTMessageType.DAppGetAllSessionsRequest
     });
-    assertResponse(res.type === TempleMessageType.DAppGetAllSessionsResponse);
+    assertResponse(res.type === XTMessageType.DAppGetAllSessionsResponse);
     return res.sessions;
   }, []);
 
   const removeDAppSession = useCallback(async (origin: string) => {
     const res = await request({
-      type: TempleMessageType.DAppRemoveSessionRequest,
+      type: XTMessageType.DAppRemoveSessionRequest,
       origin
     });
-    assertResponse(res.type === TempleMessageType.DAppRemoveSessionResponse);
+    assertResponse(res.type === XTMessageType.DAppRemoveSessionResponse);
     return res.sessions;
+  }, []);
+
+  const selectNetwork = useCallback(async networkId => {
+    const network = networks.find(({ id }) => id === networkId);
+    if (!network) return;
+    const res = await request({
+      type: XTMessageType.DAppSelectNetworkRequest,
+      network
+    });
+    assertResponse(res.type === XTMessageType.DAppSelectNetworkResponse);
   }, []);
 
   return {
@@ -347,16 +357,17 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     confirmDAppSign,
     getAllDAppSessions,
     removeDAppSession,
-    getSignumTransactionKeyPair
+    getSignumTransactionKeyPair,
+    selectNetwork
   };
 });
 
 async function getPublicKey(accountPublicKeyHash: string) {
   const res = await request({
-    type: TempleMessageType.RevealPublicKeyRequest,
+    type: XTMessageType.RevealPublicKeyRequest,
     accountPublicKeyHash
   });
-  assertResponse(res.type === TempleMessageType.RevealPublicKeyResponse);
+  assertResponse(res.type === XTMessageType.RevealPublicKeyResponse);
   return res.publicKey;
 }
 

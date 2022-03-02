@@ -10,17 +10,17 @@ import Balance from 'app/templates/Balance';
 import CustomSelect, { OptionRenderProps } from 'app/templates/CustomSelect';
 import SignView from 'app/templates/SignumSignView/SignView';
 import { T } from 'lib/i18n/react';
-import { TempleAccount, TempleDAppPayload } from 'lib/messaging';
-import { SIGNA_METADATA, TempleAccountType, TempleDAppSignPayload, useRelevantAccounts } from 'lib/temple/front';
+import { XTAccount, TempleDAppPayload } from 'lib/messaging';
+import { SIGNA_METADATA, XTAccountType, TempleDAppSignPayload, useRelevantAccounts } from 'lib/temple/front';
 
 import IdenticonSignum from '../../atoms/IdenticonSignum';
 
-const AccountIcon: FC<OptionRenderProps<TempleAccount>> = ({ item }) => (
+const AccountIcon: FC<OptionRenderProps<XTAccount>> = ({ item }) => (
   <IdenticonSignum accountId={item.publicKeyHash} size={32} className="flex-shrink-0 shadow-xs" />
 );
 
 const AccountOptionContentHOC = (networkRpc: string) => {
-  return memo<OptionRenderProps<TempleAccount>>(({ item: acc }) => (
+  return memo<OptionRenderProps<XTAccount>>(({ item: acc }) => (
     <>
       <div className="flex flex-wrap items-center">
         <Name className="text-sm font-medium leading-tight">{acc.name}</Name>
@@ -44,7 +44,7 @@ const AccountOptionContentHOC = (networkRpc: string) => {
   ));
 };
 
-const getPkh = (account: TempleAccount) => account.publicKeyHash;
+const getPkh = (account: XTAccount) => account.publicKeyHash;
 
 interface PayloadContentProps {
   accountPkhToConnect: string;
@@ -56,7 +56,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, se
   const allAccounts = useRelevantAccounts();
   const AccountOptionContent = useMemo(() => AccountOptionContentHOC(payload.network), [payload.network]);
   const eigenAccounts = useMemo(
-    () => allAccounts.filter((a: TempleAccount) => a.type !== TempleAccountType.WatchOnly),
+    () => allAccounts.filter((a: XTAccount) => a.type !== XTAccountType.WatchOnly),
     [allAccounts]
   );
 
@@ -74,7 +74,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, se
         </T>
       </h2>
 
-      <CustomSelect<TempleAccount, string>
+      <CustomSelect<XTAccount, string>
         activeItemId={accountPkhToConnect}
         getItemId={getPkh}
         items={eigenAccounts}

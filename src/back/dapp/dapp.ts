@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 
-import {DAppSession, DAppSessions, TempleNetwork} from 'lib/messaging';
+import {DAppSession, DAppSessions, Network} from 'lib/messaging';
 import { NETWORKS } from 'lib/temple/networks';
 
 const STORAGE_KEY = 'dapp_sessions';
@@ -41,8 +41,8 @@ export async function getCurrentNetworkHost() {
     'custom_networks_snapshot'
   ]);
 
-  const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])] as TempleNetwork[];
-  return allNetworks.find(n => !n.disabled && !n.hidden && n.id === networkId) as TempleNetwork;
+  const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])] as Network[];
+  return allNetworks.find(n => !n.disabled && !n.hidden && n.id === networkId) as Network;
 }
 
 export async function getNetworkHosts(networkName: string) {
@@ -50,7 +50,7 @@ export async function getNetworkHosts(networkName: string) {
     'custom_networks_snapshot'
   );
 
-  const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])] as TempleNetwork[];
+  const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])] as Network[];
   return allNetworks.filter(n => !n.disabled && !n.hidden && n.networkName === networkName);
 }
 

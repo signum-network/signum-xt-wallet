@@ -1,7 +1,7 @@
 import { Address, LedgerClientFactory, Transaction } from '@signumjs/core';
 import { v4 as uuid } from 'uuid';
 
-import { TempleMessageType } from 'lib/messaging';
+import { XTMessageType } from 'lib/messaging';
 
 import { HttpAdapterFetch } from '../httpAdapterFetch';
 import { withUnlocked } from '../store';
@@ -70,7 +70,7 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
         reject(new Error(ExtensionErrorType.NotGranted));
       },
       handleIntercomRequest: async (confirmReq, decline) => {
-        if (confirmReq?.type === TempleMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {
+        if (confirmReq?.type === XTMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {
           if (confirmReq.confirmed) {
             const signedTransaction = await withUnlocked(({ vault }) => vault.signumSign(dApp.accountId, req.payload));
             const { transaction, fullHash } = await ledger.transaction.broadcastTransaction(signedTransaction);
@@ -84,7 +84,7 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
           }
 
           return {
-            type: TempleMessageType.DAppSignConfirmationResponse
+            type: XTMessageType.DAppSignConfirmationResponse
           };
         }
         return;

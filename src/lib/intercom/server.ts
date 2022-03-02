@@ -8,7 +8,6 @@ type ReqHandler = (payload: any, port: Runtime.Port) => Promise<any>;
 export class IntercomServer {
   private ports = new Set<Runtime.Port>();
   private reqHandlers: Array<ReqHandler> = [];
-
   constructor() {
     browser.runtime.onConnect.addListener(port => {
       this.addPort(port);
@@ -31,6 +30,8 @@ export class IntercomServer {
       this.removeReqHandler(handler);
     };
   }
+
+
 
   broadcast(data: any) {
     const msg: SubscriptionMessage = { type: MessageType.Sub, data };

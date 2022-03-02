@@ -1,8 +1,9 @@
 import { Runtime } from 'webextension-polyfill';
 
-import { TempleMessageType, TempleRequest, TempleResponse } from 'lib/messaging';
+import { XTMessageType, TempleRequest, TempleResponse } from 'lib/messaging';
 
 import * as Actions from './actions';
+import * as DAppNotifications from './dapp/notifications';
 import { intercom } from './defaults';
 import { store, toFront } from './store';
 
@@ -11,154 +12,162 @@ export async function start() {
   await Actions.init();
   const frontStore = store.map(toFront);
   frontStore.watch(() => {
-    intercom.broadcast({ type: TempleMessageType.StateUpdated });
+    intercom.broadcast({ type: XTMessageType.StateUpdated });
   });
 }
 
 // TODO: clean up all unused methods
 async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<TempleResponse | void> {
   switch (req?.type) {
-    case TempleMessageType.GetStateRequest:
+    case XTMessageType.GetStateRequest:
       const state = await Actions.getFrontState();
       return {
-        type: TempleMessageType.GetStateResponse,
+        type: XTMessageType.GetStateResponse,
         state
       };
-    case TempleMessageType.GetSignumTxKeysRequest:
+    case XTMessageType.GetSignumTxKeysRequest:
       const { signingKey, publicKey: pk } = await Actions.getSignumTxKeys(req.accountPublicKeyHash);
       return {
-        type: TempleMessageType.GetSignumTxKeysResponse,
+        type: XTMessageType.GetSignumTxKeysResponse,
         signingKey,
         publicKey: pk
       };
-    case TempleMessageType.NewWalletRequest:
+    case XTMessageType.NewWalletRequest:
       await Actions.registerNewWallet(req.password, req.mnemonic);
-      return { type: TempleMessageType.NewWalletResponse };
+      return { type: XTMessageType.NewWalletResponse };
 
-    case TempleMessageType.UnlockRequest:
+    case XTMessageType.UnlockRequest:
       await Actions.unlock(req.password);
-      return { type: TempleMessageType.UnlockResponse };
+      return { type: XTMessageType.UnlockResponse };
 
-    case TempleMessageType.LockRequest:
+    case XTMessageType.LockRequest:
       await Actions.lock();
-      return { type: TempleMessageType.LockResponse };
+      return { type: XTMessageType.LockResponse };
 
-    case TempleMessageType.CreateAccountRequest: {
+    case XTMessageType.CreateAccountRequest: {
       const mnemonic = await Actions.createAccount(req.name);
       return {
-        type: TempleMessageType.CreateAccountResponse,
+        type: XTMessageType.CreateAccountResponse,
         mnemonic
       };
     }
 
-    case TempleMessageType.RevealPublicKeyRequest:
+    case XTMessageType.RevealPublicKeyRequest:
       const publicKey = await Actions.revealPublicKey(req.accountPublicKeyHash);
       return {
-        type: TempleMessageType.RevealPublicKeyResponse,
+        type: XTMessageType.RevealPublicKeyResponse,
         publicKey
       };
 
-    case TempleMessageType.RevealPrivateKeyRequest:
+    case XTMessageType.RevealPrivateKeyRequest:
       const privateKey = await Actions.revealPrivateKey(req.accountPublicKeyHash, req.password);
       return {
-        type: TempleMessageType.RevealPrivateKeyResponse,
+        type: XTMessageType.RevealPrivateKeyResponse,
         privateKey
       };
 
-    case TempleMessageType.RevealMnemonicRequest:
+    case XTMessageType.RevealMnemonicRequest:
       const mnemonic = await Actions.revealMnemonic(req.password);
       return {
-        type: TempleMessageType.RevealMnemonicResponse,
+        type: XTMessageType.RevealMnemonicResponse,
         mnemonic
       };
 
-    case TempleMessageType.RemoveAccountRequest:
+    case XTMessageType.RemoveAccountRequest:
       await Actions.removeAccount(req.accountPublicKeyHash, req.password);
+      DAppNotifications.notifyAccountRemoved(req.accountPublicKeyHash);
       return {
-        type: TempleMessageType.RemoveAccountResponse
+        type: XTMessageType.RemoveAccountResponse
       };
 
-    case TempleMessageType.EditAccountRequest:
+    case XTMessageType.EditAccountRequest:
       await Actions.editAccountName(req.accountPublicKeyHash, req.name);
       return {
-        type: TempleMessageType.EditAccountResponse
+        type: XTMessageType.EditAccountResponse
       };
 
-    case TempleMessageType.ActivateAccountRequest:
+    case XTMessageType.ActivateAccountRequest:
       await Actions.setAccountActivated(req.accountPublicKeyHash);
       return {
-        type: TempleMessageType.ActivateAccountResponse
+        type: XTMessageType.ActivateAccountResponse
       };
 
-    case TempleMessageType.ImportAccountRequest:
+    case XTMessageType.ImportAccountRequest:
       await Actions.importAccount(req.privateKey, req.encPassword);
       return {
-        type: TempleMessageType.ImportAccountResponse
+        type: XTMessageType.ImportAccountResponse
       };
 
-    case TempleMessageType.ImportMnemonicAccountRequest:
+    case XTMessageType.ImportMnemonicAccountRequest:
       await Actions.importMnemonicAccount(req.mnemonic, req.name);
       return {
-        type: TempleMessageType.ImportMnemonicAccountResponse
+        type: XTMessageType.ImportMnemonicAccountResponse
       };
 
-    case TempleMessageType.ImportFundraiserAccountRequest:
+    case XTMessageType.ImportFundraiserAccountRequest:
       await Actions.importFundraiserAccount(req.email, req.password, req.mnemonic);
       return {
-        type: TempleMessageType.ImportFundraiserAccountResponse
+        type: XTMessageType.ImportFundraiserAccountResponse
       };
 
-    case TempleMessageType.ImportManagedKTAccountRequest:
+    case XTMessageType.ImportManagedKTAccountRequest:
       await Actions.importManagedKTAccount(req.address, req.chainId, req.owner);
       return {
-        type: TempleMessageType.ImportManagedKTAccountResponse
+        type: XTMessageType.ImportManagedKTAccountResponse
       };
 
-    case TempleMessageType.ImportWatchOnlyAccountRequest:
+    case XTMessageType.ImportWatchOnlyAccountRequest:
       await Actions.importWatchOnlyAccount(req.address, req.chainId);
       return {
-        type: TempleMessageType.ImportWatchOnlyAccountResponse
+        type: XTMessageType.ImportWatchOnlyAccountResponse
       };
 
-    case TempleMessageType.UpdateSettingsRequest:
+    case XTMessageType.UpdateSettingsRequest:
       await Actions.updateSettings(req.settings);
       return {
-        type: TempleMessageType.UpdateSettingsResponse
+        type: XTMessageType.UpdateSettingsResponse
       };
 
-    case TempleMessageType.SignRequest:
+    case XTMessageType.SignRequest:
       const result = await Actions.sign(port, req.id, req.sourcePkh, req.bytes, req.watermark);
       return {
-        type: TempleMessageType.SignResponse,
+        type: XTMessageType.SignResponse,
         result
       };
 
-    case TempleMessageType.DAppGetAllSessionsRequest:
+    case XTMessageType.DAppGetAllSessionsRequest:
       const allSessions = await Actions.getAllDAppSessions();
       return {
-        type: TempleMessageType.DAppGetAllSessionsResponse,
+        type: XTMessageType.DAppGetAllSessionsResponse,
         sessions: allSessions
       };
 
-    case TempleMessageType.DAppRemoveSessionRequest:
+    case XTMessageType.DAppRemoveSessionRequest:
       const sessions = await Actions.removeDAppSession(req.origin);
+      DAppNotifications.notifyPermissionRemoved(req.origin);
       return {
-        type: TempleMessageType.DAppRemoveSessionResponse,
+        type: XTMessageType.DAppRemoveSessionResponse,
         sessions
       };
 
-    case TempleMessageType.PageRequest:
+    case XTMessageType.DAppSelectNetworkRequest:
+      DAppNotifications.notifyNetworkChanged(req.network);
+      return {
+        type: XTMessageType.DAppSelectNetworkResponse,
+      };
+
+    case XTMessageType.PageRequest:
       const dAppEnabled = await Actions.isDAppEnabled();
       if (dAppEnabled) {
         if (req.payload === 'PING') {
           return {
-            type: TempleMessageType.PageResponse,
+            type: XTMessageType.PageResponse,
             payload: 'PONG'
           };
         }
         const resPayload = await Actions.processDApp(req.origin, req.payload);
         return {
-          type: TempleMessageType.PageResponse,
+          type: XTMessageType.PageResponse,
           payload: resPayload ?? null
         };
       }

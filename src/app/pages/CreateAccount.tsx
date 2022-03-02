@@ -8,7 +8,7 @@ import { ReactComponent as AddIcon } from 'app/icons/add.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
 import { T, t } from 'lib/i18n/react';
-import { TempleAccountType, useTempleClient, useAllAccounts, useSetAccountPkh } from 'lib/temple/front';
+import { XTAccountType, useTempleClient, useAllAccounts, useSetAccountPkh } from 'lib/temple/front';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 import { navigate } from 'lib/woozie';
 
@@ -27,7 +27,7 @@ const CreateAccount: FC = () => {
   const [mnemonic, setMnemonic] = useState('');
 
   const allImportedAccounts = useMemo(
-    () => allAccounts.filter(acc => [TempleAccountType.Imported].includes(acc.type)),
+    () => allAccounts.filter(acc => [XTAccountType.Imported].includes(acc.type)),
     [allAccounts]
   );
 

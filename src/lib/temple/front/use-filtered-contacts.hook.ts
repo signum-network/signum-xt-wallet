@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useTempleClient } from './client';
 import { useRelevantAccounts, useSettings } from './ready';
-import {TempleContact} from 'lib/messaging';
+import {Contact} from 'lib/messaging';
 
 export function useFilteredContacts() {
   const { updateSettings } = useTempleClient();
@@ -11,7 +11,7 @@ export function useFilteredContacts() {
   const settingContacts = useMemo(() => settings.contacts ?? [], [settings.contacts]);
 
   const accounts = useRelevantAccounts();
-  const accountContacts = useMemo<TempleContact[]>(
+  const accountContacts = useMemo<Contact[]>(
     () =>
       accounts.map(acc => ({
         address: acc.publicKeyHash,

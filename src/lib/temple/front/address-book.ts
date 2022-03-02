@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { getMessage } from 'lib/i18n';
-import { TempleContact, useTempleClient } from 'lib/temple/front';
+import { Contact, useTempleClient } from 'lib/temple/front';
 
 import { useFilteredContacts } from './use-filtered-contacts.hook';
 
@@ -10,7 +10,7 @@ export function useContacts() {
   const { contacts, allContacts } = useFilteredContacts();
 
   const addContact = useCallback(
-    async (cToAdd: TempleContact) => {
+    async (cToAdd: Contact) => {
       if (allContacts.some(c => c.address === cToAdd.address)) {
         throw new Error(getMessage('contactWithTheSameAddressAlreadyExists'));
       }
@@ -44,7 +44,7 @@ export function useContacts() {
 
 export const CONTACT_FIELDS_TO_SEARCH = ['name', 'address'] as const;
 
-export function searchContacts<T extends TempleContact>(contacts: T[], searchValue: string) {
+export function searchContacts<T extends Contact>(contacts: T[], searchValue: string) {
   if (!searchValue) return contacts;
 
   const loweredSearchValue = searchValue.toLowerCase();
