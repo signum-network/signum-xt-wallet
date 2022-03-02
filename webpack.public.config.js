@@ -4,13 +4,13 @@ const path = require('path');
 const pkg = require('./package.json');
 
 module.exports = (publicPath, outputPath, manifestFile, targetBrowser) => {
+
   return new CopyWebpackPlugin({
     patterns: [
       {
         from: publicPath,
         to: outputPath,
-        // avoid copying the HTML templates to not cause conflicts
-        filter: file => !file.endsWith('.html')
+        filter: file => !file.endsWith('.html') && !file.endsWith('manifest.v2.json')
       },
       {
         from: path.join(publicPath, manifestFile),

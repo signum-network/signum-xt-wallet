@@ -9,7 +9,7 @@
     "watch:src": "cross-env NODE_ENV=development MANIFEST_VERSION=3 webpack --watch --progress",
     "watch:dist": "mv3-hot-reload",
     "build": "cross-env NODE_ENV=production webpack",
-    "build-all": "run-s build:*",
+    "build-all": "rimraf ./dist && run-s build:*",
     "build:chrome": "cross-env TARGET_BROWSER=chrome MANIFEST_VERSION=3 run-s build",
     "build:firefox": "cross-env TARGET_BROWSER=firefox MANIFEST_VERSION=2 run-s build",
     "build:safari": "cross-env TARGET_BROWSER=safari MANIFEST_VERSION=2 run-s build",
