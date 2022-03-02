@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 
 import { XTMessageType } from 'lib/messaging';
 
-import { getDApp, getNetworkHosts, setDApp, isAllowedNetwork, getCurrentNetworkHost } from './dapp';
+import { getDApp, getNetworkHosts, setDApp, getCurrentNetworkHost } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import {
   ExtensionErrorType,
@@ -15,9 +15,6 @@ export async function requestPermission(
   origin: string,
   req: ExtensionPermissionRequest
 ): Promise<ExtensionPermissionResponse> {
-  if (isAllowedNetwork(req.network)) {
-    throw new Error(ExtensionErrorType.InvalidNetwork);
-  }
 
   const currentNodeHost = await getCurrentNetworkHost();
   if (currentNodeHost.networkName !== req.network) {
@@ -25,6 +22,10 @@ export async function requestPermission(
   }
   const currentHostUrl = currentNodeHost.rpcBaseURL;
   const networkHosts = await getNetworkHosts(req.network);
+
+  if (networkHosts.length === 0) {
+    throw new Error(ExtensionErrorType.InvalidNetwork);
+  }
   const hostUrls = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
   const dApp = await getDApp(origin);
 

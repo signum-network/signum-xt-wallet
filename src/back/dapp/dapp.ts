@@ -53,7 +53,3 @@ export async function getNetworkHosts(networkName: string) {
   const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])] as Network[];
   return allNetworks.filter(n => !n.disabled && !n.hidden && n.networkName === networkName);
 }
-
-export function isAllowedNetwork(network: string) {
-  return NETWORKS.some(n => !n.disabled && n.networkName === network);
-}
