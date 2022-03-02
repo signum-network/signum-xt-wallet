@@ -3,7 +3,6 @@ import React, { ComponentProps, FC, Suspense } from 'react';
 import AwaitFonts from 'app/a11y/AwaitFonts';
 import BootAnimation from 'app/a11y/BootAnimation';
 import DisableOutlinesForClick from 'app/a11y/DisableOutlinesForClick';
-import AwaitI18N from 'app/a11y/InitI18n';
 import RootSuspenseFallback from 'app/a11y/RootSuspenseFallback';
 import ConfirmPage from 'app/ConfirmPage';
 import { AppEnvProvider } from 'app/env';
@@ -23,7 +22,6 @@ const App: FC<AppProps> = ({ env }) => (
     <DialogsProvider>
       <Suspense fallback={<RootSuspenseFallback />}>
         <AppProvider env={env}>
-          <AwaitI18N />
           <Dialogs />
           <DisableOutlinesForClick />
           <AwaitFonts name="Inter" weights={[300, 400, 500, 600]} className="antialiased font-inter">
@@ -37,10 +35,12 @@ const App: FC<AppProps> = ({ env }) => (
 
 export default App;
 
-const AppProvider: FC<AppProps> = ({ children, env }) => (
-  <AppEnvProvider {...env}>
-    <Woozie.Provider>
-      <TempleProvider>{children}</TempleProvider>
-    </Woozie.Provider>
-  </AppEnvProvider>
-);
+const AppProvider: FC<AppProps> = ({ children, env }) => {
+  return (
+    <AppEnvProvider {...env}>
+      <Woozie.Provider>
+        <TempleProvider>{children}</TempleProvider>
+      </Woozie.Provider>
+    </AppEnvProvider>
+  );
+};

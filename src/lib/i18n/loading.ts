@@ -11,7 +11,7 @@ runtime.onMessage.addListener(msg => {
   }
 });
 
-export function onInited(callback: () => void) {
+export function initializeI18n(callback: () => void) {
   init().then(callback);
 }
 

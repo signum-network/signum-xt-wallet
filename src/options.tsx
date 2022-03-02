@@ -10,7 +10,7 @@ import DisableOutlinesForClick from 'app/a11y/DisableOutlinesForClick';
 import RootSuspenseFallback from 'app/a11y/RootSuspenseFallback';
 import ErrorBoundary from 'app/ErrorBoundary';
 import Dialogs from 'app/layouts/Dialogs';
-import { getMessage, onInited } from 'lib/i18n';
+import { getMessage, initializeI18n } from 'lib/i18n';
 import { T } from 'lib/i18n/react';
 import { clearStorage } from 'lib/temple/reset';
 import { AlertFn, ConfirmFn, DialogsProvider, useAlert, useConfirm } from 'lib/ui/dialog';
@@ -34,7 +34,7 @@ const Options: FC = () => {
 
   useEffect(() => {
     // forces a re-render after i18n file was loaded
-    onInited(() => {
+    initializeI18n(() => {
       setI18nInitialized(true);
     });
   }, []);

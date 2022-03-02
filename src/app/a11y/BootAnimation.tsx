@@ -1,14 +1,18 @@
-import React, { FC, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
 
 import classNames from 'clsx';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
+import { initializeI18n } from 'lib/i18n';
+
 const BootAnimation: FC = ({ children }) => {
   const [booted, setBooted] = useState(false);
 
-  useLayoutEffect(() => {
-    setBooted(true);
-  }, [setBooted]);
+  useEffect(() => {
+    initializeI18n(() => {
+      setBooted(true);
+    });
+  }, []);
 
   return (
     <CSSTransition
