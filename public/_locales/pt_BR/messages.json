@@ -1609,7 +1609,7 @@
     "message": "Você pode obter o SIGNA comprando em uma das exchanges, minerando com discos rígidos ou participando de compromissos da comunidade. Junte-se a nós no Discord"
   },
   "howToStartDetails": {
-    "message": "Como começar"
+    "message": "Obtendo Signa"
   },
   "howToStartHint": {
     "message": "Além disso, você pode copiar seu endereço e enviar moedas para ele de outra carteira ou Exchange. Para copiar o endereço, clique nele na tela principal da carteira ou use \"Receber\"."
@@ -1791,5 +1791,20 @@
       }
     },
     "message": "Seu nó atualmente selecionado não pertence à rede solicitada: $networkName$. Por favor, selecione um nó correto e tente novamente"
+  },
+  "selectOtherLanguage": {
+    "message": "Selecione outro idioma"
+  },
+  "activationDescription1": {
+    "message": "As contas recém-criadas devem ser <b>ativadas primeiro por motivos de segurança</b>. Não é possível enviar moedas de câmbios para contas inativas."
+  },
+  "activationDescription2": {
+    "message": "Se uma conta estiver inativa, a carteira irá notificá-lo e oferecer-lhe para ativar a conta. Imediatamente após a ativação, você receberá uma transação que ativa sua conta."
+  },
+  "activationDetails": {
+    "message": "ativação de conta"
+  },
+  "activationHint": {
+    "message": "Observe que <b>as contas existem apenas em uma rede</b>. Se mudar para outra rede, por ex. rede de teste, a mensagem de ativação aparece novamente."
   }
 }

@@ -1579,7 +1579,7 @@
     "message": "The address is being represented as <b>S-A1B2-...</b> for main net or <b>TS-A1B2-...</b> for test net. If you acquired an <b>alias</b> name for your account it will be displayable also. Once you have a positive balance it shows up below your address."
   },
   "howToStartDetails": {
-    "message": "How to start"
+    "message": "Getting Signa"
   },
   "howToStartDescription1": {
     "message": "To start using your wallet and interacting with the Signum DApps ecosystem, the account balance must be positive, as each transaction costs you a low fee"
@@ -1791,5 +1791,20 @@
   },
   "currentNetworkNode": {
     "message": "Current Network Node"
+  },
+  "selectOtherLanguage": {
+    "message": "Select another language"
+  },
+  "activationDescription1": {
+    "message": "Newly created accounts must be <b>activated first for security reasons</b>. It is not possible to send coins from exchanges to inactive accounts."
+  },
+  "activationDescription2": {
+    "message": "If an account is inactive, the wallet will notify you and offer you to activate the account. Immediately after activation, you will receive a transaction that activates your account."
+  },
+  "activationDetails": {
+    "message": "Account Activation"
+  },
+  "activationHint": {
+    "message": "Note that <b>accounts only exist within one network</b>. If you switch to another network, e.g. test network, the activation message appears again."
   }
 }

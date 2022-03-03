@@ -1609,7 +1609,7 @@
     "message": "Puede obtener Signa comprando en uno de los Exchange, minando con discos duros o participando en la comunidad. Únete a nosotros en Discord"
   },
   "howToStartDetails": {
-    "message": "Cómo empezar"
+    "message": "Conseguir Signa"
   },
   "howToStartHint": {
     "message": "Además, puede copiar su dirección y enviarle Signa desde otra billetera o Exchange. Para copiar la dirección, haga clic en ella en la pantalla principal de la billetera o use \"Recibir\"."
@@ -1791,5 +1791,20 @@
       }
     },
     "message": "Su nodo actualmente seleccionado no pertenece a la red solicitada: $networkName$. Por favor, seleccione un nodo correcto y vuelva a intentarlo"
+  },
+  "selectOtherLanguage": {
+    "message": "Seleccione otro idioma"
+  },
+  "activationDescription1": {
+    "message": "Las cuentas recién creadas deben ser <b>activadas primero por razones de seguridad</b>. No es posible enviar monedas desde intercambios a cuentas inactivas."
+  },
+  "activationDescription2": {
+    "message": "Si una cuenta está inactiva, la billetera le notificará y le ofrecerá activar la cuenta. Inmediatamente después de la activación, recibirá una transacción que activa su cuenta."
+  },
+  "activationDetails": {
+    "message": "activación de cuenta"
+  },
+  "activationHint": {
+    "message": "Tenga en cuenta que <b>las cuentas solo existen dentro de una red</b>. Si cambia a otra red, p. red de prueba, el mensaje de activación aparece de nuevo."
   }
 }

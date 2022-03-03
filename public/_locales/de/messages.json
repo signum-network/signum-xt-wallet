@@ -1555,7 +1555,7 @@
     "message": "Sie haben noch keine Sammlerstücke!\nGuter Zeitpunkt, um eins zu erhalten"
   },
   "addressBalanceDescription": {
-    "message": "Nachdem Sie ein Konto erstellt haben, erhalten Sie eine eindeutige Adresse – Ihre persönliche Kennung in der Signum-Blockchain. Sie benötigen diese Adresse, um SIGNA zu empfangen und Transaktionen auszuführen, d. h. SIGNA zu senden, Nachrichten zu senden, mit Smart Contracts zu interagieren, Token auszugeben usw."
+    "message": "Nachdem Sie ein Konto erstellt haben, erhalten Sie eine eindeutige Adresse – Ihre persönliche Kennung in der Signum-Blockchain. Sie benötigen diese Adresse, um SIGNA zu empfangen und Transaktionen auszuführen, d. h. SIGNA zu senden, Nachrichten zu senden, mit Smart Contracts zu interagieren, Token zu erstellen usw."
   },
   "addressBalanceHint": {
     "message": "Die Adresse wird als <b>S-A1B2-...</b> für das Hauptnetz oder <b>TS-A1B2-...</b> für das Testnetz dargestellt. Wenn Sie für Ihr Konto einen <b>Alias</b>-Namen erworben haben, wird dieser ebenfalls angezeigt. Sobald Sie ein positives Guthaben haben, wird es unter Ihrer Adresse angezeigt."
@@ -1582,7 +1582,7 @@
     "message": "Toll! Sie sind an Bord 🏆"
   },
   "congratsDescription2": {
-    "message": "Jetzt kennst du die grundlegenden und wichtigsten Funktionen des Signum XT Wallets."
+    "message": "Jetzt kennen Sie die grundlegendsten und wichtigsten Funktionen der Signum XT Wallets."
   },
   "congratsDescription3": {
     "message": "Alle Funktionen des Tempels können Sie in unserer „Bildungsreihe“ auf YouTube kennenlernen."
@@ -1599,20 +1599,32 @@
   "contractCreation": {
     "message": "Kontrakt erstellen"
   },
+  "activationDetails": {
+    "message": "Kontenaktivierung"
+  },
+  "activationDescription1": {
+    "message": "Neu erstellte Konten müssen <b>aus Sicherheitsgründen erst aktiviert</b> werden. Es ist nicht möglich Coins von Börsen an inaktive Konten zu senden."
+  },
+  "activationDescription2": {
+    "message": "Sollte ein Konto inaktiv sein, weist Sie die Wallet darauf hin und bietet Ihnen die Kontoaktivierung an. Unmittelbar nach der Aktivierung erhalten Sie eine Transaktion, die Ihr Konto aktiviert."
+  },
+  "activationHint": {
+    "message": "Achten Sie darauf, dass <b>Konten nur innerhalb eines Netzwerkes</b> existieren. Sollten Sie zu einem anderen Netzwerk, z.B. Testnetzwerk, wechseln, erscheint die Meldung zur Aktivierung erneut."
+  },
   "done": {
     "message": "Fertig!"
   },
   "howToStartDescription1": {
-    "message": "Um mit der Nutzung Ihres Wallets und der Interaktion mit dem Signum DApps-Ökosystem zu beginnen, muss der Kontostand positiv sein, da jede Transaktion Sie eine geringe Gebühr kostet"
+    "message": "Um mit der Nutzung Ihrer Wallet und der Interaktion mit dem Signum DApps-Ökosystem zu beginnen, muss der Kontostand positiv sein, da jede Transaktion Sie eine geringe Gebühr kostet."
   },
   "howToStartDescription2": {
-    "message": "Sie können SIGNA erhalten, indem Sie an einer der Börsen kaufen, mit Festplatten schürfen oder durch Community-Engagement. Komm Sie zu uns auf Discord"
+    "message": "Sie erhalten SIGNA entweder an einer der Börsen, mittels Schürfen (\"Mining\") auf Festplattern oder auch durch Community-Engagement. Kommen Sie zu uns auf Discord oder Telegram."
   },
   "howToStartDetails": {
-    "message": "Wie man anfängt"
+    "message": "Signa erhalten"
   },
   "howToStartHint": {
-    "message": "Außerdem können Sie Ihre Adresse kopieren und Münzen von einer anderen Brieftasche oder Börse dorthin senden. Um die Adresse zu kopieren, klicken Sie auf dem Hauptbildschirm der Brieftasche darauf oder verwenden Sie „Empfangen“."
+    "message": "Außerdem können Sie Ihre Adresse kopieren oder per QR-Code scannen und Coins von einer anderen Wallet (z.B Phoenix Wallet) oder Börse dorthin senden. Am besten Sie verwenden die „Empfangen“-Aktion auf dem Hauptbildschirm der Wallet."
   },
   "joinPool": {
     "message": "Pool beitreten"
@@ -1791,5 +1803,8 @@
       }
     },
     "message": "Ihr aktuell ausgewählter Knoten gehört nicht zum angeforderten Netzwerk: $networkName$. Bitte wählen Sie einen anderen Knoten aus und versuchen Sie es erneut"
+  },
+  "selectOtherLanguage": {
+    "message": "Andere Sprache wählen"
   }
 }
