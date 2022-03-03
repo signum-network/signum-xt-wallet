@@ -12,7 +12,14 @@ This version was significantly refactored to be conformant with the new Manifest
 
 ### New features
 
-### Bug fixes
+- Text/Data Message Attachments on Send
+- New Languages: Thai, Ukrainian
+- Improved Onboarding
+- DApp Permissions based on Networks now, and not on Network Nodes
+- Sends notifications about Network changes, Permission/Account removals to DApp now
+- Cropped Node Urls (#7)  
+- Currency Symbol TestNet vs MainNet (#8)  
+- Explorer Links for Account (#9)
 
 ## 1.0.2
 

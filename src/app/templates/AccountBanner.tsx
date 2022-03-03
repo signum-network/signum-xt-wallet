@@ -7,7 +7,7 @@ import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
 import Balance from 'app/templates/Balance';
 import { t } from 'lib/i18n/react';
-import { SIGNA_METADATA, XTAccount } from 'lib/temple/front';
+import { useSignumAssetMetadata, XTAccount } from 'lib/temple/front';
 
 import HashShortView from '../atoms/HashShortView';
 import IdenticonSignum from '../atoms/IdenticonSignum';
@@ -23,6 +23,7 @@ type AccountBannerProps = HTMLAttributes<HTMLDivElement> & {
 
 const AccountBanner = memo<AccountBannerProps>(
   ({ account, displayBalance = true, networkRpc, className, label, labelIndent = 'md', labelDescription }) => {
+    const { symbol } = useSignumAssetMetadata();
     const labelWithFallback = label ?? t('account');
 
     return (
@@ -58,7 +59,7 @@ const AccountBanner = memo<AccountBannerProps>(
                 <Balance accountId={account.publicKeyHash} networkRpc={networkRpc}>
                   {bal => (
                     <div className={classNames('ml-2', 'text-xs leading-none', 'text-gray-600')}>
-                      <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{SIGNA_METADATA.symbol}</span>
+                      <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{symbol}</span>
                     </div>
                   )}
                 </Balance>

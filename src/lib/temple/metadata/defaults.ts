@@ -18,3 +18,10 @@ export const SIGNA_METADATA: AssetMetadata = {
   name: 'Signa',
   thumbnailUri: browser.runtime.getURL('misc/token-logos/signa.svg')
 };
+
+export const SIGNA_TESTNET_METADATA: AssetMetadata = {
+  decimals: 8,
+  symbol: browserInfo.name === 'Safari' ? 'TSIGNA' : `T${CurrencySymbol}`,
+  name: 'TSigna',
+  thumbnailUri: browser.runtime.getURL('misc/token-logos/signa.svg')
+};

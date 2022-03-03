@@ -7,13 +7,13 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import OpenInExplorerChip from 'app/atoms/OpenInExplorerChip';
 import HashChip from 'app/templates/HashChip';
-import { t, getDateFnsLocale } from 'lib/i18n/react';
-import { parseTxStack, parseAmountDiffs } from 'lib/temple/activity';
+import { getDateFnsLocale, t } from 'lib/i18n/react';
+import { parseTransaction, parseAmountDiffs } from 'lib/temple/activity';
 import { useSignumAssetMetadata, useSignumExplorerBaseUrls } from 'lib/temple/front';
 
 import MoneyDiffView from './MoneyDiffView';
 import Time from './Time';
-import TxStack from './TxStack';
+import TxItem from './TxItem';
 
 type ActivityItemProps = {
   accountId: string;
@@ -26,17 +26,15 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, classNam
   const metadata = useSignumAssetMetadata();
   const { transaction: txId, timestamp } = transaction;
 
+  const dateFnsLocale = getDateFnsLocale();
   const moneyDiff = useMemo(() => parseAmountDiffs(transaction, accountId)[0], [transaction, accountId]);
-  // const dateFnsLocale = useMemo( async () => {
-  //   return (await getDateFnsLocale())
-  // }, [getDateFnsLocale] )
   const feeAmount = useMemo(() => Amount.fromPlanck(transaction.feeNQT!).getSigna(), [transaction.feeNQT]);
-  const txStack = useMemo(() => parseTxStack(transaction, accountId), [transaction, accountId]);
+  const parsedTransaction = useMemo(() => parseTransaction(transaction, accountId), [transaction, accountId]);
   const isPending = transaction.blockTimestamp === undefined;
   const transactionStatus = useMemo(() => {
     const content = isPending ? 'pending' : 'applied';
     return (
-      <span className={classNames(isPending ? 'text-gray-600' : 'text-green-600', 'capitalize')}>{t(content)}</span>
+      <span className={classNames(isPending ? 'text-gray-700' : 'text-green-700', 'capitalize')}>{t(content)}</span>
     );
   }, [isPending]);
 
@@ -47,19 +45,20 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, classNam
 
         {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} hash={txId!} className="mr-2" />}
 
-        <div className={classNames('flex-1', 'h-px', 'bg-gray-200')} />
+        <div className={classNames('flex-1', 'h-px', 'bg-gray-100')} />
       </div>
 
       <div className="flex items-stretch">
         <div className="flex flex-col pt-2">
-          <TxStack txStack={txStack} className="mb-2" />
+          <TxItem item={parsedTransaction} className="mb-2" />
           <div className="mb-px text-xs font-light leading-none">{transactionStatus}</div>
           <Time
             children={() => (
-              <span className="text-xs font-light text-gray-500">
+              <span className="text-xs font-light text-gray-700">
                 {formatDistanceToNow(ChainTime.fromChainTimestamp(timestamp!).getDate(), {
                   includeSeconds: true,
-                  addSuffix: true
+                  addSuffix: true,
+                  locale: dateFnsLocale
                 })}
               </span>
             )}
@@ -70,7 +69,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, classNam
 
         <div className="flex flex-col flex-shrink-0">
           <MoneyDiffView assetId="signa" diff={moneyDiff.diff} pending={isPending} />
-          <div className="text-xs text-gray-500 justify-end">
+          <div className="text-xs text-gray-700 justify-end">
             {feeAmount} {metadata.symbol}
           </div>
         </div>

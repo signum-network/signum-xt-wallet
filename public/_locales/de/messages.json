@@ -755,7 +755,7 @@
     "message": "Fehler beim Verarbeiten des Vermögenswerts mit den bereitgestellten Daten. Stellen Sie sicher, dass die Vermögenswert-ID korrekt ist."
   },
   "interaction": {
-    "message": "Interaktion"
+    "message": "Kontraktinteraktion"
   },
   "interactionWith": {
     "message": "Kontraktinteraktion mit"
@@ -1054,7 +1054,7 @@
     }
   },
   "origination": {
-    "message": "Entstehung"
+    "message": "Kontrakterstellung"
   },
   "other": {
     "message": "Sonstige"

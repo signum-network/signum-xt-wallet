@@ -1,51 +1,39 @@
-export enum OpStackItemType {
+export enum TransactionItemType {
   TransferTo,
   TransferFrom,
-  Delegation,
   Interaction,
   Origination,
   Other
 }
 
-export type OpStackItem =
-  | TransferFromItem
-  | TransferToItem
-  | DelegationItem
-  | InteractionItem
-  | OriginationItem
-  | OtherItem;
+export type TransactionItem = TransferFromItem | TransferToItem | InteractionItem | OriginationItem | OtherItem;
 
 export interface OpStackItemBase {
-  type: OpStackItemType;
+  type: TransactionItemType;
 }
 
 export interface TransferFromItem extends OpStackItemBase {
-  type: OpStackItemType.TransferFrom;
+  type: TransactionItemType.TransferFrom;
   from: string;
 }
 
 export interface TransferToItem extends OpStackItemBase {
-  type: OpStackItemType.TransferTo;
-  to: string;
-}
-
-export interface DelegationItem extends OpStackItemBase {
-  type: OpStackItemType.Delegation;
+  type: TransactionItemType.TransferTo;
   to: string;
 }
 
 export interface InteractionItem extends OpStackItemBase {
-  type: OpStackItemType.Interaction;
+  type: TransactionItemType.Interaction;
   with: string;
   entrypoint: string;
 }
 
 export interface OriginationItem extends OpStackItemBase {
-  type: OpStackItemType.Origination;
+  type: TransactionItemType.Origination;
   contract?: string;
 }
 
 export interface OtherItem extends OpStackItemBase {
-  type: OpStackItemType.Other;
+  type: TransactionItemType.Other;
   name: string;
 }

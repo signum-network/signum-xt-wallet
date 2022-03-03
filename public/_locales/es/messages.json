@@ -755,7 +755,7 @@
     "message": "Error al procesar el recurso con los datos proporcionados. Asegúrese de que el ID del recurso sea correcto."
   },
   "interaction": {
-    "message": "Interacción"
+    "message": "Interacción del contrato"
   },
   "interactionWith": {
     "message": "Interacción del contrato con"
@@ -1054,7 +1054,7 @@
     }
   },
   "origination": {
-    "message": "Aparición"
+    "message": "Creación de contratos"
   },
   "other": {
     "message": "Otro"

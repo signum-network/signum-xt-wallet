@@ -11,7 +11,7 @@ import CustomSelect, { OptionRenderProps } from 'app/templates/CustomSelect';
 import SignView from 'app/templates/SignumSignView/SignView';
 import { T } from 'lib/i18n/react';
 import { XTAccount, TempleDAppPayload } from 'lib/messaging';
-import { SIGNA_METADATA, XTAccountType, TempleDAppSignPayload, useRelevantAccounts } from 'lib/temple/front';
+import { XTAccountType, TempleDAppSignPayload, useRelevantAccounts, useSignumAssetMetadata } from 'lib/temple/front';
 
 import IdenticonSignum from '../../atoms/IdenticonSignum';
 
@@ -20,6 +20,7 @@ const AccountIcon: FC<OptionRenderProps<XTAccount>> = ({ item }) => (
 );
 
 const AccountOptionContentHOC = (networkRpc: string) => {
+  const { symbol } = useSignumAssetMetadata();
   return memo<OptionRenderProps<XTAccount>>(({ item: acc }) => (
     <>
       <div className="flex flex-wrap items-center">
@@ -35,7 +36,7 @@ const AccountOptionContentHOC = (networkRpc: string) => {
         <Balance accountId={acc.publicKeyHash} networkRpc={networkRpc}>
           {bal => (
             <div className={classNames('ml-2', 'text-xs leading-none', 'text-gray-600')}>
-              <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{SIGNA_METADATA.symbol}</span>
+              <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{symbol}</span>
             </div>
           )}
         </Balance>

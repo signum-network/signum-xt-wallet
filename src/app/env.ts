@@ -74,3 +74,10 @@ export function openInFullPage() {
     url: browser.runtime.getURL(url)
   });
 }
+
+export function openOptionsInFullPage() {
+  browser.tabs.create({
+    url: browser.runtime.getURL('options.html')
+  });
+}
+

@@ -1,15 +1,21 @@
-import React, { FC } from 'react';
+import React, { useCallback } from 'react';
 
 import classNames from 'clsx';
 
+import { openOptionsInFullPage, useAppEnv } from 'app/env';
 import { t, T } from 'lib/i18n/react';
 
 import Alert from '../atoms/Alert';
 
-const PopupSettings: FC<{}> = () => {
-  const handleReset = () => {
-    window.location.href = './options.html';
-  };
+const PopupSettings = () => {
+  const appEnv = useAppEnv();
+
+  const handleReset = useCallback(() => {
+    openOptionsInFullPage();
+    if (appEnv.popup) {
+      window.close();
+    }
+  }, [appEnv.popup]);
 
   return (
     <>

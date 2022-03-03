@@ -25,7 +25,10 @@ import {
   fetchFromStorage,
   fetchCollectibleTokens,
   fetchAllKnownCollectibleTokenSlugs,
-  DetailedAssetMetdata
+  DetailedAssetMetdata,
+  useNetwork,
+  SIGNA_TESTNET_METADATA,
+  NetworkName
 } from 'lib/temple/front';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
@@ -86,8 +89,9 @@ const enqueueAutoFetchMetadata = createQueue();
 const autoFetchMetadataFails = new Set<string>();
 
 export function useSignumAssetMetadata(slug?: string): AssetMetadata {
-  // TODO: add more token support in the future
-  return SIGNA_METADATA;
+  // TODO: support the slugs - i.e. other tokens
+  const network = useNetwork();
+  return network.networkName === NetworkName.Mainnet ? SIGNA_METADATA : SIGNA_TESTNET_METADATA;
 }
 
 export function useAssetMetadata(slug: string) {

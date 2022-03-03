@@ -7,10 +7,10 @@ import { ReactComponent as CodeAltIcon } from 'app/icons/code-alt.svg';
 import { ReactComponent as EyeIcon } from 'app/icons/eye.svg';
 import ViewsSwitcher from 'app/templates/ViewsSwitcher/ViewsSwitcher';
 import { T, t } from 'lib/i18n/react';
-import { SIGNA_METADATA, TempleDAppSignPayload, useSignum } from 'lib/temple/front';
+import { TempleDAppSignPayload, useSignum, useSignumAssetMetadata } from 'lib/temple/front';
 import { parseSignumTransaction, ParsedTransaction } from 'lib/temple/front/parseSignumTransaction';
+import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
-import { withErrorHumanDelay } from '../../../lib/ui/humanDelay';
 import Alert from '../../atoms/Alert';
 import JsonView from './JsonView';
 import TransactionView from './TransactionView';
@@ -34,6 +34,7 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
   ];
 
   const signum = useSignum();
+  const { symbol } = useSignumAssetMetadata();
   const [parsedTransaction, setParsedTransaction] = useState<ParsedTransaction | null>(null);
   const [jsonTransaction, setJsonTransaction] = useState<object>({});
   const [signViewFormat, setSignViewFormat] = useState(SigningViewFormats[0]);
@@ -106,7 +107,7 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
       <div className="mt-4 leading-tight flex text-base font-semibold text-gray-700 items-center justify-between w-full">
         <span>{t('totalAmount')}</span>
         <span>
-          {totalSigna}&nbsp;{SIGNA_METADATA.symbol}
+          {totalSigna}&nbsp;{symbol}
         </span>
       </div>
     </div>

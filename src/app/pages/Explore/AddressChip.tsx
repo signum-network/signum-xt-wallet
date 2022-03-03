@@ -3,10 +3,17 @@ import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'clsx';
 import useSWR from 'swr';
 
+import OpenInExplorerChip from 'app/atoms/OpenInExplorerChip';
 import { ReactComponent as AddressIcon } from 'app/icons/address.svg';
 import { ReactComponent as AliasIcon } from 'app/icons/alias.svg';
 import HashChip from 'app/templates/HashChip';
-import { fetchFromStorage, putToStorage, useSignum, useSignumAliasResolver } from 'lib/temple/front';
+import {
+  fetchFromStorage,
+  putToStorage,
+  useSignum,
+  useSignumAliasResolver,
+  useSignumExplorerBaseUrls
+} from 'lib/temple/front';
 
 type AddressChipProps = {
   accountId: string;
@@ -17,6 +24,7 @@ type AddressChipProps = {
 const AddressChip: FC<AddressChipProps> = ({ accountId, className, small }) => {
   const signum = useSignum();
   const { resolveAccountIdToAlias } = useSignumAliasResolver();
+  const { account: explorerBaseUrl } = useSignumExplorerBaseUrls();
 
   const { data: accountInfo } = useSWR(
     () => ['getAccount', accountId],
@@ -71,7 +79,7 @@ const AddressChip: FC<AddressChipProps> = ({ accountId, className, small }) => {
         ) : (
           <HashChip hash={accountId} isAccount small={small} />
         )}
-
+        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} hash={accountId} className="mr-2" />}
         {aliasName && (
           <button
             type="button"

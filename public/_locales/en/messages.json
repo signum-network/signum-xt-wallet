@@ -758,7 +758,7 @@
     "message": "Error processing asset with provided data. Make sure the asset ID is correct."
   },
   "interaction": {
-    "message": "Interaction"
+    "message": "Contract Interaction"
   },
   "interactionWith": {
     "message": "Contract Interaction with"
@@ -1057,7 +1057,7 @@
     }
   },
   "origination": {
-    "message": "Emergence"
+    "message": "Contract Creation"
   },
   "other": {
     "message": "Other"

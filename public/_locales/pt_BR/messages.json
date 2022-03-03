@@ -755,7 +755,7 @@
     "message": "Erro ao processar o ativo com os dados fornecidos. Verifique se o ID do recurso está correto."
   },
   "interaction": {
-    "message": "Interação"
+    "message": "Interação do contrato"
   },
   "interactionWith": {
     "message": "Interação contratual com"
@@ -1054,7 +1054,7 @@
     }
   },
   "origination": {
-    "message": "Aparecimento"
+    "message": "Criação de contrato"
   },
   "other": {
     "message": "Outros"

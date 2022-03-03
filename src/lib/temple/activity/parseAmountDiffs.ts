@@ -6,11 +6,11 @@ import {
 } from '@signumjs/core';
 import { Amount } from '@signumjs/util';
 
-interface AmountDiffs {
+interface ParseAmountDiffs {
   diff: string;
 }
 
-export function parseAmountDiffs(tx: Transaction, accountId: string): AmountDiffs[] {
+export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmountDiffs[] {
   // TODO: we do not need stacked diffs here
   let amount = Amount.fromPlanck(tx.amountNQT || '0');
   let isIncoming = tx.recipient === accountId; // common transaction

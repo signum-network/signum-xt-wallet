@@ -6,7 +6,7 @@ import {
   TransactionType
 } from '@signumjs/core';
 
-import { OpStackItem, OpStackItemType } from './types';
+import { TransactionItem, TransactionItemType } from './types';
 
 function isPayment(tx: Transaction): boolean {
   return (
@@ -20,26 +20,24 @@ function isContractCreation(tx: Transaction): boolean {
   return tx.type === TransactionType.AT && tx.subtype === TransactionSmartContractSubtype.SmartContractCreation;
 }
 
-export function parseTxStack(tx: Transaction, accountId: string): OpStackItem[] {
+export function parseTransaction(tx: Transaction, accountId: string): TransactionItem {
   // @ts-ignore
-  const item: OpStackItem = {
+  const item: TransactionItem = {
     from: tx.senderRS,
     to: tx.recipientRS || ''
   };
+
   if (isPayment(tx)) {
-    item.type = tx.sender === accountId ? OpStackItemType.TransferTo : OpStackItemType.TransferFrom;
+    item.type = tx.sender === accountId ? TransactionItemType.TransferTo : TransactionItemType.TransferFrom;
   } else if (isContractCreation(tx)) {
-    item.type = OpStackItemType.Origination;
+    item.type = TransactionItemType.Origination;
     // @ts-ignore
     item.contract = Address.fromNumericId(tx.transaction!).getReedSolomonAddress();
   } else {
-    item.type = OpStackItemType.Other;
+    item.type = TransactionItemType.Other;
     // TODO: name the type more precisely
     // @ts-ignore
     item.name = '';
   }
-
-  // we have only a single object.... but need to align structure with pre-existing code
-  // TODO: get rid of array / stack structure
-  return [item];
+  return item;
 }

@@ -25,7 +25,7 @@ import { ReactComponent as RocketIcon } from 'app/icons/rocket.svg';
 import CustomSelect, { OptionRenderProps } from 'app/templates/CustomSelect';
 import { toLocalFixed } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
-import { SIGNA_METADATA, useSignum } from 'lib/temple/front';
+import { useSignum, useSignumAssetMetadata } from 'lib/temple/front';
 
 export type AdditionalFeeInputProps = {
   onChange: (fee: string) => void;
@@ -167,6 +167,7 @@ const FeeOptionIcon: FC<OptionRenderProps<FeeOption>> = ({ item: { Icon } }) => 
 };
 
 const FeeOptionContent: FC<OptionRenderProps<FeeOption>> = ({ item: { descriptionI18nKey, amount } }) => {
+  const metadata = useSignumAssetMetadata();
   return (
     <>
       <div className="flex flex-wrap items-center">
@@ -176,8 +177,7 @@ const FeeOptionContent: FC<OptionRenderProps<FeeOption>> = ({ item: { descriptio
 
         {amount && (
           <div className="ml-2 leading-none text-gray-600">
-            <Money cryptoDecimals={5}>{amount}</Money>{' '}
-            <span style={{ fontSize: '0.75em' }}>{SIGNA_METADATA.symbol}</span>
+            <Money cryptoDecimals={5}>{amount}</Money> <span style={{ fontSize: '0.75em' }}>{metadata.symbol}</span>
           </div>
         )}
       </div>

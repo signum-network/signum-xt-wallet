@@ -89,7 +89,7 @@ export async function parseSignumTransaction(
 function calculateAmount(tx: Transaction): BigNumber {
   if (tx.type === TransactionType.Payment && tx.subtype === TransactionPaymentSubtype.MultiOut) {
     const amounts = getRecipientAmountsFromMultiOutPayment(tx);
-    amounts.reduce((amount, { amountNQT }) => amount.plus(new BigNumber(amountNQT)), new BigNumber(0));
+    return amounts.reduce((amount, { amountNQT }) => amount.plus(new BigNumber(amountNQT)), new BigNumber(0));
   }
   return new BigNumber(tx.amountNQT || 0);
 }
