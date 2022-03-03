@@ -1783,5 +1783,13 @@
   },
   "textAttachment": {
     "message": "Texto adicional"
+  },
+  "wrongCurrentNetworkNode": {
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    },
+    "message": "Su nodo actualmente seleccionado no pertenece a la red solicitada: $networkName$. Por favor, seleccione un nodo correcto y vuelva a intentarlo"
   }
 }

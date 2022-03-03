@@ -1,0 +1,1795 @@
+{
+  "about": {
+    "message": "ข้อมูลเกี่ยวกับ App"
+  },
+  "aboutDescription": {
+    "message": "ดูข้อมูลส่วนนี้ที่เกี่ยวกับ Extension ของ App นี้"
+  },
+  "acceptTerms": {
+    "message": "ข้อตกลงของ app"
+  },
+  "acceptTermsInputDescription": {
+    "message": "สัญญาว่าเราได้อ่านข้อตกลงและยอมรับข้อตกลงของ $termsOfUsageLink$ และ $privacyPolicyLink$",
+    "placeholders": {
+      "termsOfUsageLink": {
+        "content": "$1"
+      },
+      "privacyPolicyLink": {
+        "content": "$2"
+      }
+    }
+  },
+  "account": {
+    "message": "ข้อมูลบัญชีเรา"
+  },
+  "accountActivated": {
+    "message": "ระบบเปิดการใช้งานบัญชีของเราเรียบร้อยแล้ว เช็คดูได้"
+  },
+  "accountAddressLabel": {
+    "message": "Address นี้สำหรับรูทางเข้าของกระเป๋าตัง คนอื่นส่งเงินให้เราผ่าน Address นี้ได้"
+  },
+  "accountAlreadyActivated": {
+    "message": "บัญชีนี้มีคนสั่งเปิดการใช้งานบัญชีเรียบร้อยแล้วนะ บอกได้เท่านี้ล่ะ"
+  },
+  "accountName": {
+    "message": "ชื่อบัญชี"
+  },
+  "accountNameInputDescription": {
+    "message": "บัญชีใหม่นี้ ให้เรียกว่าอะไรดีล่ะ?"
+  },
+  "accountNameInputTitle": {
+    "message": "1 ถึง 16 ตัวอักษรไม่มีอักษรพิเศษ แต่เราลองชื่อไทยเล่น ๆ แล้วก็ใช้ได้อยู่นะ"
+  },
+  "accountNumber": {
+    "message": "เลขที่บัญชี"
+  },
+  "accountToBeActivated": {
+    "message": "ระบบต้องสั่งเปิดการใช้งานบัญชีนี้ก่อนนะ"
+  },
+  "accountToBeRemoved": {
+    "message": "บัญชีที่ลบ:"
+  },
+  "accounts": {
+    "message": "บัญชี"
+  },
+  "actionConfirmation": {
+    "message": "ยืนยันคำสั่ง"
+  },
+  "activate": {
+    "message": "สั่งเปิดการใช้งาน"
+  },
+  "activateAccount": {
+    "message": "สั่งเปิดการใช้งาน account"
+  },
+  "activateAccountDescription": {
+    "message": "อาจต้องการเพื่อสำหรับ Account ประเภท ICO/funder หรือประเภท testnet faucet accounts."
+  },
+  "activateAccountSecret": {
+    "message": "Secret"
+  },
+  "activateAccountSecretDescription": {
+    "message": "'Secret' field of funder account or faucet"
+  },
+  "activateAccountSecretPlaceholder": {
+    "message": "ตัวอย่างเช่น n4hs7sd3..."
+  },
+  "activationOperationType": {
+    "message": "เปิดการใช้งาน"
+  },
+  "activity": {
+    "message": "กิจกรรมย้อนหลัง"
+  },
+  "add": {
+    "message": "เพิ่มให้กับ"
+  },
+  "addAsset": {
+    "message": "เพิ่ม asset"
+  },
+  "addCollectible": {
+    "message": "เพิ่ม collectible"
+  },
+  "addContact": {
+    "message": "เพิ่มผู้ติดต่อเข้ารายการ"
+  },
+  "addLedgerAccount": {
+    "message": "เพิ่ม Ledger Account",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "addNetwork": {
+    "message": "เพิ่ม Network Node"
+  },
+  "addNewContact": {
+    "message": "สร้างผู้ติดต่อ"
+  },
+  "addNewToken": {
+    "message": "สร้าง Token ใหม่"
+  },
+  "addThisAddressToContacts": {
+    "message": "เพิ่ม address เข้าไปในผู้ติดต่อนี้ไหม?"
+  },
+  "addToken": {
+    "message": "เพิ่ม Asset"
+  },
+  "additionalFee": {
+    "message": "เลือกค่า Fee อยากให้ยืนยันธุรกรรมด่วนแบบไหนล่ะ?"
+  },
+  "address": {
+    "message": "Address ของ บัญชี"
+  },
+  "addressBook": {
+    "message": "หนังสือเก็บรายการของ Address"
+  },
+  "addressBookDescription": {
+    "message": "ให้จัดการผู้ติดต่อ จะเพิ่มหรือเอาผู้ติดต่อออกก็ได้"
+  },
+  "addressInputDescription": {
+    "message": "Signum account address หรือ ID"
+  },
+  "addressInputDescriptionWithDomain": {
+    "message": "Address, ID หรือ alias ของ account"
+  },
+  "addressOfDeployedTokenContract": {
+    "message": "Address ของ asset contract ที่จัดหามาให้"
+  },
+  "addressOfTokenContract": {
+    "message": "Address ของ $assetSymbol$ token contract.",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "alert": {
+    "message": "แจ้งเตือน"
+  },
+  "alpha": {
+    "message": "Alpha"
+  },
+  "amount": {
+    "message": "จำนวน"
+  },
+  "amountMustBePositive": {
+    "message": "ต้องเป็นค่าบวกมากกว่า 0 เท่านั้น"
+  },
+  "amountPlaceholder": {
+    "message": "ยกตัวอย่างว่ามีจำนวน 123.45"
+  },
+  "analyticsConfirmationCancelButton": {
+    "message": "ยกเลิก"
+  },
+  "analyticsConfirmationCollect": {
+    "message": "เราสะสมอะไรไป:"
+  },
+  "analyticsConfirmationCollectDescription": {
+    "message": "Anonymized click and page view events"
+  },
+  "analyticsConfirmationConfirmButton": {
+    "message": "ยืนยัน"
+  },
+  "analyticsConfirmationDescription": {
+    "message": "แปลจากประโยคอังกฤษของจริงมาให้อ่านแล้วนะ \"เราต้องการพัฒนาแอปและต้องการความช่วยเหลือจากเรา ดังนั้นเราขอข้อมูลที่ท่านใช้แอปกระเป๋าตังอันนี้ โดยเอาเฉพาะข้อมูลที่ไม่ได้บอกตัวตนของเราเพื่อพัฒนาแอปกระเป๋าตังอันนี้เท่านั้นพอ\" We are constantly improving Wallet and need your help. To better understand which section of the wallet should be updated, we collect anonymous usage data. This data is only used to improve the usability of  Wallet."
+  },
+  "analyticsConfirmationNeverCollect": {
+    "message": "เราไม่ติดตามข้อมูล:"
+  },
+  "analyticsConfirmationNeverCollectDescription": {
+    "message": "key , addresses , ธุรกรรม, เงิน , ค่า hashe , IP และข้อมูลส่วนตัวอื่น ๆ"
+  },
+  "analyticsConfirmationSettingsDescription": {
+    "message": "ท่านสามารถปิดการส่งข้อมูลที่ท่านใช้กระเป๋าตัง ( แบบไม่บอกตัวตนของเรา ) ได้ที่การตั้งค่าเมื่อไหร่ก็ได้"
+  },
+  "analyticsConfirmationTitle": {
+    "message": "ช่วย Developer พัฒนากระเป๋าตังใบนี้ให้ดีขึ้น"
+  },
+  "analyticsSettings": {
+    "message": "วิเคราะห์ข้อมูลที่ไม่บอกตัวตน"
+  },
+  "analyticsSettingsDescription": {
+    "message": "ท่านตั้งค่าให้ส่งข้อมูล (ที่ไม่ระบุตัวตนเรา) เพื่อช่วยพัฒนาแอปได้จากตรงนี้"
+  },
+  "anotherAccount": {
+    "message": "account อื่น"
+  },
+  "appDesc": {
+    "message": "กระเป๋า Cryptocurrency wallet สำหรับ green Signum 🍀 blockchain แต่เป็นเวอร์ชั่นที่เป็น extension สำหรับติด browser นะ"
+  },
+  "appName": {
+    "message": "Signum XT Wallet"
+  },
+  "appRequestsToSign": {
+    "message": "$origin$ ต้องการให้ท่านยืนยันธุรกรรม",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "appWouldLikeToConnectToYourWallet": {
+    "message": "$origin$ ต้องการเชื่อมต่อ wallet ของท่าน",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "applied": {
+    "message": "Confirmed"
+  },
+  "approveForSmb": {
+    "message": "สำหรับ $donor$",
+    "placeholders": {
+      "donor": {
+        "content": "$1"
+      }
+    }
+  },
+  "approveToken": {
+    "message": "Approve Tokens"
+  },
+  "asset": {
+    "message": "Asset"
+  },
+  "assetId": {
+    "message": "Asset ID"
+  },
+  "assets": {
+    "message": "Assets"
+  },
+  "atLeast1LowercaseLetter": {
+    "message": "ต้องการตัวอักษรตัวเล็กอย่างน้อย 1 ตัวอักษรขึ้นไป"
+  },
+  "atLeast1Number": {
+    "message": "ต้องการเลขอย่างน้อย 1 ตัวอักษรขึ้นไป"
+  },
+  "atLeast1UppercaseLetter": {
+    "message": "ต้องการตัวอักษรตัวใหญ่อย่างน้อย 1 ตัวอักษรขึ้นไป"
+  },
+  "atLeast8Characters": {
+    "message": "ต้องการอย่างน้อย 8 ตัวอักษรขึ้นไป"
+  },
+  "attentionExclamation": {
+    "message": "ใส่ใจสักหน่อยนะ!"
+  },
+  "authorizedDApps": {
+    "message": "Authorized DApps",
+    "description": "DApps = Decentralized Applications"
+  },
+  "availableToSend": {
+    "message": "จำนวนที่ส่งไปได้ (สูงสุด):"
+  },
+  "back": {
+    "message": "ย้อนกลับ"
+  },
+  "backToUnlockPage": {
+    "message": "ย้อนไปหน้า unlock page"
+  },
+  "backtracked": {
+    "message": "ถอยหลังไป"
+  },
+  "backupNewSeedPhrase": {
+    "message": "บันทึก passphrase อันใหม่"
+  },
+  "backupedInputDescription": {
+    "message": "จำให้ขึ้นใจไปตลอดเลย ถ้าลืมรหัสกระเป๋าตังที่เป็น Seed จะไม่สามารถเอาเงินมาได้อีกเลย\n ต้องเก็บรักษารหัสเอาไว้ให้ดีเยี่ยงชีวิต"
+  },
+  "backupedInputLabel": {
+    "message": "เราสำรองและบันทึกรหัสแล้ว"
+  },
+  "baker": {
+    "message": "Baker"
+  },
+  "balance": {
+    "message": "จำนวนเงิน:"
+  },
+  "balanceTooLow": {
+    "message": "จำนวนเงิน น้อยไป"
+  },
+  "billionFormat": {
+    "message": "$billion$B",
+    "placeholders": {
+      "billion": {
+        "content": "$1"
+      }
+    }
+  },
+  "bytes": {
+    "message": "bytes"
+  },
+  "cancel": {
+    "message": "ยกเลิก"
+  },
+  "cannotBeRemoved": {
+    "message": "เอาออกไม่ได้"
+  },
+  "cantConnectToNetwork": {
+    "message": "ติดต่อ network node ไม่ได้"
+  },
+  "cantConnectToNetworkHint": {
+    "message": "ให้ลองเลือก network node อื่น ๆ ดู และเช็คว่าการเชื่อมต่อ internet อยู่ดีไหม"
+  },
+  "clean": {
+    "message": "ทำความสะอาด"
+  },
+  "clickIconToResetPermissions": {
+    "message": "กดที่ X icon ล้างค่า permissions"
+  },
+  "clickOnCustomDerivationPath": {
+    "message": "กดปุ่ม 'Custom Derive Path' เพื่อปรับค่า"
+  },
+  "clickOnRecipientAccount": {
+    "message": "กดที่ account ที่จะส่งเงินไปให้"
+  },
+  "clickToRevealOrEditField": {
+    "message": "กดที่นี่เพื่อดูหรือแก้ไขข้อมูลนี้"
+  },
+  "collectibles": {
+    "message": "Collectibles"
+  },
+  "comingSoon": {
+    "message": "Coming soon"
+  },
+  "communityResourcesTitle": {
+    "message": "ถ้าอยากหาข้อมูลของ Signum XT wallet หรือขอความช่วยเหลือ มีทั้ง github , discord และ Social network ให้เลือกด้านล่าง:"
+  },
+  "confirm": {
+    "message": "ยืนยัน"
+  },
+  "confirmAction": {
+    "message": "ยืนยัน $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmActionOnDevice": {
+    "message": "ยืนยัน action ที่จะทำ"
+  },
+  "confirmTermsError": {
+    "message": "ถ้าไม่ยินยอมข้อตกลงก็ไม่สามารถดำเนินการต่อไปได้"
+  },
+  "confirmation": {
+    "message": "การยืนยัน"
+  },
+  "connect": {
+    "message": "เชื่อมต่อ"
+  },
+  "connectLedger": {
+    "message": "เชื่อมต่อ ledgers",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "connection": {
+    "message": "การเชื่อมต่อ"
+  },
+  "connectionUnavailable": {
+    "message": "ไม่พบ"
+  },
+  "contact": {
+    "message": "ผู้ติดต่อ"
+  },
+  "contactWithTheSameAddressAlreadyExists": {
+    "message": "พบผู้ติดต่อที่มี Address ซ้ำกันอยู่แล้ว"
+  },
+  "continue": {
+    "message": "ต่อไป"
+  },
+  "copiedAddress": {
+    "message": "Copied"
+  },
+  "copiedHash": {
+    "message": "Copied"
+  },
+  "copyAddressToClipboard": {
+    "message": "Copy Address ่ใส่ Clipboard"
+  },
+  "copyHashToClipboard": {
+    "message": "Copy ใส่ Clipboard"
+  },
+  "counterErrorDescription": {
+    "message": "ยังไม่สามารถดำเนินการอะไรตอนนี้ได้\nรอให้การดำเนินเสร็จแล้วลองทำอีกครั้งดู"
+  },
+  "create": {
+    "message": "สร้าง"
+  },
+  "createAccount": {
+    "message": "สร้าง Account"
+  },
+  "createNewWallet": {
+    "message": "สร้าง Wallet ใหม่"
+  },
+  "createNewWalletDescription": {
+    "message": "ท่านเพิ่งเคยใช้ Signum Networt ใช่ไหม? เรามาสร้าง Wallet มาใช้กันดีกว่า ขอให้โชคดี"
+  },
+  "currentContacts": {
+    "message": "ผู้ติดต่อที่มีอยู่"
+  },
+  "currentNetworks": {
+    "message": "Network Nodes ที่มีอยู่"
+  },
+  "customDerivationPath": {
+    "message": "Custom Derivation Path"
+  },
+  "customFeeDescription": {
+    "message": "Custom"
+  },
+  "dApps": {
+    "message": "DApps",
+    "description": "DApps = Decentralized Applications"
+  },
+  "dAppsCheckmarkPrompt": {
+    "message": "ติ๊กกล่องเครื่องหมายถูกหรือเอาออกเพื่อ $action$ การทำงานของ DApps interactions",
+    "description": "DApps = Decentralized Applications",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "dAppsDescription": {
+    "message": "ตั้งค่าเพื่อปรับการใช้งานของ \"decentralized applications\" หรือที่เรียกว่า DApps ได้ เช่นการ interact กันระหว่างแอปเป็นต้น"
+  },
+  "dAppsInteraction": {
+    "message": "DApps Interaction",
+    "description": "DApps = Decentralized Applications"
+  },
+  "dAppsListTvlDescription": {
+    "message": "จำนวนเงินที่ถูกล็อคถ้าเป็น SIGNA จะหมายถึงจำนวน SIGNA ที่โดนล็อคใน DApps และถ้าเป็นหน่วย USD จะหมายถึงจำนวน SIGNA และ TOKEN ที่ถูกล็อครวมกัน"
+  },
+  "decimals": {
+    "message": "ทศนิยม"
+  },
+  "decimalsInputDescription": {
+    "message": "จำนวนตำแหน่งทศนิยมหลังจุดทศนิยม เช่น BTC มี 8 จุดและ USD มี 2 จุด"
+  },
+  "decline": {
+    "message": "ปฏิเสธ"
+  },
+  "defaultAccount": {
+    "message": "ค่าเริ่มต้นของบัญชี"
+  },
+  "defaultAccountName": {
+    "message": "บัญชี $accountNumber$",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultDerivationPathLabel": {
+    "message": "ค่าเริ่มต้น $path$ derivation ถูกใช้งาน",
+    "placeholders": {
+      "path": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultLedgerName": {
+    "message": "Ledger $number$",
+    "description": "Ledger = https://www.ledger.com/",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultManagedKTAccountName": {
+    "message": "การจัดการ KT $accountNumber$",
+    "description": "KT not translated",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "defaultWatchOnlyAccountName": {
+    "message": "ดูเฉพาะ $accountNumber$",
+    "placeholders": {
+      "accountNumber": {
+        "content": "$1"
+      }
+    }
+  },
+  "delegation": {
+    "message": "Delegation"
+  },
+  "delegationToSmb": {
+    "message": "to $delegate$",
+    "placeholders": {
+      "delegate": {
+        "content": "$1"
+      }
+    }
+  },
+  "delete": {
+    "message": "ลบ"
+  },
+  "deleteCollectibleConfirm": {
+    "message": "ท่านต้องการลบ collectible อันนี้ไหม?"
+  },
+  "deleteContactConfirm": {
+    "message": "ท่านต้องการเอาผู้ติดต่อคนนี้ออกไปไหม?"
+  },
+  "deleteNetworkConfirm": {
+    "message": "ท่านต้องการลบ Network Node อันนี้ไหม?"
+  },
+  "deleteNetworkHint": {
+    "message": "กดปุ่ม X icon เพื่อลบ Network node ทิ้ง ถ้าอยากแก้ Network Node ใหม่ให้ลบทิ้งแล้วกรอกข้อมูลใหม่ซะ"
+  },
+  "deleteTokenConfirm": {
+    "message": "ต้องการลบ Token นี้ทิ้งไหม?"
+  },
+  "deployNew": {
+    "message": "Deploy อีกรอบ"
+  },
+  "derivation": {
+    "message": "Derivation"
+  },
+  "derivationPath": {
+    "message": "Derivation Path"
+  },
+  "derivationPathExample": {
+    "message": "m/44'/1729'/<account_index>'/0'"
+  },
+  "derivationPathExample2": {
+    "message": "ตัวอย่างเช่น m/44'/1729'/..."
+  },
+  "derivationPathMustStartWithM": {
+    "message": "ตัวอักษรต้องเริ่มด้วยตัว 'm' ตัวนี้"
+  },
+  "derivationSeparatorMustBeSlash": {
+    "message": "ตัวแบ่งต้องเป็นตัว '/' นะ"
+  },
+  "derivationType": {
+    "message": "Derivation Type"
+  },
+  "derivationTypeFieldDescription": {
+    "message": "สูตรคณิตศาสตร์เส้นโค้งพีชคณิตชื่อ \"elliptic curve\" ใช้กับบัญชีนี้"
+  },
+  "deviceName": {
+    "message": "$device$ device",
+    "placeholders": {
+      "device": {
+        "content": "$1"
+      }
+    }
+  },
+  "disable": {
+    "message": "ปิดการทำงาน"
+  },
+  "disabled": {
+    "message": "ปิดการใช้งานแล้ว"
+  },
+  "disabledForWatchOnlyAccount": {
+    "message": "ปิดการทำงาน account ที่ดูได้อย่างเดียว"
+  },
+  "doNotSharePhrase": {
+    "message": "<b>อย่าแชร์รหัสให้กับใครเด็ดขาด ไม่งั้นเงินเกลี้ยงกระเป๋าแน่!! ระวังพวก Scammer หลอกลวงด้วยนะเออ</b>"
+  },
+  "domainDoesntResolveToAddress": {
+    "message": "Alias \"$value$\" นี้พบว่าอ้างอิงกับ Address ไม่ได้",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "edit": {
+    "message": "แก้ไข"
+  },
+  "email": {
+    "message": "E-mail"
+  },
+  "emptyImplicitContract": {
+    "message": "Account ของท่านว่างอยู่ ให้ลองโอนเงินจาก Tez Mobile Payment service เข้า Account นี้เพื่อเปิดการใช้งานดูนะ"
+  },
+  "enable": {
+    "message": "เปิดการใช้งาน"
+  },
+  "enablePopup": {
+    "message": "เปิดการใช้งาน popup"
+  },
+  "enabled": {
+    "message": "เปิดการใช้งานแล้ว"
+  },
+  "enterPasswordToRemoveAccount": {
+    "message": "กรอกรหัสผ่านเเพื่อสั่งลบ account นี้"
+  },
+  "error": {
+    "message": "Error"
+  },
+  "errorChangingAccountName": {
+    "message": "พบ Error ระหว่างเปลี่ยนชื่อ Account"
+  },
+  "exchangeRate": {
+    "message": "อัตราแลกเปลี่ยน:"
+  },
+  "explore": {
+    "message": "สำรวจ"
+  },
+  "failed": {
+    "message": "ล้มเหลว"
+  },
+  "failedToParseMetadata": {
+    "message": "Error parsing metadata"
+  },
+  "failedToResetExtension": {
+    "message": "ไม่สามารถ Reset Extension นี้ได้: $errorMessage$",
+    "placeholders": {
+      "errorMessage": {
+        "content": "$1"
+      }
+    }
+  },
+  "failureSecretMayBeInvalid": {
+    "message": "Failed. This can happen because the specified secret is invalid"
+  },
+  "farming": {
+    "message": "Farming"
+  },
+  "fastFeeDescription": {
+    "message": "ด่วน"
+  },
+  "fee": {
+    "message": "ค่า Fee"
+  },
+  "feeInputDescription": {
+    "message": "ค่า Fee ที่น้อยที่สุดคือ : $fee$\nถ้าเพิ่มค่า Fee อาจช่วยเร่งความเร็วการยืนยันธุรกรรมได้",
+    "placeholders": {
+      "fee": {
+        "content": "$1"
+      }
+    }
+  },
+  "fetchingConfirmationDetails": {
+    "message": "ดึงข้อมูลรายละเอียดการยืนยันให้แล้ว"
+  },
+  "file": {
+    "message": "ไฟล์"
+  },
+  "finish": {
+    "message": "เสร็จแล้ว"
+  },
+  "firefoxLedgerConnectionError": {
+    "message": "$sorry$ The connection to the $device$ via $browser$ is temporarily $unavailable$.",
+    "placeholders": {
+      "sorry": {
+        "content": "$1"
+      },
+      "device": {
+        "content": "$2"
+      },
+      "browser": {
+        "content": "$3"
+      },
+      "unavailable": {
+        "content": "$4"
+      }
+    }
+  },
+  "formatsAllowed": {
+    "message": "เฉพาะรูปที่มีนามสกุลไฟล์ .png, .jpg, .jpeg, .gif, .webp ที่ใช้ได้"
+  },
+  "from": {
+    "message": "from"
+  },
+  "fundraiser": {
+    "message": "fundraiser"
+  },
+  "game": {
+    "message": "Game"
+  },
+  "gasFee": {
+    "message": "Fee ของค่าแก๊ส"
+  },
+  "generalSettings": {
+    "message": "ทั่วไป"
+  },
+  "generalSettingsDescription": {
+    "message": "สามารถจัดการตั้งค่าภาษาและการแสดงข้อความตรงนี้ได้"
+  },
+  "hash": {
+    "message": "Hash"
+  },
+  "helpAndCommunity": {
+    "message": "Help & Community"
+  },
+  "helpAndCommunityDescription": {
+    "message": "ถ้าต้องการความช่วยเหลือ หรือต้องการเข้าร่วม Community สามารถเข้าได้จากที่นี่"
+  },
+  "iconURL": {
+    "message": "Icon URL"
+  },
+  "iconURLInputDescription": {
+    "message": "Asset logo image URL."
+  },
+  "id": {
+    "message": "ID"
+  },
+  "ifYouDontSeeYourAsset": {
+    "message": "ถ้าไม่ต้องการเห็นพวก assets,\nให้กด $toClick$.",
+    "placeholders": {
+      "toClick": {
+        "content": "$1"
+      }
+    }
+  },
+  "ifYouWantToActivateAnotherAccount": {
+    "message": "ถ้าต้องการเปิดใช้งานบัญชีอื่น ๆ ให้เลือกที่ขวาของ Drop Down list ที่เป็นตัวเลือกให้กดนะ"
+  },
+  "ifYouWantToRemoveAnotherAccount": {
+    "message": "ถ้าต้องการเอา่รายการ Account ออกเฉย ๆ ( ไม่ได้หมายถึงทำลาย Account ) ให้เลือกจาก Drop down menu ที่อยู่ขวาบน ถึงจะเอาออกจากรายการก็ \"นำเข้า หรือ Import\" กลับมาได้ถ้าต้องการนะ"
+  },
+  "import": {
+    "message": "นำเข้า"
+  },
+  "importAccount": {
+    "message": "นำเข้า Account"
+  },
+  "importExistingWallet": {
+    "message": "นำเข้า Existing Wallet"
+  },
+  "importExistingWalletDescription": {
+    "message": "ถ้ามี Account และอยากใช้ก็ให้ Import นำเข้า passphrase"
+  },
+  "importNewAccountTitle": {
+    "message": "อยากกู้ account เหรอ? หรือว่าอยากจะ Sign in ด้วย account อื่นแทน?"
+  },
+  "importWalletUsingSeedPhrase": {
+    "message": "นำเข้า wallet ด้วย passphrase"
+  },
+  "important": {
+    "message": "สำคัญ"
+  },
+  "importedAccount": {
+    "message": "นำเข้าแล้ว"
+  },
+  "inAsset": {
+    "message": "in $assetSymbol$",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "inUSD": {
+    "message": "in USD"
+  },
+  "incorrectTokenIdErrorMessage": {
+    "message": "Error processing asset with provided data. Make sure the asset ID is correct."
+  },
+  "interaction": {
+    "message": "Interaction"
+  },
+  "interactionWith": {
+    "message": "Contract Interaction with"
+  },
+  "interactionWithContract": {
+    "message": "with $contract$",
+    "placeholders": {
+      "contract": {
+        "content": "$1"
+      }
+    }
+  },
+  "invalidAddress": {
+    "message": "address ไม่ถูกต้อง"
+  },
+  "invalidAddressOrDomain": {
+    "message": "address หรือ alias ไม่ถูกต้อง"
+  },
+  "invalidPath": {
+    "message": "path ไม่ถูกต้อง"
+  },
+  "joinPrompt": {
+    "message": "เรายินดีที่ท่านร่วมวงกับเราและสอบถามข้อมูลนะ"
+  },
+  "lambdaContract": {
+    "message": "Lambda View contract"
+  },
+  "lambdaContractPlaceholder": {
+    "message": "ตัวอย่าง KT1v9CmPy..."
+  },
+  "languageAndCountry": {
+    "message": "ภาษา"
+  },
+  "ledgerLiveBridgeGuide": {
+    "message": "ต้องเปิดการใช้งาน the Ledger Live application ที่อุปกรณ์ของท่านก่อนนะ โดยการเปิด application ของ Tezos Wallet และยอมเชื่อมต่อผ่าน WebSocket เข้ากับบัญชีของท่าน"
+  },
+  "ledgerLiveSettings": {
+    "message": "ใช้ Ledger Live"
+  },
+  "ledgerLiveSettingsDescription": {
+    "message": "ฟีเจอร์ Ledger Live Bridge ยอมให้ท่านใช้ ledger แบบอื่น ๆ"
+  },
+  "ledgerNameConstraint": {
+    "message": "1 ถึง 16 ตัวอักษรและไม่มีอักษรพิเศษที่ต้องห้าม"
+  },
+  "ledgerNameInputDescription": {
+    "message": "ควรเรียก Ledger account อันใหม่ว่าอะไรดี?",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "ledgerNano": {
+    "message": "Ledger Nano",
+    "description": "Ledger = https://www.ledger.com/"
+  },
+  "less": {
+    "message": "ซ่อน",
+    "description": "ซ่อนบางส่วน"
+  },
+  "links": {
+    "message": "Links"
+  },
+  "loadMore": {
+    "message": "อ่านต่อ"
+  },
+  "lock": {
+    "message": "ล้อค"
+  },
+  "lockUpSettings": {
+    "message": "ล็อคอัตโนมัติ"
+  },
+  "lockUpSettingsDescription": {
+    "message": "Extension นี้ถ้าเราไม่แตะอะไรเลยเป็นเวลา 5 นาทีจะถูกล้อคเอง ให้ปลดล็อคเอานะ"
+  },
+  "lockedWalletAlreadyExists": {
+    "message": "<b>พบกระเป๋าที่ถูกระงับ</b>.\n<b>ถ้า Import อันใหม่ จะไปทับของเก่าที่เคยมีแทนของเดิม</b>."
+  },
+  "madeWithLove": {
+    "message": "Created with $loveIcon$ by $companyName$",
+    "placeholders": {
+      "loveIcon": {
+        "content": "$1"
+      },
+      "companyName": {
+        "content": "$2"
+      }
+    }
+  },
+  "mainAssetBalanceIsZero": {
+    "message": "ตอนนี้จำนวนเงินท่านเป็น 0 แต่เราต้องการ Signa จำนวนนึงเพื่อเป็นค่า Fee ด้วย"
+  },
+  "manage": {
+    "message": "จัดการ"
+  },
+  "manageCollectibles": {
+    "message": "จัดการ collectibles"
+  },
+  "manageTokens": {
+    "message": "จัดการ Tokens"
+  },
+  "managedKTAccount": {
+    "message": "จัดการ KT"
+  },
+  "marketplace": {
+    "message": "ตลาด"
+  },
+  "max": {
+    "message": "มากสุด"
+  },
+  "maximalAmount": {
+    "message": "สูงสุด: $amount$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      }
+    }
+  },
+  "maximiseView": {
+    "message": "เปิดหน้าจอเต็ม ๆ"
+  },
+  "mayHappenBecauseYouAreOffline": {
+    "message": "ท่านกำลัง Offline อยู่"
+  },
+  "messageTo": {
+    "message": "ส่งข้อความ to"
+  },
+  "millionFormat": {
+    "message": "$million$M",
+    "placeholders": {
+      "million": {
+        "content": "$1"
+      }
+    }
+  },
+  "min": {
+    "message": "อย่างน้อย:"
+  },
+  "minimalFeeDescription": {
+    "message": "ต่ำสุด"
+  },
+  "minimalFeeGreaterThanBalance": {
+    "message": "ตรวจพบว่า ค่า minimum fee มีค่าสูงกว่าเงินในกระเป๋าของท่าน"
+  },
+  "minimalFeeGreaterThanBalanceVerbose": {
+    "message": "ตรวจพบว่า ค่า minimum fee มีค่าสูงกว่าเงินในกระเป๋าของท่าน"
+  },
+  "mnemonic": {
+    "message": "Mnemonic"
+  },
+  "mnemonicInputDescription": {
+    "message": "รหัส passphrase; ปกติจะมี 12 คำ"
+  },
+  "mnemonicInputLabel": {
+    "message": "Passphrase"
+  },
+  "mnemonicInputPlaceholder": {
+    "message": "ยกตัวอย่างเช่น venue sock milk update..."
+  },
+  "more": {
+    "message": "แสดง",
+    "description": "แสดงมากกว่านี้"
+  },
+  "mustBeEqualToPasswordAbove": {
+    "message": "รหัสต้องตรงกับรหัสอีกอันที่กรอกไปตะกี้"
+  },
+  "mustBeNonNegative": {
+    "message": "ห้ามเป็นค่าติดลบ"
+  },
+  "mustBeUnique": {
+    "message": "ต้องเป็น unique"
+  },
+  "mustBeValidURL": {
+    "message": "ต้องเป็น valid URL"
+  },
+  "name": {
+    "message": "Name"
+  },
+  "network": {
+    "message": "Network"
+  },
+  "networkLabel": {
+    "message": "Network: $network$",
+    "placeholders": {
+      "network": {
+        "content": "$1"
+      }
+    }
+  },
+  "networkNamePlaceholder": {
+    "message": "ชื่อ Network Node"
+  },
+  "networkOrOtherIssue": {
+    "message": "Network หรือปัญหาทาง Technical"
+  },
+  "networks": {
+    "message": "Networks"
+  },
+  "networksDescription": {
+    "message": "หัวข้อนี้สามารถเพิ่มหรือเอา Custom Signum Network Node/Peers เองได้"
+  },
+  "newContactPlaceholder": {
+    "message": "ยกตัวอย่างชื่อ Jane Doe จะใช้ภาษาไทยก็ได้"
+  },
+  "no": {
+    "message": "ไม่"
+  },
+  "noAssetsFound": {
+    "message": "ไม่พบ assets"
+  },
+  "noContactsFound": {
+    "message": "ไม่พบผู้ติดต่อ"
+  },
+  "noFavoriteDApps": {
+    "message": "ไม่พบ favorite dApps ที่เลือกไว้"
+  },
+  "noMatchingDAppsFound": {
+    "message": "ไม่พบ dApps ที่ตรงกัน"
+  },
+  "noOperationsFound": {
+    "message": "ไม่พบธุรกรรมใด ๆ"
+  },
+  "noResults": {
+    "message": "ไม่พบผลลัพท์"
+  },
+  "nonNegativeIntMessage": {
+    "message": "ตัวเลข 0 หรือมากกว่า"
+  },
+  "notAllowed": {
+    "message": "ไม่อนุญาต"
+  },
+  "notEnoughCurrencyFunds": {
+    "message": "เงิน $currency$ ไม่พอ",
+    "placeholders": {
+      "currency": {
+        "content": "$1"
+      }
+    }
+  },
+  "notEnoughFunds": {
+    "message": "เงินไม่พอ"
+  },
+  "notIdentified": {
+    "message": "Not identified"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "onlyHTTPS": {
+    "message": "ใช้ HTTPS เท่านั้น"
+  },
+  "onlyKTContractAddressAllowed": {
+    "message": "Only KT... Contract address allowed",
+    "description": "KT not translated"
+  },
+  "oops": {
+    "message": "ห๊ะ!!!"
+  },
+  "openNewTab": {
+    "message": "เปิด tab ใหม่"
+  },
+  "operationHash": {
+    "message": "Operation Hash"
+  },
+  "operationHistoryWhileMessage": {
+    "message": "ดึงข้อมูลกิจกรรมย้อนหลังให้แล้วนะ"
+  },
+  "operationSuccessfullyAccepted": {
+    "message": "กำลังรอการยืนยัน $type$ อยู่ เริ่มการทำงานได้!",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "operationSuccessfullyProcessed": {
+    "message": "ทำงานและยืนยัน $type$ สำเร็จแล้ว!!!",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "operations": {
+    "message": "การดำเนินการ"
+  },
+  "optionalComment": {
+    "message": "(เป็นตัวเลือก)"
+  },
+  "orIPFSImageURL": {
+    "message": "Or IPFS Image URL"
+  },
+  "originLabel": {
+    "message": "Origin: $origin$",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "origination": {
+    "message": "Emergence"
+  },
+  "other": {
+    "message": "อื่น ๆ"
+  },
+  "ownAccount": {
+    "message": "กระเป๋าเราอยู่นี่"
+  },
+  "password": {
+    "message": "รหัสผ่าน"
+  },
+  "passwordInputDescription": {
+    "message": "ใช้เพื่อเพิ่มเติมฟีเจอร์ mnemonic derivation แต่ไม่ใช่รหัสผ่านของ Wallet นะ"
+  },
+  "payloadToSign": {
+    "message": "Payload to sign"
+  },
+  "pending": {
+    "message": "กำลังยืนยัน..."
+  },
+  "popupDisabled": {
+    "message": "ปิดการใช้งานแล้ว"
+  },
+  "popupEnabled": {
+    "message": "เปิดการใช้งาน"
+  },
+  "popupSettings": {
+    "message": "โหมด Pop-up"
+  },
+  "popupSettingsDescription": {
+    "message": "ถ้าสั่ง Enable เมื่อกด icon ของ Extension จะแสดงเป็น Pop-up แต่ถ้า Disable จะขึ้นหน้าใหม่แล้วแสดงทั้งหน้าขึ้นมาแทน"
+  },
+  "positiveIntMessage": {
+    "message": "ตัวเลข 1 หรือมากกว่านั้น"
+  },
+  "preview": {
+    "message": "Preview"
+  },
+  "priceImpact": {
+    "message": "Price impact:"
+  },
+  "privacyPolicy": {
+    "message": "Privacy Policy"
+  },
+  "privateKey": {
+    "message": "Private key"
+  },
+  "processing": {
+    "message": "กำลังประมวลผลอยู่..."
+  },
+  "promoted": {
+    "message": "Promoted"
+  },
+  "protectedFormField": {
+    "message": "Protected"
+  },
+  "qrCode": {
+    "message": "QR Code"
+  },
+  "rank": {
+    "message": "Rank"
+  },
+  "raw": {
+    "message": "Raw"
+  },
+  "receive": {
+    "message": "รับเงิน"
+  },
+  "recipient": {
+    "message": "ผู้รับ"
+  },
+  "recipientInputPlaceholder": {
+    "message": "เช่น S-6SJC-... or 17332..."
+  },
+  "recipientInputPlaceholderWithDomain": {
+    "message": "เช่น S-6SJC-..., 17332... or peter",
+    "description": "foobar = Signum Alias"
+  },
+  "referredByTokenContractNotFound": {
+    "message": "ไม่พบสัญญาของ $address$ ที่อ้างอิงจากสัญญาของ Token",
+    "placeholders": {
+      "address": {
+        "content": "$1"
+      }
+    }
+  },
+  "reject": {
+    "message": "ปฏิเสธ"
+  },
+  "remove": {
+    "message": "เอาออก"
+  },
+  "removeAccount": {
+    "message": "เอา Account ออก"
+  },
+  "removeAccountDescription": {
+    "message": "หัวข้อนี้มีไว้เพื่อเอา Account ออกไป"
+  },
+  "repeatPassword": {
+    "message": "password ตรวจทาน"
+  },
+  "repeatPasswordInputDescription": {
+    "message": "กรุณากรอก password อีกรอบ"
+  },
+  "repo": {
+    "message": "Repository"
+  },
+  "requestSent": {
+    "message": "$type$ request sent! กำลังยืนยันอยู่...",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "required": {
+    "message": "Required"
+  },
+  "resetExtension": {
+    "message": "Reset Extension"
+  },
+  "resetExtensionConfirmation": {
+    "message": "ต้องการ Reset กระเป๋าเงินนี้?\nจะเป็นการล้างข้อมูลเฉพาะที่เราติดตั้ง Extension เฉย ๆ\nล้างแล้วสามารถนำ Account ที่ใช้ได้กลับมาได้ตลอดเวลา"
+  },
+  "resetPermissionsConfirmation": {
+    "message": "ท่านต้องการล้างค่า permissions ของ $origin$ ไหม?",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "resolvedAddress": {
+    "message": "Resolved address"
+  },
+  "restoreWallet": {
+    "message": "กู้กระเป๋าเงิน"
+  },
+  "retry": {
+    "message": "อีกครั้ง"
+  },
+  "reveal": {
+    "message": "เปิดเผย"
+  },
+  "revealNewSeedPhrase": {
+    "message": "<b>กดด้านล่าง</b> เพื่อแสดง passphrase.\n อย่าลืมหาที่จดรหัสเช่นกระดาษ <b>แล้วเก็บไว้ในที่ปลอดภัย</b>"
+  },
+  "rocketFeeDescription": {
+    "message": "Rocket"
+  },
+  "rpcBaseURL": {
+    "message": "Network Node URL"
+  },
+  "save": {
+    "message": "บันทึก"
+  },
+  "searchAssets": {
+    "message": "หา Assets..."
+  },
+  "searchByName": {
+    "message": "ค้นด้วยชื่อ..."
+  },
+  "searchDApps": {
+    "message": "หา DApps"
+  },
+  "seedPhrase": {
+    "message": "Passphrase"
+  },
+  "selectAnotherAssetPrompt": {
+    "message": "กดตรงพื้นที่ ที่จะเลือก Asset หรือ Token อื่น ๆ"
+  },
+  "send": {
+    "message": "ส่ง"
+  },
+  "sendToMyAccounts": {
+    "message": "ส่งไปให้บัญชีเรา"
+  },
+  "settings": {
+    "message": "การตั้งค่า"
+  },
+  "showIncomingTransactions": {
+    "message": "เช็คธุรกรรมที่เข้ามา"
+  },
+  "signAction": {
+    "message": "Sign"
+  },
+  "skipped": {
+    "message": "Skipped"
+  },
+  "smthWentWrong": {
+    "message": "Something went wrong"
+  },
+  "smthWentWrongWhile": {
+    "message": "พบ error ตอนที่ทำ $action$",
+    "placeholders": {
+      "action": {
+        "content": "$1"
+      }
+    }
+  },
+  "social": {
+    "message": "Social"
+  },
+  "soon": {
+    "message": "Soon"
+  },
+  "sorry": {
+    "message": "Sorry!"
+  },
+  "sortBy": {
+    "message": "เรียงจาก"
+  },
+  "space": {
+    "message": "พื้นที่ว่าง"
+  },
+  "step": {
+    "message": "Step"
+  },
+  "storageFee": {
+    "message": "ค่า Storage Fee"
+  },
+  "storageFeeMax": {
+    "message": "ค่า Storage Fee (สูงสุด)"
+  },
+  "storageLimit": {
+    "message": "Adjust Memory Limit"
+  },
+  "submit": {
+    "message": "Submit"
+  },
+  "success": {
+    "message": "สำเร็จ"
+  },
+  "swap": {
+    "message": "แลกเปลี่ยน"
+  },
+  "swapNoun": {
+    "message": "แลกเปลี่ยน"
+  },
+  "symbol": {
+    "message": "Symbol"
+  },
+  "templeWalletOptions": {
+    "message": "XT Wallet | options"
+  },
+  "termsOfUsage": {
+    "message": "ข้อตกลงของการใช้งาน"
+  },
+  "termsOfUse": {
+    "message": "ข้อตกลงของการใช้งาน"
+  },
+  "thisMayHappenBecause": {
+    "message": "ที่มันเกิดขึ้นเพราะว่า :"
+  },
+  "thousandFormat": {
+    "message": "$thousand$k",
+    "placeholders": {
+      "thousand": {
+        "content": "$1"
+      }
+    }
+  },
+  "timedOutOperationConfirmation": {
+    "message": "การยืนยันหมดเวลา ให้รออีกหน่อย หรือไม่ก็ลองทำอีกรอบดูนะ"
+  },
+  "toAsset": {
+    "message": "ถึง"
+  },
+  "toBeConnectedWithDApp": {
+    "message": "ควรเชื่อมต่อด้วย DApp."
+  },
+  "toContinue": {
+    "message": "ต่อไป"
+  },
+  "tokenContractPlaceholder": {
+    "message": "เช่น KT1v9CmPy..."
+  },
+  "tokenDoesNotMatchStandard": {
+    "message": "Assumed asset contract does not conform to $standard$ standard",
+    "placeholders": {
+      "standard": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenId": {
+    "message": "Token ID"
+  },
+  "tokenIdInputDescription": {
+    "message": "A non-negative integer that identifies the asset within the FA2 contract"
+  },
+  "tokenNameInputDescription": {
+    "message": "ชื่อ Asset เช่น 'Bitcoin' สำหรับ BTC asset."
+  },
+  "tokenNameInputPlaceholder": {
+    "message": "เช่น MySuperToken"
+  },
+  "tokenNamePatternDescription": {
+    "message": "ไม่มีตัวอักษรพิเศษ และความยาว 3 ถึง 50 ตัวอักษร"
+  },
+  "tokenSymbolInputDescription": {
+    "message": "Asset symbol เช่น 'USD' สำหรับ US dollars."
+  },
+  "tokenSymbolInputPlaceholder": {
+    "message": "เช่น WEW, BOW, LAL etc."
+  },
+  "tokenSymbolPatternDescription": {
+    "message": "เฉพาะตัวอักษร a-z, A-Z, 0-9 และความยาว 2 ถึง 5 ตัวอักษร"
+  },
+  "tokenType": {
+    "message": "Token Type"
+  },
+  "tokens": {
+    "message": "Tokens"
+  },
+  "tokensRecepientInputDescription": {
+    "message": "Address หรือ ID ที่จะส่ง $assetSymbol$ ให้",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokensRecepientInputDescriptionWithDomain": {
+    "message": "Address หรือ ID หรือ alias ที่จะส่ง $assetSymbol$ ให้",
+    "placeholders": {
+      "assetSymbol": {
+        "content": "$1"
+      }
+    }
+  },
+  "totalAmount": {
+    "message": "จำนวนทั้งหมด"
+  },
+  "totalBalance": {
+    "message": "จำนวนเงินทั้งหมด"
+  },
+  "transaction": {
+    "message": "ธุรกรรม"
+  },
+  "transactionId": {
+    "message": "ID ธุรกรรม :"
+  },
+  "transactionOfSomeType": {
+    "message": "ชนิดธุรกรรม '$type$'",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "transfer": {
+    "message": "โอน"
+  },
+  "transferFromSmb": {
+    "message": "จาก $sender$",
+    "placeholders": {
+      "sender": {
+        "content": "$1"
+      }
+    }
+  },
+  "transferTo": {
+    "message": "โอนให้กับ"
+  },
+  "transferToSmb": {
+    "message": "ให้กับ $receiver$",
+    "placeholders": {
+      "receiver": {
+        "content": "$1"
+      }
+    }
+  },
+  "transfers": {
+    "message": "โอน"
+  },
+  "tryAgain": {
+    "message": "ลองอีกครั้ง"
+  },
+  "tryingToTransferToYourself": {
+    "message": "คุณกำลังโอนเงินให้ตัวเองอยู่นะ \nใช่แบบนี้ที่กำลังจะทำหรือเปล่า?"
+  },
+  "tvl": {
+    "message": "TVL"
+  },
+  "txIsLikelyToFail": {
+    "message": "ธุรกรรมล้มเหลว! ยืนยันไม่สำเร็จ"
+  },
+  "unableToContinueWithoutConfirming": {
+    "message": "ถ้าไม่ยืนยันจะไม่สามารถทำต่อได้"
+  },
+  "unableToEstimateTransactionAction": {
+    "message": "ธุรกรรมที่ส่งไปยังผู้รับที่ระบุไว้ ไม่สามารถ estimated ได้"
+  },
+  "unableToSendTransactionAction": {
+    "message": "ธุรกรรมไม่สามารถส่งไปยังผู้รับที่ระบุได้"
+  },
+  "undelegation": {
+    "message": "Non-delegation"
+  },
+  "unknownErrorCheckingSomeEntrypoint": {
+    "message": "An unknown error occurred while validating the entry point '$name$'.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "unknownNetwork": {
+    "message": "กระเป๋าเงินไม่รู้จักเครือข่ายที่ร้องขอ DApps โปรดเพิ่มโหนดเครือข่ายก่อนที่เป็นของ '$networkName$' network",
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    }
+  },
+  "unknownParseErrorOccurred": {
+    "message": "An unknown parsing error has occurred."
+  },
+  "unlock": {
+    "message": "ปลดล็อค"
+  },
+  "unlockPasswordInputDescription": {
+    "message": "password ที่ใช้ป้องกัน wallet"
+  },
+  "unlockWallet": {
+    "message": "ปลดล็อค wallet"
+  },
+  "unlockWalletPrompt": {
+    "message": "ถ้าต้องการบันทึกอะไรสักอย่างจากกระเป๋าที่เคยมีอยุ่ก่อนแล้ว - $link$ และสั่งปลดล้อคมันซะ",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "updateContactDescription": {
+    "message": "ถ้าต้องการอัพเดทผู้ติดต่อที่มีอยู่แล้ว\nให้ลบแล้วใช้ชื่อใหม่และเพิ่มเองอีกรอบสิ"
+  },
+  "upload": {
+    "message": "Upload"
+  },
+  "usePhoenixWallet": {
+    "message": "ให้ใช้ Phoenix Mobile Wallet เพื่อใช้กับ code ได้"
+  },
+  "validImageURL": {
+    "message": "Valid image URL"
+  },
+  "verifySeedPhrase": {
+    "message": "Verify passphrase"
+  },
+  "verifySeedPhraseDescription": {
+    "message": "เติมคำในช่องว่างเพื่อทำการ verify passphrase ของท่าน"
+  },
+  "versionLabel": {
+    "message": "เวอร์ชั่นโปรแกรม : $version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "via": {
+    "message": "Via"
+  },
+  "viewAccountAddressWarning": {
+    "message": "website นี้ต้องการเข้าถึง account address ของท่าน เช็คให้ดี ๆ ว่า เว็บนี้เหรอที่น่าเชื่อถือ ดูดี ๆ ล่ะ"
+  },
+  "viewAll": {
+    "message": "ดูทั้งหมด"
+  },
+  "watchOnlyAccount": {
+    "message": "Watching"
+  },
+  "website": {
+    "message": "Site"
+  },
+  "welcomeTo": {
+    "message": "ยินดีต้อนรับ "
+  },
+  "word": {
+    "message": "Word $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "yes": {
+    "message": "ใช่"
+  },
+  "youWillNeedThisSeedPhrase": {
+    "message": "ถ้าท่านเปลี่ยนเว็บ Browser หรือเปลี่ยนอุปกรณ์ จะต้องกรอก passpharse เพื่อเข้าถึง Account ที่มีอยู่ก่อนแล้ว"
+  },
+  "yourBalanceIsZero": {
+    "message": "เงินของท่านเป็น 0"
+  },
+  "zeroCollectibleText": {
+    "message": "ท่านยังไม่มี collectibles!\nไปหามาประดับสักหน่อยไหม?"
+  },
+  "welcomeToOnboarding": {
+    "message": "Welcome to Onboarding!"
+  },
+  "onboarding": {
+    "message": "Onboarding!"
+  },
+  "next": {
+    "message": "ถัดไป"
+  },
+  "done": {
+    "message": "เรียบร้อยแล้ว!"
+  },
+  "addressBalanceDetails": {
+    "message": "บัญชีของท่านและเงินของท่าน"
+  },
+  "addressBalanceDescription": {
+    "message": "หลังสร้าง Account ท่านจะได้ Address ที่ไม่ซ้ำกับใคร — ข้อมูลส่วนตัวจะผูกกับ Signum blockchain โดย Address นี้มีไว้เพื่อรับ SIGNA ที่โอนเข้ามาและสร้างธุรกรรม เช่น ส่ง SIGNA , ส่งข้อความ , สร้างสัญญา Smart Contracts เป็นต้น"
+  },
+  "addressBalanceHint": {
+    "message": "Address ที่ใช้ของจริงใน \"Main net\" จะแสดงในรูปแบบ <b>S-A1B2-...</b> ถ้าเป็น \"Test net\" จะแสดง <b>TS-A1B2-...</b> ถ้ามีชื่อ <b>alias</b> ผูกกับ Account ก็จะแสดงด้วย ถ้ามีเงินจะแสดงข้างใต้ Address ให้เห็น"
+  },
+  "howToStartDetails": {
+    "message": "วิธี Start"
+  },
+  "howToStartDescription1": {
+    "message": "ถ้าจะใช้งานกระเป๋าตังและใช้งาน DApps จะต้องมีเงินติดกระเป๋าสำหรับค่า Fee แทนค่าแก๊สสำหรับทำธุรกรรมต่าง ๆ เผื่อไว้ด้วยนะ เช่นส่งเงิน , เพิ่ม Commitment , เอา Commitment ออกไป , สร้าง Token , ลง Pool เป็นต้น"
+  },
+  "howToStartDescription2": {
+    "message": "ท่านสามารถหา SIGNA จากการซื้อที่ Exchange บางเจ้า , ขุดด้วย Hard drive , หรือไปรับจากกิจกรรมของ Community ลองเข้าไปใน Discord ดูนะ หรือไม่ก็ไปลองแลก WSigna แล้วแลกอีกต่อผ่าน BTDEX ก็ได้"
+  },
+  "howToStartHint": {
+    "message": "อีกเรื่องนึงนะ ท่าน Copy Address แล้วส่งเหรียญไปที่ Address จากกระเป๋าอื่น ๆ หรือจาก Exchange มาใส่ Address กระเป๋านี้ สามารถกดที่ข้อความ Address ( แต่ต้องเป็น Chain ของ Main net นะ ดูดี ๆ ) หรือเลือกตัวเลือก \"Receive\" หรือ \"รับเงิน\" ก็ได้"
+  },
+  "tokensCollectibleDetails": {
+    "message": "Tokens & Collectible"
+  },
+  "tokensCollectibleDescription1": {
+    "message": "จำนวนเงินของ FA1.2 และ FA2 tokens จะแสดงบนหัวข้อ “Tokens” tab"
+  },
+  "tokensCollectibleDescription2": {
+    "message": "ท่านสามารถส่ง ตรวจจำนวนเงินและ Address ของสัญญาด้วยการกดที่หัวข้อนี้"
+  },
+  "tokensCollectibleHint": {
+    "message": "Non-Fungible Tokens (NFT) ของท่านจะแสดงในหมวดหมู่ “Collectibles” ท่านสามารถ interact กับ NFT ของท่านเองได้ เช็ค Full View , ID และ contract address ( Address ของสัญญาที่ทำไว้ )"
+  },
+  "profileRpcDetails": {
+    "message": "Profile & Network Nodes"
+  },
+  "profileRpcDescription": {
+    "message": "ตรงด้านบนของ interface น่าจะเห็น Account icon นะ ให้กด icon แล้วจะเปิด Menu เช่น การตั้งค่าและการจัดการ Account เป็นต้น"
+  },
+  "profileRpcHint1": {
+    "message": "ใต้ชื่อ Account ของท่าน น่าจะเห็น \"Networks\" แล้วนะ ตรงนี้ท่านจะเลือก Network node เพื่อเชื่อมกับกระเป๋าเราได้ \nให้สังเกตว่าถ้าเป็น \"Main net\" จะขึ้นสีเขียว แต่ \"Test net\" จะขึ้นสีส้ม โดย Test net จะใช้เงินปลอม ๆ เหมือนแบงค์ ก้งเต๊ก เพื่อทดสอบระบบโดยไม่ต้องใช้เงินจริง"
+  },
+  "profileRpcHint2": {
+    "message": "จำนวนเงินในกระเป๋ายังไม่ได้แสดงขึ้นให้เห็น ให้ลองเปลี่ยน Network Node ดูไหม?"
+  },
+  "profileRpcHint3": {
+    "message": "ท่านสามารถเลือกได้จาก predefined list หรือเพิ่ม nodes เองจากหน้า Setting เอา"
+  },
+  "mixtureOfUppercaseAndLowercaseLetters": {
+    "message": "ผสมตัวอักษรตัวเล็กและตัวใหญ่"
+  },
+  "mixtureOfLettersAndNumbers": {
+    "message": "ผสมตัวอักษรและตัวเลขด้วย"
+  },
+  "atLeast1SpecialCharacter": {
+    "message": "(สำหรับแนะนำ) อย่างน้อยควรมีอักษรพิเศษ 1 ตัว เช่น ! @ # ? ] -"
+  },
+  "browserVersionIsOutOfDate": {
+    "message": "เว็บ Browser ของท่านเวอร์ชั่นเก่าไปหน่อยนะ แนะนำให้อัพเดทเป็นเวอร์ชั่นใหม่เพื่ออุดรูรั่วไม่ให้เงินหาย และอาจรองรับกับกระเป๋าเวอร์ชั่นใหม่ด้วย!"
+  },
+  "congratsDescription1": {
+    "message": "ยินดีด้วยนะ ตอนนี้ท่านร่วมวงเป็นส่วนหนึ่งของเราแล้ว!!! 🏆"
+  },
+  "congratsDescription2": {
+    "message": "ตอนนี้ท่านน่าจะได้เรียนรู้ฟีเจอร์ที่ต้องใช้งานหลัก ๆ ของกระเป๋า Signum XT wallet แล้วนะ ไปฝึกมาใช้เองด้วยล่ะ จะได้ใช้ให้คล่อง ๆ"
+  },
+  "congratsDescription3": {
+    "message": "ท่านสามารถเรียนรู้ทุกฟีเจอร์ของกระเป๋าเงินท่านจาก Youtube ได้จาก “Educational series” ทางเรา"
+  },
+  "congratsDescription4": {
+    "message": "เรามีคำแนะนำและวิธีการใช้งานมาให้"
+  },
+  "congratsDescription5": {
+    "message": "ร่วมวงกับ communities ใน Telegram และ Discord."
+  },
+  "congratsDescription6": {
+    "message": "ยินดีต้อนรับสู่โลกของ Signum Network!"
+  },
+  "start": {
+    "message": "ลุยเลย"
+  },
+  "networkIsTestnetLabel": {
+    "message": "มันคือ test network สำหรับทดสอบระบบ"
+  },
+  "networkIsTestnetDescription": {
+    "message": "เงินที่อยู่ใน Test networks คือ \"แบงค์ กงเต็ก\" ใช้สำหรับทดสอบฟีเจอร์หรือพัฒนาระบบเท่านั้น"
+  },
+  "updateAccountInfo": {
+    "message": "อัพเดทข้อมูล Account"
+  },
+  "contractCreation": {
+    "message": "สร้างสัญญา"
+  },
+  "aliasCreation": {
+    "message": "สร้าง Alias"
+  },
+  "aliasBuy": {
+    "message": "ซื้อ Alias"
+  },
+  "addCommitment": {
+    "message": "เพิ่ม Commitment"
+  },
+  "removeCommitment": {
+    "message": "เอา Commitment ออกไป"
+  },
+  "joinPool": {
+    "message": "เข้าร่วม Pool"
+  },
+  "attention": {
+    "message": "อ่านหน่อยสิ เรื่องพวกนี้สำคัญมาก ๆ นะ"
+  },
+  "attentionDescription": {
+    "message": "คนที่ไม่รู้จักขอ Private Key หรือ Seed pharse หรืออะไรที่ทำให้เงินเราหายเกลี้ยงกระเป๋าได้ ต่อให้มีชื่อคนรู้จักดีมาทักก็ตาม ให้ถือว่าคนนั้นเป็นโจรนะ"
+  },
+  "attentionListTitle1": {
+    "message": "แล้วก็จำไว้ด้วยว่า:"
+  },
+  "attentionListItem1": {
+    "message": "ให้ระวังว่า โจรพยายามหาช่องโหว่ของกระเป๋าของท่านไม่ว่าจะเป็นบัคกระเป๋า หรือโจรสร้าง Extenstion ที่ทำตัวไม่มีพิษภัย แต่จริง ๆ เป็น Extension ที่อันตราย ( ไม่ใช่แค่กระเป๋านะ อาจดักรหัสผ่าน หรือควบคุมคอมระยะไกลก็ได้ )"
+  },
+  "attentionListItem2": {
+    "message": "มันมี Software ของโจรที่สามารถแก้ไขดัดแปลงหน้าจอกระเป๋าเราได้ถ้าเผลอไปติดตั้งมัน"
+  },
+  "attentionListItem3": {
+    "message": "ที่ตัวเครื่องคอมเองก็ให้ระวังไวรัสโปรแกรมขโมยกระเป๋าเงินด้วย"
+  },
+  "attentionListItem4": {
+    "message": "ที่สำคัญคือ ถ้าใช้รหัสผ่านง่อย ๆ และกระจอกเกินไป จะโดน Brute-force แบบสุ่มรหัสผ่านเล่นงานเอา เหมือนตัวล็อครหัสด้วยเลข 3 หลัก แล้วใส่รหัสมันทุกหลัก 1 พันครั้งสุ่มได้แน่ ๆ แต่ถ้ารหัสผ่านแข็งแรง อีกล้านปีก็สุ่มไม่ได้หรอก"
+  },
+  "attentionListTitle2": {
+    "message": "แนะนำว่าถ้าอยากให้กระเป๋าตังเราปลอดภัย ให้ทำตามดังนี้:"
+  },
+  "attentionListItem5": {
+    "message": "ย้ายเงินประเภท \"Hot Wallet\" ไปยัง \"Cold Wallet\" ที่เก็บเป็น Physical ตัดขาดจากโลกภายนอกให้มากที่สุดเท่าที่ทำได้ แต่อย่าทำหายล่ะ"
+  },
+  "attentionListItem6": {
+    "message": "แยก Web browser ที่ใช้ค้นหากับ Web browser ที่ใช้เป็นกระเป๋าตังออกจากกัน"
+  },
+  "attentionListItem7": {
+    "message": "ตอนทำธุรกรรม ให้ใช้หน้าเดียวในการยืนยันธุรกรรมนะ อย่าเปิดหลาย Tab จะชัวร์สุด"
+  },
+  "attentionListItem8": {
+    "message": "สั่งล็อค Wallet หลังจากไม่ใช้งานแล้ว"
+  },
+  "takeCare": {
+    "message": "\"<b>May the force be with you...</b>\" in the crypto world!"
+  },
+  "readMore": {
+    "message": "อ่านต่อ "
+  },
+  "thanks": {
+    "message": "อ่านแล้วเข้าใจนะ!"
+  },
+  "example": {
+    "message": "ตัวอย่าง"
+  },
+  "createWalletDescription": {
+    "message": "สร้างบัญชีกระเป๋า Signum Wallet ท่านอาจต้อง :"
+  },
+  "createWalletDescriptionOption1": {
+    "message": "ส่งและรับเงินสกุล Signa"
+  },
+  "createWalletDescriptionOption2": {
+    "message": "เชื่อมต่อเข้ากับ Signum DApps."
+  },
+  "accountActivationAlertTitle": {
+    "message": "ปัญชียังไม่เปิดใช้งาน"
+  },
+  "accountActivationAlertDescription": {
+    "message": "บัญชีนี้ยังไม่ได้ Register ลง Blockchain ให้ทำการเปิดการใช้งาน Account ซะก่อนเพื่อความปลอดภัยและใช้งานฟีเจอร์ได้เต็มที่ โดยเฉพาะฟีเจอร์ Exchange"
+  },
+  "activationFailed": {
+    "message": "โทษที... การเปิดใช้งานไม่สำเร็จนะ"
+  },
+  "accountActivationSuccessTitle": {
+    "message": "บัญชีนี้เปิดการใช้งานสำเร็จแล้ว"
+  },
+  "accountActivationSuccessDescription": {
+    "message": "ยินดีต้อนรับเข้าสู่โลกของ Signum Network! ถ้ายังไม่เห็นให้รออัพเดทธุรกรรมให้เสร็จสักครู่นะ"
+  },
+  "attachmentDescription": {
+    "message": "คุณอาจแนบข้อความหรือข้อมูลไบนารีกับธุรกรรมนี้ ที่นี่คุณยังป้อนบันทึกที่จำเป็นสำหรับการแลกเปลี่ยนจำนวนมาก"
+  },
+  "attachmentIsBinary": {
+    "message": "ข้อมูลที่แนบมาเป็นไบนารี"
+  },
+  "attachmentIsBinaryDescription": {
+    "message": "ข้อมูลไบนารีถูกเข้ารหัสในรูปแบบเลขฐานสิบหกและส่วนใหญ่ใช้สำหรับการโทร Smart Contract ใช้ตัวเลือกนี้เฉพาะเมื่อคุณรู้ว่าคุณกำลังทำอะไรอยู่"
+  },
+  "currentNetworkNode": {
+    "message": "โหนดเครือข่ายปัจจุบัน"
+  },
+  "enterHexCode": {
+    "message": "ป้อนข้อมูลเลขฐานสิบหก"
+  },
+  "enterText": {
+    "message": "ใส่ข้อความ"
+  },
+  "hexCodeAttachment": {
+    "message": "ข้อมูลเพิ่มเติม"
+  },
+  "mustBeHexCode": {
+    "message": "ข้อมูลต้องเป็นสตริงฐานสิบหก"
+  },
+  "mustBeLessThanChars": {
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    },
+    "message": "ต้องน้อยกว่า $count$ อักขระ"
+  },
+  "textAttachment": {
+    "message": "ข้อความเพิ่มเติม"
+  },
+  "wrongCurrentNetworkNode": {
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    },
+    "message": "โหนดที่คุณเลือกในปัจจุบันไม่ได้อยู่ในเครือข่ายที่ร้องขอ: $networkName$ โปรดเลือกโหนดที่ถูกต้องและลองอีกครั้ง"
+  }
+}

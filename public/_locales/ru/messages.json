@@ -1777,11 +1777,19 @@
     "message": "Должно быть меньше $count$ символов",
     "placeholders": {
       "count": {
-        "content": "1 доллар"
+        "content": "$1"
       }
     }
   },
   "textAttachment": {
     "message": "Дополнительный текст"
+  },
+  "wrongCurrentNetworkNode": {
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    },
+    "message": "Выбранный вами узел не принадлежит к запрошенной сети: $networkName$. Пожалуйста, выберите правильный узел и повторите попытку."
   }
 }

@@ -1,4 +1,4 @@
-import { enUS, de, ru, es, ptBR } from 'date-fns/locale';
+import { enUS, de, ru, es, ptBR, th, uk } from 'date-fns/locale';
 import browser from 'webextension-polyfill';
 
 import cldrjsLocales from './cldrjs-locales.json';
@@ -11,7 +11,9 @@ const dateFnsLocales: Record<string, Locale> = {
   de,
   ru,
   es,
-  pt_BR: ptBR
+  pt_BR: ptBR,
+  th,
+  uk
 };
 
 let fetchedLocaleMessages: FetchedLocaleMessages = {

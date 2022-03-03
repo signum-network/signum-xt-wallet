@@ -1788,6 +1788,8 @@
         "content": "$1"
       }
     }
-
+  },
+  "currentNetworkNode": {
+    "message": "Current Network Node"
   }
 }

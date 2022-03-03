@@ -1,7 +1,7 @@
 {
   "name": "signum-xt-wallet",
   "version": "1.1.0",
-  "description": "Cryptocurrency wallet for the green Signum \uD83C\uDF40 blockchain as an extension for your browser.",
+  "description": "Cryptocurrency wallet for the green Signum 🍀 blockchain as an extension for your browser.",
   "private": true,
   "scripts": {
     "start": "yarn watch:src",
@@ -28,10 +28,10 @@
     "@dicebear/avatars-jdenticon-sprites": "4.2.5",
     "@popperjs/core": "2.4.4",
     "@serh11p/jest-webextension-mock": "4.0.0",
-    "@signumjs/core": "^1.0.0-rc.13",
-    "@signumjs/crypto": "^1.0.0-rc.13",
-    "@signumjs/http": "^1.0.0-rc.13",
-    "@signumjs/util": "^1.0.0-rc.13",
+    "@signumjs/core": "^1.0.0-rc.14",
+    "@signumjs/crypto": "^1.0.0-rc.14",
+    "@signumjs/http": "^1.0.0-rc.14",
+    "@signumjs/util": "^1.0.0-rc.14",
     "@taquito/rpc": "11.0.2",
     "@taquito/signer": "11.0.2",
     "@taquito/taquito": "11.0.2",

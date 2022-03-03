@@ -1777,11 +1777,19 @@
     "message": "Deve ter menos de $count$ caracteres",
     "placeholders": {
       "count": {
-        "content": "$ 1"
+        "content": "$1"
       }
     }
   },
   "textAttachment": {
     "message": "Texto adicional"
+  },
+  "wrongCurrentNetworkNode": {
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    },
+    "message": "Seu nó atualmente selecionado não pertence à rede solicitada: $networkName$. Por favor, selecione um nó correto e tente novamente"
   }
 }

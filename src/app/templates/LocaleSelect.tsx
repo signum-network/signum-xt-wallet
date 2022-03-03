@@ -50,7 +50,19 @@ const localeOptions: LocaleOption[] = [
     flagName: 'ru',
     label: 'Russian (Русский)',
     disabled: false
-  }
+  },
+  {
+    code: 'th',
+    flagName: 'th',
+    label: 'Thai (ไทย)',
+    disabled: false
+  },
+  {
+    code: 'uk',
+    flagName: 'ua',
+    label: 'Ukrainian (український)',
+    disabled: false
+  },
 ];
 
 const localeIsDisabled = ({ disabled }: LocaleOption) => disabled;

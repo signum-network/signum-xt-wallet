@@ -1783,5 +1783,13 @@
   },
   "textAttachment": {
     "message": "Zusätzlicher Text"
+  },
+  "wrongCurrentNetworkNode": {
+    "placeholders": {
+      "networkName": {
+        "content": "$1"
+      }
+    },
+    "message": "Ihr aktuell ausgewählter Knoten gehört nicht zum angeforderten Netzwerk: $networkName$. Bitte wählen Sie einen anderen Knoten aus und versuchen Sie es erneut"
   }
 }
