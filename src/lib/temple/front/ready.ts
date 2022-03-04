@@ -93,6 +93,7 @@ function useReadyTemple() {
   const defaultAcc = allAccounts[0];
   const [accountPkh, setAccountPkh] = usePassiveStorage('account_publickeyhash', defaultAcc.publicKeyHash);
 
+
   useEffect(() => {
     if (allAccounts.every(a => a.publicKeyHash !== accountPkh)) {
       setAccountPkh(defaultAcc.publicKeyHash);

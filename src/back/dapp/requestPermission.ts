@@ -1,8 +1,9 @@
+import { Address } from '@signumjs/core';
 import { v4 as uuid } from 'uuid';
 
 import { XTMessageType } from 'lib/messaging';
 
-import { getDApp, getNetworkHosts, setDApp, getCurrentNetworkHost } from './dapp';
+import { getDApp, getNetworkHosts, setDApp, getCurrentNetworkHost, getCurrentAccountId } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import {
   ExtensionErrorType,
@@ -15,7 +16,6 @@ export async function requestPermission(
   origin: string,
   req: ExtensionPermissionRequest
 ): Promise<ExtensionPermissionResponse> {
-
   const currentNodeHost = await getCurrentNetworkHost();
   if (currentNodeHost.networkName !== req.network) {
     throw new Error(ExtensionErrorType.InvalidNetwork);
@@ -27,15 +27,15 @@ export async function requestPermission(
     throw new Error(ExtensionErrorType.InvalidNetwork);
   }
   const hostUrls = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
-  const dApp = await getDApp(origin);
-
+  const [dApp, accountId] = await Promise.all([getDApp(origin), getCurrentAccountId()]);
+  const publicKey = Address.fromNumericId(accountId).getPublicKey();
   if (dApp && req.network === dApp.network && req.appMeta.name === dApp.appMeta.name) {
     return {
       type: ExtensionMessageType.PermissionResponse,
       availableNodeHosts: hostUrls,
       currentNodeHost: currentHostUrl,
-      accountId: dApp.accountId,
-      publicKey: dApp.publicKey
+      accountId,
+      publicKey
     };
   }
 
@@ -59,14 +59,12 @@ export async function requestPermission(
           if (confirmed && accountPublicKeyHash && accountPublicKey) {
             await setDApp(origin, {
               network: req.network,
-              appMeta: req.appMeta,
-              accountId: accountPublicKeyHash,
-              publicKey: accountPublicKey
+              appMeta: req.appMeta
             });
             resolve({
               type: ExtensionMessageType.PermissionResponse,
-              accountId: accountPublicKeyHash,
-              publicKey: accountPublicKey,
+              accountId,
+              publicKey,
               availableNodeHosts: hostUrls,
               currentNodeHost: currentHostUrl
             });

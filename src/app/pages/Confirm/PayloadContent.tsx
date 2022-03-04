@@ -7,11 +7,11 @@ import HashShortView from 'app/atoms/HashShortView';
 import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
 import Balance from 'app/templates/Balance';
-import CustomSelect, { OptionRenderProps } from 'app/templates/CustomSelect';
+import { OptionRenderProps } from 'app/templates/CustomSelect';
 import SignView from 'app/templates/SignumSignView/SignView';
 import { T } from 'lib/i18n/react';
 import { XTAccount, TempleDAppPayload } from 'lib/messaging';
-import { XTAccountType, TempleDAppSignPayload, useRelevantAccounts, useSignumAssetMetadata } from 'lib/temple/front';
+import { TempleDAppSignPayload, useRelevantAccounts, useSignumAssetMetadata } from 'lib/temple/front';
 
 import IdenticonSignum from '../../atoms/IdenticonSignum';
 
@@ -22,7 +22,7 @@ const AccountIcon: FC<OptionRenderProps<XTAccount>> = ({ item }) => (
 const AccountOptionContentHOC = (networkRpc: string) => {
   const { symbol } = useSignumAssetMetadata();
   return memo<OptionRenderProps<XTAccount>>(({ item: acc }) => (
-    <>
+    <div className="flex flex-col">
       <div className="flex flex-wrap items-center">
         <Name className="text-sm font-medium leading-tight">{acc.name}</Name>
         <AccountTypeBadge account={acc} />
@@ -41,50 +41,37 @@ const AccountOptionContentHOC = (networkRpc: string) => {
           )}
         </Balance>
       </div>
-    </>
+    </div>
   ));
 };
 
-const getPkh = (account: XTAccount) => account.publicKeyHash;
-
 interface PayloadContentProps {
   accountPkhToConnect: string;
-  setAccountPkhToConnect: (item: string) => void;
   payload: TempleDAppPayload;
 }
 
-const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, setAccountPkhToConnect, payload }) => {
+const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, payload }) => {
   const allAccounts = useRelevantAccounts();
   const AccountOptionContent = useMemo(() => AccountOptionContentHOC(payload.network), [payload.network]);
-  const eigenAccounts = useMemo(
-    () => allAccounts.filter((a: XTAccount) => a.type !== XTAccountType.WatchOnly),
+  const currentAccount = useMemo(
+    () => allAccounts.find((a: XTAccount) => a.publicKeyHash === accountPkhToConnect),
     [allAccounts]
   );
 
   return payload.type === 'connect' ? (
-    <div className={classNames('w-full', 'flex flex-col')}>
-      <h2 className={classNames('mb-2', 'leading-tight', 'flex flex-col')}>
-        <T id="account">{message => <span className="text-base font-semibold text-gray-700">{message}</span>}</T>
+    <div className={classNames('mt-8 p-2', 'w-full', 'flex flex-col', 'border rounded border-gray-200')}>
+      <h2 className={classNames('leading-tight', 'flex flex-col')}>
+        <T id="currentAccount">{message => <span className="text-base font-semibold text-gray-700">{message}</span>}</T>
+        <div className="my-4 flex flex-row">
+          <AccountIcon item={currentAccount!} index={1} />
+          <span className="mr-2" />
+          <AccountOptionContent item={currentAccount!} index={1} />
+        </div>
 
-        <T id="toBeConnectedWithDApp">
-          {message => (
-            <span className={classNames('mt-px', 'text-xs font-light text-gray-600')} style={{ maxWidth: '90%' }}>
-              {message}
-            </span>
-          )}
+        <T id="confirmConnectionHint">
+          {message => <p className="mb-4 text-xs font-light text-center text-gray-700">{message}</p>}
         </T>
       </h2>
-
-      <CustomSelect<XTAccount, string>
-        activeItemId={accountPkhToConnect}
-        getItemId={getPkh}
-        items={eigenAccounts}
-        maxHeight="8rem"
-        onSelect={setAccountPkhToConnect}
-        OptionIcon={AccountIcon}
-        OptionContent={AccountOptionContent}
-        autoFocus
-      />
     </div>
   ) : (
     <SignView payload={payload as TempleDAppSignPayload} />

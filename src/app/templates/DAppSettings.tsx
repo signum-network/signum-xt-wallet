@@ -8,12 +8,10 @@ import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import CustomSelect, { OptionRenderProps } from 'app/templates/CustomSelect';
 import DAppLogo from 'app/templates/DAppLogo';
 import { T, t } from 'lib/i18n/react';
+import { DAppSession, DAppSessions } from 'lib/messaging';
 import { useRetryableSWR } from 'lib/swr';
 import { useStorage, TempleSharedStorageKey, useTempleClient } from 'lib/temple/front';
-import { DAppSession, DAppSessions } from 'lib/messaging';
 import { useConfirm } from 'lib/ui/dialog';
-
-import HashShortView from '../atoms/HashShortView';
 
 type DAppEntry = [string, DAppSession];
 type DAppActions = {
@@ -138,7 +136,7 @@ const DAppIcon: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = props =>
 const DAppDescription: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = props => {
   const {
     actions,
-    item: [origin, { appMeta, network, accountId }]
+    item: [origin, { appMeta, network }]
   } = props;
   const { remove: onRemove } = actions!;
 
@@ -152,11 +150,6 @@ const DAppDescription: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = p
 
   const dAppAttributes = useMemo(
     () => [
-      {
-        key: '',
-        value: <HashShortView hash={accountId} isAccount />,
-        Component: 'span'
-      },
       {
         key: 'originLabel',
         value: origin,
@@ -178,7 +171,7 @@ const DAppDescription: FC<OptionRenderProps<DAppEntry, string, DAppActions>> = p
         Component: Name
       }
     ],
-    [origin, network, accountId]
+    [origin, network]
   );
 
   return (

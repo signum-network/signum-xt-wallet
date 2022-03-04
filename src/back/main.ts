@@ -153,7 +153,7 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
     case XTMessageType.DAppSelectNetworkRequest:
       DAppNotifications.notifyNetworkChanged(req.network);
       return {
-        type: XTMessageType.DAppSelectNetworkResponse,
+        type: XTMessageType.DAppSelectNetworkResponse
       };
 
     case XTMessageType.PageRequest:

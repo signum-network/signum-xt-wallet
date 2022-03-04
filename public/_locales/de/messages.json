@@ -1806,5 +1806,8 @@
   },
   "selectOtherLanguage": {
     "message": "Andere Sprache wählen"
+  },
+  "lockedBalance": {
+    "message": "Reserviertes Guthaben"
   }
 }

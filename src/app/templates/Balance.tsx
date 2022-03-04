@@ -4,11 +4,11 @@ import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
-import { useBalance } from 'lib/temple/front';
+import { AccountBalances, ZeroAccountBalances, useBalance } from 'lib/temple/front';
 
 type BalanceProps = {
   accountId: string;
-  children: (b: BigNumber) => ReactElement;
+  children: (b: BigNumber, bals: AccountBalances) => ReactElement;
   assetSlug?: string;
   networkRpc?: string;
   displayed?: boolean;
@@ -16,16 +16,17 @@ type BalanceProps = {
 };
 
 const Balance = memo<BalanceProps>(({ accountId, children, assetSlug = 'tez', networkRpc, displayed, initial }) => {
-  const { data: balance } = useBalance(assetSlug, accountId, {
+  const { data: balances } = useBalance(assetSlug, accountId, {
     networkRpc,
     suspense: false,
     displayed,
     initial
   });
-  const exist = balance !== undefined;
+  const exist = balances !== undefined;
 
+  // TODO: the 1e8 needs to be dynamic
   return useMemo(() => {
-    const childNode = children(balance || new BigNumber(0));
+    const childNode = children(balances?.totalBalance || new BigNumber(0), balances || ZeroAccountBalances);
 
     return (
       <CSSTransition
@@ -42,7 +43,7 @@ const Balance = memo<BalanceProps>(({ accountId, children, assetSlug = 'tez', ne
         })}
       </CSSTransition>
     );
-  }, [children, exist, balance]);
+  }, [children, exist, balances]);
 });
 
 export default Balance;

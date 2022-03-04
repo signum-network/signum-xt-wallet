@@ -14,8 +14,9 @@ export interface ReadyState extends AppState {
 export interface DAppSession {
   network: string;
   appMeta: ExtensionDAppMetadata;
-  accountId: string;
-  publicKey: string;
+  // // these will be dynamic
+  // accountId: string;
+  // publicKey: string;
 }
 
 export interface AppState {

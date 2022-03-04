@@ -1806,5 +1806,8 @@
   },
   "activationHint": {
     "message": "Observe que <b>as contas existem apenas em uma rede</b>. Se mudar para outra rede, por ex. rede de teste, a mensagem de ativação aparece novamente."
+  },
+  "lockedBalance": {
+    "message": "Saldo Reservado"
   }
 }

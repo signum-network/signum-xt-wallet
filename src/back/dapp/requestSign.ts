@@ -5,7 +5,7 @@ import { XTMessageType } from 'lib/messaging';
 
 import { HttpAdapterFetch } from '../httpAdapterFetch';
 import { withUnlocked } from '../store';
-import { getCurrentNetworkHost, getDApp } from './dapp';
+import { getCurrentAccountId, getCurrentNetworkHost, getDApp } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import { ExtensionErrorType, ExtensionMessageType, ExtensionSignRequest, ExtensionSignResponse } from './typings';
 
@@ -25,7 +25,7 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
     throw new Error(ExtensionErrorType.InvalidParams);
   }
 
-  const dApp = await getDApp(origin);
+  const [dApp, accountId] = await Promise.all([getDApp(origin), getCurrentAccountId()]);
 
   if (!dApp) {
     throw new Error(ExtensionErrorType.NotGranted);
@@ -36,7 +36,8 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
   //   throw new Error(ExtensionErrorType.NotGranted);
   // }
 
-  if (req.sourcePkh !== dApp.accountId) {
+  // relly checking this here? better to do in the ui
+  if (req.sourcePkh !== accountId) {
     throw new Error(ExtensionErrorType.NotFound);
   }
 
@@ -72,7 +73,7 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
       handleIntercomRequest: async (confirmReq, decline) => {
         if (confirmReq?.type === XTMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {
           if (confirmReq.confirmed) {
-            const signedTransaction = await withUnlocked(({ vault }) => vault.signumSign(dApp.accountId, req.payload));
+            const signedTransaction = await withUnlocked(({ vault }) => vault.signumSign(accountId, req.payload));
             const { transaction, fullHash } = await ledger.transaction.broadcastTransaction(signedTransaction);
             resolve({
               type: ExtensionMessageType.SignResponse,

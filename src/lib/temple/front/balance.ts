@@ -1,8 +1,22 @@
-import { Amount } from '@signumjs/util';
+import { Account } from '@signumjs/core';
 import BigNumber from 'bignumber.js';
 
 import { useRetryableSWR } from 'lib/swr';
 import { useTezos, useSignum } from 'lib/temple/front';
+
+export const ZeroAccountBalances: AccountBalances = {
+  availableBalance: new BigNumber(0),
+  committedBalance: new BigNumber(0),
+  lockedBalance: new BigNumber(0),
+  totalBalance: new BigNumber(0)
+};
+
+export interface AccountBalances {
+  readonly availableBalance: BigNumber;
+  readonly lockedBalance: BigNumber;
+  readonly committedBalance: BigNumber;
+  readonly totalBalance: BigNumber;
+}
 
 type UseBalanceOptions = {
   suspense?: boolean;
@@ -10,7 +24,7 @@ type UseBalanceOptions = {
   displayed?: boolean;
   initial?: BigNumber;
 };
-// FIXME: Consider getting all kinds of balance, like committed, locked etc
+
 export function useBalance(assetSlug: string, accountId: string, opts: UseBalanceOptions = {}) {
   // TODO: accept assetSlugs to get the tokens amounts also
   const signum = useSignum();
@@ -19,10 +33,11 @@ export function useBalance(assetSlug: string, accountId: string, opts: UseBalanc
     displayed ? [`balance-${accountId}`, signum] : null,
     async () => {
       try {
-        const { balanceNQT } = await signum.account.getAccountBalance(accountId);
-        return new BigNumber(Amount.fromPlanck(balanceNQT).getSigna());
+        const account = await signum.account.getAccount({ accountId, includeCommittedAmount: true });
+        // TODO: dynamic decimals
+        return getBalances(account, 8);
       } catch (e) {
-        return new BigNumber(0);
+        return ZeroAccountBalances;
       }
     },
     {
@@ -34,6 +49,21 @@ export function useBalance(assetSlug: string, accountId: string, opts: UseBalanc
       initialData: opts.initial
     }
   );
+}
+
+function getBalances(account: Account, decimals: number): AccountBalances {
+  const divider = 10 ** decimals;
+  const totalBalance = new BigNumber(account.balanceNQT || '0').div(divider);
+  const availableBalance = new BigNumber(account.unconfirmedBalanceNQT || '0').div(divider);
+  const committedBalance = new BigNumber(account.committedBalanceNQT || '0').div(divider);
+  // other locked balances
+  const lockedBalance = new BigNumber(totalBalance).minus(availableBalance).minus(committedBalance).div(divider);
+  return {
+    availableBalance,
+    committedBalance,
+    lockedBalance,
+    totalBalance
+  };
 }
 
 export function useBalanceSWRKey(assetSlug: string, address: string) {

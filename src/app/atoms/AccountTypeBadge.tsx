@@ -4,7 +4,7 @@ import classNames from 'clsx';
 
 import { XTAccount, XTAccountType } from 'lib/temple/front';
 
-import { t } from '../../lib/i18n/react';
+import { T, t } from '../../lib/i18n/react';
 
 type AccountTypeBadgeProps = {
   account: Pick<XTAccount, 'type'>;
@@ -12,9 +12,7 @@ type AccountTypeBadgeProps = {
 };
 
 const AccountTypeBadge = memo<AccountTypeBadgeProps>(({ account, darkTheme = false }) => {
-  if (account.type !== XTAccountType.WatchOnly) return null;
-
-  const title = t('watchOnlyAccount');
+  const title = account.type === XTAccountType.WatchOnly ? t('watchOnlyAccount') : t('ownAccount');
 
   const textAndBorderStyle = darkTheme ? 'border-white text-white' : 'border-black text-black';
 

@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 
-import {DAppSession, DAppSessions, Network} from 'lib/messaging';
+import { DAppSession, DAppSessions, Network} from 'lib/messaging';
 import { NETWORKS } from 'lib/temple/networks';
 
 const STORAGE_KEY = 'dapp_sessions';
@@ -33,6 +33,11 @@ export function cleanDApps() {
 
 function setDApps(newDApps: DAppSessions) {
   return browser.storage.local.set({ [STORAGE_KEY]: newDApps });
+}
+
+export async function getCurrentAccountId() {
+  const { account_publickeyhash: account } = await browser.storage.local.get('account_publickeyhash');
+  return account;
 }
 
 export async function getCurrentNetworkHost() {

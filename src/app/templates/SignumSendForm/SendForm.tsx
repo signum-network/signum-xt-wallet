@@ -70,7 +70,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const assetSymbol = assetMetadata.symbol;
   const accountPkh = acc.publicKeyHash;
   const { data: balanceData } = useBalance(assetMetadata.name, accountPkh);
-  const balance = balanceData && Amount.fromSigna(balanceData.toNumber());
+  const balance = balanceData && Amount.fromSigna(balanceData.totalBalance.toString(10));
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
     mode: 'onChange'
@@ -138,7 +138,9 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
 
   const maxAmount = useMemo(() => {
     if (!feeValue) return;
-    return balance ? balance.subtract(Amount.fromSigna(feeValue)) : Amount.Zero();
+    return balanceData
+      ? Amount.fromSigna(balanceData.availableBalance.toString(10)).subtract(Amount.fromSigna(feeValue))
+      : Amount.Zero();
   }, [balance, feeValue]);
 
   const totalAmount = useMemo(() => {

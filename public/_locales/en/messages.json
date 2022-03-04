@@ -1806,5 +1806,14 @@
   },
   "activationHint": {
     "message": "Note that <b>accounts only exist within one network</b>. If you switch to another network, e.g. test network, the activation message appears again."
+  },
+  "lockedBalance": {
+    "message": "Reserved Balance"
+  },
+  "currentAccount" : {
+    "message": "Current Account"
+  },
+  "confirmConnectionHint" : {
+    "message": "Your connection is bound to this DApps URL and the requested network. You can change your account or node while being connected with the DApp"
   }
 }

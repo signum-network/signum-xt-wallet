@@ -35,7 +35,9 @@ const ConfirmDAppForm: FC = () => {
   const account = useAccount();
   const network = useNetwork();
 
-  const [accountPkhToConnect, setAccountPkhToConnect] = useState(account.publicKeyHash);
+  // const [accountPkhToConnect, setAccountPkhToConnect] = useState(account.publicKeyHash);
+
+  const accountPkhToConnect = account.publicKeyHash;
 
   const loc = useLocation();
   const id = useMemo(() => {
@@ -66,12 +68,12 @@ const ConfirmDAppForm: FC = () => {
   );
 
   const onConfirm = useCallback(
-    async (confimed: boolean) => {
+    async (confirmed: boolean) => {
       switch (payload.type) {
         case 'connect':
-          return confirmDAppPermission(id, confimed, accountPkhToConnect);
+          return confirmDAppPermission(id, confirmed, accountPkhToConnect);
         case 'sign':
-          return confirmDAppSign(id, confimed);
+          return confirmDAppSign(id, confirmed);
       }
     },
     [id, payload.type, confirmDAppPermission, confirmDAppSign, accountPkhToConnect]
@@ -228,7 +230,7 @@ const ConfirmDAppForm: FC = () => {
               <PayloadContent
                 payload={payload}
                 accountPkhToConnect={accountPkhToConnect}
-                setAccountPkhToConnect={setAccountPkhToConnect}
+                // setAccountPkhToConnect={setAccountPkhToConnect}
               />
             </>
           )}
