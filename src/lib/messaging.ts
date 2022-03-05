@@ -183,6 +183,7 @@ export enum XTMessageType {
 
   // DAppNotifications
   DAppNetworkChanged = 'XT_DAPP_NETWORK_CHANGED',
+  DAppAccountChanged = 'XT_DAPP_ACCOUNT_CHANGED',
   DAppPermissionRemoved = 'XT_DAPP_PERMISSION_REMOVED',
   DAppAccountRemoved = 'XT_DAPP_ACCOUNT_REMOVED',
 
@@ -246,7 +247,9 @@ export enum XTMessageType {
   DAppRemoveSessionRequest = 'XT_DAPP_REMOVE_SESSION_REQUEST',
   DAppRemoveSessionResponse = 'XT_DAPP_REMOVE_SESSION_RESPONSE',
   DAppSelectNetworkRequest = 'XT_DAPP_SELECT_NETWORK_REQUEST',
-  DAppSelectNetworkResponse = 'XT_DAPP_SELECT_NETWORK_RESPONSE'
+  DAppSelectNetworkResponse = 'XT_DAPP_SELECT_NETWORK_RESPONSE',
+  DAppSelectAccountRequest = 'XT_DAPP_SELECT_ACCOUNT_REQUEST',
+  DAppSelectAccountResponse = 'XT_DAPP_SELECT_ACCOUNT_RESPONSE'
 }
 
 export type TempleNotification =
@@ -287,7 +290,8 @@ export type TempleRequest =
   | TempleUpdateSettingsRequest
   | TempleGetAllDAppSessionsRequest
   | TempleRemoveDAppSessionRequest
-  | TempleDAppSelectNetworkRequest;
+  | TempleDAppSelectNetworkRequest
+  | TempleDAppSelectAccountRequest;
 
 export type TempleResponse =
   | TempleGetStateResponse
@@ -319,7 +323,8 @@ export type TempleResponse =
   | TempleUpdateSettingsResponse
   | TempleGetAllDAppSessionsResponse
   | TempleRemoveDAppSessionResponse
-  | TempleDAppSelectNetworkResponse;
+  | TempleDAppSelectNetworkResponse
+  | TempleDAppSelectAccountResponse;
 
 export interface TempleMessageBase {
   type: XTMessageType;
@@ -667,6 +672,15 @@ export interface TempleDAppSelectNetworkRequest extends TempleMessageBase {
 
 export interface TempleDAppSelectNetworkResponse extends TempleMessageBase {
   type: XTMessageType.DAppSelectNetworkResponse;
+}
+
+export interface TempleDAppSelectAccountRequest extends TempleMessageBase {
+  type: XTMessageType.DAppSelectAccountRequest;
+  account: XTAccount;
+}
+
+export interface TempleDAppSelectAccountResponse extends TempleMessageBase {
+  type: XTMessageType.DAppSelectAccountResponse;
 }
 
 export type OperationsPreview = any[] | { branch: string; contents: any[] };

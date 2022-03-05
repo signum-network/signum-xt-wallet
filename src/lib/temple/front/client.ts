@@ -316,6 +316,16 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     assertResponse(res.type === XTMessageType.DAppSelectNetworkResponse);
   }, []);
 
+  const selectAccount = useCallback(async accountPublicKey => {
+    const account = accounts.find(({ publicKey }) => publicKey === accountPublicKey);
+    if (!account) return;
+    const res = await request({
+      type: XTMessageType.DAppSelectAccountRequest,
+      account
+    });
+    assertResponse(res.type === XTMessageType.DAppSelectAccountResponse);
+  }, []);
+
   return {
     state,
 
@@ -358,7 +368,8 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     getAllDAppSessions,
     removeDAppSession,
     getSignumTransactionKeyPair,
-    selectNetwork
+    selectNetwork,
+    selectAccount
   };
 });
 

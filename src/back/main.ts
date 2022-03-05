@@ -156,6 +156,12 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         type: XTMessageType.DAppSelectNetworkResponse
       };
 
+    case XTMessageType.DAppSelectAccountRequest:
+      DAppNotifications.notifyAccountChanged(req.account);
+      return {
+        type: XTMessageType.DAppSelectAccountResponse
+      };
+
     case XTMessageType.PageRequest:
       const dAppEnabled = await Actions.isDAppEnabled();
       if (dAppEnabled) {

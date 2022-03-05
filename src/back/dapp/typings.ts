@@ -65,7 +65,8 @@ export enum ExtensionErrorType {
 }
 
 export type ExtensionPermission = {
-  nodeHosts: string[];
+  currentNodeHost: string;
+  availableNodeHosts: string[];
   accountId: string;
   publicKey: string;
 } | null;

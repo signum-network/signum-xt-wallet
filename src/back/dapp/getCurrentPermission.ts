@@ -1,22 +1,26 @@
-import {getCurrentAccountId, getDApp, getNetworkHosts} from './dapp';
+import { Address } from '@signumjs/core';
+
+import { getCurrentAccountPublicKey, getCurrentNetworkHost, getDApp, getNetworkHosts } from './dapp';
 import { ExtensionGetCurrentPermissionResponse, ExtensionMessageType } from './typings';
-import {Address} from '@signumjs/core';
 
 export async function getCurrentPermission(origin: string): Promise<ExtensionGetCurrentPermissionResponse> {
-  const [dApp, accountId] = await Promise.all([getDApp(origin), getCurrentAccountId()]);
-  if (!dApp)
+  const [dApp, publicKey] = await Promise.all([getDApp(origin), getCurrentAccountPublicKey()]);
+  if (!dApp) {
     return {
       type: ExtensionMessageType.GetCurrentPermissionResponse,
       permission: null
     };
-
+  }
+  const currentNetworkHost = await getCurrentNetworkHost();
+  const currentNodeHost = currentNetworkHost.rpcBaseURL;
   const networkHosts = await getNetworkHosts(dApp?.network);
-  const nodeHosts = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
-  const publicKey = Address.fromNumericId(accountId).getPublicKey();
+  const availableNodeHosts = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
+  const accountId = Address.fromPublicKey(publicKey).getNumericId();
   return {
     type: ExtensionMessageType.GetCurrentPermissionResponse,
     permission: {
-      nodeHosts,
+      availableNodeHosts,
+      currentNodeHost,
       accountId,
       publicKey
     }

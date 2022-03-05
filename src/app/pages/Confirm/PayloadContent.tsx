@@ -59,7 +59,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, pa
   );
 
   return payload.type === 'connect' ? (
-    <div className={classNames('mt-8 p-2', 'w-full', 'flex flex-col', 'border rounded border-gray-200')}>
+    <div className={classNames('mt-4 p-2', 'w-full', 'flex flex-col', 'border rounded border-gray-200')}>
       <h2 className={classNames('leading-tight', 'flex flex-col')}>
         <T id="currentAccount">{message => <span className="text-base font-semibold text-gray-700">{message}</span>}</T>
         <div className="my-4 flex flex-row">

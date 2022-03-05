@@ -34,10 +34,7 @@ const ConfirmDAppForm: FC = () => {
   const relevantAccounts = useRelevantAccounts();
   const account = useAccount();
   const network = useNetwork();
-
-  // const [accountPkhToConnect, setAccountPkhToConnect] = useState(account.publicKey);
-
-  const accountPkhToConnect = account.publicKey;
+  const accountToConnect = account.publicKey;
 
   const loc = useLocation();
   const id = useMemo(() => {
@@ -62,21 +59,20 @@ const ConfirmDAppForm: FC = () => {
   );
 
   const connectedAccount = useMemo(
-    () =>
-      allAccounts.find(a => a.publicKey === (payload.type === 'connect' ? accountPkhToConnect : payload.sourcePkh)),
-    [payload, allAccounts, accountPkhToConnect]
+    () => allAccounts.find(a => a.publicKey === (payload.type === 'connect' ? accountToConnect : payload.sourcePkh)),
+    [payload, allAccounts, accountToConnect]
   );
 
   const onConfirm = useCallback(
     async (confirmed: boolean) => {
       switch (payload.type) {
         case 'connect':
-          return confirmDAppPermission(id, confirmed, accountPkhToConnect);
+          return confirmDAppPermission(id, confirmed, accountToConnect);
         case 'sign':
           return confirmDAppSign(id, confirmed);
       }
     },
-    [id, payload.type, confirmDAppPermission, confirmDAppSign, accountPkhToConnect]
+    [id, payload.type, confirmDAppPermission, confirmDAppSign, accountToConnect]
   );
 
   const [error, setError] = useSafeState<any>(null);
@@ -227,11 +223,7 @@ const ConfirmDAppForm: FC = () => {
                   {message => <p className="mb-4 text-xs font-medium text-center text-red-500">{message}</p>}
                 </T>
               )}
-              <PayloadContent
-                payload={payload}
-                accountPkhToConnect={accountPkhToConnect}
-                // setAccountPkhToConnect={setAccountPkhToConnect}
-              />
+              <PayloadContent payload={payload} accountPkhToConnect={accountToConnect} />
             </>
           )}
         </div>

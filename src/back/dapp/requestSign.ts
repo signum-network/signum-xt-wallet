@@ -5,7 +5,7 @@ import { XTMessageType } from 'lib/messaging';
 
 import { HttpAdapterFetch } from '../httpAdapterFetch';
 import { withUnlocked } from '../store';
-import { getCurrentAccountId, getCurrentNetworkHost, getDApp } from './dapp';
+import { getCurrentAccountPublicKey, getCurrentNetworkHost, getDApp } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import { ExtensionErrorType, ExtensionMessageType, ExtensionSignRequest, ExtensionSignResponse } from './typings';
 
@@ -25,7 +25,7 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
     throw new Error(ExtensionErrorType.InvalidParams);
   }
 
-  const [dApp, accountId] = await Promise.all([getDApp(origin), getCurrentAccountId()]);
+  const [dApp, accountId] = await Promise.all([getDApp(origin), getCurrentAccountPublicKey()]);
 
   if (!dApp) {
     throw new Error(ExtensionErrorType.NotGranted);

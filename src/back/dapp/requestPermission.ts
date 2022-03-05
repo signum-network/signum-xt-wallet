@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 import { XTMessageType } from 'lib/messaging';
 
-import { getDApp, getNetworkHosts, setDApp, getCurrentNetworkHost, getCurrentAccountId } from './dapp';
+import { getDApp, getNetworkHosts, setDApp, getCurrentNetworkHost, getCurrentAccountPublicKey } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import {
   ExtensionErrorType,
@@ -27,10 +27,9 @@ export async function requestPermission(
     throw new Error(ExtensionErrorType.InvalidNetwork);
   }
   const hostUrls = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
-  const [dApp, accountId] = await Promise.all([getDApp(origin), getCurrentAccountId()]);
+  const [dApp, publicKey] = await Promise.all([getDApp(origin), getCurrentAccountPublicKey()]);
 
-  // FIXME: This does not work
-  const publicKey = Address.fromNumericId(accountId).getPublicKey();
+  const accountId = Address.fromPublicKey(publicKey).getNumericId();
   if (dApp && req.network === dApp.network && req.appMeta.name === dApp.appMeta.name) {
     return {
       type: ExtensionMessageType.PermissionResponse,

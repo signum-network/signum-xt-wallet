@@ -91,8 +91,15 @@ function useReadyTemple() {
    */
 
   const defaultAcc = allAccounts[0];
-  const [accountPkh, setAccountPkh] = usePassiveStorage('account_publickeyhash', defaultAcc.publicKey);
+  const [accountPkh, updateAccountPkh] = usePassiveStorage('account_publickey', defaultAcc.publicKey);
 
+  const setAccountPkh = useCallback(
+    (publicKey: string) => {
+      templeFront.selectAccount(publicKey); // propagate to back and dapp
+      updateAccountPkh(publicKey);
+    },
+    [updateAccountPkh]
+  );
 
   useEffect(() => {
     if (allAccounts.every(a => a.publicKey !== accountPkh)) {

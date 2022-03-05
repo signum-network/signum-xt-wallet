@@ -1,4 +1,3 @@
-import { MessageType } from 'lib/intercom';
 import { IntercomClient } from 'lib/intercom/client';
 import { serializeError } from 'lib/intercom/helpers';
 import { XTMessageType, TempleResponse } from 'lib/messaging';
@@ -68,7 +67,8 @@ function send(msg: SignumPageMessage, targetOrigin: string) {
 const AcceptedMessageTypes = new Set([
   XTMessageType.DAppNetworkChanged,
   XTMessageType.DAppPermissionRemoved,
-  XTMessageType.DAppAccountRemoved
+  XTMessageType.DAppAccountRemoved,
+  XTMessageType.DAppAccountChanged
 ]);
 
 function handleWalletNotification(msg: any) {
