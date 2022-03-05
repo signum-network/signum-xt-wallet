@@ -1,19 +1,21 @@
 import React, { FC, HTMLAttributes, useMemo } from 'react';
 
+import { Address } from '@signumjs/core';
 import classNames from 'clsx';
 // @ts-ignore
 import hashicon from 'hashicon';
 
 type IdenticonProps = HTMLAttributes<HTMLDivElement> & {
-  accountId: string;
+  address: string;
   size?: number;
 };
 
-const IdenticonSignum: FC<IdenticonProps> = ({ accountId, size = 100, className, style = {}, ...rest }) => {
+const IdenticonSignum: FC<IdenticonProps> = ({ address, size = 100, className, style = {}, ...rest }) => {
   const iconSrc = useMemo(() => {
-    if (!accountId) return '';
+    if (!address) return '';
+    const accountId = Address.create(address).getNumericId();
     return hashicon(accountId, { size: size - 8 }).toDataURL();
-  }, [accountId, size]);
+  }, [address, size]);
 
   return (
     <div
@@ -27,7 +29,7 @@ const IdenticonSignum: FC<IdenticonProps> = ({ accountId, size = 100, className,
       }}
       {...rest}
     >
-      <img src={iconSrc} alt={`account-${accountId}`} />
+      <img src={iconSrc} alt={`account-${address}`} />
     </div>
   );
 };

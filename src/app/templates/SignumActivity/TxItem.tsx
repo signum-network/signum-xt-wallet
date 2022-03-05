@@ -105,7 +105,7 @@ const TxItemArgs = memo<TxItemArgsProps>(({ i18nKey, args, className }) => (
       id={i18nKey}
       substitutions={args.map((value, index) => (
         <span key={index}>
-          <HashChip className="text-blue-600 opacity-75" key={index} hash={value} type="link" />
+          <HashChip className="text-blue-600 opacity-75" key={index} hash={value} trimAfter={20} type="link" />
           {index === args.length - 1 ? null : ', '}
         </span>
       ))}

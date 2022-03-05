@@ -41,7 +41,7 @@ const AccountBanner = memo<AccountBannerProps>(
         )}
 
         <div className={classNames('w-full', 'border rounded-md', 'p-2', 'flex items-center')}>
-          <IdenticonSignum accountId={account.publicKeyHash} size={32} className="flex-shrink-0 shadow-xs" />
+          <IdenticonSignum address={account.publicKey} size={32} className="flex-shrink-0 shadow-xs" />
 
           <div className="flex flex-col items-start ml-2">
             <div className="flex flex-wrap items-center">
@@ -52,11 +52,11 @@ const AccountBanner = memo<AccountBannerProps>(
 
             <div className="flex flex-wrap items-center mt-1">
               <div className={classNames('text-xs leading-none', 'text-gray-700')}>
-                <HashShortView hash={account.publicKeyHash} isAccount />
+                <HashShortView hash={account.publicKey} isAccount />
               </div>
 
               {displayBalance && (
-                <Balance accountId={account.publicKeyHash} networkRpc={networkRpc}>
+                <Balance accountId={account.accountId} networkRpc={networkRpc}>
                   {bal => (
                     <div className={classNames('ml-2', 'text-xs leading-none', 'text-gray-700')}>
                       <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{symbol}</span>

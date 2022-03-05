@@ -81,22 +81,22 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
       };
 
     case XTMessageType.EditAccountRequest:
-      await Actions.editAccountName(req.accountPublicKeyHash, req.name);
+      await Actions.editAccountName(req.accountPublicKey, req.name);
       return {
         type: XTMessageType.EditAccountResponse
       };
 
     case XTMessageType.ActivateAccountRequest:
-      await Actions.setAccountActivated(req.accountPublicKeyHash);
+      await Actions.setAccountActivated(req.accountPublicKey);
       return {
         type: XTMessageType.ActivateAccountResponse
       };
 
-    case XTMessageType.ImportAccountRequest:
-      await Actions.importAccount(req.privateKey, req.encPassword);
-      return {
-        type: XTMessageType.ImportAccountResponse
-      };
+    // case XTMessageType.ImportAccountRequest:
+    //   await Actions.importAccount(req.privateKey, req.encPassword);
+    //   return {
+    //     type: XTMessageType.ImportAccountResponse
+    //   };
 
     case XTMessageType.ImportMnemonicAccountRequest:
       await Actions.importMnemonicAccount(req.mnemonic, req.name);

@@ -1,3 +1,4 @@
+
 import { Account } from '@signumjs/core';
 import BigNumber from 'bignumber.js';
 
@@ -29,6 +30,7 @@ export function useBalance(assetSlug: string, accountId: string, opts: UseBalanc
   // TODO: accept assetSlugs to get the tokens amounts also
   const signum = useSignum();
   const displayed = opts.displayed ?? true;
+
   return useRetryableSWR(
     displayed ? [`balance-${accountId}`, signum] : null,
     async () => {

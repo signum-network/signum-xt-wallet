@@ -7,6 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { T, t } from '../../../lib/i18n/react';
 import {
   isSignumAddress,
+  useSignum,
   useSignumAccountPrefix,
   useSignumAliasResolver,
   useTempleClient
@@ -20,9 +21,12 @@ interface WatchOnlyFormData {
   address: string;
 }
 
+const SmartContractPk = '0000000000000000000000000000000000000000000000000000000000000000';
+
 export const WatchOnlyForm: FC = () => {
   const { importWatchOnlyAccount } = useTempleClient();
-  const { resolveAliasToAccountId } = useSignumAliasResolver();
+  const signum = useSignum();
+  const { resolveAliasToAccountPk } = useSignumAliasResolver();
   const prefix = useSignumAccountPrefix();
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation } = useForm<WatchOnlyFormData>({
     mode: 'onChange'
@@ -34,22 +38,22 @@ export const WatchOnlyForm: FC = () => {
   const resolveAlias = useCallback(
     async (address: string) => {
       if (!isSignumAddress(address)) {
-        const accountId = await resolveAliasToAccountId(address);
-        if (!accountId) {
+        const publicKey = await resolveAliasToAccountPk(address);
+        if (!publicKey) {
           throw new Error(t('domainDoesntResolveToAddress', address));
         }
-        return accountId;
+        return publicKey;
       } else {
-        return Address.create(address).getNumericId();
+        return address;
       }
     },
-    [resolveAliasToAccountId]
+    [resolveAliasToAccountPk]
   );
 
   useEffect(() => {
     resolveAlias(addressValue)
-      .then(accountId => {
-        setResolvedAddress(accountId);
+      .then(publickey => {
+        setResolvedAddress(publickey);
       })
       .catch(() => {
         setResolvedAddress('');
@@ -61,13 +65,39 @@ export const WatchOnlyForm: FC = () => {
     triggerValidation('address');
   }, [setValue, triggerValidation]);
 
+  const fetchAccountsPublickey = async (address: string) => {
+    if (!isSignumAddress(address)) {
+      throw new Error(t('invalidAddressOrDomain'));
+    }
+    const accountId = Address.create(address).getNumericId();
+    let acc = null;
+    try {
+      acc = await signum.account.getAccount({
+        accountId,
+        includeCommittedAmount: false,
+        includeEstimatedCommitment: false
+      });
+    } catch (e: any) {
+      // not found - no op
+    }
+    if (!acc) {
+      throw new Error(t('accountNotExists'));
+    }
+    // @ts-ignore
+    const publicKey = acc.publicKey;
+    if (!publicKey || publicKey === SmartContractPk) {
+      throw new Error(t('cannotImportWatchAccount'));
+    }
+    return publicKey;
+  };
+
   const validateAddressField = useCallback(
     async (value: any) => {
       if (!value?.length || value.length < 0) {
         return false;
       }
-      const accountId = await resolveAlias(value);
-      return isSignumAddress(accountId) ? true : t('invalidAddressOrDomain');
+      const address = await resolveAlias(value);
+      return isSignumAddress(address) ? true : t('invalidAddressOrDomain');
     },
     [resolveAlias]
   );
@@ -77,10 +107,8 @@ export const WatchOnlyForm: FC = () => {
     setError(null);
     try {
       const finalAddress = await resolveAlias(addressValue);
-      if (!isSignumAddress(finalAddress)) {
-        throw new Error(t('invalidAddress'));
-      }
-      await importWatchOnlyAccount(finalAddress);
+      const publicKey = await fetchAccountsPublickey(finalAddress);
+      await importWatchOnlyAccount(publicKey);
     } catch (err: any) {
       console.error(err);
       await withErrorHumanDelay(err, () => {
@@ -121,7 +149,7 @@ export const WatchOnlyForm: FC = () => {
       {resolvedAddress && resolvedAddress !== addressValue && (
         <div className={classNames('mb-4 -mt-3', 'text-xs font-light text-gray-600', 'flex flex-wrap items-center')}>
           <span className="mr-1 whitespace-no-wrap">{t('resolvedAddress')}:</span>
-          <span className="font-normal">{Address.fromNumericId(resolvedAddress, prefix).getReedSolomonAddress()}</span>
+          <span className="font-normal">{Address.create(resolvedAddress, prefix).getReedSolomonAddress()}</span>
         </div>
       )}
 

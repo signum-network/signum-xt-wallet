@@ -193,17 +193,17 @@ const AccountDropdown: FC<AccountDropdownProps> = ({ opened, setOpened }) => {
               </p>
             ) : (
               filteredAccounts.map(acc => {
-                const selected = acc.publicKeyHash === account.publicKeyHash;
+                const selected = acc.publicKey === account.publicKey;
                 const handleAccountClick = () => {
                   if (!selected) {
-                    setAccountPkh(acc.publicKeyHash);
+                    setAccountPkh(acc.publicKey);
                   }
                   setOpened(false);
                 };
 
                 return (
                   <Button
-                    key={acc.publicKeyHash}
+                    key={acc.publicKey}
                     className={classNames(
                       'block w-full',
                       'overflow-hidden',
@@ -220,11 +220,7 @@ const AccountDropdown: FC<AccountDropdownProps> = ({ opened, setOpened }) => {
                     onClick={handleAccountClick}
                     testID={AccountDropdownSelectors.AccountItemButton}
                   >
-                    <IdenticonSignum
-                      accountId={acc.publicKeyHash}
-                      size={32}
-                      className="flex-shrink-0 shadow-xs-white"
-                    />
+                    <IdenticonSignum address={acc.publicKey} size={32} className="flex-shrink-0 shadow-xs-white" />
 
                     <div className="flex flex-col items-start ml-2">
                       <Name className="text-sm font-medium leading-none" style={{ paddingBottom: 3 }}>
@@ -232,7 +228,7 @@ const AccountDropdown: FC<AccountDropdownProps> = ({ opened, setOpened }) => {
                       </Name>
 
                       <div className="flex flex-wrap items-center">
-                        <Balance accountId={acc.publicKeyHash}>
+                        <Balance accountId={acc.accountId}>
                           {bal => (
                             <span className={classNames('text-xs leading-tight', 'text-white text-opacity-75')}>
                               <Money tooltip={false}>{bal}</Money>{' '}

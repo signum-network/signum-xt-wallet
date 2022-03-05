@@ -161,19 +161,19 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     assertResponse(res.type === XTMessageType.RemoveAccountResponse);
   }, []);
 
-  const editAccountName = useCallback(async (accountPublicKeyHash: string, name: string) => {
+  const editAccountName = useCallback(async (accountPublicKey: string, name: string) => {
     const res = await request({
       type: XTMessageType.EditAccountRequest,
-      accountPublicKeyHash,
+      accountPublicKey,
       name
     });
     assertResponse(res.type === XTMessageType.EditAccountResponse);
   }, []);
 
-  const setAccountActivated = useCallback(async (accountPublicKeyHash: string) => {
+  const setAccountActivated = useCallback(async (accountPublicKey: string) => {
     const res = await request({
       type: XTMessageType.ActivateAccountRequest,
-      accountPublicKeyHash
+      accountPublicKey
     });
     assertResponse(res.type === XTMessageType.ActivateAccountResponse);
   }, []);
@@ -344,7 +344,7 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     removeAccount,
     editAccountName,
     setAccountActivated,
-    importAccount,
+    // importAccount,
     importMnemonicAccount,
     importFundraiserAccount,
     importKTManagedAccount,

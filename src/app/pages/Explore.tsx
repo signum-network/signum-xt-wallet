@@ -17,7 +17,7 @@ import { getAssetSymbol, XTAccountType, useAccount, useSignumAssetMetadata } fro
 import useTippy from 'lib/ui/useTippy';
 import { HistoryAction, Link, navigate, useLocation } from 'lib/woozie';
 
-import { useNetworkIsReachable } from '../../lib/ui/useNetworkIsReachable';
+import { useNetworkIsReachable } from 'lib/ui/useNetworkIsReachable';
 import Alert from '../atoms/Alert';
 import { ExploreSelectors } from './Explore.selectors';
 import { ActivationSection } from './Explore/ActivationSection';
@@ -49,7 +49,6 @@ const Explore: FC<ExploreProps> = ({ assetSlug }) => {
     return undefined;
   }, [registerBackHandler, assetSlug, search]);
 
-  const accountId = account.publicKeyHash;
   const canSend = account.type !== XTAccountType.WatchOnly;
   const fullpageClassName = fullPage ? 'mb-10' : 'mb-6';
   // const swapLink = assetSlug ? `/swap/${assetSlug}` : '/swap';
@@ -84,9 +83,9 @@ const Explore: FC<ExploreProps> = ({ assetSlug }) => {
             <Alert type="error" title={t('cantConnectToNetwork')} description={t('cantConnectToNetworkHint')} />
           </div>
         )}
-        <AddressChip accountId={accountId} className="mb-6" />
+        <AddressChip accountId={account.accountId} className="mb-6" />
 
-        <MainBanner accountId={accountId} assetSlug={assetSlug} />
+        <MainBanner accountId={account.accountId} assetSlug={assetSlug} />
 
         <div className="flex justify-around mx-auto w-full max-w-sm mt-6 px-8">
           <ActionButton label={<T id="receive" />} Icon={ReceiveIcon} href="/receive" />
@@ -160,7 +159,7 @@ const ActivityTab: FC<ActivityTabProps> = ({ assetSlug }) => {
 
   return (
     <SuspenseContainer whileMessage={t('operationHistoryWhileMessage')}>
-      <Activity accountId={account.publicKeyHash} />
+      <Activity publicKey={account.publicKey} />
     </SuspenseContainer>
   );
 };

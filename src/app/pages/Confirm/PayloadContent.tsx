@@ -16,7 +16,7 @@ import { TempleDAppSignPayload, useRelevantAccounts, useSignumAssetMetadata } fr
 import IdenticonSignum from '../../atoms/IdenticonSignum';
 
 const AccountIcon: FC<OptionRenderProps<XTAccount>> = ({ item }) => (
-  <IdenticonSignum accountId={item.publicKeyHash} size={32} className="flex-shrink-0 shadow-xs" />
+  <IdenticonSignum address={item.publicKey} size={32} className="flex-shrink-0 shadow-xs" />
 );
 
 const AccountOptionContentHOC = (networkRpc: string) => {
@@ -30,10 +30,10 @@ const AccountOptionContentHOC = (networkRpc: string) => {
 
       <div className="flex flex-wrap items-center mt-1">
         <div className={classNames('text-xs leading-none', 'text-gray-700')}>
-          <HashShortView hash={acc.publicKeyHash} isAccount />
+          <HashShortView hash={acc.publicKey} isAccount />
         </div>
 
-        <Balance accountId={acc.publicKeyHash} networkRpc={networkRpc}>
+        <Balance accountId={acc.accountId} networkRpc={networkRpc}>
           {bal => (
             <div className={classNames('ml-2', 'text-xs leading-none', 'text-gray-600')}>
               <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{symbol}</span>
@@ -54,7 +54,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, pa
   const allAccounts = useRelevantAccounts();
   const AccountOptionContent = useMemo(() => AccountOptionContentHOC(payload.network), [payload.network]);
   const currentAccount = useMemo(
-    () => allAccounts.find((a: XTAccount) => a.publicKeyHash === accountPkhToConnect),
+    () => allAccounts.find((a: XTAccount) => a.publicKey === accountPkhToConnect),
     [allAccounts]
   );
 

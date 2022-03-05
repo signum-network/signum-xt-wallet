@@ -10,7 +10,7 @@ import { OpenInExplorerChipSelectors } from './OpenInExplorerChip.selectors';
 
 type OpenInExplorerChipProps = {
   baseUrl: string;
-  hash: string;
+  id: string;
   className?: string;
   bgShade?: 100 | 200;
   textShade?: 500 | 600 | 700;
@@ -19,7 +19,7 @@ type OpenInExplorerChipProps = {
 
 const OpenInExplorerChip: FC<OpenInExplorerChipProps> = ({
   baseUrl,
-  hash,
+  id,
   className,
   bgShade = 100,
   textShade = 600,
@@ -45,7 +45,7 @@ const OpenInExplorerChip: FC<OpenInExplorerChipProps> = ({
   return (
     <a
       ref={ref}
-      href={`${baseUrl}/${hash}`}
+      href={`${baseUrl}/${id}`}
       target="_blank"
       rel="noopener noreferrer"
       className={classNames(

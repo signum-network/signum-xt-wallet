@@ -2,6 +2,7 @@ import { FC, useCallback, useLayoutEffect, useRef } from 'react';
 
 import constate from 'constate';
 import browser from 'webextension-polyfill';
+
 import { createUrl } from 'lib/woozie';
 
 export const IS_DEV_ENV = process.env.NODE_ENV === 'development';
@@ -80,4 +81,3 @@ export function openOptionsInFullPage() {
     url: browser.runtime.getURL('options.html')
   });
 }
-

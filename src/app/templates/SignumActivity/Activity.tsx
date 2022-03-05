@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo, useRef } from 'react';
 
-import { Transaction } from '@signumjs/core';
+import { Address, Transaction } from '@signumjs/core';
 
 import { useRetryableSWR } from 'lib/swr';
 import { useSignum } from 'lib/temple/front';
@@ -9,19 +9,21 @@ import useSafeState from 'lib/ui/useSafeState';
 import ActivityView from './ActivityView';
 
 type ActivityProps = {
-  accountId: string;
+  publicKey: string;
   className?: string;
 };
 
 export const ACTIVITY_PAGE_SIZE = 10;
 
-const Activity = memo<ActivityProps>(({ accountId, className }) => {
+const Activity = memo<ActivityProps>(({ publicKey, className }) => {
   const signum = useSignum();
   const hasMoreRef = useRef(false);
-  const safeStateKey = useMemo(() => accountId, [accountId]);
+  const safeStateKey = useMemo(() => publicKey, [publicKey]);
   const [restTransactions, setRestTransactions] = useSafeState<Transaction[]>([], safeStateKey);
   const [loadingMore, setLoadingMore] = useSafeState(false, safeStateKey);
   const [isInitialLoading, setInitialLoading] = useSafeState(true, safeStateKey);
+
+  const accountId = useMemo(() => publicKey && Address.fromPublicKey(publicKey).getNumericId(), [publicKey]);
 
   const { data: latestTransactions } = useRetryableSWR(
     ['getAccountTransactions', accountId, signum.account],

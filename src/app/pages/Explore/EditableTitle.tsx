@@ -65,7 +65,7 @@ const EditableTitle: FC = () => {
         try {
           const newName = editAccNameFieldRef.current?.value;
           if (newName && newName !== account.name) {
-            await editAccountName(account.publicKeyHash, newName);
+            await editAccountName(account.publicKey, newName);
           }
 
           setEditing(false);
@@ -83,7 +83,7 @@ const EditableTitle: FC = () => {
         }
       })();
     },
-    [account.name, editAccountName, account.publicKeyHash, alert, formAnalytics]
+    [account.name, editAccountName, account.publicKey, alert, formAnalytics]
   );
 
   const handleEditFieldFocus = useCallback(() => {

@@ -80,7 +80,7 @@ const Form: FC = () => {
   const tezos = useTezos();
   const { id: networkId } = useNetwork();
   const chainId = '';
-  const { publicKeyHash: accountPkh } = useAccount();
+  const { publicKey: accountPkh } = useAccount();
 
   const { fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata } = useTokensMetadata();
 

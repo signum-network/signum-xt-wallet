@@ -28,6 +28,8 @@ export async function requestPermission(
   }
   const hostUrls = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
   const [dApp, accountId] = await Promise.all([getDApp(origin), getCurrentAccountId()]);
+
+  // FIXME: This does not work
   const publicKey = Address.fromNumericId(accountId).getPublicKey();
   if (dApp && req.network === dApp.network && req.appMeta.name === dApp.appMeta.name) {
     return {

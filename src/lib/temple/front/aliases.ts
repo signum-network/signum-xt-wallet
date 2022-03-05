@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { Alias } from '@signumjs/core';
+import { Address, Alias } from '@signumjs/core';
 
 import { useSignum } from './ready';
 
@@ -11,11 +11,12 @@ interface AliasList {
 export function useSignumAliasResolver() {
   const signum = useSignum();
 
-  const resolveAccountIdToAlias = useCallback(
-    async accountId => {
+  const resolveAccountPkToAlias = useCallback(
+    async pk => {
       try {
-        const { aliases } = await signum.service.query<AliasList>('getAliases', { account: accountId });
-        return aliases.find(({ account }) => account === accountId)?.aliasName;
+        const account = Address.fromPublicKey(pk).getNumericId();
+        const { aliases } = await signum.service.query<AliasList>('getAliases', { account });
+        return aliases.find(({ account }) => account === pk)?.aliasName;
       } catch (e) {
         return null;
       }
@@ -23,11 +24,18 @@ export function useSignumAliasResolver() {
     [signum]
   );
 
-  const resolveAliasToAccountId = useCallback(
+  const resolveAliasToAccountPk = useCallback(
     async aliasName => {
       try {
         const { account } = await signum.alias.getAliasByName(aliasName);
-        return account;
+        const acc = await signum.account.getAccount({
+          accountId: account,
+          includeEstimatedCommitment: false,
+          includeCommittedAmount: false
+        });
+        // Account structure of SignumJS is inconsistent
+        // @ts-ignore
+        return acc.publicKey;
       } catch (e) {
         return null;
       }
@@ -36,7 +44,7 @@ export function useSignumAliasResolver() {
   );
 
   return {
-    resolveAccountIdToAlias,
-    resolveAliasToAccountId
+    resolveAccountPkToAlias,
+    resolveAliasToAccountPk
   };
 }

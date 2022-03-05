@@ -59,9 +59,10 @@ export class Vault {
       const keys = generateMasterKeys(mnemonic);
       const accountId = Address.fromPublicKey(keys.publicKey).getNumericId();
       const initialAccount: XTAccount = {
-        type: XTAccountType.Imported,
+        type: XTAccountType.Eigen,
         name: 'Account 1',
-        publicKeyHash: accountId
+        publicKey: keys.publicKey,
+        accountId
       };
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
@@ -86,31 +87,30 @@ export class Vault {
   }
 
   // TODO: remove not used
-  static async revealPrivateKey(accPublicKeyHash: string, password: string) {
+  static async revealPrivateKey(accPublicKey: string, password: string) {
     const passKey = await Vault.toValidPassKey(password);
     return withError('Failed to reveal private key', async () => {
-      const privateKeySeed = await fetchAndDecryptOne<string>(accPrivKeyStrgKey(accPublicKeyHash), passKey);
+      const privateKeySeed = await fetchAndDecryptOne<string>(accPrivKeyStrgKey(accPublicKey), passKey);
       const signer = await createMemorySigner(privateKeySeed);
       return signer.secretKey();
     });
   }
 
-  static async removeAccount(accPublicKeyHash: string, password: string) {
+  static async removeAccount(accPublicKey: string, password: string) {
     const passKey = await Vault.toValidPassKey(password);
     return withError('Failed to remove account', async doThrow => {
       const allAccounts = await fetchAndDecryptOne<XTAccount[]>(accountsStrgKey, passKey);
       if (allAccounts.length === 1) {
         doThrow();
       }
-      const acc = allAccounts.find(a => a.publicKeyHash === accPublicKeyHash);
+      const acc = allAccounts.find(a => a.publicKey === accPublicKey);
       if (!acc || acc.type === XTAccountType.HD) {
         doThrow();
       }
-
-      const newAllAcounts = allAccounts.filter(acc => acc.publicKeyHash !== accPublicKeyHash);
+      const newAllAcounts = allAccounts.filter(acc => acc.publicKey !== accPublicKey);
       await encryptAndSaveMany([[accountsStrgKey, newAllAcounts]], passKey);
-
-      await removeMany([accPrivKeyStrgKey(accPublicKeyHash), accPubKeyStrgKey(accPublicKeyHash)]);
+      const accountId = Address.fromPublicKey(accPublicKey).getNumericId();
+      await removeMany([accPrivKeyStrgKey(accountId), accPubKeyStrgKey(accountId)]);
 
       return newAllAcounts;
     });
@@ -131,10 +131,11 @@ export class Vault {
 
   constructor(private passKey: CryptoKey) {}
 
-  revealPublicKey(accPublicKeyHash: string) {
-    return withError('Failed to reveal public key', () =>
-      fetchAndDecryptOne<string>(accPubKeyStrgKey(accPublicKeyHash), this.passKey)
-    );
+  revealPublicKey(accPublicKey: string) {
+    return withError('Failed to reveal public key', () => {
+      const accountId = Address.fromPublicKey(accPublicKey).getNumericId();
+      return fetchAndDecryptOne<string>(accPubKeyStrgKey(accountId), this.passKey);
+    });
   }
 
   fetchAccounts() {
@@ -149,7 +150,7 @@ export class Vault {
     return saved ? { ...DEFAULT_SETTINGS, ...saved } : DEFAULT_SETTINGS;
   }
 
-  async createSignumAccount(name?: string, hdAccIndex?: number): Promise<[string, XTAccount[]]> {
+  async createSignumAccount(name?: string): Promise<[string, XTAccount[]]> {
     return withError('Failed to create account', async () => {
       const allAccounts = await this.fetchAccounts();
       const mnemonic = await generateSignumMnemonic();
@@ -157,9 +158,10 @@ export class Vault {
       const accountId = Address.fromPublicKey(keys.publicKey).getNumericId();
       const accName = name || getNewAccountName(allAccounts);
       const newAccount: XTAccount = {
-        type: XTAccountType.Imported,
+        type: XTAccountType.Eigen,
         name: accName,
-        publicKeyHash: accountId
+        publicKey: keys.publicKey,
+        accountId
       };
       const newAllAccounts = concatAccount(allAccounts, newAccount);
 
@@ -176,38 +178,38 @@ export class Vault {
       return [mnemonic, newAllAccounts];
     });
   }
-
-  async importAccount(accPrivateKey: string, encPassword?: string) {
-    const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
-
-    return withError(errMessage, async () => {
-      const allAccounts = await this.fetchAccounts();
-      const signer = await createMemorySigner(accPrivateKey, encPassword);
-      const [realAccPrivateKey, accPublicKey, accPublicKeyHash] = await Promise.all([
-        signer.secretKey(),
-        signer.publicKey(),
-        signer.publicKeyHash()
-      ]);
-
-      const newAccount: XTAccount = {
-        type: XTAccountType.Imported,
-        name: getNewAccountName(allAccounts),
-        publicKeyHash: accPublicKeyHash
-      };
-      const newAllAcounts = concatAccount(allAccounts, newAccount);
-
-      await encryptAndSaveMany(
-        [
-          [accPrivKeyStrgKey(accPublicKeyHash), realAccPrivateKey],
-          [accPubKeyStrgKey(accPublicKeyHash), accPublicKey],
-          [accountsStrgKey, newAllAcounts]
-        ],
-        this.passKey
-      );
-
-      return newAllAcounts;
-    });
-  }
+  //
+  // async importAccount(accPrivateKey: string, encPassword?: string) {
+  //   const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
+  //
+  //   return withError(errMessage, async () => {
+  //     const allAccounts = await this.fetchAccounts();
+  //     const signer = await createMemorySigner(accPrivateKey, encPassword);
+  //     const [realAccPrivateKey, accPublicKey, accPublicKey] = await Promise.all([
+  //       signer.secretKey(),
+  //       signer.publicKey(),
+  //       signer.publicKey()
+  //     ]);
+  //
+  //     const newAccount: XTAccount = {
+  //       type: XTAccountType.Eigen,
+  //       name: getNewAccountName(allAccounts),
+  //       publicKey: accPublicKey
+  //     };
+  //     const newAllAcounts = concatAccount(allAccounts, newAccount);
+  //
+  //     await encryptAndSaveMany(
+  //       [
+  //         [accPrivKeyStrgKey(accPublicKey), realAccPrivateKey],
+  //         [accPubKeyStrgKey(accPublicKey), accPublicKey],
+  //         [accountsStrgKey, newAllAcounts]
+  //       ],
+  //       this.passKey
+  //     );
+  //
+  //     return newAllAcounts;
+  //   });
+  // }
 
   async importAccountSignum(keys: Keys, name?: string): Promise<XTAccount[]> {
     const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
@@ -216,9 +218,10 @@ export class Vault {
       const allAccounts = await this.fetchAccounts();
       const accountId = Address.fromPublicKey(keys.publicKey).getNumericId();
       const newAccount: XTAccount = {
-        type: XTAccountType.Imported,
+        type: XTAccountType.Eigen,
         name: name || getNewAccountName(allAccounts),
-        publicKeyHash: accountId
+        publicKey: keys.publicKey,
+        accountId
       };
 
       const newAllAcounts = concatAccount(allAccounts, newAccount);
@@ -256,7 +259,7 @@ export class Vault {
   }
 
   // TODO: remove we don't have it
-  async importManagedKTAccount(accPublicKeyHash: string, chainId: string, owner: string) {
+  async importManagedKTAccount(accPublicKey: string, chainId: string, owner: string) {
     return withError('Failed to import Managed KT account', async () => {
       const allAccounts = await this.fetchAccounts();
       const newAccount: XTAccount = {
@@ -265,9 +268,10 @@ export class Vault {
           allAccounts.filter(({ type }) => type === XTAccountType.ManagedKT),
           'defaultManagedKTAccountName'
         ),
-        publicKeyHash: accPublicKeyHash,
+        publicKey: accPublicKey,
         chainId,
-        owner
+        owner,
+        accountId: Address.fromPublicKey(accPublicKey).getNumericId()
       };
       const newAllAcounts = concatAccount(allAccounts, newAccount);
 
@@ -277,7 +281,7 @@ export class Vault {
     });
   }
 
-  async importWatchOnlyAccount(accPublicKeyHash: string, chainId?: string) {
+  async importWatchOnlyAccount(accPublicKey: string, chainId?: string) {
     return withError('Failed to import Watch Only account', async () => {
       const allAccounts = await this.fetchAccounts();
       const newAccount: XTAccount = {
@@ -286,8 +290,9 @@ export class Vault {
           allAccounts.filter(({ type }) => type === XTAccountType.WatchOnly),
           'defaultWatchOnlyAccountName'
         ),
-        publicKeyHash: accPublicKeyHash,
-        chainId
+        publicKey: accPublicKey,
+        chainId,
+        accountId: Address.fromPublicKey(accPublicKey).getNumericId()
       };
       const newAllAcounts = concatAccount(allAccounts, newAccount);
 
@@ -305,12 +310,12 @@ export class Vault {
   //
   //     try {
   //       const accPublicKey = await signer.publicKey();
-  //       const accPublicKeyHash = await signer.publicKeyHash();
+  //       const accPublicKey = await signer.publicKey();
   //
   //       const newAccount: TempleAccount = {
   //         type: TempleAccountType.Ledger,
   //         name,
-  //         publicKeyHash: accPublicKeyHash,
+  //         publicKey: accPublicKey,
   //         derivationPath,
   //         derivationType
   //       };
@@ -319,7 +324,7 @@ export class Vault {
   //
   //       await encryptAndSaveMany(
   //         [
-  //           [accPubKeyStrgKey(accPublicKeyHash), accPublicKey],
+  //           [accPubKeyStrgKey(accPublicKey), accPublicKey],
   //           [accountsStrgKey, newAllAcounts]
   //         ],
   //         this.passKey
@@ -332,32 +337,32 @@ export class Vault {
   //   });
   // }
 
-  async editAccountName(accPublicKeyHash: string, name: string) {
+  async editAccountName(accPublicKey: string, name: string) {
     return withError('Failed to edit account name', async () => {
       const allAccounts = await this.fetchAccounts();
-      if (!allAccounts.some(acc => acc.publicKeyHash === accPublicKeyHash)) {
+      if (!allAccounts.some(acc => acc.publicKey === accPublicKey)) {
         throw new PublicError('Account not found');
       }
 
-      if (allAccounts.some(acc => acc.publicKeyHash !== accPublicKeyHash && acc.name === name)) {
+      if (allAccounts.some(acc => acc.publicKey !== accPublicKey && acc.name === name)) {
         throw new PublicError('Account with same name already exist');
       }
 
-      const newAllAcounts = allAccounts.map(acc => (acc.publicKeyHash === accPublicKeyHash ? { ...acc, name } : acc));
+      const newAllAcounts = allAccounts.map(acc => (acc.publicKey === accPublicKey ? { ...acc, name } : acc));
       await encryptAndSaveMany([[accountsStrgKey, newAllAcounts]], this.passKey);
 
       return newAllAcounts;
     });
   }
 
-  async setAccountIsActivated(accPublicKeyHash: string) {
+  async setAccountIsActivated(accPublicKey: string) {
     return withError('Failed to update account', async () => {
       const allAccounts = await this.fetchAccounts();
-      if (!allAccounts.some(acc => acc.publicKeyHash === accPublicKeyHash)) {
+      if (!allAccounts.some(acc => acc.publicKey === accPublicKey)) {
         throw new PublicError('Account not found');
       }
       const newAllAccounts = allAccounts.map(acc =>
-        acc.publicKeyHash === accPublicKeyHash ? { ...acc, isActivated: true } : acc
+        acc.publicKey === accPublicKey ? { ...acc, isActivated: true } : acc
       );
       await encryptAndSaveMany([[accountsStrgKey, newAllAccounts]], this.passKey);
 
@@ -374,9 +379,9 @@ export class Vault {
     });
   }
 
-  async signumSign(accPublicKeyHash: string, unsignedTransactionBytes: string) {
+  async signumSign(accPublicKey: string, unsignedTransactionBytes: string) {
     return withError('Failed to sign', async () => {
-      const { publicKey, signingKey } = await this.getSignumTxKeys(accPublicKeyHash);
+      const { publicKey, signingKey } = await this.getSignumTxKeys(accPublicKey);
       const signature = generateSignature(unsignedTransactionBytes, signingKey);
       if (!verifySignature(signature, unsignedTransactionBytes, publicKey)) {
         throw new Error('The signed message could not be verified');
@@ -386,15 +391,17 @@ export class Vault {
   }
 
   // TODO: Remove this obsolete method
-  async sendOperations(accPublicKeyHash: string, rpc: string, opParams: any[]) {
+  async sendOperations(accPublicKey: string, rpc: string, opParams: any[]) {
     return Promise.reject('Method not supported');
   }
 
-  async getSignumTxKeys(accPublicKeyHash: string) {
+  async getSignumTxKeys(accPublicKey: string) {
     return withError('Failed to fetch Signum transaction keys', async () => {
+      const accountId = Address.fromPublicKey(accPublicKey).getNumericId();
+
       const [signingKey, publicKey] = await Promise.all([
-        fetchAndDecryptOne<string>(accPrivKeyStrgKey(accPublicKeyHash), this.passKey),
-        fetchAndDecryptOne<string>(accPubKeyStrgKey(accPublicKeyHash), this.passKey)
+        fetchAndDecryptOne<string>(accPrivKeyStrgKey(accountId), this.passKey),
+        fetchAndDecryptOne<string>(accPubKeyStrgKey(accountId), this.passKey)
       ]);
       return {
         signingKey,
@@ -414,7 +421,7 @@ function generateCheck() {
 }
 
 function concatAccount(current: XTAccount[], newOne: XTAccount) {
-  if (current.every(a => a.publicKeyHash !== newOne.publicKeyHash)) {
+  if (current.every(a => a.publicKey !== newOne.publicKey)) {
     return [...current, newOne];
   }
 

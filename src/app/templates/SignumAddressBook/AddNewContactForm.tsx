@@ -3,9 +3,16 @@ import React, { useCallback } from 'react';
 import { Address } from '@signumjs/core';
 import { useForm } from 'react-hook-form';
 
-import { T, t } from '../../../lib/i18n/react';
-import { useContacts, useSignumAliasResolver, isSignumAddress } from '../../../lib/temple/front';
-import { withErrorHumanDelay } from '../../../lib/ui/humanDelay';
+import { T, t } from 'lib/i18n/react';
+import {
+  useContacts,
+  useSignumAliasResolver,
+  isSignumAddress,
+  useSignumAccountPrefix,
+  useSignumAssetMetadata
+} from 'lib/temple/front';
+import { withErrorHumanDelay } from 'lib/ui/humanDelay';
+
 import FormField from '../../atoms/FormField';
 import FormSubmitButton from '../../atoms/FormSubmitButton';
 import { ContactFormData } from './ContactFormData';
@@ -14,7 +21,8 @@ const SUBMIT_ERROR_TYPE = 'submit-error';
 
 const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
   const { addContact } = useContacts();
-  const { resolveAliasToAccountId } = useSignumAliasResolver();
+  const { resolveAliasToAccountPk } = useSignumAliasResolver();
+  const prefix = useSignumAccountPrefix();
 
   const {
     register,
@@ -30,16 +38,16 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
   const resolveAlias = useCallback(
     async (address: string) => {
       if (!isSignumAddress(address)) {
-        const accountId = await resolveAliasToAccountId(address);
-        if (!accountId) {
+        const accountPublicKey = await resolveAliasToAccountPk(address);
+        if (!accountPublicKey) {
           throw new Error(t('domainDoesntResolveToAddress', address));
         }
-        return accountId;
+        return accountPublicKey;
       } else {
         return address;
       }
     },
-    [resolveAliasToAccountId]
+    [resolveAliasToAccountPk]
   );
 
   const onAddContactSubmit = useCallback(
@@ -52,7 +60,13 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
         if (!isSignumAddress(address)) {
           throw new Error(t('invalidAddressOrDomain'));
         }
-        await addContact({ address: Address.create(address).getNumericId(), name, addedAt: Date.now() });
+        const addr = Address.create(address, prefix);
+        await addContact({
+          accountId: addr.getNumericId(),
+          rsAddress: addr.getReedSolomonAddress(),
+          name,
+          addedAt: Date.now()
+        });
         resetForm();
       } catch (err: any) {
         await withErrorHumanDelay(err, () => setError('address', SUBMIT_ERROR_TYPE, err.message));

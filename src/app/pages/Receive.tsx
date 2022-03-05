@@ -14,25 +14,27 @@ import { useAccount, useSignumAccountPrefix } from 'lib/temple/front';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
 const Receive: FC = () => {
-  const account = useAccount();
+  const { publicKey } = useAccount();
   const prefix = useSignumAccountPrefix();
+
+  const accountId = useMemo(() => publicKey && Address.fromPublicKey(publicKey).getNumericId(), [publicKey]);
 
   const address = useMemo(() => {
     try {
-      return Address.fromNumericId(account.publicKeyHash, prefix).getReedSolomonAddress();
+      return Address.fromNumericId(accountId, prefix).getReedSolomonAddress();
     } catch (e) {
-      return account.publicKeyHash;
+      return accountId;
     }
-  }, [account, prefix]);
+  }, [accountId, prefix]);
 
   const deeplink = useMemo(() => {
     return createDeeplink({
       action: 'pay',
       payload: {
-        recipient: account.publicKeyHash
+        recipient: address
       }
     });
-  }, [account]);
+  }, [address]);
 
   const { fieldRef, copy, copied } = useCopyToClipboard();
 

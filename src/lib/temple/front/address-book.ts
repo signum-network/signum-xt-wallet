@@ -11,10 +11,9 @@ export function useContacts() {
 
   const addContact = useCallback(
     async (cToAdd: Contact) => {
-      if (allContacts.some(c => c.address === cToAdd.address)) {
+      if (allContacts.some(c => c.accountId === cToAdd.accountId)) {
         throw new Error(getMessage('contactWithTheSameAddressAlreadyExists'));
       }
-
       await updateSettings({
         contacts: [cToAdd, ...contacts]
       });
@@ -23,15 +22,15 @@ export function useContacts() {
   );
 
   const removeContact = useCallback(
-    async (address: string) =>
-      await updateSettings({
-        contacts: contacts.filter(c => c.address !== address)
+    async (accountId: string) =>
+      updateSettings({
+        contacts: contacts.filter(c => c.accountId !== accountId)
       }),
     [contacts, updateSettings]
   );
 
   const getContact = useCallback(
-    (address: string) => allContacts.find(c => c.address === address) ?? null,
+    (accountId: string) => allContacts.find(c => c.accountId === accountId) ?? null,
     [allContacts]
   );
 
@@ -42,7 +41,7 @@ export function useContacts() {
   };
 }
 
-export const CONTACT_FIELDS_TO_SEARCH = ['name', 'address'] as const;
+export const CONTACT_FIELDS_TO_SEARCH = ['name', 'accountId', 'rsAddress'] as const;
 
 export function searchContacts<T extends Contact>(contacts: T[], searchValue: string) {
   if (!searchValue) return contacts;

@@ -2,43 +2,38 @@ import React, { FC, Suspense, useCallback, useState } from 'react';
 
 import OperationStatus from 'app/templates/OperationStatus';
 import { t } from 'lib/i18n/react';
+import { useAccount } from 'lib/temple/front';
 import useSafeState from 'lib/ui/useSafeState';
 
-import { useAccount } from '../../../lib/temple/front';
 import AssetBanner from '../AssetBanner';
 import AddContactModal from './AddContactModal';
 import { SendForm } from './SendForm';
 import { SpinnerSection } from './SpinnerSection';
 
-type SendFormProps = {
-  assetSlug?: string | null;
-};
-
-const SendFormLayout: FC<SendFormProps> = ({ assetSlug }) => {
-  const account = useAccount();
+const SendFormLayout = () => {
+  const { accountId } = useAccount();
   const [operation, setOperation] = useSafeState<any>(null);
-  const [addContactModalAddress, setAddContactModalAddress] = useState<string | null>(null);
-  // const { trackEvent } = useAnalytics();
+  const [contactAccountId, setContactAccountId] = useState<string | null>(null);
 
   const handleAddContactRequested = useCallback(
-    (address: string) => {
-      setAddContactModalAddress(address);
+    (accountId: string) => {
+      setContactAccountId(accountId);
     },
-    [setAddContactModalAddress]
+    [setContactAccountId]
   );
 
   const closeContactModal = useCallback(() => {
-    setAddContactModalAddress(null);
-  }, [setAddContactModalAddress]);
+    setContactAccountId(null);
+  }, [setContactAccountId]);
 
   return (
     <>
       {operation && <OperationStatus typeTitle={t('transaction')} operation={operation} />}
-      <AssetBanner assetSlug="signa" accountId={account.publicKeyHash} />
+      <AssetBanner assetSlug="signa" accountId={accountId} />
       <Suspense fallback={<SpinnerSection />}>
         <SendForm setOperation={setOperation} onAddContactRequested={handleAddContactRequested} />
       </Suspense>
-      <AddContactModal address={addContactModalAddress} onClose={closeContactModal} />
+      {contactAccountId && <AddContactModal accountId={contactAccountId} onClose={closeContactModal} />}
     </>
   );
 };

@@ -1,12 +1,19 @@
 import './xhr-shim';
-import { tabs, runtime, storage } from 'webextension-polyfill';
+import * as semver from 'semver';
+import browser, { tabs, runtime } from 'webextension-polyfill';
 
 import { getConnectionControl, getLockUpEnabled, updateConnectionControl } from 'lib/lockup';
 
 import { lock } from './back/actions';
 import { start } from './back/main';
 
-runtime.onInstalled.addListener(({ reason }) => (reason === 'install' ? openFullPage() : null));
+runtime.onInstalled.addListener(({ reason, previousVersion }) => {
+  if (reason === 'install') {
+    openFullPage();
+  } else if (reason === 'update') {
+    handleUpdate(previousVersion);
+  }
+});
 
 start();
 
@@ -15,6 +22,25 @@ start();
 //     openFullPage();
 //   });
 // }
+
+function handleUpdate(previousVersion: string | undefined) {
+  if (!previousVersion) return;
+
+  if (semver.lt(previousVersion, '1.1.0')) {
+    openOptionsInFullPage(previousVersion, true);
+  }
+}
+
+function openOptionsInFullPage(updateFromVersion: string = '', reset: boolean = false) {
+  let url = 'options.html';
+  if (updateFromVersion) {
+    url += `?updateFromVersion=${updateFromVersion}&reset=${reset ? 'true' : 'false'}`;
+  }
+
+  browser.tabs.create({
+    url: browser.runtime.getURL(url)
+  });
+}
 
 function openFullPage() {
   tabs.create({

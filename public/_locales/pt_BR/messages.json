@@ -1809,5 +1809,28 @@
   },
   "lockedBalance": {
     "message": "Saldo Reservado"
+  },
+  "accountNotExists": {
+    "message": "A conta não existe"
+  },
+  "cannotImportWatchAccount": {
+    "message": "A conta não tem chave pública. A importação de contas inativas ou contratos inteligentes não é possível."
+  },
+  "confirmConnectionHint": {
+    "message": "Sua conexão está vinculada a este URL de DApp e à rede solicitada. Você pode alterar sua conta ou nó enquanto estiver conectado ao DApp"
+  },
+  "currentAccount": {
+    "message": "Conta corrente"
+  },
+  "optionsPageWarningResetRequiredDescription": {
+    "placeholders": {
+      "previousVersion": {
+        "content": "$1"
+      }
+    },
+    "message": "Esta nova versão oferece novos recursos e melhorias importantes. Infelizmente, a versão anterior $previousVersion$ não é compatível com esta versão e uma redefinição é necessária.<b>Suas contas e fundos são salvos e não há perda.</b> Mas você precisa reimportar suas contas, contatos e permissões de DApp. Pedimos desculpas pelo transtorno e agradecemos sua compreensão."
+  },
+  "optionsPageWarningResetRequiredTitle": {
+    "message": "Nova atualização importante requer uma redefinição"
   }
 }

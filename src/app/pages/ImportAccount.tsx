@@ -37,7 +37,7 @@ const ImportAccount: FC<ImportAccountProps> = ({ tabSlug }) => {
   useEffect(() => {
     const accLength = allAccounts.length;
     if (prevAccLengthRef.current < accLength) {
-      setAccountPkh(allAccounts[accLength - 1].publicKeyHash);
+      setAccountPkh(allAccounts[accLength - 1].publicKey);
       navigate('/');
     }
     prevAccLengthRef.current = accLength;

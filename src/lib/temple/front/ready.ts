@@ -91,17 +91,17 @@ function useReadyTemple() {
    */
 
   const defaultAcc = allAccounts[0];
-  const [accountPkh, setAccountPkh] = usePassiveStorage('account_publickeyhash', defaultAcc.publicKeyHash);
+  const [accountPkh, setAccountPkh] = usePassiveStorage('account_publickeyhash', defaultAcc.publicKey);
 
 
   useEffect(() => {
-    if (allAccounts.every(a => a.publicKeyHash !== accountPkh)) {
-      setAccountPkh(defaultAcc.publicKeyHash);
+    if (allAccounts.every(a => a.publicKey !== accountPkh)) {
+      setAccountPkh(defaultAcc.publicKey);
     }
   }, [allAccounts, accountPkh, setAccountPkh, defaultAcc]);
 
   const account = useMemo(
-    () => allAccounts.find(a => a.publicKeyHash === accountPkh) ?? defaultAcc,
+    () => allAccounts.find(a => a.publicKey === accountPkh) ?? defaultAcc,
     [allAccounts, accountPkh, defaultAcc]
   );
 
@@ -119,9 +119,9 @@ function useReadyTemple() {
    * TODO: remove that
    */
   const tezos = useMemo(() => {
-    const checksum = [network.id, account.publicKeyHash].join('_');
+    const checksum = [network.id, account.publicKey].join('_');
     const rpc = network.rpcBaseURL;
-    // const pkh = account.type === TempleAccountType.ManagedKT ? account.owner : account.publicKeyHash;
+    // const pkh = account.type === TempleAccountType.ManagedKT ? account.owner : account.publicKey;
 
     const t = new ReactiveTezosToolkit(loadFastRpcClient(rpc), checksum);
     // t.setSignerProvider(createTaquitoSigner(pkh));
@@ -164,8 +164,8 @@ export function useRelevantAccounts() {
   const account = useAccount();
   const setAccountPkh = useSetAccountPkh();
   useEffect(() => {
-    if (allAccounts.every(a => a.publicKeyHash !== account.publicKeyHash)) {
-      setAccountPkh(allAccounts[0].publicKeyHash);
+    if (allAccounts.every(a => a.publicKey !== account.publicKey)) {
+      setAccountPkh(allAccounts[0].publicKey);
     }
   }, [allAccounts, account, setAccountPkh]);
 

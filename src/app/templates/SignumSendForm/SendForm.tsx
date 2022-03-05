@@ -11,8 +11,10 @@ import AssetField from 'app/atoms/AssetField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Money from 'app/atoms/Money';
 import NoSpaceField from 'app/atoms/NoSpaceField';
+import { useAppEnv } from 'app/env';
 import { MessageForm, MessageFormData } from 'app/templates/SignumSendForm/MessageForm';
 import { useFormAnalytics } from 'lib/analytics';
+import { toLocalFixed } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
 import {
   isSignumAddress,
@@ -28,8 +30,6 @@ import { useFilteredContacts } from 'lib/temple/front/use-filtered-contacts.hook
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 import useSafeState from 'lib/ui/useSafeState';
 
-import { toLocalFixed } from '../../../lib/i18n/numbers';
-import { useAppEnv } from '../../env';
 import ContactsDropdown from './ContactsDropdown';
 import FeeInput from './FeeInput';
 import FilledContact from './FilledContact';
@@ -53,7 +53,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const messageFormRef = useRef();
   const { registerBackHandler } = useAppEnv();
   const assetMetadata = useSignumAssetMetadata();
-  const { resolveAliasToAccountId } = useSignumAliasResolver();
+  const { resolveAliasToAccountPk } = useSignumAliasResolver();
   const formAnalytics = useFormAnalytics('SendForm');
   const { allContacts } = useFilteredContacts();
   const acc = useAccount();
@@ -68,8 +68,9 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const [feeValue, setFeeValue] = useState(MinimumFee);
 
   const assetSymbol = assetMetadata.symbol;
-  const accountPkh = acc.publicKeyHash;
-  const { data: balanceData } = useBalance(assetMetadata.name, accountPkh);
+  const publicKey = acc.publicKey;
+  const accountId = acc.accountId;
+  const { data: balanceData } = useBalance(assetMetadata.name, accountId);
   const balance = balanceData && Amount.fromSigna(balanceData.totalBalance.toString(10));
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
@@ -87,34 +88,32 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const toFilledWithAlias = useMemo(() => toValue && !isSignumAddress(toValue), [toValue]);
 
   const addressResolver = useCallback(
-    async (_k: string, address: string) => resolveAliasToAccountId(address),
-    [resolveAliasToAccountId]
+    async (_k: string, address: string) => resolveAliasToAccountPk(address),
+    [resolveAliasToAccountPk]
   );
-  const { data: resolvedAddress } = useSWR(['resolveAlias', toValue], addressResolver, {
+  const { data: resolvedPublicKey } = useSWR(['resolveAlias', toValue], addressResolver, {
     shouldRetryOnError: false,
     revalidateOnFocus: false
   });
 
   const toFilled = useMemo(
-    () => (resolvedAddress ? toFilledWithAlias : toFilledWithAddress),
-    [toFilledWithAddress, toFilledWithAlias, resolvedAddress]
+    () => (resolvedPublicKey ? toFilledWithAlias : toFilledWithAddress),
+    [toFilledWithAddress, toFilledWithAlias, resolvedPublicKey]
   );
 
   const toResolved = useMemo(() => {
-    if (resolvedAddress) {
-      return resolvedAddress;
-    }
     try {
-      return Address.create(toValue).getNumericId();
+      return Address.create(resolvedPublicKey || toValue).getNumericId();
     } catch (e) {
       return '';
     }
-  }, [resolvedAddress, toValue]);
+  }, [resolvedPublicKey, toValue]);
 
-  const filledContact = useMemo(
-    () => (toResolved && allContacts.find(c => c.address === toResolved)) || null,
-    [allContacts, toResolved]
-  );
+  const filledContact = useMemo(() => {
+    if (!resolvedPublicKey) return null;
+    const accountId = Address.fromPublicKey(resolvedPublicKey).getNumericId();
+    return allContacts.find(c => c.accountId === accountId);
+  }, [allContacts, resolvedPublicKey]);
 
   const cleanToField = useCallback(() => {
     setValue('to', '');
@@ -192,11 +191,11 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       }
       let address = value;
       if (!isSignumAddress(address)) {
-        address = await resolveAliasToAccountId(address);
+        address = await resolveAliasToAccountPk(address);
       }
       return isSignumAddress(address) ? true : t('invalidAddressOrDomain');
     },
-    [resolveAliasToAccountId]
+    [resolveAliasToAccountPk]
   );
 
   const getTransactionAttachment = () => {
@@ -215,14 +214,15 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       setSubmitError(null);
       setOperation(null);
       try {
-        const { signingKey, publicKey } = await client.getSignumTransactionKeyPair(acc.publicKeyHash);
+        const keys = await client.getSignumTransactionKeyPair(acc.publicKey);
         const attachment = getTransactionAttachment();
+        const recipientId = Address.create(toResolved).getNumericId();
         const { transaction, fullHash } = (await signum.transaction.sendAmountToSingleRecipient({
           amountPlanck: Amount.fromSigna(amount).getPlanck(),
           feePlanck: Amount.fromSigna(feeValue).getPlanck(),
-          recipientId: toResolved,
-          senderPrivateKey: signingKey,
-          senderPublicKey: publicKey,
+          recipientId,
+          senderPrivateKey: keys.signingKey,
+          senderPublicKey: keys.publicKey,
           attachment
         })) as TransactionId;
         setOperation({
@@ -278,10 +278,10 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     setToFieldFocused(false);
   }, [setToFieldFocused]);
 
-  const allContactsWithoutCurrent = useMemo(
-    () => allContacts.filter(c => c.address !== accountPkh),
-    [allContacts, accountPkh]
-  );
+  const allContactsWithoutCurrent = useMemo(() => {
+    const accountId = Address.fromPublicKey(publicKey).getNumericId();
+    return allContacts.filter(c => c.accountId !== accountId);
+  }, [allContacts, publicKey]);
 
   const feeFactor = messageFormData.message ? Math.ceil(messageFormData.message.length / 176) : 1;
 
@@ -388,7 +388,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
           {(() => {
             if (Boolean(submitError)) {
               return <SendErrorAlert type="submit" error={submitError} />;
-            } else if (toResolved === accountPkh) {
+            } else if (toResolved === accountId) {
               return (
                 <Alert
                   type="warn"

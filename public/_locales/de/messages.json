@@ -1809,5 +1809,28 @@
   },
   "lockedBalance": {
     "message": "Reserviertes Guthaben"
+  },
+  "accountNotExists": {
+    "message": "Konto existiert nicht"
+  },
+  "cannotImportWatchAccount": {
+    "message": "Konto hat keinen öffentlichen Schlüssel. Der Import von inaktiven Konten oder Smart Contracts ist nicht möglich."
+  },
+  "confirmConnectionHint": {
+    "message": "Ihre Verbindung ist an diese DApp-URL und das angeforderte Netzwerk gebunden. Sie können Ihr Konto oder Ihren Netzwerkknoten ändern, während Sie mit der DApp verbunden sind"
+  },
+  "currentAccount": {
+    "message": "Aktuelles Konto"
+  },
+  "optionsPageWarningResetRequiredDescription": {
+    "placeholders": {
+      "previousVersion": {
+        "content": "$1"
+      }
+    },
+    "message": "Diese neue Version bietet neue wichtige Funktionen und Verbesserungen. Leider ist die vorherige Version $previousVersion$ nicht mit dieser Version kompatibel und ein Zurücksetzen ist erforderlich.<b>Ihre Konten und Guthaben sind gesichert und es gibt keinen Verlust.</b> Sie müssen jedoch Ihre Konten, Kontakte und DApp-Berechtigungen erneut importieren . Wir entschuldigen uns für die Unannehmlichkeiten und danken Ihnen für Ihr Verständnis."
+  },
+  "optionsPageWarningResetRequiredTitle": {
+    "message": "Neues wichtiges Update erfordert einen Reset"
   }
 }

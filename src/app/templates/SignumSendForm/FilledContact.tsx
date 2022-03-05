@@ -15,9 +15,9 @@ interface FilledContactProps {
 
 const FilledContact: FC<FilledContactProps> = ({ contact, assetSymbol }) => (
   <div className="flex flex-wrap items-center">
-    <IdenticonSignum accountId={contact.address} size={24} className="flex-shrink-0 shadow-xs opacity-75" />
+    <IdenticonSignum address={contact.accountId} size={24} className="flex-shrink-0 shadow-xs opacity-75" />
     <div className="ml-1 mr-px font-normal">{contact.name}</div>(
-    <Balance accountId={contact.address}>
+    <Balance accountId={contact.accountId}>
       {bal => (
         <span className={classNames('text-xs leading-none')}>
           <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{assetSymbol}</span>

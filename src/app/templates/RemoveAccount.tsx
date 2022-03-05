@@ -38,7 +38,7 @@ const RemoveAccount: FC = () => {
 
       clearError('password');
       try {
-        await removeAccount(account.publicKeyHash, password);
+        await removeAccount(account.publicKey, password);
       } catch (err: any) {
         console.error(err);
 
@@ -47,7 +47,7 @@ const RemoveAccount: FC = () => {
         setError('password', SUBMIT_ERROR_TYPE, err.message);
       }
     },
-    [submitting, clearError, setError, removeAccount, account.publicKeyHash]
+    [submitting, clearError, setError, removeAccount, account.publicKey]
   );
 
   return (

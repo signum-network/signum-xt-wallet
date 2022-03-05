@@ -43,7 +43,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, classNam
       <div className="w-full flex items-center">
         <HashChip hash={txId!} firstCharsCount={10} lastCharsCount={7} small className="mr-2" />
 
-        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} hash={txId!} className="mr-2" />}
+        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} id={txId!} className="mr-2" />}
 
         <div className={classNames('flex-1', 'h-px', 'bg-gray-100')} />
       </div>

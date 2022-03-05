@@ -54,7 +54,7 @@ const ExpenseViewItem: FC<ExpenseViewItemProps> = ({ expense, last, mainnet = fa
   return (
     <div className={classNames('pt-3 pb-2 px-2 flex justify-start items-center', !last && 'border-b border-gray-200')}>
       <div className="mr-2">
-        <IdenticonSignum accountId={expense.to} size={40} className="shadow-xs" />
+        <IdenticonSignum address={expense.to} size={40} className="shadow-xs" />
       </div>
 
       <div className="flex-1 flex-col">

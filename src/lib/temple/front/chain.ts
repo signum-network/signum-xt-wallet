@@ -14,8 +14,8 @@ function useNewBlockTriggers() {
 
   const triggerNewBlock = useCallback(() => {
     for (const acc of allAccounts) {
-      trigger(getBalanceSWRKey(tezos, 'tez', acc.publicKeyHash), true);
-      trigger(['delegate', tezos.checksum, acc.publicKeyHash], true);
+      trigger(getBalanceSWRKey(tezos, 'tez', acc.publicKey), true);
+      trigger(['delegate', tezos.checksum, acc.publicKey], true);
     }
   }, [allAccounts, tezos]);
 

@@ -25,7 +25,7 @@ const AddressBook: React.FC = () => {
   const confirm = useConfirm();
 
   const handleRemoveContactClick = useCallback(
-    async (address: string) => {
+    async (accountId: string) => {
       if (
         !(await confirm({
           title: t('actionConfirmation'),
@@ -35,7 +35,7 @@ const AddressBook: React.FC = () => {
         return;
       }
 
-      await removeContact(address);
+      await removeContact(accountId);
     },
     [confirm, removeContact]
   );
@@ -82,7 +82,7 @@ const AddressBook: React.FC = () => {
 export default AddressBook;
 
 const ContactIcon: React.FC<OptionRenderProps<Contact, string, ContactActions>> = ({ item }) => (
-  <IdenticonSignum accountId={item.address} size={32} className="flex-shrink-0 shadow-xs" />
+  <IdenticonSignum address={item.accountId} size={32} className="flex-shrink-0 shadow-xs" />
 );
 
 const ContactContent: React.FC<OptionRenderProps<Contact, string, ContactActions>> = ({ item, actions }) => (
@@ -91,7 +91,7 @@ const ContactContent: React.FC<OptionRenderProps<Contact, string, ContactActions
       <Name className="mb-px text-sm font-medium leading-tight text-left">{item.name}</Name>
 
       <div className="text-xs font-light leading-tight text-gray-600">
-        <HashChip hash={item.address} isAccount small />
+        <HashChip hash={item.accountId} isAccount small />
       </div>
     </div>
 
@@ -121,7 +121,7 @@ const ContactContent: React.FC<OptionRenderProps<Contact, string, ContactActions
         )}
         onClick={evt => {
           evt.stopPropagation();
-          actions?.remove(item.address);
+          actions?.remove(item.accountId);
         }}
       >
         <CloseIcon className="w-auto h-5 stroke-current stroke-2" title={t('delete')} />
@@ -131,5 +131,5 @@ const ContactContent: React.FC<OptionRenderProps<Contact, string, ContactActions
 );
 
 function getContactKey(contact: Contact) {
-  return contact.address;
+  return contact.accountId;
 }

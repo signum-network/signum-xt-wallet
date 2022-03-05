@@ -35,9 +35,9 @@ const ConfirmDAppForm: FC = () => {
   const account = useAccount();
   const network = useNetwork();
 
-  // const [accountPkhToConnect, setAccountPkhToConnect] = useState(account.publicKeyHash);
+  // const [accountPkhToConnect, setAccountPkhToConnect] = useState(account.publicKey);
 
-  const accountPkhToConnect = account.publicKeyHash;
+  const accountPkhToConnect = account.publicKey;
 
   const loc = useLocation();
   const id = useMemo(() => {
@@ -63,7 +63,7 @@ const ConfirmDAppForm: FC = () => {
 
   const connectedAccount = useMemo(
     () =>
-      allAccounts.find(a => a.publicKeyHash === (payload.type === 'connect' ? accountPkhToConnect : payload.sourcePkh)),
+      allAccounts.find(a => a.publicKey === (payload.type === 'connect' ? accountPkhToConnect : payload.sourcePkh)),
     [payload, allAccounts, accountPkhToConnect]
   );
 

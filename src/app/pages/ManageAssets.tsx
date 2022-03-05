@@ -57,7 +57,7 @@ const ManageAssetsContent: FC<Props> = ({ assetType }) => {
   const isCollectibles = assetType === AssetTypesEnum.Collectibles;
   const chainId = '';
   const account = useAccount();
-  const address = account.publicKeyHash;
+  const address = account.publicKey;
 
   const { data: allCollectiblesSlugs = [], isValidating: allKnownCollectiblesTokenSlugsLoading } =
     useAllKnownCollectibleTokenSlugs(chainId);

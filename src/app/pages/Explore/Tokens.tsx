@@ -32,7 +32,7 @@ import styles from './Tokens.module.css';
 const Tokens: FC = () => {
   const chainId = '';
   const account = useAccount();
-  const address = account.publicKeyHash;
+  const address = account.publicKey;
 
   const { data: tokens = [] } = useDisplayedFungibleTokens(chainId, address);
 
@@ -165,7 +165,7 @@ const Tokens: FC = () => {
                     assetSlug={asset}
                     last={last}
                     active={active}
-                    accountPkh={account.publicKeyHash}
+                    accountPkh={account.publicKey}
                     latestBalance={latestBalances[asset]}
                   />
                 </CSSTransition>

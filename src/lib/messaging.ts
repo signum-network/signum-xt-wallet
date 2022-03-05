@@ -54,7 +54,7 @@ export interface LedgerAccount extends XTAccountBase {
 }
 
 export interface ImportedAccount extends XTAccountBase {
-  type: XTAccountType.Imported;
+  type: XTAccountType.Eigen;
 }
 
 export interface HDAccount extends XTAccountBase {
@@ -77,7 +77,8 @@ export interface WatchOnlyAccount extends XTAccountBase {
 export interface XTAccountBase {
   type: XTAccountType;
   name: string;
-  publicKeyHash: string;
+  publicKey: string;
+  accountId: string;
   isActivated?: boolean;
   hdIndex?: number;
   derivationPath?: string;
@@ -86,7 +87,7 @@ export interface XTAccountBase {
 
 export enum XTAccountType {
   HD,
-  Imported,
+  Eigen,
   Ledger,
   ManagedKT,
   WatchOnly
@@ -109,7 +110,8 @@ export interface Network {
 export type NetworkType = 'main' | 'test';
 
 export interface Contact {
-  address: string;
+  accountId: string;
+  rsAddress: string;
   name: string;
   addedAt?: number;
   accountInWallet?: boolean;
@@ -454,7 +456,7 @@ export interface TempleRemoveAccountResponse extends TempleMessageBase {
 
 export interface TempleActivateAccountRequest extends TempleMessageBase {
   type: XTMessageType.ActivateAccountRequest;
-  accountPublicKeyHash: string;
+  accountPublicKey: string;
 }
 
 export interface TempleActivateAccountResponse extends TempleMessageBase {
@@ -463,7 +465,7 @@ export interface TempleActivateAccountResponse extends TempleMessageBase {
 
 export interface TempleEditAccountRequest extends TempleMessageBase {
   type: XTMessageType.EditAccountRequest;
-  accountPublicKeyHash: string;
+  accountPublicKey: string;
   name: string;
 }
 

@@ -1,5 +1,6 @@
 import React, { FC, useCallback } from 'react';
 
+import { Address } from '@signumjs/core';
 import classNames from 'clsx';
 import { useForm } from 'react-hook-form';
 
@@ -9,18 +10,19 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import HashShortView from 'app/atoms/HashShortView';
 import ModalWithTitle from 'app/templates/ModalWithTitle';
 import { T, t } from 'lib/i18n/react';
-import { useContacts } from 'lib/temple/front';
+import { useContacts, useSignumAccountPrefix } from 'lib/temple/front';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 import IdenticonSignum from '../../atoms/IdenticonSignum';
 
 type AddContactModalProps = {
-  address: string | null;
+  accountId: string | null;
   onClose: () => void;
 };
 
-const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
+const AddContactModal: FC<AddContactModalProps> = ({ accountId, onClose }) => {
   const { addContact } = useContacts();
+  const prefix = useSignumAccountPrefix();
   const {
     register,
     reset: resetForm,
@@ -35,34 +37,35 @@ const AddContactModal: FC<AddContactModalProps> = ({ address, onClose }) => {
   const onAddContactSubmit = useCallback(
     async ({ name }: { name: string }) => {
       if (submitting) return;
+      if (!accountId) return;
 
       try {
         clearError();
-
         await addContact({
-          address: address!,
+          rsAddress: Address.fromNumericId(accountId, prefix).getReedSolomonAddress(),
+          accountId,
           name,
           addedAt: Date.now()
         });
         resetForm();
         onClose();
       } catch (err: any) {
-        await withErrorHumanDelay(err, () => setError('address', 'submit-error', err.message));
+        await withErrorHumanDelay(err, () => setError('name', 'submit-error', err.message));
       }
     },
-    [submitting, clearError, addContact, address, resetForm, onClose, setError]
+    [submitting, clearError, addContact, accountId, resetForm, onClose, setError]
   );
 
   return (
-    <ModalWithTitle isOpen={Boolean(address)} title={<T id="addNewContact" />} onRequestClose={onClose}>
+    <ModalWithTitle isOpen={Boolean(accountId)} title={<T id="addNewContact" />} onRequestClose={onClose}>
       <form onSubmit={handleSubmit(onAddContactSubmit)}>
         <div className="mb-8">
           <div className="mb-4 flex items-stretch border rounded-md p-2">
-            <IdenticonSignum accountId={address ?? ''} size={32} className="flex-shrink-0 shadow-xs" />
+            <IdenticonSignum address={accountId ?? ''} size={32} className="flex-shrink-0 shadow-xs" />
 
             <div className="ml-3 flex-1 flex items-center">
               <span className={classNames('text-base text-gray-700')}>
-                <HashShortView hash={address ?? ''} isAccount />
+                <HashShortView hash={accountId ?? ''} isAccount />
               </span>
             </div>
           </div>

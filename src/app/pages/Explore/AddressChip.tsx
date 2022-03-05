@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { Address } from '@signumjs/core';
 import classNames from 'clsx';
 import useSWR from 'swr';
 
@@ -23,7 +24,7 @@ type AddressChipProps = {
 
 const AddressChip: FC<AddressChipProps> = ({ accountId, className, small }) => {
   const signum = useSignum();
-  const { resolveAccountIdToAlias } = useSignumAliasResolver();
+  const { resolveAccountPkToAlias } = useSignumAliasResolver();
   const { account: explorerBaseUrl } = useSignumExplorerBaseUrls();
 
   const { data: accountInfo } = useSWR(
@@ -42,7 +43,7 @@ const AddressChip: FC<AddressChipProps> = ({ accountId, className, small }) => {
 
   const { data: aliasName } = useSWR(
     () => ['getAlias', accountId],
-    () => resolveAccountIdToAlias(accountId),
+    () => resolveAccountPkToAlias(accountId),
     {
       shouldRetryOnError: false,
       revalidateOnFocus: false
@@ -79,7 +80,7 @@ const AddressChip: FC<AddressChipProps> = ({ accountId, className, small }) => {
         ) : (
           <HashChip hash={accountId} isAccount small={small} />
         )}
-        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} hash={accountId} className="mr-2" />}
+        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} id={accountId} className="mr-2" />}
         {aliasName && (
           <button
             type="button"

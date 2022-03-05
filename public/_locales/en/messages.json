@@ -1810,10 +1810,27 @@
   "lockedBalance": {
     "message": "Reserved Balance"
   },
-  "currentAccount" : {
+  "currentAccount": {
     "message": "Current Account"
   },
-  "confirmConnectionHint" : {
+  "confirmConnectionHint": {
     "message": "Your connection is bound to this DApps URL and the requested network. You can change your account or node while being connected with the DApp"
+  },
+  "cannotImportWatchAccount": {
+    "message": "Account has no public key. Import of inactive accounts or smart contracts is not possible."
+  },
+  "accountNotExists": {
+    "message": "Account does not exist"
+  },
+  "optionsPageWarningResetRequiredTitle": {
+    "message": "New major update requires a reset"
+  },
+  "optionsPageWarningResetRequiredDescription": {
+    "message": "This new version provides new major features and improvements. Unfortunately, the previous version $previousVersion$ is not compatible with this version and a reset is required.<b>Your accounts and funds are save and there's no loss.</b> But you need to reimport your accounts, contacts and DApp permissions. We apologize the inconvenience and thank you for your understanding.",
+    "placeholders": {
+      "previousVersion": {
+        "content": "$1"
+      }
+    }
   }
 }

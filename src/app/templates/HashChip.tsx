@@ -4,8 +4,7 @@ import { Address } from '@signumjs/core';
 
 import CopyButton, { CopyButtonProps } from 'app/atoms/CopyButton';
 import HashShortView from 'app/atoms/HashShortView';
-
-import { useSignumAccountPrefix } from '../../lib/temple/front';
+import { useSignumAccountPrefix } from 'lib/temple/front';
 
 type HashChipProps = HTMLAttributes<HTMLButtonElement> &
   ComponentProps<typeof HashShortView> &
@@ -25,7 +24,7 @@ const HashChip: FC<HashChipProps> = ({
 
   const address = useMemo(() => {
     if (!isAccount) return hash;
-    return Address.fromNumericId(hash, prefix).getReedSolomonAddress();
+    return Address.create(hash, prefix).getReedSolomonAddress();
   }, [hash, isAccount, prefix]);
   return (
     <CopyButton text={address} type={type} {...rest}>

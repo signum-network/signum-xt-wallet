@@ -79,7 +79,7 @@ const Control: FC = () => {
             onClick={toggleOpened}
             testID={HeaderSelectors.AccountIcon}
           >
-            <IdenticonSignum accountId={account.publicKeyHash} size={48} />
+            <IdenticonSignum address={account.publicKey} size={48} />
           </Button>
         )}
       </Popper>

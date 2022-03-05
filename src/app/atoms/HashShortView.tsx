@@ -14,7 +14,7 @@ type HashShortViewProps = {
 };
 
 const HashShortView = memo<HashShortViewProps>(
-  ({ hash, isAccount = false, trim = true, trimAfter = 20, firstCharsCount = 7, lastCharsCount = 4 }) => {
+  ({ hash, isAccount = false, trim = true, trimAfter = 32, firstCharsCount = 7, lastCharsCount = 4 }) => {
     const prefix = useSignumAccountPrefix();
     if (!hash) return null;
 
@@ -26,7 +26,7 @@ const HashShortView = memo<HashShortViewProps>(
         // no op as no valid Signum Address
       }
       if (!trim) return address;
-      const ln = hash.length;
+      const ln = address.length;
       return ln > trimAfter ? (
         <>
           {address.slice(0, firstCharsCount)}

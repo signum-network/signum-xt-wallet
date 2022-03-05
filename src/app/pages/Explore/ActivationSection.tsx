@@ -29,7 +29,7 @@ async function activateAccount(isTestnet: boolean, publicKey: string): Promise<v
 }
 
 export const ActivationSection: FC = () => {
-  const { setAccountActivated, getSignumTransactionKeyPair } = useTempleClient();
+  const { setAccountActivated } = useTempleClient();
   const account = useAccount();
   const signum = useSignum();
   const network = useNetwork();
@@ -38,15 +38,16 @@ export const ActivationSection: FC = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const { data: isActivatedOnChain } = useSWR(
-    ['getAccountActivationStatus', account.publicKeyHash, account.isActivated, signum],
+    ['getAccountActivationStatus', account.publicKey, account.isActivated, signum],
     async () => {
       if (account.isActivated) {
         return true;
       }
 
       try {
+        const accountId = Address.fromPublicKey(account.publicKey).getNumericId()
         const acc = await signum.account.getAccount({
-          accountId: account.publicKeyHash,
+          accountId,
           includeCommittedAmount: false,
           includeEstimatedCommitment: false
         });
@@ -75,9 +76,8 @@ export const ActivationSection: FC = () => {
   const handleActivate = async () => {
     setIsActivating(true);
     try {
-      const { publicKey } = await getSignumTransactionKeyPair(account.publicKeyHash);
-      await activateAccount(network.type === 'test', publicKey);
-      await setAccountActivated(account.publicKeyHash); // persistent
+      await activateAccount(network.type === 'test', account.publicKey);
+      await setAccountActivated(account.publicKey); // persistent
       setShowSuccessMessage(true); // transient
     } catch (e) {
       if (e instanceof HttpError) {

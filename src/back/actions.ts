@@ -95,46 +95,46 @@ export function revealMnemonic(password: string) {
   return withUnlocked(() => Vault.revealMnemonic(password));
 }
 
-export function revealPrivateKey(accPublicKeyHash: string, password: string) {
-  return withUnlocked(() => Vault.revealPrivateKey(accPublicKeyHash, password));
+export function revealPrivateKey(accPublicKey: string, password: string) {
+  return withUnlocked(() => Vault.revealPrivateKey(accPublicKey, password));
 }
 
-export function revealPublicKey(accPublicKeyHash: string) {
-  return withUnlocked(({ vault }) => vault.revealPublicKey(accPublicKeyHash));
+export function revealPublicKey(accPublicKey: string) {
+  return withUnlocked(({ vault }) => vault.revealPublicKey(accPublicKey));
 }
 
-export function removeAccount(accPublicKeyHash: string, password: string) {
+export function removeAccount(accPublicKey: string, password: string) {
   return withUnlocked(async () => {
-    const updatedAccounts = await Vault.removeAccount(accPublicKeyHash, password);
+    const updatedAccounts = await Vault.removeAccount(accPublicKey, password);
     accountsUpdated(updatedAccounts);
   });
 }
 
-export function editAccountName(accPublicKeyHash: string, name: string) {
+export function editAccountName(accPublicKey: string, name: string) {
   return withUnlocked(async ({ vault }) => {
     name = name.trim();
     if (!ACCOUNT_NAME_PATTERN.test(name)) {
       throw new Error('Invalid name. It should be: 1-16 characters, without special');
     }
 
-    const updatedAccounts = await vault.editAccountName(accPublicKeyHash, name);
+    const updatedAccounts = await vault.editAccountName(accPublicKey, name);
     accountsUpdated(updatedAccounts);
   });
 }
 
-export function setAccountActivated(accPublicKeyHash: string) {
+export function setAccountActivated(accPublicKey: string) {
   return withUnlocked(async ({ vault }) => {
-    const updatedAccounts = await vault.setAccountIsActivated(accPublicKeyHash);
+    const updatedAccounts = await vault.setAccountIsActivated(accPublicKey);
     accountsUpdated(updatedAccounts);
   });
 }
 
-export function importAccount(privateKey: string, encPassword?: string) {
-  return withUnlocked(async ({ vault }) => {
-    const updatedAccounts = await vault.importAccount(privateKey, encPassword);
-    accountsUpdated(updatedAccounts);
-  });
-}
+// export function importAccount(privateKey: string, encPassword?: string) {
+//   return withUnlocked(async ({ vault }) => {
+//     const updatedAccounts = await vault.importAccount(privateKey, encPassword);
+//     accountsUpdated(updatedAccounts);
+//   });
+// }
 
 export function importMnemonicAccount(mnemonic: string, name?: string) {
   return withUnlocked(async ({ vault }) => {
@@ -180,8 +180,8 @@ export function removeDAppSession(origin: string) {
   return removeDApp(origin);
 }
 
-export function getSignumTxKeys(accPublicKeyHash: string) {
-  return withUnlocked(({ vault }) => vault.getSignumTxKeys(accPublicKeyHash));
+export function getSignumTxKeys(accPublicKey: string) {
+  return withUnlocked(({ vault }) => vault.getSignumTxKeys(accPublicKey));
 }
 
 // ---------------------------------------------------------

@@ -50,7 +50,7 @@ const ContactsDropdown = memo<ContactsDropdownProps>(({ contacts, opened, onSele
       switch (evt.key) {
         case 'Enter':
           if (activeItem) {
-            onSelect(activeItem.address);
+            onSelect(activeItem.accountId);
             (document.activeElement as any)?.blur();
           }
           break;
@@ -90,10 +90,10 @@ const ContactsDropdown = memo<ContactsDropdownProps>(({ contacts, opened, onSele
       {filteredContacts.length > 0 ? (
         filteredContacts.map(contact => (
           <ContactsDropdownItem
-            key={contact.address}
+            key={contact.accountId}
             contact={contact}
-            active={contact.address === activeItem?.address}
-            onMouseDown={() => onSelect(contact.address)}
+            active={contact.accountId === activeItem?.accountId}
+            onMouseDown={() => onSelect(contact.accountId)}
           />
         ))
       ) : (

@@ -33,7 +33,7 @@ const getSlug = (asset: IAsset) => (asset === 'tez' ? asset : asset.tokenSlug);
 const AssetSelect: FC<AssetSelectProps> = ({ value, onChange, className }) => {
   const chainId = '';
   const account = useAccount();
-  const address = account.publicKeyHash;
+  const address = account.publicKey;
 
   const { data: tokens = [] } = useDisplayedFungibleTokens(chainId, address);
   const { data: collectibles = [] } = useCollectibleTokens(chainId, address, true);
@@ -104,7 +104,7 @@ const AssetInMenuContent: FC<AssetSelectOptionRenderProps> = ({ option: asset })
 
       <span className={classNames('text-gray-600', 'text-sm leading-none')}>
         {asset === 'tez' ? (
-          <Balance assetSlug={assetSlug} accountId={account.publicKeyHash}>
+          <Balance assetSlug={assetSlug} accountId={account.accountId}>
             {balance => (
               <>
                 <Money>{balance}</Money>{' '}
@@ -128,7 +128,7 @@ const AssetSelectedContent: FC<AssetSelectOptionRenderProps> = ({ option }) => {
   const metadata = useAssetMetadata(assetSlug);
 
   return (
-    <Balance assetSlug={assetSlug} accountId={account.publicKeyHash}>
+    <Balance assetSlug={assetSlug} accountId={account.accountId}>
       {balance => (
         <div className="flex flex-col items-start">
           <span className="text-xl text-gray-800">

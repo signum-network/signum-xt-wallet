@@ -27,7 +27,7 @@ const CreateAccount: FC = () => {
   const [mnemonic, setMnemonic] = useState('');
 
   const allImportedAccounts = useMemo(
-    () => allAccounts.filter(acc => [XTAccountType.Imported].includes(acc.type)),
+    () => allAccounts.filter(acc => [XTAccountType.Eigen].includes(acc.type)),
     [allAccounts]
   );
 
@@ -44,7 +44,7 @@ const CreateAccount: FC = () => {
   useEffect(() => {
     const accLength = allAccounts.length;
     if (prevAccLengthRef.current < accLength) {
-      setAccountPkh(allAccounts[accLength - 1].publicKeyHash);
+      setAccountPkh(allAccounts[accLength - 1].publicKey);
       navigate('/');
     }
     prevAccLengthRef.current = accLength;

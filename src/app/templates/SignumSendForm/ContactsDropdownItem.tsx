@@ -41,14 +41,14 @@ const ContactsDropdownItem: FC<ContactsDropdownItemProps> = ({ contact, active, 
       tabIndex={-1}
       {...rest}
     >
-      <IdenticonSignum accountId={contact.address} size={32} className="flex-shrink-0 shadow-xs" />
+      <IdenticonSignum address={contact.accountId} size={32} className="flex-shrink-0 shadow-xs" />
 
       <div className="ml-3 flex flex-1 w-full">
         <div className="flex flex-col justify-between flex-1">
           <Name className="mb-px text-sm font-medium leading-tight text-left">{contact.name}</Name>
 
           <span className={classNames('text-xs font-light leading-tight text-gray-600')}>
-            <HashShortView hash={contact.address} isAccount />
+            <HashShortView hash={contact.accountId} isAccount />
           </span>
         </div>
 

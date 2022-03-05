@@ -52,12 +52,12 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
 
   const allAccounts = useRelevantAccounts();
   const account = useMemo(
-    () => allAccounts.find(a => a.publicKeyHash === payload.sourcePkh)!,
+    () => allAccounts.find(a => a.publicKey === payload.sourcePkh)!,
     [allAccounts, payload.sourcePkh]
   );
   const rawExpensesData = useMemo(
-    () => tryParseExpenses(contentToParse!, account.publicKeyHash),
-    [contentToParse, account.publicKeyHash]
+    () => tryParseExpenses(contentToParse!, account.publicKey),
+    [contentToParse, account.publicKey]
   );
   const expensesData = useMemo(() => {
     return rawExpensesData.map(({ expenses, ...restProps }) => ({

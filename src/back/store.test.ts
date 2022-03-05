@@ -46,15 +46,16 @@ describe('Store tests', () => {
     accountsUpdated([
       {
         name: 'testName',
-        type: XTAccountType.Imported,
-        publicKeyHash: 'testHashKey'
+        type: XTAccountType.Eigen,
+        publicKey: 'testHashKey',
+        accountId: 'testAccountId'
       }
     ]);
     const { accounts } = store.getState();
-    const { name, type, publicKeyHash } = accounts[0];
+    const { name, type, publicKey } = accounts[0];
     expect(name).toBe('testName');
-    expect(type).toBe(XTAccountType.Imported);
-    expect(publicKeyHash).toBe('testHashKey');
+    expect(type).toBe(XTAccountType.Eigen);
+    expect(publicKey).toBe('testHashKey');
   });
   it('Settings updated event', () => {
     settingsUpdated({});

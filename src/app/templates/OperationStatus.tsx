@@ -62,7 +62,7 @@ const OperationStatus: FC<OperationStatusProps> = ({ typeTitle, operation, class
           <T id="transaction" />:{' '}
         </div>
         <HashChip hash={operation.txId} firstCharsCount={10} lastCharsCount={7} small className="ml-2 mr-2" />
-        {transactionBaseUrl && <OpenInExplorerChip baseUrl={transactionBaseUrl} hash={operation.txId} />}
+        {transactionBaseUrl && <OpenInExplorerChip baseUrl={transactionBaseUrl} id={operation.txId} />}
       </div>
     ),
     [operation, transactionBaseUrl]
