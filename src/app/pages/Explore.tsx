@@ -83,7 +83,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug }) => {
             <Alert type="error" title={t('cantConnectToNetwork')} description={t('cantConnectToNetworkHint')} />
           </div>
         )}
-        <AddressChip accountId={account.accountId} className="mb-6" />
+        <AddressChip account={account} className="mb-6" />
 
         <MainBanner accountId={account.accountId} assetSlug={assetSlug} />
 

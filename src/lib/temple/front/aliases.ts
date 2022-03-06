@@ -14,9 +14,11 @@ export function useSignumAliasResolver() {
   const resolveAccountPkToAlias = useCallback(
     async pk => {
       try {
-        const account = Address.fromPublicKey(pk).getNumericId();
-        const { aliases } = await signum.service.query<AliasList>('getAliases', { account });
-        return aliases.find(({ account }) => account === pk)?.aliasName;
+        const accountId = Address.fromPublicKey(pk).getNumericId();
+        const { aliases } = await signum.service.query<AliasList>('getAliases', { account: accountId });
+        const accountsAliases = aliases.filter(({ account }) => account === accountId);
+        // Aliases are ordered by times - newest is last
+        return accountsAliases.length ? accountsAliases[accountsAliases.length - 1].aliasName : null;
       } catch (e) {
         return null;
       }

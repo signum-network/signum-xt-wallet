@@ -13,25 +13,26 @@ import {
   putToStorage,
   useSignum,
   useSignumAliasResolver,
-  useSignumExplorerBaseUrls
+  useSignumExplorerBaseUrls,
+  XTAccount
 } from 'lib/temple/front';
 
 type AddressChipProps = {
-  accountId: string;
+  account: XTAccount;
   className?: string;
   small?: boolean;
 };
 
-const AddressChip: FC<AddressChipProps> = ({ accountId, className, small }) => {
+const AddressChip: FC<AddressChipProps> = ({ account, className, small }) => {
   const signum = useSignum();
   const { resolveAccountPkToAlias } = useSignumAliasResolver();
   const { account: explorerBaseUrl } = useSignumExplorerBaseUrls();
 
   const { data: accountInfo } = useSWR(
-    () => ['getAccount', accountId],
+    () => ['getAccount', account],
     () =>
       signum.account.getAccount({
-        accountId,
+        accountId: account.accountId,
         includeCommittedAmount: false,
         includeEstimatedCommitment: false
       }),
@@ -42,8 +43,8 @@ const AddressChip: FC<AddressChipProps> = ({ accountId, className, small }) => {
   );
 
   const { data: aliasName } = useSWR(
-    () => ['getAlias', accountId],
-    () => resolveAccountPkToAlias(accountId),
+    () => ['getAlias', account],
+    () => resolveAccountPkToAlias(account.publicKey),
     {
       shouldRetryOnError: false,
       revalidateOnFocus: false
@@ -72,15 +73,17 @@ const AddressChip: FC<AddressChipProps> = ({ accountId, className, small }) => {
 
   const Icon = aliasDisplayed ? AddressIcon : AliasIcon;
 
+  console.log(aliasName, aliasDisplayed)
+
   return (
     <div className={classNames('flex flex-col items-center', className)}>
       <div className="flex items-center">
         {aliasName && aliasDisplayed ? (
           <HashChip hash={aliasName} firstCharsCount={7} lastCharsCount={10} small={small} />
         ) : (
-          <HashChip hash={accountId} isAccount small={small} />
+          <HashChip hash={account.accountId} isAccount small={small} />
         )}
-        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} id={accountId} className="mr-2" />}
+        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} id={account.accountId} className="mr-2" />}
         {aliasName && (
           <button
             type="button"
