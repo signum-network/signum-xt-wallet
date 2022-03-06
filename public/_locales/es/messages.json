@@ -1808,7 +1808,7 @@
     "message": "Tenga en cuenta que <b>las cuentas solo existen dentro de una red</b>. Si cambia a otra red, por ejemplo: la red de prueba(Test-net), el mensaje de activación aparece de nuevo."
   },
   "lockedBalance": {
-    "message": "Saldo reservado"
+    "message": "Balance reservado"
   },
   "accountNotExists": {
     "message": "La cuenta no existe"
