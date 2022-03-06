@@ -904,7 +904,7 @@
     "message": "Mnemotécnico"
   },
   "mnemonicInputDescription": {
-    "message": "Su frase de recuperación; normalmente 12 palabras."
+    "message": "Su frase de recuperación, normalmente 12 palabras."
   },
   "mnemonicInputLabel": {
     "message": "Frase de recuperación"
@@ -1497,7 +1497,7 @@
     "message": "Subir"
   },
   "usePhoenixWallet": {
-    "message": "Usa Phoenix Mobile Wallet para procesar el código"
+    "message": "Usa Phoenix Mobile Wallet para escanear y procesar el código"
   },
   "validImageURL": {
     "message": "URL de imagen válida"
@@ -1603,16 +1603,16 @@
     "message": "¡Ok!"
   },
   "howToStartDescription1": {
-    "message": "Para comenzar a usar su billetera e interactuar con el ecosistema Signum, el balance de la cuenta debe ser positivo, ya que cada transacción le cuesta una tarifa baja"
+    "message": "Para comenzar a usar su billetera e interactuar con el ecosistema Signum, el balance de la cuenta debe ser positivo, ya que cada transacción le cuesta una tarifa baja."
   },
   "howToStartDescription2": {
-    "message": "Puede obtener Signa comprando en uno de los Exchange, minando con discos duros o participando en la comunidad. Únete a nosotros en Discord"
+    "message": "Puede obtener Signa comprando en uno de los Exchange, minando con discos duros o participando en la comunidad. Únete a nosotros en Discord."
   },
   "howToStartDetails": {
     "message": "Conseguir Signa"
   },
   "howToStartHint": {
-    "message": "Además, puede copiar su dirección y enviarle Signa desde otra billetera o Exchange. Para copiar la dirección, haga clic en ella en la pantalla principal de la billetera o use \"Recibir\"."
+    "message": "Además, puede copiar la dirección de su cuenta y enviarle Signa desde otra billetera o Exchange. Para copiar la dirección, haga clic en ella en la pantalla principal de la billetera o use \"Recibir\"."
   },
   "joinPool": {
     "message": "Unirse a la piscina"
@@ -1636,13 +1636,13 @@
     "message": "Introducción"
   },
   "profileRpcDescription": {
-    "message": "En la parte superior de la interfaz, puede ver el icono de su cuenta. Al hacer clic en él, abrirá un menú con más acciones, p. Ajustes y gestión de cuentas."
+    "message": "En la parte superior de la interfaz, puede ver el icono de su cuenta. Al hacer clic en él, abrirá un menú con más acciones, ejemplo: Ajustes y gestión de cuentas."
   },
   "profileRpcDetails": {
     "message": "Perfil y nodos de red"
   },
   "profileRpcHint1": {
-    "message": "Debajo de su nombre de cuenta, puede ver el selector de \"Redes\", que le permite seleccionar un nodo al que se conectará su billetera.\nLos nodos de red principal son verdosos, mientras que los nodos de red de prueba(test-net) tienen indicadores naranjas. Los nodos de red de prueba son para experimentar sin usar dinero real"
+    "message": "Debajo del nombre de su cuenta, puede ver el selector de \"Nodos de red\", que le permite seleccionar un nodo al que se conectará su billetera.\nLos nodos de red principal son verdosos, mientras que los nodos de red de prueba(test-net) tienen indicadores naranjas. Los nodos de red de prueba son para experimentar sin usar dinero real"
   },
   "profileRpcHint2": {
     "message": "Si no se muestra su balance, intente cambiar el nodo."
@@ -1654,7 +1654,7 @@
     "message": "Remover compromiso"
   },
   "start": {
-    "message": "Vamos"
+    "message": "Empezar a usar billetera"
   },
   "tokensCollectibleDescription1": {
     "message": "Sus balances de tokens FA1.2 y FA2 se muestran en la pestaña \"Tokens\"."
@@ -1681,25 +1681,25 @@
     "message": "Nunca, bajo ninguna circunstancia, divulgue sus claves privadas y su frase de recuperación a terceros."
   },
   "attentionListItem1": {
-    "message": "Su billetera puede ser atacada a través de un exploit de día cero del navegador o a través de otra extensión maliciosa instalada;"
+    "message": "Su billetera puede ser atacada a través de un exploit de día cero del navegador o a través de otra extensión maliciosa instalada."
   },
   "attentionListItem2": {
-    "message": "La pantalla puede ser potencialmente manipulada por software malicioso instalado en el sistema;"
+    "message": "La pantalla puede ser potencialmente manipulada por software malicioso instalado en el sistema."
   },
   "attentionListItem3": {
-    "message": "La máquina host del usuario puede ser atacada por malware para robar la billetera cifrada;"
+    "message": "La máquina host del usuario puede ser atacada por malware para robar la billetera cifrada."
   },
   "attentionListItem4": {
     "message": "Elegir contraseñas débiles puede reducir la capacidad de una billetera para resistir la fuerza bruta del adversario."
   },
   "attentionListItem5": {
-    "message": "Mueva sus fondos de la billetera \"caliente\" a la \"fría\" lo antes posible;"
+    "message": "Mueva sus fondos de la billetera \"caliente\" a la \"fría\" lo antes posible."
   },
   "attentionListItem6": {
-    "message": "Use navegadores separados para la navegación web y el funcionamiento de la billetera;"
+    "message": "Use navegadores separados para la navegación web y el funcionamiento de la billetera."
   },
   "attentionListItem7": {
-    "message": "Use la pestaña de un navegador a la vez para realizar transacciones;"
+    "message": "Use la pestaña de un navegador a la vez para realizar transacciones."
   },
   "attentionListItem8": {
     "message": "Mantenga la billetera bloqueada cuando no esté en uso."
@@ -1793,19 +1793,19 @@
     "message": "Su nodo actualmente seleccionado no pertenece a la red solicitada: $networkName$. Por favor, seleccione un nodo correcto y vuelva a intentarlo"
   },
   "selectOtherLanguage": {
-    "message": "Seleccione otro idioma"
+    "message": "Seleccionar otro idioma"
   },
   "activationDescription1": {
-    "message": "Las cuentas recién creadas deben ser <b>activadas primero por razones de seguridad</b>. No es posible enviar monedas desde intercambios a cuentas inactivas."
+    "message": "Las cuentas recién creadas deben ser <b>activadas primero por razones de seguridad</b>. Segundo, no es posible enviar monedas desde una exchange a cuentas inactivas."
   },
   "activationDescription2": {
     "message": "Si una cuenta está inactiva, la billetera le notificará y le ofrecerá activar la cuenta. Inmediatamente después de la activación, recibirá una transacción que activa su cuenta."
   },
   "activationDetails": {
-    "message": "activación de cuenta"
+    "message": "Activación de cuenta"
   },
   "activationHint": {
-    "message": "Tenga en cuenta que <b>las cuentas solo existen dentro de una red</b>. Si cambia a otra red, p. red de prueba, el mensaje de activación aparece de nuevo."
+    "message": "Tenga en cuenta que <b>las cuentas solo existen dentro de una red</b>. Si cambia a otra red, por ejemplo: la red de prueba(Test-net), el mensaje de activación aparece de nuevo."
   },
   "lockedBalance": {
     "message": "Saldo reservado"
