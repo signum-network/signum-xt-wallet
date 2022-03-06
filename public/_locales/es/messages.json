@@ -904,7 +904,7 @@
     "message": "Mnemotécnico"
   },
   "mnemonicInputDescription": {
-    "message": "Su frase de recuperación; normalmente 12 palabras."
+    "message": "Su frase de recuperación, normalmente 12 palabras."
   },
   "mnemonicInputLabel": {
     "message": "Frase de recuperación"
@@ -1693,13 +1693,13 @@
     "message": "Elegir contraseñas débiles puede reducir la capacidad de una billetera para resistir la fuerza bruta del adversario."
   },
   "attentionListItem5": {
-    "message": "Mueva sus fondos de la billetera \"caliente\" a la \"fría\" lo antes posible;"
+    "message": "Mueva sus fondos de la billetera \"caliente\" a la \"fría\" lo antes posible."
   },
   "attentionListItem6": {
-    "message": "Use navegadores separados para la navegación web y el funcionamiento de la billetera;"
+    "message": "Use navegadores separados para la navegación web y el funcionamiento de la billetera."
   },
   "attentionListItem7": {
-    "message": "Use la pestaña de un navegador a la vez para realizar transacciones;"
+    "message": "Use la pestaña de un navegador a la vez para realizar transacciones."
   },
   "attentionListItem8": {
     "message": "Mantenga la billetera bloqueada cuando no esté en uso."
