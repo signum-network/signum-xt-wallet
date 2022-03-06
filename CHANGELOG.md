@@ -8,18 +8,29 @@ Manifest Version 3 Compatible
 
 -----
 
-This version was significantly refactored to be conformant with the new Manifest Version 3 format. 
+This version was significantly refactored:
+- to be conformant with the new Manifest Version 3 format
+- DApp permission relies on DApp Url and Network now 
+- storage identifiers refactored
+- added the DApp notification system
+
+#### This version requires the previous installation to be reset or removed!
 
 ### New features
 
 - Text/Data Message Attachments on Send
 - New Languages: Thai, Ukrainian
 - Improved Onboarding
-- DApp Permissions based on Networks now, and not on Network Nodes
-- Sends notifications about Network changes, Permission/Account removals to DApp now
-- Cropped Node Urls (#7)  
+- DApp permission relies on DApp Url and Network 
+- Sends notifications about Network/Account changes, Permission/Account removals to DApp
 - Currency Symbol TestNet vs MainNet (#8)  
 - Explorer Links for Account (#9)
+- Considering reserved/locked balances (#14)
+
+### Bugfixes
+
+- Cropped Node Urls (#7)  
+- Reset action redirects to Full Page Options now (no layout issues)
 
 ## 1.0.2
 
