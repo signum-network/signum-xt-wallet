@@ -53,7 +53,7 @@ const AddContactModal: FC<AddContactModalProps> = ({ accountId, onClose }) => {
         await withErrorHumanDelay(err, () => setError('name', 'submit-error', err.message));
       }
     },
-    [submitting, clearError, addContact, accountId, resetForm, onClose, setError]
+    [submitting, clearError, addContact, accountId, resetForm, onClose, setError, prefix]
   );
 
   return (

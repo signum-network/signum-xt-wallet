@@ -1,4 +1,4 @@
-import React, { FC, Suspense, useCallback, useState } from 'react';
+import React, { Suspense, useCallback, useState } from 'react';
 
 import OperationStatus from 'app/templates/OperationStatus';
 import { t } from 'lib/i18n/react';
@@ -15,13 +15,6 @@ const SendFormLayout = () => {
   const [operation, setOperation] = useSafeState<any>(null);
   const [contactAccountId, setContactAccountId] = useState<string | null>(null);
 
-  const handleAddContactRequested = useCallback(
-    (accountId: string) => {
-      setContactAccountId(accountId);
-    },
-    [setContactAccountId]
-  );
-
   const closeContactModal = useCallback(() => {
     setContactAccountId(null);
   }, [setContactAccountId]);
@@ -31,7 +24,7 @@ const SendFormLayout = () => {
       {operation && <OperationStatus typeTitle={t('transaction')} operation={operation} />}
       <AssetBanner assetSlug="signa" accountId={accountId} />
       <Suspense fallback={<SpinnerSection />}>
-        <SendForm setOperation={setOperation} onAddContactRequested={handleAddContactRequested} />
+        <SendForm setOperation={setOperation} onAddContactRequested={setContactAccountId} />
       </Suspense>
       {contactAccountId && <AddContactModal accountId={contactAccountId} onClose={closeContactModal} />}
     </>

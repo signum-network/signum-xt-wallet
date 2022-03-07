@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Address } from '@signumjs/core';
 import classNames from 'clsx';
 import useSWR from 'swr';
 
@@ -72,8 +71,6 @@ const AddressChip: FC<AddressChipProps> = ({ account, className, small }) => {
   }, [setAliasDisplayed, aliasDisplayedKey]);
 
   const Icon = aliasDisplayed ? AddressIcon : AliasIcon;
-
-  console.log(aliasName, aliasDisplayed)
 
   return (
     <div className={classNames('flex flex-col items-center', className)}>

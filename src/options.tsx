@@ -44,7 +44,7 @@ function parseLocationSearch(): QueryType {
 const Options: FC = () => {
   const alert = useAlert();
   const confirm = useConfirm();
-  const [_, setI18nInitialized] = useState(false);
+  const [, setI18nInitialized] = useState(false);
   const [query, setQuery] = useState<QueryType>({});
 
   useEffect(() => {

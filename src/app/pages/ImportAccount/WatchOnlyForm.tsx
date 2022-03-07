@@ -4,18 +4,18 @@ import { Address } from '@signumjs/core';
 import classNames from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 
-import { T, t } from '../../../lib/i18n/react';
+import Alert from 'app/atoms/Alert';
+import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import NoSpaceField from 'app/atoms/NoSpaceField';
+import { T, t } from 'lib/i18n/react';
 import {
   isSignumAddress,
   useSignum,
   useSignumAccountPrefix,
   useSignumAliasResolver,
   useTempleClient
-} from '../../../lib/temple/front';
-import { withErrorHumanDelay } from '../../../lib/ui/humanDelay';
-import Alert from '../../atoms/Alert';
-import FormSubmitButton from '../../atoms/FormSubmitButton';
-import NoSpaceField from '../../atoms/NoSpaceField';
+} from 'lib/temple/front';
+import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 interface WatchOnlyFormData {
   address: string;
@@ -65,31 +65,34 @@ export const WatchOnlyForm: FC = () => {
     triggerValidation('address');
   }, [setValue, triggerValidation]);
 
-  const fetchAccountsPublickey = async (address: string) => {
-    if (!isSignumAddress(address)) {
-      throw new Error(t('invalidAddressOrDomain'));
-    }
-    const accountId = Address.create(address).getNumericId();
-    let acc = null;
-    try {
-      acc = await signum.account.getAccount({
-        accountId,
-        includeCommittedAmount: false,
-        includeEstimatedCommitment: false
-      });
-    } catch (e: any) {
-      // not found - no op
-    }
-    if (!acc) {
-      throw new Error(t('accountNotExists'));
-    }
-    // @ts-ignore
-    const publicKey = acc.publicKey;
-    if (!publicKey || publicKey === SmartContractPk) {
-      throw new Error(t('cannotImportWatchAccount'));
-    }
-    return publicKey;
-  };
+  const fetchAccountsPublickey = useCallback(
+    async (address: string) => {
+      if (!isSignumAddress(address)) {
+        throw new Error(t('invalidAddressOrDomain'));
+      }
+      const accountId = Address.create(address).getNumericId();
+      let acc = null;
+      try {
+        acc = await signum.account.getAccount({
+          accountId,
+          includeCommittedAmount: false,
+          includeEstimatedCommitment: false
+        });
+      } catch (e: any) {
+        // not found - no op
+      }
+      if (!acc) {
+        throw new Error(t('accountNotExists'));
+      }
+      // @ts-ignore
+      const publicKey = acc.publicKey;
+      if (!publicKey || publicKey === SmartContractPk) {
+        throw new Error(t('cannotImportWatchAccount'));
+      }
+      return publicKey;
+    },
+    [signum.account]
+  );
 
   const validateAddressField = useCallback(
     async (value: any) => {
@@ -115,7 +118,7 @@ export const WatchOnlyForm: FC = () => {
         setError(err.message);
       });
     }
-  }, [importWatchOnlyAccount, formState.isSubmitting, setError, addressValue, resolveAlias]);
+  }, [importWatchOnlyAccount, fetchAccountsPublickey, formState.isSubmitting, setError, addressValue, resolveAlias]);
 
   return (
     <form className="w-full max-w-sm mx-auto my-8" onSubmit={handleSubmit(onSubmit)}>

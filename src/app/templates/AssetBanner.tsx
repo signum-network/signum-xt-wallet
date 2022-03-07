@@ -32,7 +32,8 @@ const AssetBanner: FC<AssetBannerProps> = ({ assetSlug, accountId }) => {
                 </span>
                 {!balances.availableBalance.eq(balances.totalBalance) && (
                   <span className="mt-2 text-xs text-gray-600">
-                    <T id="lockedBalance">{msg => <span className="text-xs text-gray-600">{msg}</span>}</T>{': '}
+                    <T id="lockedBalance">{msg => <span className="text-xs text-gray-600">{msg}</span>}</T>
+                    {': '}
                     <Money smallFractionFont={false}>{balances.committedBalance}</Money>{' '}
                     <span className="text-xs text-gray-600">{getAssetSymbol(assetMetadata)}</span>
                   </span>

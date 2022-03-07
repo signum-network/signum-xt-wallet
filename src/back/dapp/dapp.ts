@@ -1,13 +1,13 @@
 import browser from 'webextension-polyfill';
 
-import { DAppSession, DAppSessions, Network} from 'lib/messaging';
+import { DAppSession, DAppSessions, Network } from 'lib/messaging';
 import { NETWORKS } from 'lib/temple/networks';
 
 const STORAGE_KEY = 'dapp_sessions';
 
-export async function getAllDApps() {
-  const dAppsSessions: DAppSessions = (await browser.storage.local.get([STORAGE_KEY]))[STORAGE_KEY] || {};
-  return dAppsSessions;
+export async function getAllDApps(): Promise<DAppSessions> {
+  const stored = await browser.storage.local.get([STORAGE_KEY]);
+  return (stored[STORAGE_KEY] || {}) as DAppSessions;
 }
 
 export async function getDApp(origin: string): Promise<DAppSession | undefined> {

@@ -14,11 +14,6 @@ import {
   useTempleClient
 } from 'lib/temple/front';
 
-export enum ActivationStatus {
-  ActivationRequestSent,
-  AlreadyActivated
-}
-
 export const [
   ReadyTempleProvider,
   useAllNetworks,
@@ -61,7 +56,7 @@ function useReadyTemple() {
       templeFront.selectNetwork(id); // propagate to back and dapp
       updateNetworkId(id);
     },
-    [updateNetworkId]
+    [updateNetworkId, templeFront]
   );
 
   useEffect(() => {
@@ -98,7 +93,7 @@ function useReadyTemple() {
       templeFront.selectAccount(publicKey); // propagate to back and dapp
       updateAccountPkh(publicKey);
     },
-    [updateAccountPkh]
+    [updateAccountPkh, templeFront]
   );
 
   useEffect(() => {

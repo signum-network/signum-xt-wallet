@@ -62,7 +62,7 @@ const localeOptions: LocaleOption[] = [
     flagName: 'ua',
     label: 'Ukrainian (український)',
     disabled: false
-  },
+  }
 ];
 
 const localeIsDisabled = ({ disabled }: LocaleOption) => disabled;

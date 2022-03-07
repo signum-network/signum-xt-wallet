@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 
 import { Button } from 'app/atoms/Button';
 import Stamp from 'app/atoms/Stamp';
-
 import { t, T } from 'lib/i18n/react';
+
 import ExploreButtonsImg from '../assets/explore-buttons.png';
 import styles from '../Onboarding.module.css';
 

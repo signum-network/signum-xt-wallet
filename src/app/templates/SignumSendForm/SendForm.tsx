@@ -71,7 +71,6 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const publicKey = acc.publicKey;
   const accountId = acc.accountId;
   const { data: balanceData } = useBalance(assetMetadata.name, accountId);
-  const balance = balanceData && Amount.fromSigna(balanceData.totalBalance.toString(10));
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
     mode: 'onChange'
@@ -111,8 +110,8 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
 
   const filledContact = useMemo(() => {
     if (!resolvedPublicKey) return null;
-    const accountId = Address.fromPublicKey(resolvedPublicKey).getNumericId();
-    return allContacts.find(c => c.accountId === accountId);
+    const accId = Address.fromPublicKey(resolvedPublicKey).getNumericId();
+    return allContacts.find(c => c.accountId === accId);
   }, [allContacts, resolvedPublicKey]);
 
   const cleanToField = useCallback(() => {
@@ -140,12 +139,12 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     return balanceData
       ? Amount.fromSigna(balanceData.availableBalance.toString(10)).subtract(Amount.fromSigna(feeValue))
       : Amount.Zero();
-  }, [balance, feeValue]);
+  }, [feeValue, balanceData]);
 
   const totalAmount = useMemo(() => {
     if (!amountValue) return;
     return Amount.fromSigna(amountValue).add(Amount.fromSigna(feeValue || MinimumFee));
-  }, [amountValue, feeValue, messageFormData.message]);
+  }, [amountValue, feeValue, messageFormData.message]); // keep messageFromData.message
 
   const validateAmount = useCallback(
     (v?: number) => {
@@ -198,7 +197,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     [resolveAliasToAccountPk]
   );
 
-  const getTransactionAttachment = () => {
+  const getTransactionAttachment = useCallback(() => {
     if (messageFormData && messageFormData.isValid) {
       return new AttachmentMessage({
         messageIsText: !messageFormData.isBinary,
@@ -206,7 +205,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       });
     }
     return undefined;
-  };
+  }, [messageFormData]);
 
   const onSubmit = useCallback(
     async ({ amount }: FormData) => {
@@ -253,7 +252,9 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       reset,
       messageFormRef,
       toResolved,
-      formAnalytics
+      formAnalytics,
+      feeValue,
+      getTransactionAttachment
     ]
   );
 
@@ -279,8 +280,8 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   }, [setToFieldFocused]);
 
   const allContactsWithoutCurrent = useMemo(() => {
-    const accountId = Address.fromPublicKey(publicKey).getNumericId();
-    return allContacts.filter(c => c.accountId !== accountId);
+    const accId = Address.fromPublicKey(publicKey).getNumericId();
+    return allContacts.filter(c => c.accountId !== accId);
   }, [allContacts, publicKey]);
 
   const feeFactor = messageFormData.message ? Math.ceil(messageFormData.message.length / 176) : 1;

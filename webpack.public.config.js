@@ -41,7 +41,6 @@ const transformManifestKeys = (manifest, vendor) => {
   if (typeof manifest === 'object') {
     return Object.entries(manifest).reduce((newManifest, [key, value]) => {
       const match = key.match(vendorRegExp);
-
       if (match) {
         const vendors = match[1].split('|');
 

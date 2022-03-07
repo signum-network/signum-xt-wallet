@@ -31,8 +31,6 @@ export class IntercomServer {
     };
   }
 
-
-
   broadcast(data: any) {
     const msg: SubscriptionMessage = { type: MessageType.Sub, data };
     this.ports.forEach(port => {

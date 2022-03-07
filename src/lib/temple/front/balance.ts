@@ -1,4 +1,3 @@
-
 import { Account } from '@signumjs/core';
 import BigNumber from 'bignumber.js';
 

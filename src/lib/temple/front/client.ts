@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import constate from 'constate';
 
-import { IntercomClient, MessageType } from 'lib/intercom';
+import { IntercomClient } from 'lib/intercom';
 import {
   DerivationType,
   TempleConfirmationPayload,
@@ -178,15 +178,6 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     assertResponse(res.type === XTMessageType.ActivateAccountResponse);
   }, []);
 
-  const importAccount = useCallback(async (privateKey: string, encPassword?: string) => {
-    const res = await request({
-      type: XTMessageType.ImportAccountRequest,
-      privateKey,
-      encPassword
-    });
-    assertResponse(res.type === XTMessageType.ImportAccountResponse);
-  }, []);
-
   const importMnemonicAccount = useCallback(async (mnemonic: string, name?) => {
     const res = await request({
       type: XTMessageType.ImportMnemonicAccountRequest,
@@ -306,25 +297,31 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     return res.sessions;
   }, []);
 
-  const selectNetwork = useCallback(async networkId => {
-    const network = networks.find(({ id }) => id === networkId);
-    if (!network) return;
-    const res = await request({
-      type: XTMessageType.DAppSelectNetworkRequest,
-      network
-    });
-    assertResponse(res.type === XTMessageType.DAppSelectNetworkResponse);
-  }, []);
+  const selectNetwork = useCallback(
+    async networkId => {
+      const network = networks.find(({ id }) => id === networkId);
+      if (!network) return;
+      const res = await request({
+        type: XTMessageType.DAppSelectNetworkRequest,
+        network
+      });
+      assertResponse(res.type === XTMessageType.DAppSelectNetworkResponse);
+    },
+    [networks]
+  );
 
-  const selectAccount = useCallback(async accountPublicKey => {
-    const account = accounts.find(({ publicKey }) => publicKey === accountPublicKey);
-    if (!account) return;
-    const res = await request({
-      type: XTMessageType.DAppSelectAccountRequest,
-      account
-    });
-    assertResponse(res.type === XTMessageType.DAppSelectAccountResponse);
-  }, []);
+  const selectAccount = useCallback(
+    async accountPublicKey => {
+      const account = accounts.find(({ publicKey }) => publicKey === accountPublicKey);
+      if (!account) return;
+      const res = await request({
+        type: XTMessageType.DAppSelectAccountRequest,
+        account
+      });
+      assertResponse(res.type === XTMessageType.DAppSelectAccountResponse);
+    },
+    [accounts]
+  );
 
   return {
     state,

@@ -8,7 +8,6 @@ import {
 } from '@signumjs/crypto';
 import { convertByteArrayToHexString } from '@signumjs/util';
 import { InMemorySigner } from '@taquito/signer';
-import * as TaquitoUtils from '@taquito/utils';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
 import { XTAccount, XTAccountType, XTSettings } from 'lib/messaging';
@@ -434,10 +433,6 @@ function getNewAccountName(allAccounts: XTAccount[], templateI18nKey = 'defaultA
 
 async function createMemorySigner(privateKey: string, encPassword?: string) {
   return InMemorySigner.fromSecretKey(privateKey, encPassword);
-}
-
-function seedToPrivateKey(seed: Buffer) {
-  return TaquitoUtils.b58cencode(seed.slice(0, 32), TaquitoUtils.prefix.edsk2);
 }
 
 function createStorageKey(id: StorageEntity) {

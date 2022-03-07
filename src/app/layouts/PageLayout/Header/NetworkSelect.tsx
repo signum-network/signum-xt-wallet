@@ -8,7 +8,7 @@ import Name from 'app/atoms/Name';
 import { ReactComponent as AddIcon } from 'app/icons/add.svg';
 import { ReactComponent as ChevronDownIcon } from 'app/icons/chevron-down.svg';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
-import { t, T } from 'lib/i18n/react';
+import { T } from 'lib/i18n/react';
 import { Network, useAllNetworks, useNetwork, useSetNetworkId } from 'lib/temple/front';
 import Popper from 'lib/ui/Popper';
 import useTippy from 'lib/ui/useTippy';

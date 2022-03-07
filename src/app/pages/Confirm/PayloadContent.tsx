@@ -55,7 +55,7 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, pa
   const AccountOptionContent = useMemo(() => AccountOptionContentHOC(payload.network), [payload.network]);
   const currentAccount = useMemo(
     () => allAccounts.find((a: XTAccount) => a.publicKey === accountPkhToConnect),
-    [allAccounts]
+    [allAccounts, accountPkhToConnect]
   );
 
   return payload.type === 'connect' ? (

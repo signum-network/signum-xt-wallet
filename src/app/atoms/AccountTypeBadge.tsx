@@ -2,9 +2,8 @@ import React, { memo } from 'react';
 
 import classNames from 'clsx';
 
+import { t } from 'lib/i18n/react';
 import { XTAccount, XTAccountType } from 'lib/temple/front';
-
-import { T, t } from '../../lib/i18n/react';
 
 type AccountTypeBadgeProps = {
   account: Pick<XTAccount, 'type'>;

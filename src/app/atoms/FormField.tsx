@@ -217,7 +217,7 @@ const FormField = forwardRef<FormFieldRef, FormFieldProps>(
             max={maxLength || undefined}
             {...rest}
           />
-          {maxLength && typeof(textValue) === 'string' && (
+          {maxLength && typeof textValue === 'string' && (
             <div className="absolute text-xs text-gray-600" style={{ bottom: '-20px', right: '0px' }}>
               {textValue?.length || 0}/{maxLength}
             </div>

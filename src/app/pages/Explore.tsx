@@ -14,10 +14,10 @@ import PageLayout from 'app/layouts/PageLayout';
 import Activity from 'app/templates/SignumActivity/Activity';
 import { T, t } from 'lib/i18n/react';
 import { getAssetSymbol, XTAccountType, useAccount, useSignumAssetMetadata } from 'lib/temple/front';
+import { useNetworkIsReachable } from 'lib/ui/useNetworkIsReachable';
 import useTippy from 'lib/ui/useTippy';
 import { HistoryAction, Link, navigate, useLocation } from 'lib/woozie';
 
-import { useNetworkIsReachable } from 'lib/ui/useNetworkIsReachable';
 import Alert from '../atoms/Alert';
 import { ExploreSelectors } from './Explore.selectors';
 import { ActivationSection } from './Explore/ActivationSection';

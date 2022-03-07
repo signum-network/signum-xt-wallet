@@ -26,7 +26,7 @@ export function useFilteredContacts() {
           accountInWallet: true
         };
       }),
-    [accounts]
+    [accounts, prefix]
   );
 
   const allContacts = useMemo(() => {

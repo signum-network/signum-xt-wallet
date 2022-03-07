@@ -45,7 +45,7 @@ export const ActivationSection: FC = () => {
       }
 
       try {
-        const accountId = Address.fromPublicKey(account.publicKey).getNumericId()
+        const accountId = Address.fromPublicKey(account.publicKey).getNumericId();
         const acc = await signum.account.getAccount({
           accountId,
           includeCommittedAmount: false,

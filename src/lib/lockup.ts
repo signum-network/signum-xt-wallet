@@ -20,7 +20,7 @@ export async function updateConnectionControl(connection: ConnectionControl) {
   return storage.local.set({ [ConnectionStorageKey]: connection });
 }
 
-export async function getConnectionControl() : Promise<ConnectionControl> {
+export async function getConnectionControl(): Promise<ConnectionControl> {
   const connection = await storage.local.get(ConnectionStorageKey);
   const value = connection[ConnectionStorageKey];
   return value !== undefined

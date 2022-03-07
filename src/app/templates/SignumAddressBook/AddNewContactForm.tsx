@@ -4,13 +4,7 @@ import { Address } from '@signumjs/core';
 import { useForm } from 'react-hook-form';
 
 import { T, t } from 'lib/i18n/react';
-import {
-  useContacts,
-  useSignumAliasResolver,
-  isSignumAddress,
-  useSignumAccountPrefix,
-  useSignumAssetMetadata
-} from 'lib/temple/front';
+import { useContacts, useSignumAliasResolver, isSignumAddress, useSignumAccountPrefix } from 'lib/temple/front';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 import FormField from '../../atoms/FormField';
@@ -72,7 +66,7 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
         await withErrorHumanDelay(err, () => setError('address', SUBMIT_ERROR_TYPE, err.message));
       }
     },
-    [submitting, clearError, addContact, resetForm, setError, resolveAlias]
+    [submitting, clearError, addContact, resetForm, setError, resolveAlias, prefix]
   );
 
   const validateAddressField = useCallback(

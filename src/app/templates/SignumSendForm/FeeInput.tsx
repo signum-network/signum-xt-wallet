@@ -84,6 +84,7 @@ const FeeInput: FC<AdditionalFeeInputProps> = props => {
     feeOptions[1].amount = (standard * factor) / 1e8;
     feeOptions[2].amount = (priority * factor) / 1e8;
     updateFeeOptions([...feeOptions]);
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [baseFees, factor]);
 
   useEffect(() => {
@@ -91,6 +92,7 @@ const FeeInput: FC<AdditionalFeeInputProps> = props => {
     if (onChange && selectedFee) {
       onChange(`${selectedFee.amount}`);
     }
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [selectedType, baseFees, factor]);
 
   if (isFetchingFees) {

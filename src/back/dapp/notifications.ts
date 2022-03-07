@@ -1,4 +1,4 @@
-import {XTMessageType, Network, XTAccount} from 'lib/messaging';
+import { XTMessageType, Network, XTAccount } from 'lib/messaging';
 
 import { intercom } from '../defaults';
 

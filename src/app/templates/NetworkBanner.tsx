@@ -2,10 +2,9 @@ import React, { FC, useMemo } from 'react';
 
 import classNames from 'clsx';
 
-import Name from 'app/atoms/Name';
 import NetworkBadge from 'app/atoms/NetworkBadge';
 import { T } from 'lib/i18n/react';
-import { useAllNetworks, useNetwork } from 'lib/temple/front';
+import { useAllNetworks } from 'lib/temple/front';
 
 type NetworkBannerProps = {
   networkName: string;
@@ -14,7 +13,10 @@ type NetworkBannerProps = {
 
 const NetworkBanner: FC<NetworkBannerProps> = ({ networkName, narrow = false }) => {
   const allNetworks = useAllNetworks();
-  const networkIsKnown = useMemo(() => allNetworks.some(n => n.networkName === networkName), [allNetworks]);
+  const networkIsKnown = useMemo(
+    () => allNetworks.some(n => n.networkName === networkName),
+    [allNetworks, networkName]
+  );
 
   return (
     <div className={classNames('w-full', narrow ? '-mt-1 mb-2' : 'mb-4', 'flex flex-col')}>

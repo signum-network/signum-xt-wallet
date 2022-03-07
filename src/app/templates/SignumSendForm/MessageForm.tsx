@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useMemo, useRef } from 'react';
+import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 
 import { useForm } from 'react-hook-form';
 
@@ -63,7 +63,7 @@ export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
             }
           : undefined
       }),
-    [isBinary]
+    [isBinary, register]
   );
 
   useEffect(() => {
@@ -72,11 +72,11 @@ export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
       isBinary,
       isValid: formState.isValid
     });
-  }, [isBinary, message]);
+  }, [isBinary, message, formState.isValid, onChange]);
 
   useEffect(() => {
     triggerValidation(['message']);
-  }, [isBinary]);
+  }, [isBinary, triggerValidation]);
 
   return (
     <div>
