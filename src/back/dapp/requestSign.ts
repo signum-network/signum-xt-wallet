@@ -1,4 +1,4 @@
-import { Address, LedgerClientFactory, Transaction } from '@signumjs/core';
+import { LedgerClientFactory, Transaction } from '@signumjs/core';
 import { v4 as uuid } from 'uuid';
 
 import { XTMessageType } from 'lib/messaging';
@@ -9,37 +9,22 @@ import { getCurrentAccountPublicKey, getCurrentNetworkHost, getDApp } from './da
 import { requestConfirm } from './requestConfirm';
 import { ExtensionErrorType, ExtensionMessageType, ExtensionSignRequest, ExtensionSignResponse } from './typings';
 
-function isSignumAddress(address: string): boolean {
-  try {
-    Address.create(address);
-    return true;
-  } catch (_) {
-    return false;
-  }
-}
-
 const HEX_PATTERN = /^[0-9a-fA-F]+$/;
 
 export async function requestSign(origin: string, req: ExtensionSignRequest): Promise<ExtensionSignResponse> {
-  if (![isSignumAddress(req?.sourcePkh), HEX_PATTERN.test(req?.payload)].every(Boolean)) {
+  if (!HEX_PATTERN.test(req?.payload)) {
     throw new Error(ExtensionErrorType.InvalidParams);
   }
 
-  const [dApp, accountId] = await Promise.all([getDApp(origin), getCurrentAccountPublicKey()]);
+  const [dApp, accountPublicKey] = await Promise.all([getDApp(origin), getCurrentAccountPublicKey()]);
 
   if (!dApp) {
     throw new Error(ExtensionErrorType.NotGranted);
   }
 
   const networkHost = await getCurrentNetworkHost();
-  // if (networkHost.networkName !== dApp.network) {
-  //   throw new Error(ExtensionErrorType.NotGranted);
-  // }
 
-  // relly checking this here? better to do in the ui
-  if (req.sourcePkh !== accountId) {
-    throw new Error(ExtensionErrorType.NotFound);
-  }
+  // Network check is done on UI - no send possible
 
   return new Promise(async (resolve, reject) => {
     const id = uuid();
@@ -63,7 +48,7 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
         origin,
         network: dApp.network,
         appMeta: dApp.appMeta,
-        sourcePkh: req.sourcePkh,
+        sourcePkh: accountPublicKey,
         payload: req.payload,
         preview
       },
@@ -72,8 +57,10 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
       },
       handleIntercomRequest: async (confirmReq, decline) => {
         if (confirmReq?.type === XTMessageType.DAppSignConfirmationRequest && confirmReq?.id === id) {
-          if (confirmReq.confirmed) {
-            const signedTransaction = await withUnlocked(({ vault }) => vault.signumSign(accountId, req.payload));
+          if (confirmReq.confirmed && networkHost.networkName === dApp.network) {
+            const signedTransaction = await withUnlocked(({ vault }) =>
+              vault.signumSign(accountPublicKey, req.payload)
+            );
             const { transaction, fullHash } = await ledger.transaction.broadcastTransaction(signedTransaction);
             resolve({
               type: ExtensionMessageType.SignResponse,

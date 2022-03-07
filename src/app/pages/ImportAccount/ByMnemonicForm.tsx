@@ -2,13 +2,13 @@ import React, { FC, ReactNode, useCallback, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 
-import { T, t } from '../../../lib/i18n/react';
-import { useTempleClient } from '../../../lib/temple/front';
-import { withErrorHumanDelay } from '../../../lib/ui/humanDelay';
-import Alert from '../../atoms/Alert';
-import FormField from '../../atoms/FormField';
-import FormSubmitButton from '../../atoms/FormSubmitButton';
-import { formatMnemonic } from '../../defaults';
+import Alert from 'app/atoms/Alert';
+import FormField from 'app/atoms/FormField';
+import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import { formatMnemonic } from 'app/defaults';
+import { T, t } from 'lib/i18n/react';
+import { useTempleClient } from 'lib/temple/front';
+import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 interface ByMnemonicFormData {
   mnemonic: string;

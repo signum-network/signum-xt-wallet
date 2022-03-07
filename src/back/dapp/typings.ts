@@ -47,7 +47,6 @@ export interface ExtensionPermissionResponse extends ExtensionMessageBase {
 
 export interface ExtensionSignRequest extends ExtensionMessageBase {
   type: ExtensionMessageType.SignRequest;
-  sourcePkh: string;
   payload: string;
 }
 

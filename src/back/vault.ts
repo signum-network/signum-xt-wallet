@@ -8,6 +8,7 @@ import {
 } from '@signumjs/crypto';
 import { convertByteArrayToHexString } from '@signumjs/util';
 import { InMemorySigner } from '@taquito/signer';
+import browser from 'webextension-polyfill';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
 import { XTAccount, XTAccountType, XTSettings } from 'lib/messaging';
@@ -66,6 +67,9 @@ export class Vault {
       const newAccounts = [initialAccount];
       const passKey = await Passworder.generateKey(password);
       await clearStorage();
+      await browser.storage.local.set({
+        account_publickey: keys.publicKey
+      });
       await encryptAndSaveMany(
         [
           [checkStrgKey, generateCheck()],
