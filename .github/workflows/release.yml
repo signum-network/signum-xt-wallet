@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies and code quality
         uses: ./.github/workflows/code-quality-check
 
-      - name: Create Chrome, Firefox and Opera builds
+      - name: Create Chrome, Firefox builds
         run: yarn build:chrome & yarn build:firefox
 
       - name: Release
