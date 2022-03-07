@@ -144,6 +144,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const totalAmount = useMemo(() => {
     if (!amountValue) return;
     return Amount.fromSigna(amountValue).add(Amount.fromSigna(feeValue || MinimumFee));
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [amountValue, feeValue, messageFormData.message]); // keep messageFromData.message
 
   const validateAmount = useCallback(

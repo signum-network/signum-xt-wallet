@@ -1,16 +1,4 @@
-import React, {
-  ComponentType,
-  FC,
-  ForwardRefExoticComponent,
-  Fragment,
-  FunctionComponent,
-  MutableRefObject,
-  SVGProps,
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from 'react';
+import React, { FC, Fragment, FunctionComponent, SVGProps, useCallback, useEffect, useState } from 'react';
 
 import { FeeQuantPlanck } from '@signumjs/util';
 import classNames from 'clsx';
@@ -24,7 +12,7 @@ import { ReactComponent as CupIcon } from 'app/icons/cup.svg';
 import { ReactComponent as RocketIcon } from 'app/icons/rocket.svg';
 import CustomSelect, { OptionRenderProps } from 'app/templates/CustomSelect';
 import { toLocalFixed } from 'lib/i18n/numbers';
-import { T, t } from 'lib/i18n/react';
+import { T } from 'lib/i18n/react';
 import { useSignum, useSignumAssetMetadata } from 'lib/temple/front';
 
 export type AdditionalFeeInputProps = {
