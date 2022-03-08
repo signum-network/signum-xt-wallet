@@ -3,6 +3,7 @@ import React, { FC, memo, useMemo } from 'react';
 import classNames from 'clsx';
 
 import HashShortView from 'app/atoms/HashShortView';
+import Identicon from 'app/atoms/Identicon';
 import IdenticonSignum from 'app/atoms/IdenticonSignum';
 import Money from 'app/atoms/Money';
 import { t } from 'lib/i18n/react';
@@ -54,7 +55,11 @@ const ExpenseViewItem: FC<ExpenseViewItemProps> = ({ expense, last, mainnet = fa
   return (
     <div className={classNames('pt-3 pb-2 px-2 flex justify-start items-center', !last && 'border-b border-gray-200')}>
       <div className="mr-2">
-        <IdenticonSignum address={expense.to} size={40} className="shadow-xs" />
+        {expense.hash ? (
+          <Identicon hash={expense.hash} type="bottts" size={40} className="shadow-xs" />
+        ) : (
+          <IdenticonSignum address={expense.to} size={40} className="shadow-xs" />
+        )}
       </div>
 
       <div className="flex-1 flex-col">

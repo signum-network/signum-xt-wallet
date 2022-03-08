@@ -14,6 +14,7 @@ export type ParsedTransactionExpense = {
   tokenAddress?: string;
   tokenId?: string;
   aliasName?: string;
+  hash?: string;
   amount: BigNumber;
   to: string;
 };
@@ -135,12 +136,26 @@ function parseMiningExpenses(tx: Transaction): ParsedTransactionExpense[] {
 }
 
 function parseContractExpenses(tx: Transaction): ParsedTransactionExpense[] {
-  return [
-    {
-      to: tx.recipient!,
-      amount: new BigNumber(tx?.amountNQT || 0)
-    }
-  ];
+  const amount = new BigNumber(tx?.amountNQT || 0);
+
+  switch (tx.subtype) {
+    case TransactionSmartContractSubtype.SmartContractCreation:
+      return [
+        {
+          to: '',
+          hash: tx.referencedTransactionFullHash || tx.senderPublicKey!,
+          amount
+        }
+      ];
+    case TransactionSmartContractSubtype.SmartContractPayment:
+    default:
+      return [
+        {
+          to: tx.recipient!,
+          amount
+        }
+      ];
+  }
 }
 
 function parseArbitraryExpenses(tx: Transaction): ParsedTransactionExpense[] {
