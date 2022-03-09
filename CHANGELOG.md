@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.1
+
+### Bugfixes
+
+- Connection Error for single accounts (#20)
+- Identicon for Contract Creation (#6)
+
 ## 1.1.0
 
 -----
