@@ -18,6 +18,7 @@ export class IntercomServer {
     });
 
     this.handleMessage = this.handleMessage.bind(this);
+    console.debug('Intercom Server is up...');
   }
 
   isConnected(port: Runtime.Port) {

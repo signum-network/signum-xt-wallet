@@ -1,6 +1,42 @@
+import browser from 'webextension-polyfill';
+
 import { IntercomClient } from 'lib/intercom/client';
 import { serializeError } from 'lib/intercom/helpers';
 import { XTMessageType, TempleResponse } from 'lib/messaging';
+
+async function testIntercomConnection() {
+  try {
+    await getIntercom().request({
+      type: XTMessageType.PageRequest,
+      payload: 'PING'
+    });
+  } catch (err: any) {
+    console.debug('Intercom connection corrupted', err);
+    unsubscribe();
+    intercom?.destroy();
+    intercom = null;
+    throw err;
+  }
+}
+
+function keepSWAlive() {
+  setTimeout(async function () {
+    try {
+      await browser.runtime.sendMessage('wakeup');
+      // what to do here?!
+      await testIntercomConnection();
+      console.debug('✅ Service Worker still listening');
+    } catch (e) {
+      console.debug('😣 Wakeup failed - Service Worker is deaf!');
+    }
+    keepSWAlive();
+  }, 10_000);
+}
+
+const manifest = browser.runtime.getManifest();
+if (manifest.manifest_version === 3) {
+  keepSWAlive();
+}
 
 interface SignumPageMessage {
   type: SignumPageMessageType;
@@ -28,7 +64,6 @@ window.addEventListener(
 
 function walletRequest(evt: MessageEvent) {
   const { payload, reqId } = evt.data as SignumPageMessage;
-
   getIntercom()
     .request({
       type: XTMessageType.PageRequest,
@@ -77,12 +112,12 @@ function handleWalletNotification(msg: any) {
   }
 }
 
-let intercom: IntercomClient;
-
+let intercom: IntercomClient | null;
+let unsubscribe: () => void;
 function getIntercom() {
   if (!intercom) {
     intercom = new IntercomClient();
-    intercom.subscribe(handleWalletNotification);
+    unsubscribe = intercom.subscribe(handleWalletNotification);
   }
   return intercom;
 }
