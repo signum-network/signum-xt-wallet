@@ -23,7 +23,6 @@ function keepSWAlive() {
   setTimeout(async function () {
     try {
       await browser.runtime.sendMessage('wakeup');
-      // what to do here?!
       await testIntercomConnection();
       console.debug('✅ Service Worker still listening');
     } catch (e) {
