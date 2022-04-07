@@ -1832,5 +1832,8 @@
   },
   "optionsPageWarningResetRequiredTitle": {
     "message": "Нове основне оновлення вимагає скидання"
+  },
+  "skipOnboarding": {
+    "message": "Пропустити вступ"
   }
 }

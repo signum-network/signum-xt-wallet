@@ -1832,5 +1832,8 @@
   },
   "optionsPageWarningResetRequiredTitle": {
     "message": "Nueva actualización importante requiere un reinicio"
+  },
+  "skipOnboarding": {
+    "message": "Saltar incorporación"
   }
 }

@@ -1832,5 +1832,8 @@
   },
   "optionsPageWarningResetRequiredTitle": {
     "message": "Neues wichtiges Update erfordert einen Reset"
+  },
+  "skipOnboarding": {
+    "message": "Onboarding überspringen"
   }
 }

@@ -26,7 +26,7 @@ function keepSWAlive() {
       await testIntercomConnection();
       console.debug('✅ Service Worker still listening');
     } catch (e) {
-      console.debug('😣 Wakeup failed - Service Worker is deaf!');
+      console.debug('🙉 Wakeup failed - Service Worker is deaf!');
     }
     keepSWAlive();
   }, 10_000);

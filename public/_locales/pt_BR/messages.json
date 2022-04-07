@@ -1832,5 +1832,8 @@
   },
   "optionsPageWarningResetRequiredTitle": {
     "message": "Nova atualização importante requer uma redefinição"
+  },
+  "skipOnboarding": {
+    "message": "Pular integração"
   }
 }

@@ -1832,5 +1832,8 @@
         "content": "$1"
       }
     }
+  },
+  "skipOnboarding": {
+    "message": "Skip Onboarding"
   }
 }
