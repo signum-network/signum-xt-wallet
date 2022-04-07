@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.2
+
+### New feature
+
+- Skip Onboarding possible now (#25)
+
+### Bugfixes
+
+- Mitigate Connection Loss on Chrome/Chromium (#24)
+
 ## 1.1.1
 
 ### Bugfixes
