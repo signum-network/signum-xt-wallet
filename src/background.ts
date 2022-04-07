@@ -1,4 +1,5 @@
 import './xhr-shim';
+import 'mv3-hot-reload/background';
 import * as semver from 'semver';
 import browser, { tabs, runtime } from 'webextension-polyfill';
 

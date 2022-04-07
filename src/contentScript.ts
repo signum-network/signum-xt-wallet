@@ -1,3 +1,4 @@
+import 'mv3-hot-reload/content';
 import browser from 'webextension-polyfill';
 
 import { IntercomClient } from 'lib/intercom/client';
