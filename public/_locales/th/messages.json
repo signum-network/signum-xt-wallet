@@ -1832,5 +1832,8 @@
   },
   "optionsPageWarningResetRequiredTitle": {
     "message": "การอัปเดตหลักใหม่ต้องมีการรีเซ็ต"
+  },
+  "skipOnboarding": {
+    "message": "ข้ามการเริ่มต้นใช้งาน"
   }
 }

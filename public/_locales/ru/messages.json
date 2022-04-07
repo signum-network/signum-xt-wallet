@@ -1832,5 +1832,8 @@
   },
   "optionsPageWarningResetRequiredTitle": {
     "message": "Новое крупное обновление требует сброса"
+  },
+  "skipOnboarding": {
+    "message": "Пропустить адаптацию"
   }
 }

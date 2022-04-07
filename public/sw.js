@@ -7,7 +7,7 @@ try {
 
   // wake up signal
   chrome.runtime.onMessage.addListener(() => {
-    console.debug('⏰ Wake up, Sleepy Worker! ☕')
+    console.debug('⏰ Wake up, Sleepy Worker!')
   })
 
 } catch (e) {
