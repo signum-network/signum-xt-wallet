@@ -4,6 +4,7 @@ import { AppState, XTMessageType, TempleRequest, XTSettings, TempleSharedStorage
 import { createQueue } from 'lib/queue';
 
 import { getCurrentPermission, requestPermission, requestSign, getAllDApps, removeDApp } from './dapp';
+import { requestSendEncryptedMessage } from './dapp/requestSendEncryptedMessage';
 import { ExtensionMessageType, ExtensionRequest, ExtensionResponse } from './dapp/typings';
 import { intercom } from './defaults';
 import {
@@ -262,6 +263,9 @@ export async function processDApp(origin: string, req: ExtensionRequest): Promis
 
     case ExtensionMessageType.SignRequest:
       return withInited(() => requestSign(origin, req));
+
+    case ExtensionMessageType.SendEncryptedMessageRequest:
+      return withInited(() => requestSendEncryptedMessage(origin, req));
   }
 }
 
