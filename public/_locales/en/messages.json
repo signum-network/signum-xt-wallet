@@ -591,6 +591,9 @@
   "enabled": {
     "message": "Enabled"
   },
+  "encryptedMessageTo": {
+    "message": "Encrypted Message to"
+  },
   "enterPasswordToRemoveAccount": {
     "message": "Enter the password to remove the account."
   },
@@ -1231,6 +1234,9 @@
   "send": {
     "message": "Send"
   },
+  "sendEncryptedMsgAction": {
+    "message": "Send Encrypted Message"
+  },
   "sendToMyAccounts": {
     "message": "Send to my accounts"
   },
@@ -1241,7 +1247,7 @@
     "message": "View incoming transactions"
   },
   "signAction": {
-    "message": "Sign"
+    "message": "Confirm"
   },
   "skipped": {
     "message": "Skipped"

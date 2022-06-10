@@ -12,7 +12,7 @@ import { parseSignumTransaction, ParsedTransaction } from 'lib/temple/front/pars
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 import Alert from '../../atoms/Alert';
-import JsonView from './JsonView';
+import JsonView from '../JsonView';
 import TransactionView from './TransactionView';
 
 type OperationViewProps = {
@@ -97,7 +97,7 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
       <JsonView
         jsonObject={jsonTransaction}
         className={classNames(signViewFormat.key !== 'raw' && 'hidden')}
-        jsonViewStyle={{ height: '11rem', maxHeight: '100%', overflow: 'auto' }}
+        jsonViewStyle={{ maxHeight: '100%', overflow: 'auto' }}
       />
 
       <div className={classNames(signViewFormat.key !== 'preview' && 'hidden')}>

@@ -1,61 +1,55 @@
-import React, { CSSProperties, memo, ReactNode } from 'react';
+import React, { memo, ReactNode, useMemo } from 'react';
 
 import classNames from 'clsx';
-import ReactJson from 'react-json-view';
 
 import { ReactComponent as CopyIcon } from 'app/icons/copy.svg';
 import { T } from 'lib/i18n/react';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
-type OperationsBannerProps = {
-  jsonViewStyle?: CSSProperties;
-  jsonObject: object;
+type MessageViewProps = {
   label?: ReactNode;
+  plainMessage: string;
   className?: string;
 };
 
-const JsonView = memo<OperationsBannerProps>(({ jsonViewStyle, jsonObject, label, className }) => {
+const MessageView = memo<MessageViewProps>(({ label, plainMessage, className }) => {
+  const json = useMemo(() => {
+    try {
+      return JSON.parse(plainMessage);
+    } catch (e: any) {
+      return null;
+    }
+  }, [plainMessage]);
+
   return (
     <>
-      {label && (
-        <h2 className={classNames('w-full mb-2', 'text-base font-semibold leading-tight', 'text-gray-700')}>{label}</h2>
-      )}
-
-      <div className={classNames('relative mb-2', className)}>
+      <div className={classNames('relative', className)}>
         <div
           className={classNames(
-            'block w-full max-w-full p-1',
+            'block w-full max-w-full p-1 h-40',
             'rounded-md',
-            'border-2 bg-gray-100 bg-opacity-50',
-            'text-xs leading-tight font-medium',
+            'border bg-gray-100 bg-opacity-50',
+            'text-xs leading-tight font-medium font-mono',
             'break-all'
           )}
           style={{
-            height: '10rem',
-            ...jsonViewStyle
+            maxHeight: '100%',
+            overflow: 'auto'
           }}
         >
-          <ReactJson
-            src={jsonObject}
-            name={null}
-            iconStyle="circle"
-            indentWidth={2}
-            enableClipboard={false}
-            displayObjectSize={false}
-            displayDataTypes={false}
-          />
-          {/*)}*/}
+          {plainMessage}
+          <textarea className="sr-only" readOnly value={plainMessage} />
         </div>
 
         <div className={classNames('absolute top-0 right-0 pt-2 pr-2')}>
-          <CopyButton toCopy={jsonObject} />
+          <CopyButton toCopy={plainMessage} />
         </div>
       </div>
     </>
   );
 });
 
-export default JsonView;
+export default MessageView;
 
 type CopyButtonProps = {
   toCopy: any;

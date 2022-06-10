@@ -8,10 +8,11 @@ import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
 import Balance from 'app/templates/Balance';
 import { OptionRenderProps } from 'app/templates/CustomSelect';
+import EncryptMsgView from 'app/templates/SignumEncryptMsgView/EncryptMsgView';
 import SignView from 'app/templates/SignumSignView/SignView';
 import { T } from 'lib/i18n/react';
 import { XTAccount, TempleDAppPayload } from 'lib/messaging';
-import { TempleDAppSignPayload, useRelevantAccounts, useSignumAssetMetadata } from 'lib/temple/front';
+import { useRelevantAccounts, useSignumAssetMetadata } from 'lib/temple/front';
 
 import IdenticonSignum from '../../atoms/IdenticonSignum';
 
@@ -58,24 +59,35 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, pa
     [allAccounts, accountPkhToConnect]
   );
 
-  return payload.type === 'connect' ? (
-    <div className={classNames('mt-4 p-2', 'w-full', 'flex flex-col', 'border rounded border-gray-200')}>
-      <h2 className={classNames('leading-tight', 'flex flex-col')}>
-        <T id="currentAccount">{message => <span className="text-base font-semibold text-gray-700">{message}</span>}</T>
-        <div className="my-4 flex flex-row">
-          <AccountIcon item={currentAccount!} index={1} />
-          <span className="mr-2" />
-          <AccountOptionContent item={currentAccount!} index={1} />
-        </div>
+  if (payload.type === 'connect') {
+    return (
+      <div className={classNames('mt-4 p-2', 'w-full', 'flex flex-col', 'border rounded border-gray-200')}>
+        <h2 className={classNames('leading-tight', 'flex flex-col')}>
+          <T id="currentAccount">
+            {message => <span className="text-base font-semibold text-gray-700">{message}</span>}
+          </T>
+          <div className="my-4 flex flex-row">
+            <AccountIcon item={currentAccount!} index={1} />
+            <span className="mr-2" />
+            <AccountOptionContent item={currentAccount!} index={1} />
+          </div>
 
-        <T id="confirmConnectionHint">
-          {message => <p className="mb-4 text-xs font-light text-center text-gray-700">{message}</p>}
-        </T>
-      </h2>
-    </div>
-  ) : (
-    <SignView payload={payload as TempleDAppSignPayload} />
-  );
+          <T id="confirmConnectionHint">
+            {message => <p className="mb-4 text-xs font-light text-center text-gray-700">{message}</p>}
+          </T>
+        </h2>
+      </div>
+    );
+  }
+  if (payload.type === 'sign') {
+    return <SignView payload={payload} />;
+  }
+
+  if (payload.type === 'sendEncryptedMsg') {
+    return <EncryptMsgView payload={payload} />;
+  }
+
+  return null;
 };
 
 export default PayloadContent;

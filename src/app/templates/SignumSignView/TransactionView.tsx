@@ -65,7 +65,7 @@ const ExpenseViewItem: FC<ExpenseViewItemProps> = ({ expense, last, mainnet = fa
       <div className="flex-1 flex-col">
         <div className="mb-1 text-xs text-gray-500 font-light flex flex-wrap">
           <span className="mr-1 flex text-blue-600 opacity-100">{operationTypeLabel}</span>
-          {!isSelf && <HashShortView hash={expense.to} isAccount />}
+          <HashShortView hash={expense.to} isAccount />
           {expense.aliasName && <HashShortView hash={expense.aliasName} />}
         </div>
 

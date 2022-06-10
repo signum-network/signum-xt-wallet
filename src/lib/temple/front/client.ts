@@ -280,6 +280,15 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     assertResponse(res.type === XTMessageType.DAppSignConfirmationResponse);
   }, []);
 
+  const confirmDAppSendEncryptedMessage = useCallback(async (id: string, confirmed: boolean) => {
+    const res = await request({
+      type: XTMessageType.DAppSendEncryptedMessageConfirmationRequest,
+      id,
+      confirmed
+    });
+    assertResponse(res.type === XTMessageType.DAppSendEncryptedMessageConfirmationResponse);
+  }, []);
+
   const getAllDAppSessions = useCallback(async () => {
     const res = await request({
       type: XTMessageType.DAppGetAllSessionsRequest
@@ -362,6 +371,7 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     getDAppPayload,
     confirmDAppPermission,
     confirmDAppSign,
+    confirmDAppSendEncryptedMessage,
     getAllDAppSessions,
     removeDAppSession,
     getSignumTransactionKeyPair,
