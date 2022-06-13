@@ -3,6 +3,7 @@ import React, { memo, ReactNode, useMemo } from 'react';
 import classNames from 'clsx';
 
 import { ReactComponent as CopyIcon } from 'app/icons/copy.svg';
+import JsonView from 'app/templates/JsonView';
 import { T } from 'lib/i18n/react';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
@@ -11,6 +12,8 @@ type MessageViewProps = {
   plainMessage: string;
   className?: string;
 };
+
+const HexPattern = /^[0-9a-fA-F]+$/;
 
 const MessageView = memo<MessageViewProps>(({ label, plainMessage, className }) => {
   const json = useMemo(() => {
@@ -21,25 +24,63 @@ const MessageView = memo<MessageViewProps>(({ label, plainMessage, className }) 
     }
   }, [plainMessage]);
 
+  const binary = useMemo(() => {
+    if (plainMessage && plainMessage.length % 2 === 0 && HexPattern.test(plainMessage)) {
+      let bin: string[] = [];
+      for (let i = 0; i < plainMessage.length; i += 2) {
+        bin.push(plainMessage.substr(i, 2).toUpperCase());
+      }
+      return bin;
+    }
+    return null;
+  }, [plainMessage]);
+
   return (
     <>
       <div className={classNames('relative', className)}>
-        <div
-          className={classNames(
-            'block w-full max-w-full p-1 h-40',
-            'rounded-md',
-            'border bg-gray-100 bg-opacity-50',
-            'text-xs leading-tight font-medium font-mono',
-            'break-all'
-          )}
-          style={{
-            maxHeight: '100%',
-            overflow: 'auto'
-          }}
-        >
-          {plainMessage}
-          <textarea className="sr-only" readOnly value={plainMessage} />
-        </div>
+        {json && (
+          <JsonView jsonObject={json} jsonViewStyle={{ height: '11rem', maxHeight: '100%', overflow: 'auto' }} />
+        )}
+        {binary && (
+          <div
+            className={classNames(
+              'w-full max-w-full p-1 h-40',
+              'rounded-md',
+              'border bg-gray-100 bg-opacity-50',
+              'text-xs leading-tight font-medium font-mono',
+              'break-all'
+            )}
+            style={{
+              maxHeight: '100%',
+              overflow: 'auto'
+            }}
+          >
+            <span className="flex flex-wrap">
+              {binary.map((byte, index) => (
+                <pre className="mr-2">{byte}</pre>
+              ))}
+            </span>
+            <div className="absolute bottom-0 right-1 text-gray-500">{binary.length} bytes</div>
+          </div>
+        )}
+
+        {!json && !binary && (
+          <div
+            className={classNames(
+              'block w-full max-w-full p-1 h-40',
+              'rounded-md',
+              'border bg-gray-100 bg-opacity-50',
+              'text-xs leading-tight font-medium',
+              'break-all'
+            )}
+            style={{
+              maxHeight: '100%',
+              overflow: 'auto'
+            }}
+          >
+            {plainMessage}
+          </div>
+        )}
 
         <div className={classNames('absolute top-0 right-0 pt-2 pr-2')}>
           <CopyButton toCopy={plainMessage} />
