@@ -395,6 +395,7 @@ export interface TempleGetSignumTxKeysResponse extends TempleMessageBase {
   type: XTMessageType.GetSignumTxKeysResponse;
   publicKey: string;
   signingKey: string;
+  p2pKey: string;
 }
 
 export interface TempleNewWalletRequest extends TempleMessageBase {

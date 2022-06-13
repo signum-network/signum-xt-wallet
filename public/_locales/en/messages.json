@@ -1841,5 +1841,11 @@
   },
   "skipOnboarding": {
     "message": "Skip Onboarding"
+  },
+  "messages" : {
+    "message": "P2P Messages"
+  },
+  "clickToReveal" : {
+    "message": "Click to reveal"
   }
 }

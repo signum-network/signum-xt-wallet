@@ -26,11 +26,16 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         state
       };
     case XTMessageType.GetSignumTxKeysRequest:
-      const { signingKey, publicKey: pk } = await Actions.getSignumTxKeys(req.accountPublicKeyHash);
+      const {
+        signingKey,
+        publicKey: pubKey,
+        p2pEncryptionKey: p2pKey
+      } = await Actions.getSignumTxKeys(req.accountPublicKeyHash);
       return {
         type: XTMessageType.GetSignumTxKeysResponse,
         signingKey,
-        publicKey: pk
+        publicKey: pubKey,
+        p2pKey
       };
     case XTMessageType.NewWalletRequest:
       await Actions.registerNewWallet(req.password, req.mnemonic);

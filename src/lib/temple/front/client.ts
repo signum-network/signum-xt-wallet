@@ -130,7 +130,7 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     return res.privateKey;
   }, []);
 
-  const getSignumTransactionKeyPair = useCallback(async (accountPublicKeyHash: string) => {
+  const getSignumTransactionKeys = useCallback(async (accountPublicKeyHash: string) => {
     const res = await request({
       type: XTMessageType.GetSignumTxKeysRequest,
       accountPublicKeyHash
@@ -138,7 +138,8 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     assertResponse(res.type === XTMessageType.GetSignumTxKeysResponse);
     return {
       publicKey: res.publicKey,
-      signingKey: res.signingKey
+      signingKey: res.signingKey,
+      p2pKey: res.p2pKey
     };
   }, []);
 
@@ -374,7 +375,7 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     confirmDAppSendEncryptedMessage,
     getAllDAppSessions,
     removeDAppSession,
-    getSignumTransactionKeyPair,
+    getSignumTransactionKeys,
     selectNetwork,
     selectAccount
   };

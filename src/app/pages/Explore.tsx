@@ -12,6 +12,7 @@ import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Activity from 'app/templates/SignumActivity/Activity';
+import P2PMessages from 'app/templates/SignumP2PMessages/P2PMessages';
 import { T, t } from 'lib/i18n/react';
 import { getAssetSymbol, XTAccountType, useAccount, useSignumAssetMetadata } from 'lib/temple/front';
 import { useNetworkIsReachable } from 'lib/ui/useNetworkIsReachable';
@@ -164,6 +165,16 @@ const ActivityTab: FC<ActivityTabProps> = ({ assetSlug }) => {
   );
 };
 
+const P2PMessagesTab: FC = () => {
+  const account = useAccount();
+
+  return (
+    <SuspenseContainer whileMessage={t('operationHistoryWhileMessage')}>
+      <P2PMessages publicKey={account.publicKey} />
+    </SuspenseContainer>
+  );
+};
+
 function useTabSlug() {
   const { search } = useLocation();
   const tabSlug = useMemo(() => {
@@ -209,6 +220,12 @@ const SecondarySection: FC<SecondarySectionProps> = ({ assetSlug, className }) =
           title: t('activity'),
           Component: ActivityTab,
           testID: ExploreSelectors.ActivityTab
+        },
+        {
+          slug: 'messages',
+          title: t('messages'),
+          Component: P2PMessagesTab,
+          testID: ExploreSelectors.MessagesTab
         }
       ];
     }

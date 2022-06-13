@@ -214,7 +214,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       setSubmitError(null);
       setOperation(null);
       try {
-        const keys = await client.getSignumTransactionKeyPair(acc.publicKey);
+        const keys = await client.getSignumTransactionKeys(acc.publicKey);
         const attachment = getTransactionAttachment();
         const recipientId = Address.create(toResolved).getNumericId();
         const { transaction, fullHash } = (await signum.transaction.sendAmountToSingleRecipient({

@@ -10,11 +10,11 @@ import ViewsSwitcher from 'app/templates/ViewsSwitcher/ViewsSwitcher';
 import { T, t } from 'lib/i18n/react';
 import { TempleDAppSendEncryptedMessagePayload, useSignumAssetMetadata } from 'lib/temple/front';
 
-type OperationViewProps = {
+type Props = {
   payload: TempleDAppSendEncryptedMessagePayload;
 };
 
-const EncryptMsgView: FC<OperationViewProps> = ({ payload }) => {
+const EncryptMsgView: FC<Props> = ({ payload }) => {
   const { symbol } = useSignumAssetMetadata();
 
   const SigningViewFormats = [
@@ -30,53 +30,7 @@ const EncryptMsgView: FC<OperationViewProps> = ({ payload }) => {
     }
   ];
 
-  // const signum = useSignum();
-  // const [parsedTransaction, setParsedTransaction] = useState<ParsedTransaction | null>(null);
-  // const [jsonTransaction, setJsonTransaction] = useState<object>({});
   const [signViewFormat, setSignViewFormat] = useState(SigningViewFormats[0]);
-  // const [error, setError] = useState('');
-  // useEffect(() => {
-  //   if (!payload) return;
-  //   parseSignumTransaction(payload.preview, payload.sourcePkh, signum)
-  //     .then(([txParsed, txJson]) => {
-  //       setParsedTransaction(txParsed);
-  //       setJsonTransaction(txJson);
-  //     })
-  //     .catch(async err => {
-  //       console.error(err);
-  //       await withErrorHumanDelay(err, () => {
-  //         setError(t('failedToParseTransactionData'));
-  //       });
-  //     });
-  // }, [payload, signum]);
-  //
-  // const totalSigna = useMemo(() => {
-  //   if (!parsedTransaction) return '';
-  //
-  //   const signa = Amount.fromPlanck(parsedTransaction.fee.toString());
-  //   if (parsedTransaction.amount) {
-  //     signa.add(Amount.fromPlanck(parsedTransaction.amount.toString()));
-  //   }
-  //   return signa.getSigna();
-  // }, [parsedTransaction]);
-  //
-  // const handleErrorAlertClose = useCallback(() => setError(''), [setError]);
-  //
-  // if (!parsedTransaction) return null;
-  //
-  // if (error) {
-  //   return (
-  //     <Alert
-  //       closable
-  //       onClose={handleErrorAlertClose}
-  //       type="error"
-  //       title="Error"
-  //       description={error}
-  //       className="my-4"
-  //       autoFocus
-  //     />
-  //   );
-  // }
 
   return (
     <div className="flex flex-col w-full">
@@ -93,15 +47,8 @@ const EncryptMsgView: FC<OperationViewProps> = ({ payload }) => {
       <div className={classNames(signViewFormat.key !== 'raw' && 'hidden')}>
         <MessageView plainMessage={payload.plainMessage} />
       </div>
-      {/*<JsonView*/}
-      {/*  jsonObject={jsonTransaction}*/}
-      {/*  className={classNames(signViewFormat.key !== 'raw' && 'hidden')}*/}
-      {/*  jsonViewStyle={{ height: '11rem', maxHeight: '100%', overflow: 'auto' }}*/}
-      {/*/>*/}
-
       <div className={classNames(signViewFormat.key !== 'preview' && 'hidden')}>
         <MessageTransactionView to={payload.targetPkh} />
-        {/*<TransactionView transaction={parsedTransaction} />*/}
       </div>
 
       <div className="mt-4 leading-tight flex text-base font-semibold text-gray-700 items-center justify-between w-full">
