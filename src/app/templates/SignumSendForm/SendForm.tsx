@@ -1,6 +1,7 @@
 import React, { Dispatch, FC, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import { Address, AttachmentMessage, TransactionId } from '@signumjs/core';
+import { Address, AttachmentEncryptedMessage, AttachmentMessage, TransactionId } from '@signumjs/core';
+import { encryptMessage } from '@signumjs/crypto';
 import { Amount, FeeQuantPlanck } from '@signumjs/util';
 import classNames from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
@@ -48,6 +49,7 @@ type FormProps = {
 };
 
 const MinimumFee = Amount.fromPlanck(FeeQuantPlanck).getSigna();
+const SmartContractPk = '0000000000000000000000000000000000000000000000000000000000000000';
 
 export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested }) => {
   const messageFormRef = useRef();
@@ -63,7 +65,8 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const [messageFormData, setMessageFormData] = useState<MessageFormData>({
     message: '',
     isBinary: false,
-    isValid: true
+    isValid: true,
+    isEncrypted: false
   });
   const [feeValue, setFeeValue] = useState(MinimumFee);
 
@@ -87,8 +90,21 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const toFilledWithAlias = useMemo(() => toValue && !isSignumAddress(toValue), [toValue]);
 
   const addressResolver = useCallback(
-    async (_k: string, address: string) => resolveAliasToAccountPk(address),
-    [resolveAliasToAccountPk]
+    async (_k: string, address: string) => {
+      try {
+        const id = Address.create(address).getNumericId();
+        const acc = await signum.account.getAccount({
+          accountId: id,
+          includeEstimatedCommitment: false,
+          includeCommittedAmount: false
+        });
+        // @ts-ignore
+        return acc.publicKey;
+      } catch (e) {
+        return resolveAliasToAccountPk(address);
+      }
+    },
+    [resolveAliasToAccountPk, signum.account]
   );
   const { data: resolvedPublicKey } = useSWR(['resolveAlias', toValue], addressResolver, {
     shouldRetryOnError: false,
@@ -102,7 +118,10 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
 
   const toResolved = useMemo(() => {
     try {
-      return Address.create(resolvedPublicKey || toValue).getNumericId();
+      if (resolvedPublicKey && resolvedPublicKey !== SmartContractPk) {
+        return Address.create(resolvedPublicKey).getNumericId();
+      }
+      return Address.create(toValue).getNumericId();
     } catch (e) {
       return '';
     }
@@ -198,15 +217,30 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     [resolveAliasToAccountPk]
   );
 
-  const getTransactionAttachment = useCallback(() => {
-    if (messageFormData && messageFormData.isValid) {
+  const getTransactionAttachment = useCallback(
+    async (p2pKey: string) => {
+      if (!(messageFormData && messageFormData.isValid)) {
+        return undefined;
+      }
+
+      if (messageFormData.isEncrypted) {
+        if (!resolvedPublicKey) {
+          throw new Error(t('p2pNotPossible'));
+        }
+
+        const encryptedMessage = encryptMessage(messageFormData.message, resolvedPublicKey, p2pKey);
+        return new AttachmentEncryptedMessage({
+          ...encryptedMessage,
+          isText: !messageFormData.isBinary
+        });
+      }
       return new AttachmentMessage({
         messageIsText: !messageFormData.isBinary,
         message: messageFormData.message
       });
-    }
-    return undefined;
-  }, [messageFormData]);
+    },
+    [messageFormData]
+  );
 
   const onSubmit = useCallback(
     async ({ amount }: FormData) => {
@@ -215,7 +249,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       setOperation(null);
       try {
         const keys = await client.getSignumTransactionKeys(acc.publicKey);
-        const attachment = getTransactionAttachment();
+        const attachment = await getTransactionAttachment(keys.p2pKey);
         const recipientId = Address.create(toResolved).getNumericId();
         const { transaction, fullHash } = (await signum.transaction.sendAmountToSingleRecipient({
           amountPlanck: Amount.fromSigna(amount).getPlanck(),
@@ -335,7 +369,11 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       {toResolved && (
         <div className={classNames('mb-4 -mt-3', 'text-xs font-light text-gray-600', 'flex flex-wrap items-center')}>
           <span className="mr-1 whitespace-no-wrap">{t('resolvedAddress')}:</span>
-          <span className="font-normal">{Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
+          {resolvedPublicKey === SmartContractPk ? (
+            <span className="font-normal">🤖 {Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
+          ) : (
+            <span className="font-normal">{Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
+          )}
         </div>
       )}
 
@@ -383,7 +421,11 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
         autoFocus={Boolean(maxAmount)}
       />
 
-      <MessageForm ref={messageFormRef} onChange={setMessageFormData} />
+      <MessageForm
+        ref={messageFormRef}
+        onChange={setMessageFormData}
+        showEncrypted={resolvedPublicKey && resolvedPublicKey !== SmartContractPk}
+      />
 
       {restFormDisplayed ? (
         <>

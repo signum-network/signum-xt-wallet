@@ -20,6 +20,8 @@ type Confirmation = {
   payload: TempleConfirmationPayload;
 };
 
+// FIXME: ping and recreate the client... see how done in contentScript
+
 const intercom = new IntercomClient();
 
 export const [TempleClientProvider, useTempleClient] = constate(() => {

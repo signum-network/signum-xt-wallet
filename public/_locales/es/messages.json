@@ -1835,5 +1835,26 @@
   },
   "skipOnboarding": {
     "message": "Saltar incorporación"
+  },
+  "attachmentIsEncrypted": {
+    "message": "🔐 Los datos adjuntos están encriptados"
+  },
+  "attachmentIsEncryptedDescription": {
+    "message": "Los datos adjuntos se cifrarán de extremo a extremo y solo usted y el destinatario podrán leerlos. Tenga en cuenta que los contratos inteligentes no entienden los mensajes cifrados"
+  },
+  "clickToReveal": {
+    "message": "Haga clic para revelar"
+  },
+  "encryptedMessageTo": {
+    "message": "Mensaje encriptado para"
+  },
+  "messages": {
+    "message": "Mensajes P2P"
+  },
+  "p2pNotPossible": {
+    "message": "La cuenta no tiene clave pública. ¡El cifrado P2P no es posible!"
+  },
+  "sendEncryptedMsgAction": {
+    "message": "Enviar mensaje cifrado"
   }
 }

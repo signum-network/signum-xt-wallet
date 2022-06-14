@@ -12,7 +12,6 @@ async function testIntercomConnection() {
       payload: 'PING'
     });
   } catch (err: any) {
-    console.debug('Intercom connection corrupted', err);
     unsubscribe();
     intercom?.destroy();
     intercom = null;
@@ -25,10 +24,7 @@ function keepSWAlive() {
     try {
       await browser.runtime.sendMessage('wakeup');
       await testIntercomConnection();
-      console.debug('✅ Service Worker still listening');
-    } catch (e) {
-      console.debug('🙉 Wakeup failed - Service Worker is deaf!');
-    }
+    } catch (e) {}
     keepSWAlive();
   }, 10_000);
 }

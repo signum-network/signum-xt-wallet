@@ -62,32 +62,27 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
   }, [revealedMessage, setRevealedMessage]);
 
   return (
-    <div className="relative my-3 flex flex-row justify-evenly">
-      <div className="flex-1 flex-grow">
-        <div className="flex flex-row items-center">
-          <HashChip hash={txId!} firstCharsCount={10} lastCharsCount={7} small className="mr-2" />
-          {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} id={txId!} className="mr-2" />}
-        </div>
-
-        <div className="flex flex-row items-end">
-          <div className="flex flex-col pt-2">
-            <div className="mb-px text-xs font-light leading-none">{transactionStatus}</div>
-            <Time
-              children={() => (
-                <span className="text-xs font-light text-gray-700">
-                  {formatDistanceToNow(ChainTime.fromChainTimestamp(timestamp!).getDate(), {
-                    includeSeconds: true,
-                    addSuffix: true,
-                    locale: dateFnsLocale
-                  })}
-                </span>
-              )}
-            />
-          </div>
-        </div>
+    <div className="relative my-3 flex flex-col">
+      <div className="flex flex-row items-center">
+        <HashChip hash={txId!} firstCharsCount={10} lastCharsCount={7} small className="mr-2" />
+        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} id={txId!} className="mr-2" />}
+        <div className="justify-end mb-px text-xs font-light leading-none">{transactionStatus}</div>
       </div>
-      <div className="mr-2">
-        <CopyButton toCopy={isEncrypted ? revealedMessage : plainMessage} />
+      <div className="flex flex-row justify-between items-center">
+        <Time
+          children={() => (
+            <span className="pl-1 text-xs font-light text-gray-700">
+              {formatDistanceToNow(ChainTime.fromChainTimestamp(timestamp!).getDate(), {
+                includeSeconds: true,
+                addSuffix: true,
+                locale: dateFnsLocale
+              })}
+            </span>
+          )}
+        />
+        <div className="w-1/3">
+          <CopyButton toCopy={isEncrypted ? revealedMessage : plainMessage} />
+        </div>
       </div>
       <div className="flex-1 flex-grow justify-end flex-wrap overflow-y-auto thin-scrollbar">
         <div className="text-xs font-light text-gray-700 ">
@@ -110,7 +105,7 @@ const SecretTextField: FC<SecretTextFieldProps> = ({ children, onClick, value })
     <div
       className={classNames(
         'appearance-none',
-        'w-full min-h-8',
+        'min-h-8',
         'p-1',
         'border-1',
         'border-gray-300',

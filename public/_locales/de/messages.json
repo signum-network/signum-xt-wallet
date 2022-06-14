@@ -1835,5 +1835,26 @@
   },
   "skipOnboarding": {
     "message": "Onboarding überspringen"
+  },
+  "attachmentIsEncrypted": {
+    "message": "🔐 Angehängte Daten sind verschlüsselt"
+  },
+  "attachmentIsEncryptedDescription": {
+    "message": "Die angehängten Daten werden Ende-zu-Ende verschlüsselt und sind nur für Sie und den Empfänger lesbar. Beachten Sie, dass Smart Contracts verschlüsselte Nachrichten nicht verarbeiten können"
+  },
+  "clickToReveal": {
+    "message": "Zum Ansehen klicken"
+  },
+  "encryptedMessageTo": {
+    "message": "Verschlüsselte Nachricht an"
+  },
+  "messages": {
+    "message": "P2P-Nachrichten"
+  },
+  "p2pNotPossible": {
+    "message": "Konto hat keinen öffentlichen Schlüssel. P2P-Verschlüsselung ist nicht möglich!"
+  },
+  "sendEncryptedMsgAction": {
+    "message": "Verschlüsselte Nachricht senden"
   }
 }
