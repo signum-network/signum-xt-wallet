@@ -10,28 +10,32 @@ interface InternalFormData {
   message: string;
   isBinary: boolean;
   isVisible: boolean;
+  isEncrypted: boolean;
 }
 
 export interface MessageFormData {
   message: string;
   isBinary: boolean;
   isValid: boolean;
+  isEncrypted: boolean;
 }
 
 interface FormProps {
   onChange: (args: MessageFormData) => void;
+  showEncrypted: boolean;
 }
 
 const HEX_PATTERN = /^[0-9a-fA-F]+$/;
 const MAX_CHARS = 1000;
 
-export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
+export const MessageForm = React.forwardRef(({ onChange, showEncrypted }: FormProps, ref) => {
   const { register, triggerValidation, errors, formState, watch, reset } = useForm<InternalFormData>({
     mode: 'onChange',
     defaultValues: {
       message: '',
       isBinary: false,
-      isVisible: false
+      isVisible: false,
+      isEncrypted: false
     }
   });
 
@@ -45,6 +49,7 @@ export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
   }));
 
   const isBinary = watch('isBinary');
+  const isEncrypted = watch('isEncrypted');
   const message = watch('message');
   const isVisible = watch('isVisible');
   const label = useMemo(() => t(isBinary ? 'hexCodeAttachment' : 'textAttachment'), [isBinary]);
@@ -70,9 +75,10 @@ export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
     onChange({
       message,
       isBinary,
-      isValid: formState.isValid
+      isValid: formState.isValid,
+      isEncrypted: isEncrypted && showEncrypted
     });
-  }, [isBinary, message, formState.isValid, onChange]);
+  }, [isEncrypted, isBinary, message, formState.isValid, onChange, showEncrypted]);
 
   useEffect(() => {
     triggerValidation(['message']);
@@ -90,6 +96,15 @@ export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
 
       {isVisible && (
         <>
+          {showEncrypted && (
+            <FormCheckbox
+              ref={register()}
+              name="isEncrypted"
+              label={t('attachmentIsEncrypted')}
+              labelDescription={t('attachmentIsEncryptedDescription')}
+              containerClassName="mt-4"
+            />
+          )}
           <FormField
             ref={dataRegistry}
             id="create-ledger-name"
