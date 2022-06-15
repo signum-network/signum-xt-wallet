@@ -1851,6 +1851,9 @@
   "messages": {
     "message": "P2P Messages"
   },
+  "p2pMessage": {
+    "message": "P2P Message"
+  },
   "clickToReveal": {
     "message": "Click to reveal"
   },

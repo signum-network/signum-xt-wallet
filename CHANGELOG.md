@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2
+
+### New feature
+
+- Full support for Encrypted P2P messages (#25)
+
+### Bugfixes
+- Show only own Alias
+- 
+
+
 ## 1.1.2
 
 ### New feature

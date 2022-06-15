@@ -23,18 +23,20 @@ export interface MessageFormData {
 interface FormProps {
   onChange: (args: MessageFormData) => void;
   showEncrypted: boolean;
+  mode: 'transfer' | 'p2pMessage';
 }
 
 const HEX_PATTERN = /^[0-9a-fA-F]+$/;
 const MAX_CHARS = 1000;
 
-export const MessageForm = React.forwardRef(({ onChange, showEncrypted }: FormProps, ref) => {
+export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: FormProps, ref) => {
+  const isP2PMode = mode === 'p2pMessage';
   const { register, triggerValidation, errors, formState, watch, reset } = useForm<InternalFormData>({
     mode: 'onChange',
     defaultValues: {
       message: '',
       isBinary: false,
-      isVisible: false,
+      isVisible: isP2PMode,
       isEncrypted: false
     }
   });
@@ -44,14 +46,15 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted }: FormPr
       reset({
         message: '',
         isBinary: false,
-        isVisible: false
+        isVisible: isP2PMode,
+        isEncrypted: false
       })
   }));
 
   const isBinary = watch('isBinary');
   const isEncrypted = watch('isEncrypted');
   const message = watch('message');
-  const isVisible = watch('isVisible');
+  const isVisible = isP2PMode ? true : watch('isVisible');
   const label = useMemo(() => t(isBinary ? 'hexCodeAttachment' : 'textAttachment'), [isBinary]);
   const placeholder = useMemo(() => t(isBinary ? 'enterHexCode' : 'enterText'), [isBinary]);
   const dataRegistry = useMemo(
@@ -86,13 +89,15 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted }: FormPr
 
   return (
     <div>
-      <FormCheckbox
-        ref={register()}
-        name="isVisible"
-        label={label}
-        labelDescription={t('attachmentDescription')}
-        containerClassName="mt-4"
-      />
+      {!isP2PMode && (
+        <FormCheckbox
+          ref={register()}
+          name="isVisible"
+          label={label}
+          labelDescription={t('attachmentDescription')}
+          containerClassName="mt-4"
+        />
+      )}
 
       {isVisible && (
         <>
@@ -114,6 +119,7 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted }: FormPr
             errorCaption={errors.message?.message}
             containerClassName="mt-4"
             textarea
+            rows={isP2PMode ? 10 : 3}
             maxLength={MAX_CHARS}
           />
 

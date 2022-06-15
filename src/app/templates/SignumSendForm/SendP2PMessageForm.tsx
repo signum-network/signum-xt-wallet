@@ -1,26 +1,21 @@
-import React, { Dispatch, FC, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { Dispatch, FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import { Address, AttachmentEncryptedMessage, AttachmentMessage, TransactionId } from '@signumjs/core';
-import { encryptMessage } from '@signumjs/crypto';
+import { Address, TransactionId } from '@signumjs/core';
 import { Amount, FeeQuantPlanck } from '@signumjs/util';
 import classNames from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 import useSWR from 'swr';
 
 import Alert from 'app/atoms/Alert';
-import AssetField from 'app/atoms/AssetField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Money from 'app/atoms/Money';
 import NoSpaceField from 'app/atoms/NoSpaceField';
 import { useAppEnv } from 'app/env';
 import { MessageForm, MessageFormData } from 'app/templates/SignumSendForm/MessageForm';
-import { useFormAnalytics } from 'lib/analytics';
-import { toLocalFixed } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
 import {
   isSignumAddress,
   useAccount,
-  useBalance,
   useSignum,
   useSignumAccountPrefix,
   useSignumAliasResolver,
@@ -38,12 +33,10 @@ import SendErrorAlert from './SendErrorAlert';
 
 interface FormData {
   to: string;
-  amount: string;
   fee: string;
 }
 
 type FormProps = {
-  // assetSlug: string;
   setOperation: Dispatch<any>;
   onAddContactRequested: (address: string) => void;
 };
@@ -51,12 +44,11 @@ type FormProps = {
 const MinimumFee = Amount.fromPlanck(FeeQuantPlanck).getSigna();
 const SmartContractPk = '0000000000000000000000000000000000000000000000000000000000000000';
 
-export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested }) => {
+export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRequested }) => {
   const messageFormRef = useRef();
   const { registerBackHandler } = useAppEnv();
   const assetMetadata = useSignumAssetMetadata();
   const { resolveAliasToAccountPk } = useSignumAliasResolver();
-  const formAnalytics = useFormAnalytics('SendForm');
   const { allContacts } = useFilteredContacts();
   const acc = useAccount();
   const signum = useSignum();
@@ -73,17 +65,13 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const assetSymbol = assetMetadata.symbol;
   const publicKey = acc.publicKey;
   const accountId = acc.accountId;
-  const { data: balanceData } = useBalance(assetMetadata.name, accountId);
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
     mode: 'onChange'
   });
 
   const toValue = watch('to');
-  const amountValue = watch('amount');
-
   const toFieldRef = useRef<HTMLTextAreaElement>(null);
-  const amountFieldRef = useRef<HTMLInputElement>(null);
 
   const toFilledWithAddress = useMemo(() => Boolean(toValue && isSignumAddress(toValue)), [toValue]);
 
@@ -93,13 +81,13 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     async (_k: string, address: string) => {
       try {
         const id = Address.create(address).getNumericId();
-        const acc = await signum.account.getAccount({
+        const a = await signum.account.getAccount({
           accountId: id,
           includeEstimatedCommitment: false,
           includeCommittedAmount: false
         });
         // @ts-ignore
-        return acc.publicKey;
+        return a.publicKey;
       } catch (e) {
         return resolveAliasToAccountPk(address);
       }
@@ -153,53 +141,10 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     });
   }, [toFilled, registerBackHandler, cleanToField]);
 
-  const maxAmount = useMemo(() => {
-    if (!feeValue) return;
-    return balanceData
-      ? Amount.fromSigna(balanceData.availableBalance.toString(10)).subtract(Amount.fromSigna(feeValue))
-      : Amount.Zero();
-  }, [feeValue, balanceData]);
-
   const totalAmount = useMemo(() => {
-    if (!amountValue) return;
-    return Amount.fromSigna(amountValue).add(Amount.fromSigna(feeValue || MinimumFee));
+    return Amount.fromSigna(feeValue || MinimumFee);
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, [amountValue, feeValue, messageFormData.message]); // keep messageFromData.message
-
-  const validateAmount = useCallback(
-    (v?: number) => {
-      if (v === undefined) return t('required');
-      if (v < 0) return t('amountMustBePositive');
-      if (!maxAmount) return true;
-      try {
-        return Amount.fromSigna(v).lessOrEqual(maxAmount)
-          ? true
-          : t('maximalAmount', toLocalFixed(maxAmount.getSigna()));
-      } catch (e) {
-        return t('error'); // WHAT MESSAGE?
-      }
-    },
-    [maxAmount]
-  );
-
-  const maxAmountStr = maxAmount?.toString();
-  useEffect(() => {
-    if (formState.dirtyFields.has('amount')) {
-      triggerValidation('amount');
-    }
-  }, [formState.dirtyFields, triggerValidation, maxAmountStr]);
-
-  const handleSetMaxAmount = useCallback(() => {
-    if (maxAmount) {
-      setValue('amount', maxAmount.getSigna());
-      triggerValidation('amount');
-    }
-  }, [setValue, maxAmount, triggerValidation]);
-
-  const handleAmountFieldFocus = useCallback(evt => {
-    evt.preventDefault();
-    amountFieldRef.current?.focus({ preventScroll: true });
-  }, []);
+  }, [feeValue, messageFormData.message]); // keep messageFromData.message
 
   const [submitError, setSubmitError] = useSafeState<any>(null);
 
@@ -217,81 +162,71 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     [resolveAliasToAccountPk]
   );
 
-  const getTransactionAttachment = useCallback(
-    async (p2pKey: string) => {
-      if (!(messageFormData && messageFormData.isValid)) {
-        return undefined;
-      }
+  const onSubmit = useCallback(async () => {
+    if (formState.isSubmitting) return;
 
+    if (!(messageFormData && messageFormData.isValid)) {
+      return;
+    }
+
+    setSubmitError(null);
+    setOperation(null);
+    let transaction: TransactionId;
+    try {
+      const keys = await client.getSignumTransactionKeys(acc.publicKey);
+      const recipientId = Address.create(toResolved).getNumericId();
       if (messageFormData.isEncrypted) {
         if (!resolvedPublicKey) {
           throw new Error(t('p2pNotPossible'));
         }
-
-        const encryptedMessage = encryptMessage(messageFormData.message, resolvedPublicKey, p2pKey);
-        return new AttachmentEncryptedMessage({
-          ...encryptedMessage,
-          isText: !messageFormData.isBinary
-        });
-      }
-      return new AttachmentMessage({
-        messageIsText: !messageFormData.isBinary,
-        message: messageFormData.message
-      });
-    },
-    [messageFormData]
-  );
-
-  const onSubmit = useCallback(
-    async ({ amount }: FormData) => {
-      if (formState.isSubmitting) return;
-      setSubmitError(null);
-      setOperation(null);
-      try {
-        const keys = await client.getSignumTransactionKeys(acc.publicKey);
-        const attachment = await getTransactionAttachment(keys.p2pKey);
-        const recipientId = Address.create(toResolved).getNumericId();
-        const { transaction, fullHash } = (await signum.transaction.sendAmountToSingleRecipient({
-          amountPlanck: Amount.fromSigna(amount).getPlanck(),
+        transaction = (await signum.message.sendEncryptedMessage({
+          message: messageFormData.message,
+          messageIsText: !messageFormData.isBinary,
+          senderAgreementKey: keys.p2pKey,
+          feePlanck: Amount.fromSigna(feeValue).getPlanck(),
+          recipientPublicKey: resolvedPublicKey,
+          recipientId: Address.fromPublicKey(resolvedPublicKey).getNumericId(),
+          senderPublicKey: keys.publicKey,
+          senderPrivateKey: keys.signingKey
+        })) as TransactionId;
+      } else {
+        transaction = (await signum.message.sendMessage({
+          message: messageFormData.message,
+          messageIsText: !messageFormData.isBinary,
           feePlanck: Amount.fromSigna(feeValue).getPlanck(),
           recipientId,
-          senderPrivateKey: keys.signingKey,
           senderPublicKey: keys.publicKey,
-          attachment
+          senderPrivateKey: keys.signingKey
         })) as TransactionId;
-        setOperation({
-          txId: transaction,
-          hash: fullHash
-        });
-        reset({ to: '', amount: '0' });
-        // @ts-ignore
-        messageFormRef.current.reset();
-        formAnalytics.trackSubmitSuccess();
-      } catch (err) {
-        formAnalytics.trackSubmitFail();
-        if (err.message === 'Declined') {
-          return;
-        }
-        await withErrorHumanDelay(err, () => {
-          setSubmitError(err);
-        });
       }
-    },
-    [
-      client,
-      signum.transaction,
-      acc,
-      formState.isSubmitting,
-      setSubmitError,
-      setOperation,
-      reset,
-      messageFormRef,
-      toResolved,
-      formAnalytics,
-      feeValue,
-      getTransactionAttachment
-    ]
-  );
+      setOperation({
+        txId: transaction.transaction,
+        hash: transaction.fullHash
+      });
+      reset({ to: '' });
+      // @ts-ignore
+      messageFormRef.current.reset();
+    } catch (err) {
+      if (err.message === 'Declined') {
+        return;
+      }
+      await withErrorHumanDelay(err, () => {
+        setSubmitError(err);
+      });
+    }
+  }, [
+    client,
+    signum.transaction,
+    acc,
+    formState.isSubmitting,
+    setSubmitError,
+    setOperation,
+    reset,
+    messageFormRef,
+    messageFormData,
+    toResolved,
+    feeValue
+  ]);
 
   const handleAccountSelect = useCallback(
     (recipient: string) => {
@@ -301,7 +236,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     [setValue, triggerValidation]
   );
 
-  const restFormDisplayed = Boolean(toFilled) && Boolean(amountValue);
+  const restFormDisplayed = Boolean(toFilled);
 
   const [toFieldFocused, setToFieldFocused] = useState(false);
 
@@ -389,43 +324,11 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
         </div>
       )}
 
-      <Controller
-        name="amount"
-        as={<AssetField ref={amountFieldRef} onFocus={handleAmountFieldFocus} />}
-        control={control}
-        rules={{
-          validate: validateAmount
-        }}
-        onChange={([v]) => v}
-        onFocus={() => amountFieldRef.current?.focus()}
-        id="send-amount"
-        assetSymbol={assetSymbol}
-        assetDecimals={assetMetadata?.decimals ?? 0}
-        label={t('amount')}
-        labelDescription={
-          restFormDisplayed &&
-          maxAmount && (
-            <>
-              <T id="availableToSend" />{' '}
-              <button type="button" className={classNames('underline')}>
-                <span className={classNames('text-xs leading-none')}>
-                  <Money onClick={handleSetMaxAmount}>{maxAmount.getSigna()}</Money>{' '}
-                  <span style={{ fontSize: '0.75em' }}>{assetSymbol}</span>
-                </span>
-              </button>
-            </>
-          )
-        }
-        placeholder={t('amountPlaceholder')}
-        errorCaption={restFormDisplayed && errors.amount?.message}
-        autoFocus={Boolean(maxAmount)}
-      />
-
       <MessageForm
         ref={messageFormRef}
         onChange={setMessageFormData}
         showEncrypted={resolvedPublicKey && resolvedPublicKey !== SmartContractPk}
-        mode="transfer"
+        mode="p2pMessage"
       />
 
       {restFormDisplayed ? (
@@ -459,7 +362,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
             </div>
           )}
 
-          {totalAmount && errors.amount === undefined && messageFormData.isValid && (
+          {totalAmount && messageFormData.isValid && (
             <div className={'flex flex-row items-center justify-center'}>
               <T id="send">
                 {message => <FormSubmitButton loading={formState.isSubmitting}>{message}</FormSubmitButton>}
