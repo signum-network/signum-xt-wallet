@@ -1241,7 +1241,7 @@
     "message": "เช็คธุรกรรมที่เข้ามา"
   },
   "signAction": {
-    "message": "Sign"
+    "message": "ยืนยัน"
   },
   "skipped": {
     "message": "Skipped"
@@ -1856,5 +1856,8 @@
   },
   "sendEncryptedMsgAction": {
     "message": "ส่งข้อความที่เข้ารหัส"
+  },
+  "messageFrom": {
+    "message": "ข้อความจาก"
   }
 }

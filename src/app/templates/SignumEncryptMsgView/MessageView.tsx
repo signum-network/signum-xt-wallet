@@ -38,9 +38,7 @@ const MessageView = memo<MessageViewProps>(({ label, plainMessage, className }) 
   return (
     <>
       <div className={classNames('relative', className)}>
-        {json && (
-          <JsonView jsonObject={json} jsonViewStyle={{ height: '11rem', maxHeight: '100%', overflow: 'auto' }} />
-        )}
+        {json && <JsonView jsonObject={json} jsonViewStyle={{ maxHeight: '100%', overflow: 'auto' }} />}
         {binary && (
           <div
             className={classNames(

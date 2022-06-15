@@ -1238,7 +1238,7 @@
     "message": "Просмотр входящих транзакций"
   },
   "signAction": {
-    "message": "Подписать"
+    "message": "Подтверждать"
   },
   "skipped": {
     "message": "Пропущен"
@@ -1856,5 +1856,8 @@
   },
   "sendEncryptedMsgAction": {
     "message": "Отправить зашифрованное сообщение"
+  },
+  "messageFrom": {
+    "message": "Сообщение от"
   }
 }

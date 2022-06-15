@@ -1241,7 +1241,7 @@
     "message": "Перегляд вхідних транзакцій"
   },
   "signAction": {
-    "message": "Підписати"
+    "message": "Підтвердьте"
   },
   "skipped": {
     "message": "Пропущено"
@@ -1856,5 +1856,8 @@
   },
   "sendEncryptedMsgAction": {
     "message": "Надіслати зашифроване повідомлення"
+  },
+  "messageFrom": {
+    "message": "Повідомлення від"
   }
 }

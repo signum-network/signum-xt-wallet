@@ -207,7 +207,7 @@ const ConfirmDAppForm: FC = () => {
         }}
       >
         <div className="flex flex-col items-center p-4">
-          <SubTitle small className={payload.type === 'connect' ? 'mt-4 mb-6' : 'mt-4 mb-2'}>
+          <SubTitle small className={payload.type === 'connect' ? 'text-center mt-4 mb-6' : 'text-center mb-2'}>
             {content.title}
           </SubTitle>
 

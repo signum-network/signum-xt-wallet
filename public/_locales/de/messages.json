@@ -1238,7 +1238,7 @@
     "message": "Eingehende Transaktionen anzeigen"
   },
   "signAction": {
-    "message": "Unterschreiben"
+    "message": "Bestätigen"
   },
   "skipped": {
     "message": "Übersprungen"
@@ -1856,5 +1856,8 @@
   },
   "sendEncryptedMsgAction": {
     "message": "Verschlüsselte Nachricht senden"
+  },
+  "messageFrom": {
+    "message": "Nachricht von"
   }
 }

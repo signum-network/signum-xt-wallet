@@ -23,7 +23,7 @@ type Props = {
 };
 
 const P2PMessageItem = memo<Props>(({ accountId, message }) => {
-  const { transaction: explorerBaseUrl } = useSignumExplorerBaseUrls();
+  const explorerBaseUrls = useSignumExplorerBaseUrls();
   const client = useTempleClient();
   const { publicKey } = useAccount();
   const { transaction: txId, timestamp } = message;
@@ -63,10 +63,21 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
 
   return (
     <div className="relative my-3 flex flex-col">
+      <div className="flex flex-row justify-between items-center">
+        <span className="flex flex-row">
+          <HashChip hash={txId!} firstCharsCount={10} lastCharsCount={7} small className="mr-2" />
+          {explorerBaseUrls && <OpenInExplorerChip baseUrl={explorerBaseUrls.transaction} id={txId!} />}
+        </span>
+        <div className="text-right mb-px text-xs font-light leading-none">{transactionStatus}</div>
+      </div>
       <div className="flex flex-row items-center">
-        <HashChip hash={txId!} firstCharsCount={10} lastCharsCount={7} small className="mr-2" />
-        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} id={txId!} className="mr-2" />}
-        <div className="justify-end mb-px text-xs font-light leading-none">{transactionStatus}</div>
+        <span className="text-blue-600">
+          {isEncrypted ? '🔐' : '✉'} {t('messageFrom')}
+        </span>
+        <HashChip hash={message.sender!} isAccount small />
+        {explorerBaseUrls && (
+          <OpenInExplorerChip baseUrl={explorerBaseUrls.account!} id={message.sender!} className="mr-2" />
+        )}
       </div>
       <div className="flex flex-row justify-between items-center">
         <Time
@@ -80,12 +91,10 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
             </span>
           )}
         />
-        <div className="w-1/3">
-          <CopyButton toCopy={isEncrypted ? revealedMessage : plainMessage} />
-        </div>
+        <CopyButton toCopy={isEncrypted ? revealedMessage : plainMessage} />
       </div>
       <div className="flex-1 flex-grow justify-end flex-wrap overflow-y-auto thin-scrollbar">
-        <div className="text-xs font-light text-gray-700 ">
+        <div className="text-xs font-light text-gray-700">
           {isEncrypted ? <SecretTextField value={revealedMessage} onClick={revealMessage} /> : plainMessage}
         </div>
       </div>
@@ -145,7 +154,7 @@ const CopyButton = memo<CopyButtonProps>(({ toCopy }) => {
       <button
         type="button"
         className={classNames(
-          'flex items-center justify-end right-1 w-full',
+          'flex items-center justify-end right-1',
           'text-gray-500',
           'text-xs font-semibold leading-snug',
           'transition duration-300 ease-in-out',

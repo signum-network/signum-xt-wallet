@@ -51,7 +51,6 @@ window.addEventListener(
   evt => {
     if (evt.source !== window) return;
     if (evt.data?.type === SignumPageMessageType.Request) {
-      console.debug('Valid Signum XT Message received:', evt);
       walletRequest(evt);
     }
   },

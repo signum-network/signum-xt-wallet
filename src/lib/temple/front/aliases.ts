@@ -16,9 +16,9 @@ export function useSignumAliasResolver() {
       try {
         const address = Address.fromPublicKey(pk);
         const accountId = address.getNumericId();
-        const rs = address.getReedSolomonAddress();
+        const rs = address.getReedSolomonAddress(false);
         const { aliases } = await signum.service.query<AliasList>('getAliases', { account: accountId });
-        const aliasPattern = new RegExp(`acct:${rs.toLowerCase()}@burst`);
+        const aliasPattern = new RegExp(`acct:(s|ts|burst)-${rs.toLowerCase()}@burst`);
         const accountsAliases = aliases.filter(({ aliasURI }) => aliasPattern.test(aliasURI));
         // Aliases are ordered by times - newest is last
         return accountsAliases.length ? accountsAliases[accountsAliases.length - 1].aliasName : null;

@@ -1856,5 +1856,8 @@
   },
   "p2pNotPossible": {
     "message": "Account has no public key. P2P encryption is not possible!"
+  },
+  "messageFrom": {
+    "message": "Message from"
   }
 }
