@@ -33,6 +33,7 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
   const isPending = message.blockTimestamp === undefined;
   const isEncrypted = message.attachment.encryptedMessage;
   const plainMessage = message.attachment.message;
+  const isReceivedMessage = message.sender !== accountId;
 
   const transactionStatus = useMemo(() => {
     const content = isPending ? 'pending' : 'applied';
@@ -46,7 +47,11 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
 
     const { p2pKey } = await client.getSignumTransactionKeys(publicKey);
     try {
-      const msg = decryptMessage(message.attachment.encryptedMessage, message.senderPublicKey || '', p2pKey);
+      const msg = decryptMessage(
+        message.attachment.encryptedMessage,
+        (isReceivedMessage ? message.senderPublicKey : message.attachment.recipientPublicKey) || '',
+        p2pKey
+      );
       setRevealedMessage(msg);
     } catch (e: any) {
       // no op
@@ -59,7 +64,7 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
         setRevealedMessage('');
       }, 5_000);
     }
-  }, [revealedMessage, setRevealedMessage]);
+  }, [revealedMessage, setRevealedMessage, isReceivedMessage]);
 
   return (
     <div className="relative my-3 flex flex-col">
@@ -72,9 +77,11 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
       </div>
       <div className="flex flex-row items-center">
         <span className="text-blue-600">
-          {isEncrypted ? '🔐' : '✉'} {t('messageFrom')}
+          {isReceivedMessage ? '↓' : '↑'}
+          {isEncrypted ? '🔐' : '✉'}
+          {isReceivedMessage ? t('messageFrom') : t('messageTo')}
         </span>
-        <HashChip hash={message.sender!} isAccount small />
+        <HashChip hash={isReceivedMessage ? message.sender! : message.recipient!} isAccount small />
         {explorerBaseUrls && (
           <OpenInExplorerChip baseUrl={explorerBaseUrls.account!} id={message.sender!} className="mr-2" />
         )}
