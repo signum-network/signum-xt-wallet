@@ -45,7 +45,7 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
 
   const getContentToParse = useCallback(async () => {
     return [];
-  }, [payload]);
+  }, []);
   const { data: contentToParse } = useRetryableSWR(['content-to-parse'], getContentToParse, { suspense: true });
 
   const mainnet = true; //chainId === TempleChainId.Mainnet;

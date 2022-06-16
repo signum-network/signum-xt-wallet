@@ -55,7 +55,7 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
     } catch (e: any) {
       // no op
     }
-  }, [message, client, publicKey, setRevealedMessage]);
+  }, [message, client, publicKey, setRevealedMessage, isReceivedMessage]);
 
   useEffect(() => {
     if (revealedMessage) {

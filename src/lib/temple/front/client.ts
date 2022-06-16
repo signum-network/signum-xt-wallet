@@ -24,25 +24,54 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
   let intercom = useRef<IntercomClient | null>(null);
   let unsubscribe = useRef<any>(null);
 
-  const intercomSubscription = (msg: TempleNotification) => {
-    switch (msg?.type) {
-      case XTMessageType.StateUpdated:
-        revalidate();
-        break;
+  /**
+   * State
+   */
 
-      case XTMessageType.ConfirmationRequested:
-        if (msg.id === confirmationIdRef.current) {
-          setConfirmation({ id: msg.id, payload: msg.payload });
-        }
-        break;
+  const fetchState = useCallback(async () => {
+    const res = await request({ type: XTMessageType.GetStateRequest });
+    assertResponse(res.type === XTMessageType.GetStateResponse);
+    return res.state;
+  }, [request]);
 
-      case XTMessageType.ConfirmationExpired:
-        if (msg.id === confirmationIdRef.current) {
-          resetConfirmation();
-        }
-        break;
-    }
-  };
+  const { data, revalidate } = useRetryableSWR('state', fetchState, {
+    suspense: true,
+    shouldRetryOnError: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
+  const state = data!;
+
+  const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
+  const confirmationIdRef = useRef<string | null>(null);
+  const resetConfirmation = useCallback(() => {
+    confirmationIdRef.current = null;
+    setConfirmation(null);
+  }, [setConfirmation]);
+
+
+  const intercomSubscription = useCallback(
+    (msg: TempleNotification) => {
+      switch (msg?.type) {
+        case XTMessageType.StateUpdated:
+          revalidate();
+          break;
+
+        case XTMessageType.ConfirmationRequested:
+          if (msg.id === confirmationIdRef.current) {
+            setConfirmation({ id: msg.id, payload: msg.payload });
+          }
+          break;
+
+        case XTMessageType.ConfirmationExpired:
+          if (msg.id === confirmationIdRef.current) {
+            resetConfirmation();
+          }
+          break;
+      }
+    },
+    [revalidate, setConfirmation, resetConfirmation]
+  );
 
   const getIntercom = useCallback(() => {
     if (!intercom.current) {
@@ -97,30 +126,6 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     }
   }
 
-  /**
-   * State
-   */
-
-  const fetchState = useCallback(async () => {
-    const res = await request({ type: XTMessageType.GetStateRequest });
-    assertResponse(res.type === XTMessageType.GetStateResponse);
-    return res.state;
-  }, [request]);
-
-  const { data, revalidate } = useRetryableSWR('state', fetchState, {
-    suspense: true,
-    shouldRetryOnError: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false
-  });
-  const state = data!;
-
-  const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
-  const confirmationIdRef = useRef<string | null>(null);
-  const resetConfirmation = useCallback(() => {
-    confirmationIdRef.current = null;
-    setConfirmation(null);
-  }, [setConfirmation]);
 
   useEffect(() => {
     if (!revalidate) return;

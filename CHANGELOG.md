@@ -4,11 +4,13 @@
 
 ### New feature
 
-- Full support for Encrypted P2P messages (#25)
+- Full support for Encrypted P2P messages (#31)
+- Enhanced Transaction Typing (#16)
 
 ### Bugfixes
-- Show only own Alias
-- 
+- Show wrong Alias (#30)
+- Adjust confirm window size on Windows (#29)
+- More stable Port Connection in app itself (#32)
 
 
 ## 1.1.2
