@@ -7,6 +7,7 @@ import classNames from 'clsx';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import OpenInExplorerChip from 'app/atoms/OpenInExplorerChip';
+import Time from 'app/atoms/Time';
 import { ReactComponent as CopyIcon } from 'app/icons/copy.svg';
 import { ReactComponent as LockAltIcon } from 'app/icons/lock-alt.svg';
 import HashChip from 'app/templates/HashChip';
@@ -14,8 +15,6 @@ import { getDateFnsLocale, T, t } from 'lib/i18n/react';
 import { useAccount, useSignumExplorerBaseUrls, useTempleClient } from 'lib/temple/front';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 import useSafeState from 'lib/ui/useSafeState';
-
-import Time from './Time';
 
 type Props = {
   accountId: string;
@@ -98,7 +97,8 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
             </span>
           )}
         />
-        <CopyButton toCopy={isEncrypted ? revealedMessage : plainMessage} />
+        {isEncrypted && revealedMessage && <CopyButton toCopy={revealedMessage} />}
+        {!isEncrypted && <CopyButton toCopy={plainMessage} />}
       </div>
       <div className="flex-1 flex-grow justify-end flex-wrap overflow-y-auto thin-scrollbar">
         <div className="text-xs font-light text-gray-700">

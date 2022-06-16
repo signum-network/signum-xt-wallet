@@ -1062,6 +1062,14 @@
   "origination": {
     "message": "Contract Creation"
   },
+  "originationOf": {
+    "message": "of $contract$",
+    "placeholders": {
+      "constract": {
+        "content": "$1"
+      }
+    }
+  },
   "other": {
     "message": "Other"
   },
@@ -1862,5 +1870,14 @@
   },
   "messageFrom": {
     "message": "Message from"
+  },
+  "tokenIssuance": {
+    "message": "Token Creation"
+  },
+  "tokenMint": {
+    "message": "Token Minting"
+  },
+  "addTreasuryAccount": {
+    "message": "Add Treasury Account"
   }
 }

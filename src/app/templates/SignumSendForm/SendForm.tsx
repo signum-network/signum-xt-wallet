@@ -19,6 +19,7 @@ import { toLocalFixed } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
 import {
   isSignumAddress,
+  SMART_CONTRACT_PUBLIC_KEY,
   useAccount,
   useBalance,
   useSignum,
@@ -49,7 +50,6 @@ type FormProps = {
 };
 
 const MinimumFee = Amount.fromPlanck(FeeQuantPlanck).getSigna();
-const SmartContractPk = '0000000000000000000000000000000000000000000000000000000000000000';
 
 export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested }) => {
   const messageFormRef = useRef();
@@ -118,7 +118,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
 
   const toResolved = useMemo(() => {
     try {
-      if (resolvedPublicKey && resolvedPublicKey !== SmartContractPk) {
+      if (resolvedPublicKey && resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY) {
         return Address.create(resolvedPublicKey).getNumericId();
       }
       return Address.create(toValue).getNumericId();
@@ -369,7 +369,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       {toResolved && (
         <div className={classNames('mb-4 -mt-3', 'text-xs font-light text-gray-600', 'flex flex-wrap items-center')}>
           <span className="mr-1 whitespace-no-wrap">{t('resolvedAddress')}:</span>
-          {resolvedPublicKey === SmartContractPk ? (
+          {resolvedPublicKey === SMART_CONTRACT_PUBLIC_KEY ? (
             <span className="font-normal">🤖 {Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
           ) : (
             <span className="font-normal">{Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
@@ -424,7 +424,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       <MessageForm
         ref={messageFormRef}
         onChange={setMessageFormData}
-        showEncrypted={resolvedPublicKey && resolvedPublicKey !== SmartContractPk}
+        showEncrypted={resolvedPublicKey && resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY}
         mode="transfer"
       />
 

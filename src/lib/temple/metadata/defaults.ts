@@ -25,3 +25,5 @@ export const SIGNA_TESTNET_METADATA: AssetMetadata = {
   name: 'TSigna',
   thumbnailUri: browser.runtime.getURL('misc/token-logos/signa.svg')
 };
+
+export const SMART_CONTRACT_PUBLIC_KEY = '0000000000000000000000000000000000000000000000000000000000000000';

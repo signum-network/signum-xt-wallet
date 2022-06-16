@@ -1859,5 +1859,25 @@
   },
   "messageFrom": {
     "message": "Mensagem de"
+  },
+  "addTreasuryAccount": {
+    "message": "Adicionar conta de tesouraria"
+  },
+  "originationOf": {
+    "message": "de $contract$",
+    "placeholders": {
+      "constract": {
+        "content": "$1"
+      }
+    }
+  },
+  "p2pMessage": {
+    "message": "Mensagem P2P"
+  },
+  "tokenIssuance": {
+    "message": "Criação de token"
+  },
+  "tokenMint": {
+    "message": "Cunhagem de Token"
   }
 }

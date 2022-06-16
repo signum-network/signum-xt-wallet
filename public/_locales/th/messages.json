@@ -1859,5 +1859,25 @@
   },
   "messageFrom": {
     "message": "ข้อความจาก"
+  },
+  "addTreasuryAccount": {
+    "message": "เพิ่มบัญชีธนารักษ์"
+  },
+  "originationOf": {
+    "message": "ของ $contract$",
+    "placeholders": {
+      "constract": {
+        "content": "$1"
+      }
+    }
+  },
+  "p2pMessage": {
+    "message": "ข้อความ P2P"
+  },
+  "tokenIssuance": {
+    "message": "การสร้างโทเค็น"
+  },
+  "tokenMint": {
+    "message": "เหรียญกษาปณ์"
   }
 }

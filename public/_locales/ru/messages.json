@@ -1859,5 +1859,25 @@
   },
   "messageFrom": {
     "message": "Сообщение от"
+  },
+  "addTreasuryAccount": {
+    "message": "Добавить казначейский счет"
+  },
+  "originationOf": {
+    "message": "$contract$",
+    "placeholders": {
+      "constract": {
+        "content": "$1"
+      }
+    }
+  },
+  "p2pMessage": {
+    "message": "P2P-сообщение"
+  },
+  "tokenIssuance": {
+    "message": "Создание токена"
+  },
+  "tokenMint": {
+    "message": "Чеканка токенов"
   }
 }
