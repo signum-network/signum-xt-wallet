@@ -44,9 +44,11 @@ function getSelfUpdateItem(tx: Transaction): SelfUpdateItem {
   } else if (tx.type === TransactionType.Mining && tx.subtype === TransactionMiningSubtype.AddCommitment) {
     item.prefix = '⚒';
     item.i18nKey = 'addCommitment';
+    item.amount = tx.attachment.amountNQT;
   } else if (tx.type === TransactionType.Mining && tx.subtype === TransactionMiningSubtype.RemoveCommitment) {
     item.prefix = '⚒';
     item.i18nKey = 'removeCommitment';
+    item.amount = tx.attachment.amountNQT;
   } else if (tx.type === TransactionType.Mining && tx.subtype === TransactionMiningSubtype.RewardRecipientAssignment) {
     item.prefix = '⚒';
     item.i18nKey = 'joinPool';

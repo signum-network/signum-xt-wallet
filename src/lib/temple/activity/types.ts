@@ -59,6 +59,7 @@ export interface SelfUpdateItem extends TxItemBase {
   type: TransactionItemType.SelfUpdate;
   prefix: string;
   i18nKey: string;
+  amount?: string;
 }
 
 export interface OtherItem extends TxItemBase {

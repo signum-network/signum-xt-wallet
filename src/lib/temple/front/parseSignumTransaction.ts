@@ -121,7 +121,7 @@ function parseMiningExpenses(tx: Transaction): ParsedTransactionExpense[] {
       return [
         {
           to: tx.sender!,
-          amount: new BigNumber(tx?.amountNQT || 0)
+          amount: new BigNumber(tx?.attachment.amountNQT || 0)
         }
       ];
     case TransactionMiningSubtype.RewardRecipientAssignment:

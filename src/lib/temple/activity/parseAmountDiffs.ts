@@ -2,7 +2,9 @@ import {
   getRecipientAmountsFromMultiOutPayment,
   isMultiOutSameTransaction,
   isMultiOutTransaction,
-  Transaction
+  Transaction,
+  TransactionMiningSubtype,
+  TransactionType
 } from '@signumjs/core';
 import { Amount } from '@signumjs/util';
 
@@ -10,8 +12,11 @@ interface ParseAmountDiffs {
   diff: string;
 }
 
-export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmountDiffs[] {
-  // TODO: we do not need stacked diffs here
+const isCommitmentTransaction = (tx: Transaction): boolean =>
+  tx.type === TransactionType.Mining &&
+  (tx.subtype === TransactionMiningSubtype.AddCommitment || tx.subtype === TransactionMiningSubtype.RemoveCommitment);
+
+export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmountDiffs {
   let amount = Amount.fromPlanck(tx.amountNQT || '0');
   let isIncoming = tx.recipient === accountId; // common transaction
 
@@ -22,6 +27,10 @@ export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmoun
     amount = Amount.fromPlanck(found ? found.amountNQT : '0');
   }
 
+  if (isCommitmentTransaction(tx)) {
+    amount = Amount.fromPlanck(tx.attachment.amountNQT);
+  }
+
   const result = {
     diff: Amount.Zero().getSigna()
   };
@@ -30,5 +39,5 @@ export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmoun
   } else if (isIncoming) {
     result.diff = amount.getSigna();
   }
-  return [result];
+  return result;
 }

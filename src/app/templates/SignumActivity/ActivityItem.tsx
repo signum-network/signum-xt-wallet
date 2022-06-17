@@ -28,7 +28,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, classNam
   const { transaction: txId, timestamp } = transaction;
 
   const dateFnsLocale = getDateFnsLocale();
-  const moneyDiff = useMemo(() => parseAmountDiffs(transaction, accountId)[0], [transaction, accountId]);
+  const moneyDiff = useMemo(() => parseAmountDiffs(transaction, accountId), [transaction, accountId]);
   const feeAmount = useMemo(() => Amount.fromPlanck(transaction.feeNQT!).getSigna(), [transaction.feeNQT]);
   const parsedTransaction = useMemo(
     () => parseTransaction(transaction, accountId, prefix),
