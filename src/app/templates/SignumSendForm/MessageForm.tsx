@@ -101,15 +101,6 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: 
 
       {isVisible && (
         <>
-          {showEncrypted && (
-            <FormCheckbox
-              ref={register()}
-              name="isEncrypted"
-              label={t('attachmentIsEncrypted')}
-              labelDescription={t('attachmentIsEncryptedDescription')}
-              containerClassName="mt-4"
-            />
-          )}
           <FormField
             ref={dataRegistry}
             id="create-ledger-name"
@@ -122,6 +113,15 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: 
             rows={isP2PMode ? 10 : 3}
             maxLength={MAX_CHARS}
           />
+          {showEncrypted && (
+            <FormCheckbox
+              ref={register()}
+              name="isEncrypted"
+              label={t('attachmentIsEncrypted')}
+              labelDescription={t('attachmentIsEncryptedDescription')}
+              containerClassName="mt-4"
+            />
+          )}
 
           <FormCheckbox
             ref={register()}

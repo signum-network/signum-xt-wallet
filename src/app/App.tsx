@@ -4,6 +4,7 @@ import AwaitFonts from 'app/a11y/AwaitFonts';
 import BootAnimation from 'app/a11y/BootAnimation';
 import DisableOutlinesForClick from 'app/a11y/DisableOutlinesForClick';
 import RootSuspenseFallback from 'app/a11y/RootSuspenseFallback';
+import ServiceWorkerDefibrillator from 'app/a11y/ServiceWorkerDefibrillator';
 import ConfirmPage from 'app/ConfirmPage';
 import { AppEnvProvider } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
@@ -24,6 +25,7 @@ const App: FC<AppProps> = ({ env }) => (
         <AppProvider env={env}>
           <Dialogs />
           <DisableOutlinesForClick />
+          <ServiceWorkerDefibrillator />
           <AwaitFonts name="Inter" weights={[300, 400, 500, 600]} className="antialiased font-inter">
             <BootAnimation>{env.confirmWindow ? <ConfirmPage /> : <PageRouter />}</BootAnimation>
           </AwaitFonts>
