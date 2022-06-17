@@ -1866,7 +1866,7 @@
   "originationOf": {
     "message": "de $contract$",
     "placeholders": {
-      "constract": {
+      "contract": {
         "content": "$1"
       }
     }
