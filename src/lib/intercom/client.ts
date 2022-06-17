@@ -10,6 +10,7 @@ export class IntercomClient {
   constructor() {
     this.port = browser.runtime.connect();
     this.reqId = 0;
+    console.debug('Intercom client created');
   }
 
   /**

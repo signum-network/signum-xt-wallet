@@ -6,13 +6,13 @@ import classNames from 'clsx';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import OpenInExplorerChip from 'app/atoms/OpenInExplorerChip';
+import Time from 'app/atoms/Time';
 import HashChip from 'app/templates/HashChip';
 import { getDateFnsLocale, t } from 'lib/i18n/react';
 import { parseTransaction, parseAmountDiffs } from 'lib/temple/activity';
-import { useSignumAssetMetadata, useSignumExplorerBaseUrls } from 'lib/temple/front';
+import { useSignumAccountPrefix, useSignumAssetMetadata, useSignumExplorerBaseUrls } from 'lib/temple/front';
 
 import MoneyDiffView from './MoneyDiffView';
-import Time from './Time';
 import TxItem from './TxItem';
 
 type ActivityItemProps = {
@@ -24,12 +24,16 @@ type ActivityItemProps = {
 const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, className }) => {
   const { transaction: explorerBaseUrl } = useSignumExplorerBaseUrls();
   const metadata = useSignumAssetMetadata();
+  const prefix = useSignumAccountPrefix();
   const { transaction: txId, timestamp } = transaction;
 
   const dateFnsLocale = getDateFnsLocale();
-  const moneyDiff = useMemo(() => parseAmountDiffs(transaction, accountId)[0], [transaction, accountId]);
+  const moneyDiff = useMemo(() => parseAmountDiffs(transaction, accountId), [transaction, accountId]);
   const feeAmount = useMemo(() => Amount.fromPlanck(transaction.feeNQT!).getSigna(), [transaction.feeNQT]);
-  const parsedTransaction = useMemo(() => parseTransaction(transaction, accountId), [transaction, accountId]);
+  const parsedTransaction = useMemo(
+    () => parseTransaction(transaction, accountId, prefix),
+    [transaction, accountId, prefix]
+  );
   const isPending = transaction.blockTimestamp === undefined;
   const transactionStatus = useMemo(() => {
     const content = isPending ? 'pending' : 'applied';
@@ -69,7 +73,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, classNam
 
         <div className="flex flex-col flex-shrink-0">
           <MoneyDiffView assetId="signa" diff={moneyDiff.diff} pending={isPending} />
-          <div className="text-xs text-gray-700 justify-end">
+          <div className="text-xs text-gray-700 text-right">
             {feeAmount} {metadata.symbol}
           </div>
         </div>

@@ -169,7 +169,19 @@ export interface TempleDAppSignPayload extends TempleDAppPayloadBase {
   preview: string;
 }
 
-export type TempleDAppPayload = TempleDAppConnectPayload | TempleDAppSignPayload;
+export interface TempleDAppSendEncryptedMessagePayload extends TempleDAppPayloadBase {
+  type: 'sendEncryptedMsg';
+  sourcePkh: string;
+  targetPkh: string;
+  plainMessage: string;
+  messageIsText: boolean;
+  feeSigna: string;
+}
+
+export type TempleDAppPayload =
+  | TempleDAppConnectPayload
+  | TempleDAppSignPayload
+  | TempleDAppSendEncryptedMessagePayload;
 
 /**
  * Messages
@@ -242,6 +254,8 @@ export enum XTMessageType {
   DAppOpsConfirmationResponse = 'XT_DAPP_OPS_CONFIRMATION_RESPONSE',
   DAppSignConfirmationRequest = 'XT_DAPP_SIGN_CONFIRMATION_REQUEST',
   DAppSignConfirmationResponse = 'XT_DAPP_SIGN_CONFIRMATION_RESPONSE',
+  DAppSendEncryptedMessageConfirmationRequest = 'XT_DAPP_SEND_ENCRYPTED_MSG_CONFIRMATION_REQUEST',
+  DAppSendEncryptedMessageConfirmationResponse = 'XT_DAPP_SEND_ENCRYPTED_MSG_CONFIRMATION_RESPONSE',
   DAppGetAllSessionsRequest = 'XT_DAPP_GET_ALL_SESSIONS_REQUEST',
   DAppGetAllSessionsResponse = 'XT_DAPP_GET_ALL_SESSIONS_RESPONSE',
   DAppRemoveSessionRequest = 'XT_DAPP_REMOVE_SESSION_REQUEST',
@@ -287,6 +301,7 @@ export type TempleRequest =
   | TempleDAppPermConfirmationRequest
   | TempleDAppOpsConfirmationRequest
   | TempleDAppSignConfirmationRequest
+  | TempleDAppSendEncryptedMessageConfirmationRequest
   | TempleUpdateSettingsRequest
   | TempleGetAllDAppSessionsRequest
   | TempleRemoveDAppSessionRequest
@@ -320,6 +335,7 @@ export type TempleResponse =
   | TempleDAppPermConfirmationResponse
   | TempleDAppOpsConfirmationResponse
   | TempleDAppSignConfirmationResponse
+  | DAppSendEncryptedMessageConfirmationResponse
   | TempleUpdateSettingsResponse
   | TempleGetAllDAppSessionsResponse
   | TempleRemoveDAppSessionResponse
@@ -379,6 +395,7 @@ export interface TempleGetSignumTxKeysResponse extends TempleMessageBase {
   type: XTMessageType.GetSignumTxKeysResponse;
   publicKey: string;
   signingKey: string;
+  p2pKey: string;
 }
 
 export interface TempleNewWalletRequest extends TempleMessageBase {
@@ -644,6 +661,16 @@ export interface TempleDAppSignConfirmationRequest extends TempleMessageBase {
 
 export interface TempleDAppSignConfirmationResponse extends TempleMessageBase {
   type: XTMessageType.DAppSignConfirmationResponse;
+}
+
+export interface TempleDAppSendEncryptedMessageConfirmationRequest extends TempleMessageBase {
+  type: XTMessageType.DAppSendEncryptedMessageConfirmationRequest;
+  id: string;
+  confirmed: boolean;
+}
+
+export interface DAppSendEncryptedMessageConfirmationResponse extends TempleMessageBase {
+  type: XTMessageType.DAppSendEncryptedMessageConfirmationResponse;
 }
 
 export interface TempleGetAllDAppSessionsRequest extends TempleMessageBase {

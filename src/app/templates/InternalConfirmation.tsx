@@ -45,7 +45,7 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
 
   const getContentToParse = useCallback(async () => {
     return [];
-  }, [payload]);
+  }, []);
   const { data: contentToParse } = useRetryableSWR(['content-to-parse'], getContentToParse, { suspense: true });
 
   const mainnet = true; //chainId === TempleChainId.Mainnet;
@@ -84,7 +84,7 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
         testID: InternalConfirmationSelectors.BytesTab
       }
     ];
-  }, [payload]);
+  }, []);
 
   const [spFormat, setSpFormat] = useSafeState(signPayloadFormats[0]);
   const [error, setError] = useSafeState<any>(null);
@@ -93,7 +93,7 @@ const InternalConfirmation: FC<InternalConfiramtionProps> = ({ payload, onConfir
 
   const revealFee = useMemo(() => {
     return 0;
-  }, [payload]);
+  }, []);
 
   const [modifiedTotalFeeValue, setModifiedTotalFeeValue] = useSafeState(0);
   const [modifiedStorageLimitValue, setModifiedStorageLimitValue] = useSafeState(0);

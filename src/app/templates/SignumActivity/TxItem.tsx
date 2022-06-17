@@ -5,7 +5,6 @@ import classNames from 'clsx';
 import { T, TProps } from 'lib/i18n/react';
 import { TransactionItem, TransactionItemType } from 'lib/temple/activity';
 
-import { ReactComponent as ClipboardIcon } from '../../icons/clipboard.svg';
 import HashChip from '../HashChip';
 
 type TxItemProps = {
@@ -34,21 +33,23 @@ const TxItemComponent = memo<TxItemComponentProps>(({ item }) => {
         return {
           base: (
             <>
+              🤖&nbsp;
               <T id="origination" />
             </>
-          )
+          ),
+          argsI18nKey: 'originationOf',
+          args: [item.contract]
         };
-      // TODO: messages to smart contracts - problem: it has to be async to figure out if receiver is a contract
       case TransactionItemType.Interaction:
         return {
           base: (
             <>
-              <ClipboardIcon className="mr-1 h-3 w-auto stroke-current" />
+              ⚙&nbsp;
               <T id="interaction" />
             </>
           ),
           argsI18nKey: 'interactionWithContract',
-          args: [item.with]
+          args: [item.contract]
         };
 
       case TransactionItemType.TransferFrom:
@@ -72,14 +73,41 @@ const TxItemComponent = memo<TxItemComponentProps>(({ item }) => {
           argsI18nKey: 'transferToSmb',
           args: [item.to]
         };
-
+      case TransactionItemType.MessageFrom:
+        return {
+          base: (
+            <>
+              ↓{item.isEncrypted ? '🔐' : '✉'} <T id="p2pMessage" />
+            </>
+          ),
+          argsI18nKey: 'transferFromSmb',
+          args: [item.from]
+        };
+      case TransactionItemType.MessageTo:
+        return {
+          base: (
+            <>
+              ↑{item.isEncrypted ? '🔐' : '✉'} <T id="p2pMessage" />
+            </>
+          ),
+          argsI18nKey: 'transferToSmb',
+          args: [item.to]
+        };
+      case TransactionItemType.SelfUpdate:
+        return {
+          base: (
+            <>
+              {item.prefix} <T id={item.i18nKey} />
+            </>
+          )
+        };
       case TransactionItemType.Other:
         return {
-          // TODO: once we have proper naming, need to adjust this.
-          base: item.name
-            .split('_')
-            .map(w => `${w.charAt(0).toUpperCase()}${w.substring(1)}`)
-            .join(' ')
+          base: (
+            <>
+              <T id={item.name} />
+            </>
+          )
         };
     }
   })();

@@ -1,9 +1,14 @@
-export type ExtensionRequest = ExtensionGetCurrentPermissionRequest | ExtensionPermissionRequest | ExtensionSignRequest;
+export type ExtensionRequest =
+  | ExtensionGetCurrentPermissionRequest
+  | ExtensionPermissionRequest
+  | ExtensionSignRequest
+  | ExtensionSendEncryptedMessageRequest;
 
 export type ExtensionResponse =
   | ExtensionGetCurrentPermissionResponse
   | ExtensionPermissionResponse
-  | ExtensionSignResponse;
+  | ExtensionSignResponse
+  | ExtensionSendEncryptedMessageResponse;
 
 export interface ExtensionMessageBase {
   type: ExtensionMessageType;
@@ -15,7 +20,9 @@ export enum ExtensionMessageType {
   PermissionRequest = 'PERMISSION_REQUEST',
   PermissionResponse = 'PERMISSION_RESPONSE',
   SignRequest = 'SIGN_REQUEST',
-  SignResponse = 'SIGN_RESPONSE'
+  SignResponse = 'SIGN_RESPONSE',
+  SendEncryptedMessageRequest = 'SEND_ENCRYPTED_MSG_REQUEST',
+  SendEncryptedMessageResponse = 'SEND_ENCRYPTED_MSG_RESPONSE'
 }
 
 /**
@@ -52,6 +59,19 @@ export interface ExtensionSignRequest extends ExtensionMessageBase {
 
 export interface ExtensionSignResponse extends ExtensionMessageBase {
   type: ExtensionMessageType.SignResponse;
+  transactionId: string;
+  fullHash: string;
+}
+
+export interface ExtensionSendEncryptedMessageRequest extends ExtensionMessageBase {
+  type: ExtensionMessageType.SendEncryptedMessageRequest;
+  plainMessage: string;
+  messageIsText: boolean;
+  recipientPublicKey: string;
+}
+
+export interface ExtensionSendEncryptedMessageResponse extends ExtensionMessageBase {
+  type: ExtensionMessageType.SendEncryptedMessageResponse;
   transactionId: string;
   fullHash: string;
 }

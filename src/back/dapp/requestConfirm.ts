@@ -78,7 +78,7 @@ export async function requestConfirm({ id, payload, onDecline, handleIntercomReq
     type: 'popup',
     url: browser.runtime.getURL(`confirm.html#?id=${id}`),
     width: isWin ? CONFIRM_WINDOW_WIDTH + 16 : CONFIRM_WINDOW_WIDTH,
-    height: isWin ? CONFIRM_WINDOW_HEIGHT + 17 : CONFIRM_WINDOW_HEIGHT,
+    height: isWin ? CONFIRM_WINDOW_HEIGHT + 32 : CONFIRM_WINDOW_HEIGHT,
     top: Math.max(top, 20),
     left: Math.max(left, 20)
   });

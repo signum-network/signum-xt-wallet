@@ -10,6 +10,7 @@ import NoSpaceField from 'app/atoms/NoSpaceField';
 import { T, t } from 'lib/i18n/react';
 import {
   isSignumAddress,
+  SMART_CONTRACT_PUBLIC_KEY,
   useSignum,
   useSignumAccountPrefix,
   useSignumAliasResolver,
@@ -20,8 +21,6 @@ import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 interface WatchOnlyFormData {
   address: string;
 }
-
-const SmartContractPk = '0000000000000000000000000000000000000000000000000000000000000000';
 
 export const WatchOnlyForm: FC = () => {
   const { importWatchOnlyAccount } = useTempleClient();
@@ -86,7 +85,7 @@ export const WatchOnlyForm: FC = () => {
       }
       // @ts-ignore
       const publicKey = acc.publicKey;
-      if (!publicKey || publicKey === SmartContractPk) {
+      if (!publicKey || publicKey === SMART_CONTRACT_PUBLIC_KEY) {
         throw new Error(t('cannotImportWatchAccount'));
       }
       return publicKey;

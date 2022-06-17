@@ -7,14 +7,14 @@ import { ReactComponent as CopyIcon } from 'app/icons/copy.svg';
 import { T } from 'lib/i18n/react';
 import useCopyToClipboard from 'lib/ui/useCopyToClipboard';
 
-type OperationsBannerProps = {
+type Props = {
   jsonViewStyle?: CSSProperties;
   jsonObject: object;
   label?: ReactNode;
   className?: string;
 };
 
-const JsonView = memo<OperationsBannerProps>(({ jsonViewStyle, jsonObject, label, className }) => {
+const JsonView = memo<Props>(({ jsonViewStyle, jsonObject, label, className }) => {
   return (
     <>
       {label && (

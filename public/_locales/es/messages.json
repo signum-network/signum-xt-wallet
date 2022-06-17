@@ -1238,7 +1238,7 @@
     "message": "Ver las transacciones entrantes"
   },
   "signAction": {
-    "message": "Firmar"
+    "message": "Confirmar"
   },
   "skipped": {
     "message": "Omitido"
@@ -1835,5 +1835,49 @@
   },
   "skipOnboarding": {
     "message": "Saltar incorporación"
+  },
+  "attachmentIsEncrypted": {
+    "message": "🔐 Los datos adjuntos están encriptados"
+  },
+  "attachmentIsEncryptedDescription": {
+    "message": "Los datos adjuntos se cifrarán de extremo a extremo y solo usted y el destinatario podrán leerlos. Tenga en cuenta que los contratos inteligentes no entienden los mensajes cifrados"
+  },
+  "clickToReveal": {
+    "message": "Haga clic para revelar"
+  },
+  "encryptedMessageTo": {
+    "message": "Mensaje encriptado para"
+  },
+  "messages": {
+    "message": "Mensajes P2P"
+  },
+  "p2pNotPossible": {
+    "message": "La cuenta no tiene clave pública. ¡El cifrado P2P no es posible!"
+  },
+  "sendEncryptedMsgAction": {
+    "message": "Enviar mensaje cifrado"
+  },
+  "messageFrom": {
+    "message": "Mensaje de"
+  },
+  "addTreasuryAccount": {
+    "message": "Añadir cuenta de tesorería"
+  },
+  "originationOf": {
+    "message": "de $contract$",
+    "placeholders": {
+      "contract": {
+        "content": "$1"
+      }
+    }
+  },
+  "p2pMessage": {
+    "message": "Mensaje P2P"
+  },
+  "tokenIssuance": {
+    "message": "Creación de fichas"
+  },
+  "tokenMint": {
+    "message": "Acuñación de fichas"
   }
 }

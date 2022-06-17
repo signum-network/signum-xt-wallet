@@ -591,6 +591,9 @@
   "enabled": {
     "message": "Enabled"
   },
+  "encryptedMessageTo": {
+    "message": "Encrypted Message to"
+  },
   "enterPasswordToRemoveAccount": {
     "message": "Enter the password to remove the account."
   },
@@ -1059,6 +1062,14 @@
   "origination": {
     "message": "Contract Creation"
   },
+  "originationOf": {
+    "message": "of $contract$",
+    "placeholders": {
+      "contract": {
+        "content": "$1"
+      }
+    }
+  },
   "other": {
     "message": "Other"
   },
@@ -1231,6 +1242,9 @@
   "send": {
     "message": "Send"
   },
+  "sendEncryptedMsgAction": {
+    "message": "Send Encrypted Message"
+  },
   "sendToMyAccounts": {
     "message": "Send to my accounts"
   },
@@ -1241,7 +1255,7 @@
     "message": "View incoming transactions"
   },
   "signAction": {
-    "message": "Sign"
+    "message": "Confirm"
   },
   "skipped": {
     "message": "Skipped"
@@ -1768,10 +1782,16 @@
     "message": "Data must be a hexadecimal string"
   },
   "attachmentIsBinary": {
-    "message": "Attached data is binary"
+    "message": "🤖 Attached data is binary"
   },
   "attachmentIsBinaryDescription": {
     "message": "Binary data is encoded in hexadecimal form and mostly used for Smart Contract calls. Use this option only if you know what you are doing"
+  },
+  "attachmentIsEncrypted": {
+    "message": "🔐 Attached data is encrypted"
+  },
+  "attachmentIsEncryptedDescription": {
+    "message": "The attached data will be end-to-end encrypted and is only readable by you and the recipient. Mind that smart contracts do not understand encrypted messages"
   },
   "mustBeLessThanChars": {
     "message": "Must be less than $count$ characters",
@@ -1835,5 +1855,29 @@
   },
   "skipOnboarding": {
     "message": "Skip Onboarding"
+  },
+  "messages": {
+    "message": "P2P Messages"
+  },
+  "p2pMessage": {
+    "message": "P2P Message"
+  },
+  "clickToReveal": {
+    "message": "Click to reveal"
+  },
+  "p2pNotPossible": {
+    "message": "Account has no public key. P2P encryption is not possible!"
+  },
+  "messageFrom": {
+    "message": "Message from"
+  },
+  "tokenIssuance": {
+    "message": "Token Creation"
+  },
+  "tokenMint": {
+    "message": "Token Minting"
+  },
+  "addTreasuryAccount": {
+    "message": "Add Treasury Account"
   }
 }

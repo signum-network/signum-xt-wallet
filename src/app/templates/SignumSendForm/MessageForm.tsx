@@ -10,28 +10,34 @@ interface InternalFormData {
   message: string;
   isBinary: boolean;
   isVisible: boolean;
+  isEncrypted: boolean;
 }
 
 export interface MessageFormData {
   message: string;
   isBinary: boolean;
   isValid: boolean;
+  isEncrypted: boolean;
 }
 
 interface FormProps {
   onChange: (args: MessageFormData) => void;
+  showEncrypted: boolean;
+  mode: 'transfer' | 'p2pMessage';
 }
 
 const HEX_PATTERN = /^[0-9a-fA-F]+$/;
 const MAX_CHARS = 1000;
 
-export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
+export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: FormProps, ref) => {
+  const isP2PMode = mode === 'p2pMessage';
   const { register, triggerValidation, errors, formState, watch, reset } = useForm<InternalFormData>({
     mode: 'onChange',
     defaultValues: {
       message: '',
       isBinary: false,
-      isVisible: false
+      isVisible: isP2PMode,
+      isEncrypted: false
     }
   });
 
@@ -40,13 +46,15 @@ export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
       reset({
         message: '',
         isBinary: false,
-        isVisible: false
+        isVisible: isP2PMode,
+        isEncrypted: false
       })
   }));
 
   const isBinary = watch('isBinary');
+  const isEncrypted = watch('isEncrypted');
   const message = watch('message');
-  const isVisible = watch('isVisible');
+  const isVisible = isP2PMode ? true : watch('isVisible');
   const label = useMemo(() => t(isBinary ? 'hexCodeAttachment' : 'textAttachment'), [isBinary]);
   const placeholder = useMemo(() => t(isBinary ? 'enterHexCode' : 'enterText'), [isBinary]);
   const dataRegistry = useMemo(
@@ -70,9 +78,10 @@ export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
     onChange({
       message,
       isBinary,
-      isValid: formState.isValid
+      isValid: formState.isValid,
+      isEncrypted: isEncrypted && showEncrypted
     });
-  }, [isBinary, message, formState.isValid, onChange]);
+  }, [isEncrypted, isBinary, message, formState.isValid, onChange, showEncrypted]);
 
   useEffect(() => {
     triggerValidation(['message']);
@@ -80,13 +89,15 @@ export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
 
   return (
     <div>
-      <FormCheckbox
-        ref={register()}
-        name="isVisible"
-        label={label}
-        labelDescription={t('attachmentDescription')}
-        containerClassName="mt-4"
-      />
+      {!isP2PMode && (
+        <FormCheckbox
+          ref={register()}
+          name="isVisible"
+          label={label}
+          labelDescription={t('attachmentDescription')}
+          containerClassName="mt-4"
+        />
+      )}
 
       {isVisible && (
         <>
@@ -99,8 +110,18 @@ export const MessageForm = React.forwardRef(({ onChange }: FormProps, ref) => {
             errorCaption={errors.message?.message}
             containerClassName="mt-4"
             textarea
+            rows={isP2PMode ? 10 : 3}
             maxLength={MAX_CHARS}
           />
+          {showEncrypted && (
+            <FormCheckbox
+              ref={register()}
+              name="isEncrypted"
+              label={t('attachmentIsEncrypted')}
+              labelDescription={t('attachmentIsEncryptedDescription')}
+              containerClassName="mt-4"
+            />
+          )}
 
           <FormCheckbox
             ref={register()}

@@ -30,7 +30,7 @@ import { ConfirmPageSelectors } from './ConfirmPage.selectors';
 import PayloadContent from './PayloadContent';
 
 const ConfirmDAppForm: FC = () => {
-  const { getDAppPayload, confirmDAppPermission, confirmDAppSign } = useTempleClient();
+  const { getDAppPayload, confirmDAppPermission, confirmDAppSign, confirmDAppSendEncryptedMessage } = useTempleClient();
   const relevantAccounts = useRelevantAccounts();
   const account = useAccount();
   const network = useNetwork();
@@ -70,9 +70,11 @@ const ConfirmDAppForm: FC = () => {
           return confirmDAppPermission(id, confirmed, accountToConnect);
         case 'sign':
           return confirmDAppSign(id, confirmed);
+        case 'sendEncryptedMsg':
+          return confirmDAppSendEncryptedMessage(id, confirmed);
       }
     },
-    [id, payload.type, confirmDAppPermission, confirmDAppSign, accountToConnect]
+    [id, payload.type, accountToConnect, confirmDAppPermission, confirmDAppSign, confirmDAppSendEncryptedMessage]
   );
 
   const [error, setError] = useSafeState<any>(null);
@@ -140,8 +142,34 @@ const ConfirmDAppForm: FC = () => {
 
       case 'sign':
         return {
-          title: t('confirmAction', t('signAction').toLowerCase()),
-          declineActionTitle: t('reject'),
+          title: t('confirmAction', t('transaction').toLowerCase()),
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.SignAction_RejectButton,
+          confirmActionTitle: t('signAction'),
+          confirmActionTestID: ConfirmPageSelectors.SignAction_SignButton,
+          want: (
+            <div className={classNames('mb-2 text-sm text-center text-gray-700', 'flex flex-col items-center')}>
+              <div className="flex items-center justify-center">
+                <DAppLogo origin={payload.origin} size={16} className="mr-1" />
+                <Name className="font-semibold" style={{ maxWidth: '10rem' }}>
+                  {payload.appMeta.name}
+                </Name>
+              </div>
+              <T
+                id="appRequestsToSign"
+                substitutions={[
+                  <Name className="max-w-full text-xs italic" key="origin">
+                    {payload.origin}
+                  </Name>
+                ]}
+              />
+            </div>
+          )
+        };
+      case 'sendEncryptedMsg':
+        return {
+          title: t('sendEncryptedMsgAction'),
+          declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.SignAction_RejectButton,
           confirmActionTitle: t('signAction'),
           confirmActionTestID: ConfirmPageSelectors.SignAction_SignButton,
@@ -179,7 +207,7 @@ const ConfirmDAppForm: FC = () => {
         }}
       >
         <div className="flex flex-col items-center p-4">
-          <SubTitle small className={payload.type === 'connect' ? 'mt-4 mb-6' : 'mt-4 mb-2'}>
+          <SubTitle small className={payload.type === 'connect' ? 'text-center mt-4 mb-6' : 'text-center mb-2'}>
             {content.title}
           </SubTitle>
 

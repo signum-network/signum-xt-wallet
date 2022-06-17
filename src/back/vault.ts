@@ -393,21 +393,18 @@ export class Vault {
     });
   }
 
-  // TODO: Remove this obsolete method
-  async sendOperations(accPublicKey: string, rpc: string, opParams: any[]) {
-    return Promise.reject('Method not supported');
-  }
-
   async getSignumTxKeys(accPublicKey: string) {
     return withError('Failed to fetch Signum transaction keys', async () => {
       const accountId = Address.fromPublicKey(accPublicKey).getNumericId();
 
-      const [signingKey, publicKey] = await Promise.all([
+      const [signingKey, p2pEncryptionKey, publicKey] = await Promise.all([
         fetchAndDecryptOne<string>(accPrivKeyStrgKey(accountId), this.passKey),
+        fetchAndDecryptOne<string>(accPrivP2PStrgKey(accountId), this.passKey),
         fetchAndDecryptOne<string>(accPubKeyStrgKey(accountId), this.passKey)
       ]);
       return {
         signingKey,
+        p2pEncryptionKey,
         publicKey
       };
     });

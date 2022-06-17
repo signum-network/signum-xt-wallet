@@ -1,39 +1,69 @@
 export enum TransactionItemType {
   TransferTo,
   TransferFrom,
+  MessageTo,
+  MessageFrom,
   Interaction,
   Origination,
+  SelfUpdate,
   Other
 }
 
-export type TransactionItem = TransferFromItem | TransferToItem | InteractionItem | OriginationItem | OtherItem;
+export type TransactionItem =
+  | TransferFromItem
+  | TransferToItem
+  | MessageToItem
+  | MessageFromItem
+  | InteractionItem
+  | OriginationItem
+  | SelfUpdateItem
+  | OtherItem;
 
-export interface OpStackItemBase {
+export interface TxItemBase {
   type: TransactionItemType;
 }
 
-export interface TransferFromItem extends OpStackItemBase {
+export interface TransferFromItem extends TxItemBase {
   type: TransactionItemType.TransferFrom;
   from: string;
 }
 
-export interface TransferToItem extends OpStackItemBase {
+export interface TransferToItem extends TxItemBase {
   type: TransactionItemType.TransferTo;
   to: string;
 }
 
-export interface InteractionItem extends OpStackItemBase {
+export interface MessageFromItem extends TxItemBase {
+  type: TransactionItemType.MessageFrom;
+  from: string;
+  isEncrypted: boolean;
+}
+
+export interface MessageToItem extends TxItemBase {
+  type: TransactionItemType.MessageTo;
+  to: string;
+  isEncrypted: boolean;
+}
+
+export interface InteractionItem extends TxItemBase {
   type: TransactionItemType.Interaction;
-  with: string;
-  entrypoint: string;
+  contract: string;
 }
 
-export interface OriginationItem extends OpStackItemBase {
+export interface OriginationItem extends TxItemBase {
   type: TransactionItemType.Origination;
-  contract?: string;
+  contract: string;
 }
 
-export interface OtherItem extends OpStackItemBase {
+export interface SelfUpdateItem extends TxItemBase {
+  type: TransactionItemType.SelfUpdate;
+  prefix: string;
+  i18nKey: string;
+  amount?: string;
+}
+
+export interface OtherItem extends TxItemBase {
   type: TransactionItemType.Other;
+  prefix: string;
   name: string;
 }
