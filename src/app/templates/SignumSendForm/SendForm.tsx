@@ -93,13 +93,13 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     async (_k: string, address: string) => {
       try {
         const id = Address.create(address).getNumericId();
-        const acc = await signum.account.getAccount({
+        // @ts-ignore
+        const { publicKey } = await signum.account.getAccount({
           accountId: id,
           includeEstimatedCommitment: false,
           includeCommittedAmount: false
         });
-        // @ts-ignore
-        return acc.publicKey;
+        return publicKey;
       } catch (e) {
         return resolveAliasToAccountPk(address);
       }
@@ -111,10 +111,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     revalidateOnFocus: false
   });
 
-  const toFilled = useMemo(
-    () => (resolvedPublicKey ? toFilledWithAlias : toFilledWithAddress),
-    [toFilledWithAddress, toFilledWithAlias, resolvedPublicKey]
-  );
+  const toFilled = toFilledWithAlias || toFilledWithAddress;
 
   const toResolved = useMemo(() => {
     try {

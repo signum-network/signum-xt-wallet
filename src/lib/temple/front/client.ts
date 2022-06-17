@@ -20,10 +20,9 @@ type Confirmation = {
   payload: TempleConfirmationPayload;
 };
 
-export const [TempleClientProvider, useTempleClient] = constate(() => {
-  let intercom = useRef<IntercomClient | null>(null);
-  let unsubscribe = useRef<any>(null);
+const intercom = new IntercomClient();
 
+export const [TempleClientProvider, useTempleClient] = constate(() => {
   /**
    * State
    */
@@ -32,7 +31,7 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     const res = await request({ type: XTMessageType.GetStateRequest });
     assertResponse(res.type === XTMessageType.GetStateResponse);
     return res.state;
-  }, [request]);
+  }, []);
 
   const { data, revalidate } = useRetryableSWR('state', fetchState, {
     suspense: true,
@@ -49,9 +48,8 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     setConfirmation(null);
   }, [setConfirmation]);
 
-
-  const intercomSubscription = useCallback(
-    (msg: TempleNotification) => {
+  useEffect(() => {
+    return intercom.subscribe((msg: TempleNotification) => {
       switch (msg?.type) {
         case XTMessageType.StateUpdated:
           revalidate();
@@ -69,69 +67,8 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
           }
           break;
       }
-    },
-    [revalidate, setConfirmation, resetConfirmation]
-  );
-
-  const getIntercom = useCallback(() => {
-    if (!intercom.current) {
-      unsubscribe.current && unsubscribe.current();
-      intercom.current = new IntercomClient();
-      unsubscribe.current = intercom.current.subscribe(intercomSubscription);
-    }
-    return intercom.current;
-  }, [intercom, unsubscribe, intercomSubscription]);
-
-  function unsubscribeIntercom() {
-    unsubscribe.current && unsubscribe.current();
-    unsubscribe.current = null;
-  }
-
-  function destroyIntercom() {
-    intercom.current?.destroy();
-    intercom.current = null;
-  }
-
-  async function getPublicKey(accountPublicKeyHash: string) {
-    const res = await request({
-      type: XTMessageType.RevealPublicKeyRequest,
-      accountPublicKeyHash
     });
-    assertResponse(res.type === XTMessageType.RevealPublicKeyResponse);
-    return res.publicKey;
-  }
-
-  const request = useCallback(async <T extends TempleRequest>(req: T): Promise<TempleResponse> => {
-    try {
-      const res = await getIntercom().request(req);
-      assertResponse('type' in res);
-      return res as TempleResponse;
-    } catch (e: any) {
-      if (e.message === 'Attempting to use a disconnected port object') {
-        unsubscribeIntercom();
-        destroyIntercom();
-
-        const res = await getIntercom().request(req);
-        assertResponse('type' in res);
-        return res as TempleResponse;
-      }
-      console.error(e);
-      throw e;
-    }
-  }, []);
-
-  function assertResponse(condition: any): asserts condition {
-    if (!condition) {
-      throw new Error('Invalid response received');
-    }
-  }
-
-
-  useEffect(() => {
-    if (!revalidate) return;
-    getIntercom();
-    return unsubscribeIntercom;
-  }, [revalidate, setConfirmation, resetConfirmation, getIntercom]);
+  }, [revalidate, setConfirmation, resetConfirmation]);
 
   /**
    * Aliases
@@ -444,23 +381,23 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
   };
 });
 
-// async function getPublicKey(accountPublicKeyHash: string) {
-//   const res = await request({
-//     type: XTMessageType.RevealPublicKeyRequest,
-//     accountPublicKeyHash
-//   });
-//   assertResponse(res.type === XTMessageType.RevealPublicKeyResponse);
-//   return res.publicKey;
-// }
-//
-// async function request<T extends TempleRequest>(req: T) {
-//   const res = await intercom.request(req);
-//   assertResponse('type' in res);
-//   return res as TempleResponse;
-// }
-//
-// function assertResponse(condition: any): asserts condition {
-//   if (!condition) {
-//     throw new Error('Invalid response received');
-//   }
-// }
+async function getPublicKey(accountPublicKeyHash: string) {
+  const res = await request({
+    type: XTMessageType.RevealPublicKeyRequest,
+    accountPublicKeyHash
+  });
+  assertResponse(res.type === XTMessageType.RevealPublicKeyResponse);
+  return res.publicKey;
+}
+
+async function request<T extends TempleRequest>(req: T) {
+  const res = await intercom.request(req);
+  assertResponse('type' in res);
+  return res as TempleResponse;
+}
+
+function assertResponse(condition: any): asserts condition {
+  if (!condition) {
+    throw new Error('Invalid response received');
+  }
+}

@@ -99,10 +99,7 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
     revalidateOnFocus: false
   });
 
-  const toFilled = useMemo(
-    () => (resolvedPublicKey ? toFilledWithAlias : toFilledWithAddress),
-    [toFilledWithAddress, toFilledWithAlias, resolvedPublicKey]
-  );
+  const toFilled = toFilledWithAlias || toFilledWithAddress;
 
   const toResolved = useMemo(() => {
     try {
