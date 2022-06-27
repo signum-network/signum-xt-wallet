@@ -32,7 +32,7 @@ export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmoun
   }
 
   const result = {
-    diff: Amount.Zero().getSigna()
+    diff: amount.getSigna()
   };
   if (tx.sender === accountId && tx.recipient !== accountId) {
     result.diff = amount.multiply(-1).getSigna();

@@ -32,7 +32,8 @@ const Activity = memo<ActivityProps>(({ publicKey, className }) => {
         accountId,
         firstIndex: 0,
         lastIndex: ACTIVITY_PAGE_SIZE - 1,
-        includeIndirect: true
+        includeIndirect: true,
+        resolveDistributions: true
       });
 
       hasMoreRef.current = transactionList.transactions.length === ACTIVITY_PAGE_SIZE;
@@ -74,7 +75,9 @@ const Activity = memo<ActivityProps>(({ publicKey, className }) => {
       const { transactions: olderTransactions } = await signum.account.getAccountTransactions({
         accountId,
         firstIndex,
-        lastIndex: firstIndex + (ACTIVITY_PAGE_SIZE - 1)
+        lastIndex: firstIndex + (ACTIVITY_PAGE_SIZE - 1),
+        includeIndirect: true,
+        resolveDistributions: true
       });
 
       hasMoreRef.current = olderTransactions.length === ACTIVITY_PAGE_SIZE;

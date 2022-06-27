@@ -1879,5 +1879,8 @@
   },
   "addTreasuryAccount": {
     "message": "Add Treasury Account"
+  },
+  "tokenDistribution": {
+    "message": "Token Holder Distribution"
   }
 }

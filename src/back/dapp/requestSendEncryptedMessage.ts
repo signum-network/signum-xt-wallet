@@ -59,7 +59,7 @@ export async function requestSendEncryptedMessage(
           if (confirmReq.confirmed && networkHost.networkName === dApp.network) {
             const { messageIsText, plainMessage, recipientPublicKey } = req;
             const { p2pEncryptionKey, signingKey } = await withUnlocked(({ vault }) =>
-              vault.getSignumTxKeys(recipientPublicKey)
+              vault.getSignumTxKeys(accountPublicKey)
             );
             const recipient = Address.fromPublicKey(recipientPublicKey);
             const { transaction, fullHash } = (await ledger.message.sendEncryptedMessage({
