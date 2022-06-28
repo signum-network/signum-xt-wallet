@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1
+
+### Bugfixes
+- Shows correct value from Token Holder Distribution (#36)
+- Binary Message pops up only when detected Hex code (#35)
+- Firefox text size (#34)
+
 ## 1.2
 
 ### New feature
