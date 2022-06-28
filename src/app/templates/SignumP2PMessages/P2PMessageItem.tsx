@@ -75,7 +75,7 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
         <div className="text-right mb-px text-xs font-light leading-none">{transactionStatus}</div>
       </div>
       <div className="flex flex-row items-center">
-        <span className="text-blue-600">
+        <span className="text-xs text-blue-600">
           {isReceivedMessage ? '↓' : '↑'}
           {isEncrypted ? '🔐' : '✉'}
           {isReceivedMessage ? t('messageFrom') : t('messageTo')}
