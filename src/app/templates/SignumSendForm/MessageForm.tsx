@@ -99,7 +99,7 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: 
       setIsHexadecimalMessage(HEX_PATTERN.test(message));
       setValue('isBinary', true);
     }
-  }, [message]);
+  }, [message, isHexadecimalMessage, setValue]);
 
   return (
     <div>
