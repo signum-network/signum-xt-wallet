@@ -1879,5 +1879,14 @@
   },
   "tokenMint": {
     "message": "Cunhagem de Token"
+  },
+  "pleaseCloseAndOpenWallet": {
+    "message": "Por favor, reabra a carteira e tente novamente."
+  },
+  "portDisconnectionIssue": {
+    "message": "A porta de comunicação interna foi desconectada."
+  },
+  "tokenDistribution": {
+    "message": "Distribuição de Detentor de Token"
   }
 }

@@ -17,7 +17,7 @@ function isPayment(tx: Transaction): boolean {
   return (
     tx.type === TransactionType.Payment ||
     (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetTransfer) ||
-    (tx.type === TransactionType.Asset && tx.subtype === 8) || // distribution to token holders
+    (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders) || // distribution to token holders
     (tx.type === TransactionType.Asset && tx.subtype === 9) || // asset multi transfer
     (tx.type === TransactionType.Escrow && tx.subtype === TransactionEscrowSubtype.SubscriptionPayment)
   );
@@ -64,15 +64,13 @@ function getSelfUpdateItem(tx: Transaction): SelfUpdateItem {
   } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetIssuance) {
     item.prefix = '🪙';
     item.i18nKey = 'tokenIssuance';
-    // TODO: Adjust SignumJs with new transaction types
-  } else if (tx.type === TransactionType.Asset && tx.subtype === 6) {
+  } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetMint) {
     item.prefix = '🪙';
     item.i18nKey = 'tokenMint';
-  } else if (tx.type === TransactionType.Asset && tx.subtype === 7) {
+  } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount) {
     item.prefix = '🏦';
     item.i18nKey = 'addTreasuryAccount';
   }
-
   return item;
 }
 
@@ -85,8 +83,8 @@ function isContractTransaction(tx: Transaction): boolean {
 }
 
 export function parseTransaction(tx: Transaction, accountId: string, accountPrefix: string): TransactionItem {
+  // @ts-ignore
   let item: TransactionItem = {
-    // @ts-ignore
     from: tx.senderRS,
     to: tx.recipientRS || ''
   };

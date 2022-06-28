@@ -1466,27 +1466,27 @@
   resolved "https://registry.yarnpkg.com/@serh11p/jest-webextension-mock/-/jest-webextension-mock-4.0.0.tgz#c3b2a00e8c758e156a4a922718b35183e9023af9"
   integrity sha512-SQDFFOJGwQpaPopzYkFgzdDdi8tL8US/XM2UjBu4rmLLztTI/wOSecwXj/i3lhOUwOs3bHO2Zz9eRu2rPy5p9A==
 
-"@signumjs/contracts@^1.0.0-rc.14":
-  version "1.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@signumjs/contracts/-/contracts-1.0.0-rc.14.tgz#f0d3152fdb7d60b63c8642bbbae57ebf0e20cc21"
-  integrity sha512-QkjuGjn7I64OjBb9FjoDEHheFDDFAdXWtLtQp3Aa4GwtcntgxnfvsYvImv/0maS1RPn4n00uBcqKP/JY2HuzyA==
+"@signumjs/contracts@^1.0.0-rc.19":
+  version "1.0.0-rc.19"
+  resolved "https://registry.yarnpkg.com/@signumjs/contracts/-/contracts-1.0.0-rc.19.tgz#83bff4c0a2aaac511f1c3d8e5697c4cb60049968"
+  integrity sha512-EOfoZt1nZLQjQ5S7c8o71k3H87OlfXbZ57Vnj4HuK3psn3ti7YSYYL8PHabG0J2Nqn9xND7Wudhy7zS0lYvQjw==
   dependencies:
-    "@signumjs/util" "^1.0.0-rc.14"
+    "@signumjs/util" "^1.0.0-rc.19"
 
-"@signumjs/core@^1.0.0-rc.14":
-  version "1.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@signumjs/core/-/core-1.0.0-rc.14.tgz#419c0e034829c51195ebc6b70e1403fae68d644b"
-  integrity sha512-2koHrNMkNHjc3/vlXjBODgnqTTADH/l3eMoNYIe/tcmmcL4GW/XnSxVii1UXdV5AOWx9/gniWTAQCgrbjft/0g==
+"@signumjs/core@^1.0.0-rc.19":
+  version "1.0.0-rc.19"
+  resolved "https://registry.yarnpkg.com/@signumjs/core/-/core-1.0.0-rc.19.tgz#f3c410d27563fe066fac3a5871f5fe970d878538"
+  integrity sha512-Dd9EwWLWjGcgtVhyzZxq1b/l8JdWi+JvX8vqlclV2JtJAe4JnlRNkwtRO9jnUwRpj1Isht/03yTcGeC5gEGFzQ==
   dependencies:
-    "@signumjs/contracts" "^1.0.0-rc.14"
-    "@signumjs/crypto" "^1.0.0-rc.14"
-    "@signumjs/http" "^1.0.0-rc.14"
-    "@signumjs/util" "^1.0.0-rc.14"
+    "@signumjs/contracts" "^1.0.0-rc.19"
+    "@signumjs/crypto" "^1.0.0-rc.19"
+    "@signumjs/http" "^1.0.0-rc.19"
+    "@signumjs/util" "^1.0.0-rc.19"
 
-"@signumjs/crypto@^1.0.0-rc.14":
-  version "1.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@signumjs/crypto/-/crypto-1.0.0-rc.14.tgz#178ae623614df8a8c7cf2a8c29f861f17c3606f1"
-  integrity sha512-ipGfzPsCbrBxu/csBiZzwNx5XgR0Q8Bdw56srd0qbAQ+hQO0vrgW/XwnE3mfeaQ4L/fBclSewa/2gFtXc+KzRw==
+"@signumjs/crypto@^1.0.0-rc.19":
+  version "1.0.0-rc.19"
+  resolved "https://registry.yarnpkg.com/@signumjs/crypto/-/crypto-1.0.0-rc.19.tgz#41b0b3cc32980a191d80d8682f4f9df4d3fddd82"
+  integrity sha512-N6OxF4kR+6dz3syvBtvpLXqExLvuJ0rZjyuOkJLcujafk37J0+/b7pH54uS98YSdrrSLCnNNF6+Jebtgyu7zAg==
   dependencies:
     "@types/crypto-js" "^3.1.43"
     "@types/node" "^12.0.0"
@@ -1496,17 +1496,17 @@
     pako "^1.0.10"
     seedrandom "^3.0.5"
 
-"@signumjs/http@^1.0.0-rc.14":
-  version "1.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@signumjs/http/-/http-1.0.0-rc.14.tgz#c1449f99fca0974c8bb4e282d7f216f60e7805b5"
-  integrity sha512-+3Fd1sgpKsvkCNjuTBTgRzsSRrfbmX87JyuSG5N/eZ2y7HoQsRV4JVxkYJGvgAylO77D6N6dDAhmpH3IGwCk5w==
+"@signumjs/http@^1.0.0-rc.19":
+  version "1.0.0-rc.19"
+  resolved "https://registry.yarnpkg.com/@signumjs/http/-/http-1.0.0-rc.19.tgz#0533350486218f5e5683405ac13842ec3ecd8a25"
+  integrity sha512-dERZ3sLMrzjEF3iE8HUZIO7HlxH6l8E+stAsoPM54dyMpBsEnyWesYbfLPwu0d9JXPl8QnKFpdzJkZ0FZvcMyg==
   dependencies:
     axios "^0.21.4"
 
-"@signumjs/util@^1.0.0-rc.14":
-  version "1.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@signumjs/util/-/util-1.0.0-rc.14.tgz#8a98f9bb31d6eebd851ee1b4fb8158f51ec4ee4a"
-  integrity sha512-HH83YwMq+TzALeDx/4HLyCPlURzqMYpOjqid9KKIpWQF18HA7Obz/2EvZN8fJqb60BYADupFgBpIQx6/bB5lcQ==
+"@signumjs/util@^1.0.0-rc.19":
+  version "1.0.0-rc.19"
+  resolved "https://registry.yarnpkg.com/@signumjs/util/-/util-1.0.0-rc.19.tgz#1068dde70225ccd1b98c02107ca06bc49488fc7c"
+  integrity sha512-4V9HTvnAeXAsH0k7Jzn5c8vHiYZp8c3OfRCbiNsatmhTwiJ6Fg1iVlLveFi3l4FZiaZrc+mLhWbN65OG2l1IxQ==
   dependencies:
     bignumber.js "^9.0.0"
     js-base64 "^3.6.0"

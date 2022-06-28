@@ -1879,5 +1879,14 @@
   },
   "tokenMint": {
     "message": "Чеканка токенов"
+  },
+  "pleaseCloseAndOpenWallet": {
+    "message": "Пожалуйста, снова откройте кошелек и повторите попытку."
+  },
+  "portDisconnectionIssue": {
+    "message": "Порт внутренней связи был отключен."
+  },
+  "tokenDistribution": {
+    "message": "Распределение держателей токенов"
   }
 }

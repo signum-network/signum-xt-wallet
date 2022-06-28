@@ -1879,5 +1879,14 @@
   },
   "tokenMint": {
     "message": "เหรียญกษาปณ์"
+  },
+  "pleaseCloseAndOpenWallet": {
+    "message": "โปรดเปิดกระเป๋าเงินอีกครั้งแล้วลองอีกครั้ง"
+  },
+  "portDisconnectionIssue": {
+    "message": "พอร์ตการสื่อสารภายในถูกตัดการเชื่อมต่อ"
+  },
+  "tokenDistribution": {
+    "message": "การกระจายผู้ถือโทเค็น"
   }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useMemo } from 'react';
+import React, { useEffect, useImperativeHandle, useMemo, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 
@@ -26,12 +26,13 @@ interface FormProps {
   mode: 'transfer' | 'p2pMessage';
 }
 
-const HEX_PATTERN = /^[0-9a-fA-F]+$/;
+const HEX_PATTERN = /^(0x)?[0-9a-fA-F]+$/;
 const MAX_CHARS = 1000;
 
 export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: FormProps, ref) => {
   const isP2PMode = mode === 'p2pMessage';
-  const { register, triggerValidation, errors, formState, watch, reset } = useForm<InternalFormData>({
+  const [isHexadecimalMessage, setIsHexadecimalMessage] = useState(false);
+  const { register, triggerValidation, errors, formState, watch, reset, setValue } = useForm<InternalFormData>({
     mode: 'onChange',
     defaultValues: {
       message: '',
@@ -75,9 +76,14 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: 
   );
 
   useEffect(() => {
+    let prunedMessage = message;
+    if (isHexadecimalMessage && isBinary && message.startsWith('0x')) {
+      prunedMessage = message.replace('0x', '');
+    }
+
     onChange({
-      message,
-      isBinary,
+      message: prunedMessage,
+      isBinary: isHexadecimalMessage && isBinary,
       isValid: formState.isValid,
       isEncrypted: isEncrypted && showEncrypted
     });
@@ -86,6 +92,14 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: 
   useEffect(() => {
     triggerValidation(['message']);
   }, [isBinary, triggerValidation]);
+
+  useEffect(() => {
+    if (!isHexadecimalMessage) {
+      // hide until it pops up first time
+      setIsHexadecimalMessage(HEX_PATTERN.test(message));
+      setValue('isBinary', true);
+    }
+  }, [message, isHexadecimalMessage, setValue]);
 
   return (
     <div>
@@ -122,14 +136,17 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: 
               containerClassName="mt-4"
             />
           )}
-
-          <FormCheckbox
-            ref={register()}
-            name="isBinary"
-            label={t('attachmentIsBinary')}
-            labelDescription={t('attachmentIsBinaryDescription')}
-            containerClassName="mt-4"
-          />
+          {isHexadecimalMessage && (
+            <FormCheckbox
+              ref={register()}
+              name="isBinary"
+              label={t('attachmentIsBinary')}
+              labelDescription={t('attachmentIsBinaryDescription')}
+              containerClassName="mt-4"
+              /* default value */
+              checked={true}
+            />
+          )}
         </>
       )}
     </div>
