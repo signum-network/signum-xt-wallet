@@ -43,9 +43,11 @@ const SendErrorAlert: FC<SendErrorAlertProps> = ({ type, error }) => (
               <br />
               <T id="thisMayHappenBecause" />
               <ul className="mt-1 ml-2 text-xs list-disc list-inside">
+                <T id="portDisconnectionIssue">{message => <li>{message}</li>}</T>
                 <T id="minimalFeeGreaterThanBalanceVerbose">{message => <li>{message}</li>}</T>
                 <T id="networkOrOtherIssue">{message => <li>{message}</li>}</T>
               </ul>
+              <T id="pleaseCloseAndOpenWallet" />
             </>
           );
       }

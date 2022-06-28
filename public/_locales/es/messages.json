@@ -1879,5 +1879,14 @@
   },
   "tokenMint": {
     "message": "Acuñación de fichas"
+  },
+  "pleaseCloseAndOpenWallet": {
+    "message": "Por favor, vuelve a abrir la billetera e inténtalo de nuevo."
+  },
+  "portDisconnectionIssue": {
+    "message": "El puerto de comunicación interna fue desconectado."
+  },
+  "tokenDistribution": {
+    "message": "Distribución de titulares de tokens"
   }
 }

@@ -1879,5 +1879,14 @@
   },
   "tokenMint": {
     "message": "Münzprägung"
+  },
+  "pleaseCloseAndOpenWallet": {
+    "message": "Bitte öffnen Sie die Wallet erneut und versuchen Sie es erneut."
+  },
+  "portDisconnectionIssue": {
+    "message": "Interner Kommunikationsport wurde getrennt."
+  },
+  "tokenDistribution": {
+    "message": "Token-Holder-Verteilung"
   }
 }

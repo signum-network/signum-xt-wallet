@@ -954,6 +954,12 @@
   "networkOrOtherIssue": {
     "message": "Network or other technical problem."
   },
+  "portDisconnectionIssue": {
+    "message": "Internal Communication Port was disconnected."
+  },
+  "pleaseCloseAndOpenWallet": {
+    "message": "Please, reopen the wallet and try again."
+  },
   "networks": {
     "message": "Networks"
   },
