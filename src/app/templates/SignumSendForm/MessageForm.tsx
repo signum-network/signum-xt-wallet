@@ -87,7 +87,7 @@ export const MessageForm = React.forwardRef(({ onChange, showEncrypted, mode }: 
       isValid: formState.isValid,
       isEncrypted: isEncrypted && showEncrypted
     });
-  }, [isEncrypted, isBinary, message, formState.isValid, onChange, showEncrypted]);
+  }, [isEncrypted, isHexadecimalMessage, isBinary, message, formState.isValid, onChange, showEncrypted]);
 
   useEffect(() => {
     triggerValidation(['message']);
