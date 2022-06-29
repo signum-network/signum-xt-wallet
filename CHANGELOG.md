@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.2
+
+### Hotfix
+- Distribution Transaction as Sender does not break anymore 
+
+
 ## 1.2.1
 
 ### Bugfixes

@@ -28,7 +28,8 @@ export async function detectTokenStandard(
 ): Promise<TokenStandard | null> {
   const { entrypoints } =
     typeof contract === 'string'
-      ? await retry(() => tezos.rpc.getEntrypoints(contract), RETRY_PARAMS)
+      ? // @ts-ignore
+        await retry(() => tezos.rpc.getEntrypoints(contract), RETRY_PARAMS)
       : contract.entrypoints;
 
   switch (true) {
@@ -57,6 +58,7 @@ export async function assertGetBalance(
               .balance_of([{ owner: STUB_TEZOS_ADDRESS, token_id: fa2TokenId }])
               .read((tezos as any).lambdaContract)
           : contract.views.getBalance(STUB_TEZOS_ADDRESS).read((tezos as any).lambdaContract),
+      // @ts-ignore
       RETRY_PARAMS
     );
   } catch (err: any) {

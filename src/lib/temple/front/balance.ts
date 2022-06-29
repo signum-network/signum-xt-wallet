@@ -58,7 +58,7 @@ function getBalances(account: Account, decimals: number): AccountBalances {
   const availableBalance = new BigNumber(account.unconfirmedBalanceNQT || '0').div(divider);
   const committedBalance = new BigNumber(account.committedBalanceNQT || '0').div(divider);
   // other locked balances
-  const lockedBalance = new BigNumber(totalBalance).minus(availableBalance).minus(committedBalance).div(divider);
+  const lockedBalance = new BigNumber(totalBalance).minus(availableBalance).minus(committedBalance);
   return {
     availableBalance,
     committedBalance,

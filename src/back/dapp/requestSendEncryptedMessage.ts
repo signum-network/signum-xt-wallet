@@ -16,8 +16,8 @@ import {
 } from './typings';
 
 function estimateFee(msg: string): Amount {
-  const Overhead = 232;
-  const factor = Math.min(Math.floor((Overhead + msg.length) / 176), 6);
+  const Overhead = 368;
+  const factor = Math.min(Math.floor((Overhead + msg.length) / 184), 6);
   return Amount.fromSigna(0.01).multiply(factor);
 }
 
@@ -37,7 +37,7 @@ export async function requestSendEncryptedMessage(
     const { rpcBaseURL } = networkHost;
     const httpClient = new HttpAdapterFetch(rpcBaseURL);
     const ledger = LedgerClientFactory.createClient({ nodeHost: rpcBaseURL, httpClient });
-    const sendFee = estimateFee(req.plainMessage);
+    const sendFee = req.feeSigna ? Amount.fromSigna(req.feeSigna) : estimateFee(req.plainMessage);
     await requestConfirm({
       id,
       payload: {

@@ -25,18 +25,36 @@ const AssetBanner: FC<AssetBannerProps> = ({ assetSlug, accountId }) => {
         <div className="flex items-center">
           <Balance accountId={accountId} assetSlug={assetSlug}>
             {(totalBalance, balances) => (
-              <div className="relative flex flex-col">
+              <div className="my-1 relative flex flex-col">
                 <span className="text-xl text-gray-800">
                   <Money smallFractionFont={false}>{totalBalance}</Money>{' '}
                   <span className="text-lg">{getAssetSymbol(assetMetadata)}</span>
                 </span>
                 {!balances.availableBalance.eq(balances.totalBalance) && (
-                  <span className="mt-2 text-xs text-gray-600">
-                    <T id="lockedBalance">{msg => <span className="text-xs text-gray-600">{msg}</span>}</T>
-                    {': '}
-                    <Money smallFractionFont={false}>{balances.committedBalance}</Money>{' '}
-                    <span className="text-xs text-gray-600">{getAssetSymbol(assetMetadata)}</span>
-                  </span>
+                  <>
+                    <span className="mt-2 text-xs text-gray-600">
+                      <T id="availableBalance">{msg => <span className="text-xs text-gray-600">{msg}</span>}</T>
+                      {': '}
+                      <Money smallFractionFont={false}>{balances.availableBalance}</Money>{' '}
+                      <span className="text-xs text-gray-600">{getAssetSymbol(assetMetadata)}</span>
+                    </span>
+                    {balances.committedBalance.gt(0) && (
+                      <span className="mt-1 text-xs text-gray-600">
+                        <T id="committedBalance">{msg => <span className="text-xs text-gray-600">{msg}</span>}</T>
+                        {': '}
+                        <Money smallFractionFont={false}>{balances.committedBalance}</Money>{' '}
+                        <span className="text-xs text-gray-600">{getAssetSymbol(assetMetadata)}</span>
+                      </span>
+                    )}
+                    {balances.lockedBalance.gt(0) && (
+                      <span className="mt-1 text-xs text-gray-600">
+                        <T id="lockedBalance">{msg => <span className="text-xs text-gray-600">{msg}</span>}</T>
+                        {': '}
+                        <Money smallFractionFont={false}>{balances.lockedBalance}</Money>{' '}
+                        <span className="text-xs text-gray-600">{getAssetSymbol(assetMetadata)}</span>
+                      </span>
+                    )}
+                  </>
                 )}
                 <InUSD assetSlug={assetSlug} volume={totalBalance} smallFractionFont={false}>
                   {usdBalance => <div className="mt-1 text-sm text-gray-500">≈ {usdBalance} $</div>}

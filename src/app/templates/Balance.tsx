@@ -24,7 +24,6 @@ const Balance = memo<BalanceProps>(({ accountId, children, assetSlug = 'tez', ne
   });
   const exist = balances !== undefined;
 
-  // TODO: the 1e8 needs to be dynamic
   return useMemo(() => {
     const childNode = children(balances?.totalBalance || new BigNumber(0), balances || ZeroAccountBalances);
 

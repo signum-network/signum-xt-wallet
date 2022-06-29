@@ -1,4 +1,4 @@
-import React, { FC, memo, useCallback, useEffect, useMemo } from 'react';
+import React, { FC, memo, useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { Transaction } from '@signumjs/core';
 import { decryptMessage } from '@signumjs/crypto';
@@ -22,11 +22,13 @@ type Props = {
 };
 
 const P2PMessageItem = memo<Props>(({ accountId, message }) => {
+  let timerRef = useRef<NodeJS.Timer | null>(null);
   const explorerBaseUrls = useSignumExplorerBaseUrls();
   const client = useTempleClient();
   const { publicKey } = useAccount();
   const { transaction: txId, timestamp } = message;
   const [revealedMessage, setRevealedMessage] = useSafeState('');
+  const [hovered, setHovered] = useSafeState(false);
 
   const dateFnsLocale = getDateFnsLocale();
   const isPending = message.blockTimestamp === undefined;
@@ -58,12 +60,16 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
   }, [message, client, publicKey, setRevealedMessage, isReceivedMessage]);
 
   useEffect(() => {
-    if (revealedMessage) {
-      setTimeout(() => {
+    if (!revealedMessage) return;
+
+    if (hovered) {
+      timerRef.current && clearTimeout(timerRef.current);
+    } else {
+      timerRef.current = setTimeout(() => {
         setRevealedMessage('');
       }, 5_000);
     }
-  }, [revealedMessage, setRevealedMessage, isReceivedMessage]);
+  }, [revealedMessage, setRevealedMessage, isReceivedMessage, hovered]);
 
   return (
     <div className="relative my-3 flex flex-col">
@@ -102,7 +108,16 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
       </div>
       <div className="flex-1 flex-grow justify-end flex-wrap overflow-y-auto thin-scrollbar">
         <div className="text-xs font-light text-gray-700">
-          {isEncrypted ? <SecretTextField value={revealedMessage} onClick={revealMessage} /> : plainMessage}
+          {isEncrypted ? (
+            <SecretTextField
+              value={revealedMessage}
+              onClick={revealMessage}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            />
+          ) : (
+            plainMessage
+          )}
         </div>
       </div>
     </div>
@@ -114,9 +129,20 @@ export default P2PMessageItem;
 type SecretTextFieldProps = {
   value: string;
   onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onMouseEnter?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onMouseLeave?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
 
-const SecretTextField: FC<SecretTextFieldProps> = ({ children, onClick, value }) => {
+const voidFn = () => {
+  // no op
+};
+
+const SecretTextField: FC<SecretTextFieldProps> = ({
+  onClick,
+  onMouseEnter = voidFn,
+  onMouseLeave = voidFn,
+  value
+}) => {
   return (
     <div
       className={classNames(
@@ -134,6 +160,8 @@ const SecretTextField: FC<SecretTextFieldProps> = ({ children, onClick, value })
         'placeholder-alphagray'
       )}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {!value ? (
         <div className="flex flex-row items-center justify-center cursor-pointer">

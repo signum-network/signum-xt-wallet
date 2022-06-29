@@ -68,6 +68,7 @@ export interface ExtensionSendEncryptedMessageRequest extends ExtensionMessageBa
   plainMessage: string;
   messageIsText: boolean;
   recipientPublicKey: string;
+  feeSigna?: string;
 }
 
 export interface ExtensionSendEncryptedMessageResponse extends ExtensionMessageBase {
