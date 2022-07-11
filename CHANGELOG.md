@@ -1,5 +1,16 @@
 # Changelog
 
+
+## 1.2.3
+
+### Enhancements
+- Showing all balances now (total, available, committed, reserved) (#39)
+- Not closing messages when mouse over P2P messages (#38)
+
+### Bugfixes
+- Fixed undervalued fee estimate for small messages in sendEncryptedMessage
+
+
 ## 1.2.2
 
 ### Hotfix
