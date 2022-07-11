@@ -10,6 +10,7 @@ import ActivityView from './ActivityView';
 
 type ActivityProps = {
   publicKey: string;
+  tokenId?: string;
   className?: string;
 };
 

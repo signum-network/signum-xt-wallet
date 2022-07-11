@@ -14,7 +14,6 @@ import {
   isTezAsset,
   AssetMetadata,
   fetchTokenMetadata,
-  PRESERVED_TOKEN_METADATA,
   TEZOS_METADATA,
   SIGNA_METADATA,
   fetchDisplayedFungibleTokens,
@@ -28,7 +27,9 @@ import {
   DetailedAssetMetdata,
   useNetwork,
   SIGNA_TESTNET_METADATA,
-  NetworkName
+  NetworkName,
+  useSignum,
+  SIGNA_TOKEN_ID
 } from 'lib/temple/front';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
@@ -88,12 +89,47 @@ export function useAllKnownCollectibleTokenSlugs(chainId: string) {
 const enqueueAutoFetchMetadata = createQueue();
 const autoFetchMetadataFails = new Set<string>();
 
-export function useSignumAssetMetadata(slug?: string): AssetMetadata {
-  // TODO: support the slugs - i.e. other tokens
+export function useSignumAssetMetadata(tokenId: string = SIGNA_TOKEN_ID): AssetMetadata {
   const network = useNetwork();
-  return network.networkName === NetworkName.Mainnet ? SIGNA_METADATA : SIGNA_TESTNET_METADATA;
+  const forceUpdate = useForceUpdate();
+
+  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata } =
+    useTokensMetadata();
+
+  useEffect(
+    () =>
+      onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
+        if (!deepEqual(newValue[tokenId], allTokensBaseMetadataRef.current[tokenId])) {
+          forceUpdate();
+        }
+      }),
+    [tokenId, allTokensBaseMetadataRef, forceUpdate]
+  );
+
+  const tokenMetadata = allTokensBaseMetadataRef.current[tokenId] ?? null;
+  const exist = Boolean(tokenMetadata);
+
+  useEffect(() => {
+    if (tokenId !== SIGNA_TOKEN_ID && !exist && !autoFetchMetadataFails.has(tokenId)) {
+      enqueueAutoFetchMetadata(() => fetchMetadata(tokenId))
+        .then(metadata =>
+          Promise.all([
+            setTokensBaseMetadata({ [tokenId]: metadata.base })
+            // setTokensDetailedMetadata({ [slug]: metadata.detailed })
+          ])
+        )
+        .catch(() => autoFetchMetadataFails.add(tokenId));
+    }
+  }, [tokenId, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata]);
+
+  if (tokenId === SIGNA_TOKEN_ID) {
+    return network.networkName === NetworkName.Mainnet ? SIGNA_METADATA : SIGNA_TESTNET_METADATA;
+  }
+
+  return tokenMetadata;
 }
 
+// FIXME: remove this....
 export function useAssetMetadata(slug: string) {
   const tezos = useTezos();
   const forceUpdate = useForceUpdate();
@@ -126,8 +162,8 @@ export function useAssetMetadata(slug: string) {
       enqueueAutoFetchMetadata(() => fetchMetadata(slug))
         .then(metadata =>
           Promise.all([
-            setTokensBaseMetadata({ [slug]: metadata.base }),
-            setTokensDetailedMetadata({ [slug]: metadata.detailed })
+            setTokensBaseMetadata({ [slug]: metadata.base })
+            // setTokensDetailedMetadata({ [slug]: metadata.detailed })
           ])
         )
         .catch(() => autoFetchMetadataFails.add(slug));
@@ -137,11 +173,6 @@ export function useAssetMetadata(slug: string) {
   // Tezos
   if (tezAsset) {
     return TEZOS_METADATA;
-  }
-
-  // Preserved for legacy tokens
-  if (!exist && PRESERVED_TOKEN_METADATA.has(slug)) {
-    return PRESERVED_TOKEN_METADATA.get(slug)!;
   }
 
   return tokenMetadata;
@@ -157,6 +188,7 @@ export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
   );
 
   const allTokensBaseMetadataRef = useRef(initialAllTokensBaseMetadata);
+
   useEffect(
     () =>
       onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
@@ -164,14 +196,13 @@ export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
       }),
     []
   );
-
-  const tezos = useTezos();
-  const tezosRef = useRef(tezos);
+  const signum = useSignum();
+  const signumRef = useRef(signum);
   useEffect(() => {
-    tezosRef.current = tezos;
-  }, [tezos]);
+    signumRef.current = signum;
+  }, [signum]);
 
-  const fetchMetadata = useCallback((slug: string) => fetchTokenMetadata(tezosRef.current, slug), []);
+  const fetchMetadata = useCallback((tokenId: string) => fetchTokenMetadata(signumRef.current, tokenId), []);
 
   const setTokensBaseMetadata = useCallback(
     (toSet: Record<string, AssetMetadata>) =>

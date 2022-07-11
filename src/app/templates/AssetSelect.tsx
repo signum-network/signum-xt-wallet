@@ -28,7 +28,7 @@ type AssetSelectProps = {
 
 type IAsset = Repo.IAccountToken | 'tez';
 
-const getSlug = (asset: IAsset) => (asset === 'tez' ? asset : asset.tokenSlug);
+const getSlug = (asset: IAsset) => (asset === 'tez' ? asset : asset.tokenId);
 
 const AssetSelect: FC<AssetSelectProps> = ({ value, onChange, className }) => {
   const chainId = '';

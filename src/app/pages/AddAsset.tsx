@@ -103,10 +103,7 @@ const Form: FC = () => {
   const [submitError, setSubmitError] = useSafeState<ReactNode>(null);
 
   const attemptRef = useRef(0);
-  const metadataRef = useRef<{
-    base: AssetMetadata;
-    detailed: DetailedAssetMetdata;
-  }>();
+  const metadataRef = useRef<{ base: AssetMetadata }>();
 
   const loadMetadataPure = useCallback(async () => {
     if (!formValid) return;
@@ -205,18 +202,13 @@ const Form: FC = () => {
         };
 
         await setTokensBaseMetadata({ [tokenSlug]: baseMetadata });
-        if (metadataRef.current?.detailed) {
-          await setTokensDetailedMetadata({
-            [tokenSlug]: metadataRef.current.detailed
-          });
-        }
 
         await Repo.accountTokens.put(
           {
             type: Repo.ITokenType.Fungible,
             chainId,
             account: accountPkh,
-            tokenSlug,
+            tokenId: tokenSlug,
             status: Repo.ITokenStatus.Enabled,
             addedAt: Date.now()
           },

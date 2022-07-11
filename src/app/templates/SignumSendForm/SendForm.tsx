@@ -93,7 +93,6 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
     async (_k: string, address: string) => {
       try {
         const id = Address.create(address).getNumericId();
-        // @ts-ignore
         const { publicKey } = await signum.account.getAccount({
           accountId: id,
           includeEstimatedCommitment: false,
@@ -421,7 +420,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       <MessageForm
         ref={messageFormRef}
         onChange={setMessageFormData}
-        showEncrypted={resolvedPublicKey && resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY}
+        showEncrypted={resolvedPublicKey ? resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY : false}
         mode="transfer"
       />
 

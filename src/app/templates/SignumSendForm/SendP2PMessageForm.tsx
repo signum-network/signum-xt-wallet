@@ -324,7 +324,7 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
       <MessageForm
         ref={messageFormRef}
         onChange={setMessageFormData}
-        showEncrypted={resolvedPublicKey && resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY}
+        showEncrypted={resolvedPublicKey ? resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY : false}
         mode="p2pMessage"
       />
 

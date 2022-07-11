@@ -8,10 +8,10 @@ export async function setTokenStatus(
   type: Repo.ITokenType,
   chainId: string,
   account: string,
-  tokenSlug: string,
+  tokenId: string,
   status: Repo.ITokenStatus
 ) {
-  const repoKey = Repo.toAccountTokenKey(chainId, account, tokenSlug);
+  const repoKey = Repo.toAccountTokenKey(chainId, account, tokenId);
   const existing = await Repo.accountTokens.get(repoKey);
 
   return Repo.accountTokens.put(
@@ -20,7 +20,7 @@ export async function setTokenStatus(
         type,
         chainId,
         account,
-        tokenSlug,
+        tokenId,
         addedAt: Date.now()
       }),
       status
@@ -53,13 +53,13 @@ export async function fetchCollectibleTokens(chainId: string, account: string, i
 export async function fetchAllKnownFungibleTokenSlugs(chainId: string) {
   const allAccountTokens = await Repo.accountTokens.where({ type: Repo.ITokenType.Fungible, chainId }).toArray();
 
-  return Array.from(new Set(allAccountTokens.map(t => t.tokenSlug)));
+  return Array.from(new Set(allAccountTokens.map(t => t.tokenId)));
 }
 
 export async function fetchAllKnownCollectibleTokenSlugs(chainId: string) {
   const allAccountTokens = await Repo.accountTokens.where({ type: Repo.ITokenType.Collectible, chainId }).toArray();
 
-  return Array.from(new Set(allAccountTokens.map(t => t.tokenSlug)));
+  return Array.from(new Set(allAccountTokens.map(t => t.tokenId)));
 }
 
 export function isTokenDisplayed(t: Repo.IAccountToken) {
@@ -76,8 +76,8 @@ export function compareAccountTokensByUSDBalance(a: Repo.IAccountToken, b: Repo.
   const aUSDBal = new BigNumber(a.latestUSDBalance);
   const bUSDBal = new BigNumber(b.latestUSDBalance);
 
-  const aPredefIndex = PREDEFINED_MAINNET_TOKENS.findIndex(slug => slug === a.tokenSlug);
-  const bPredefIndex = PREDEFINED_MAINNET_TOKENS.findIndex(slug => slug === b.tokenSlug);
+  const aPredefIndex = PREDEFINED_MAINNET_TOKENS.findIndex(slug => slug === a.tokenId);
+  const bPredefIndex = PREDEFINED_MAINNET_TOKENS.findIndex(slug => slug === b.tokenId);
 
   if (aUSDBal.isEqualTo(bUSDBal)) return aPredefIndex > bPredefIndex ? 1 : -1;
 

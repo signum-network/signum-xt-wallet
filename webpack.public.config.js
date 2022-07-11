@@ -4,7 +4,6 @@ const path = require('path');
 const pkg = require('./package.json');
 
 module.exports = (publicPath, outputPath, manifestFile, targetBrowser) => {
-
   return new CopyWebpackPlugin({
     patterns: [
       {

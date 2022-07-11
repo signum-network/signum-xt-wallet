@@ -11,15 +11,15 @@ import AssetBanner from '../../templates/AssetBanner';
 import BannerLayout from '../../templates/BannerLayout';
 
 type MainBannerProps = {
-  assetSlug?: string | null;
+  tokenId: string;
   accountId: string;
 };
 
-const MainBanner = memo<MainBannerProps>(({ assetSlug, accountId }) => {
+const MainBanner = memo<MainBannerProps>(({ tokenId, accountId }) => {
   const assetBannerDisplayed = true; // assetSlug || !mainnet
 
   return assetBannerDisplayed ? (
-    <AssetBanner assetSlug={assetSlug ?? 'signa'} accountId={accountId} />
+    <AssetBanner tokenId={tokenId} accountId={accountId} />
   ) : (
     <MainnetVolumeBanner accountPkh={accountId} />
   );

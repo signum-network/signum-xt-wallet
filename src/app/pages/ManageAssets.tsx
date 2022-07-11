@@ -82,7 +82,7 @@ const ManageAssetsContent: FC<Props> = ({ assetType }) => {
   const tokenStatuses = useMemo(() => {
     const statuses: TokenStatuses = {};
     for (const asset of assets) {
-      statuses[asset.tokenSlug] = {
+      statuses[asset.tokenId] = {
         displayed: isTokenDisplayed(asset),
         removed: asset.status === ITokenStatus.Removed
       };

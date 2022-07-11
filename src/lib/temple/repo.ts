@@ -9,7 +9,9 @@ export enum Table {
   SyncTimes = 'syncTimes'
 }
 
-export const db = new Dexie('TempleMain');
+// TODO: adjust for Signum
+
+export const db = new Dexie('signum-xt-wallet');
 db.version(1).stores({
   [Table.Operations]: indexes('&hash', 'chainId', '*members', '*assetIds', 'addedAt', '[chainId+addedAt]'),
   [Table.SyncTimes]: indexes('[service+chainId+address]')
@@ -44,7 +46,7 @@ export interface IAccountToken {
   type: ITokenType;
   chainId: string;
   account: string;
-  tokenSlug: string;
+  tokenId: string;
   status: ITokenStatus;
   addedAt: number;
   latestBalance?: string;

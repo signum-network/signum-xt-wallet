@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios';
 
-import { TempleChainId } from 'lib/messaging';
 import {
   TZStatsNetwork,
   ErrorData,
@@ -12,8 +11,6 @@ import {
   TZStatsMarketTicker,
   TZStatsContract
 } from 'lib/tzstats/types';
-
-export const TZSTATS_CHAINS = new Map([[TempleChainId.Mainnet, TZStatsNetwork.Mainnet]]);
 
 export type Explore<P, T> = (n: TZStatsNetwork, p?: Partial<P>) => Promise<T>;
 

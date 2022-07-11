@@ -5,6 +5,8 @@ import { CustomRpsContext } from 'lib/analytics';
 // import { NewBlockTriggersProvider } from 'lib/temple/front/chain';
 import { TempleClientProvider, useTempleClient } from 'lib/temple/front/client';
 import { ReadyTempleProvider, useNetwork } from 'lib/temple/front/ready';
+
+import { TokensMetadataProvider } from './assets';
 // import { SyncTokensProvider } from 'lib/temple/front/sync-tokens';
 // import { USDPriceProvider } from 'lib/temple/front/usdprice';
 
@@ -24,15 +26,15 @@ const ConditionalReadyTemple: FC = ({ children }) => {
       ready ? (
         <ReadyTempleProvider>
           <WalletRpcProvider>
-            {/*<TokensMetadataProvider>*/}
-            {/*  <USDPriceProvider suspense>*/}
-            {/*    <SyncTokensProvider>*/}
-            {/*      <NewBlockTriggersProvider>*/}
-            {children}
-            {/*</NewBlockTriggersProvider>*/}
-            {/*</SyncTokensProvider>*/}
-            {/*</USDPriceProvider>*/}
-            {/*</TokensMetadataProvider>*/}
+            <TokensMetadataProvider>
+              {/*  <USDPriceProvider suspense>*/}
+              {/*    <SyncTokensProvider>*/}
+              {/*      <NewBlockTriggersProvider>*/}
+              {children}
+              {/*</NewBlockTriggersProvider>*/}
+              {/*</SyncTokensProvider>*/}
+              {/*</USDPriceProvider>*/}
+            </TokensMetadataProvider>
           </WalletRpcProvider>
         </ReadyTempleProvider>
       ) : (

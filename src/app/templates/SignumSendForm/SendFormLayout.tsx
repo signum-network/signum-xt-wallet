@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useState } from 'react';
+import React, { FC, Suspense, useCallback, useState } from 'react';
 
 import classNames from 'clsx';
 
@@ -8,7 +8,7 @@ import OperationStatus from 'app/templates/OperationStatus';
 import { SendP2PMessageForm } from 'app/templates/SignumSendForm/SendP2PMessageForm';
 import ViewsSwitcher from 'app/templates/ViewsSwitcher/ViewsSwitcher';
 import { t } from 'lib/i18n/react';
-import { useAccount } from 'lib/temple/front';
+import { SIGNA_TOKEN_ID, useAccount } from 'lib/temple/front';
 import useSafeState from 'lib/ui/useSafeState';
 
 import AssetBanner from '../AssetBanner';
@@ -16,7 +16,11 @@ import AddContactModal from './AddContactModal';
 import { SendForm } from './SendForm';
 import { SpinnerSection } from './SpinnerSection';
 
-const SendFormLayout = () => {
+interface Props {
+  tokenId: string;
+}
+
+const SendFormLayout: FC<Props> = ({ tokenId }) => {
   const TransactionFormats = [
     {
       key: 'transfer',
@@ -41,7 +45,7 @@ const SendFormLayout = () => {
   return (
     <>
       {operation && <OperationStatus typeTitle={t('transaction')} operation={operation} />}
-      <AssetBanner assetSlug="signa" accountId={accountId} />
+      <AssetBanner tokenId={tokenId} accountId={accountId} />
       <hr className="mt-2" />
       <div className="mt-2">
         <ViewsSwitcher activeItem={transactionFormat} items={TransactionFormats} onChange={setTransactionFormat} />

@@ -24,7 +24,12 @@ const HashChip: FC<HashChipProps> = ({
 
   const address = useMemo(() => {
     if (!isAccount) return hash;
-    return Address.create(hash, prefix).getReedSolomonAddress();
+    try {
+      return Address.create(hash, prefix).getReedSolomonAddress();
+    } catch (e: any) {
+      console.error('address creation failed', hash);
+      return hash;
+    }
   }, [hash, isAccount, prefix]);
   return (
     <CopyButton text={address} type={type} {...rest}>

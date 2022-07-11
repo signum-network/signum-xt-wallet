@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 
-import { LedgerClientFactory } from '@signumjs/core';
+import { Ledger, LedgerClientFactory } from '@signumjs/core';
 import { TezosToolkit } from '@taquito/taquito';
 import constate from 'constate';
 
@@ -138,7 +138,7 @@ function useReadyTemple() {
     }
   }, [tezos]);
 
-  const signum = useMemo(() => {
+  const signum = useMemo<Ledger>(() => {
     return LedgerClientFactory.createClient({
       nodeHost: network.rpcBaseURL
     });

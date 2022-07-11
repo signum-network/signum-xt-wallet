@@ -4,26 +4,26 @@ import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
 import { T } from 'lib/i18n/react';
 
-import { getAssetName, getAssetSymbol, useSignumAssetMetadata } from '../../lib/temple/front';
+import { getAssetName, getAssetSymbol, SIGNA_TOKEN_ID, useSignumAssetMetadata } from '../../lib/temple/front';
 import AssetIcon from './AssetIcon';
 import Balance from './Balance';
 import BannerLayout from './BannerLayout';
 import InUSD from './InUSD';
 
 type AssetBannerProps = {
-  assetSlug: string;
+  tokenId?: string;
   accountId: string;
 };
 
-const AssetBanner: FC<AssetBannerProps> = ({ assetSlug, accountId }) => {
-  const assetMetadata = useSignumAssetMetadata(assetSlug);
+const AssetBanner: FC<AssetBannerProps> = ({ tokenId = SIGNA_TOKEN_ID, accountId }) => {
+  const assetMetadata = useSignumAssetMetadata(tokenId);
   return (
     <BannerLayout name={<Name style={{ maxWidth: '18rem' }}>{getAssetName(assetMetadata)}</Name>}>
-      <AssetIcon assetSlug={assetSlug} size={48} className="mr-3 flex-shrink-0" />
+      <AssetIcon assetSlug={tokenId} size={48} className="mr-3 flex-shrink-0" />
 
       <div className="font-light leading-none">
         <div className="flex items-center">
-          <Balance accountId={accountId} assetSlug={assetSlug}>
+          <Balance accountId={accountId} assetSlug={tokenId}>
             {(totalBalance, balances) => (
               <div className="my-1 relative flex flex-col">
                 <span className="text-xl text-gray-800">
@@ -56,7 +56,7 @@ const AssetBanner: FC<AssetBannerProps> = ({ assetSlug, accountId }) => {
                     )}
                   </>
                 )}
-                <InUSD assetSlug={assetSlug} volume={totalBalance} smallFractionFont={false}>
+                <InUSD assetSlug={tokenId} volume={totalBalance} smallFractionFont={false}>
                   {usdBalance => <div className="mt-1 text-sm text-gray-500">≈ {usdBalance} $</div>}
                 </InUSD>
               </div>

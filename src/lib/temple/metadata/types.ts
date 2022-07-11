@@ -1,5 +1,7 @@
 export type AssetMetadata = {
   // Common
+  //   TODO: make id required
+  id?: string;
   decimals: number;
   symbol: string;
   name: string;

@@ -17,13 +17,14 @@ import { T } from 'lib/i18n/react';
 import {
   useAccount,
   useBalanceSWRKey,
-  useDisplayedFungibleTokens,
-  useAssetMetadata,
   getAssetSymbol,
   getAssetName,
   useAllTokensBaseMetadata,
-  searchAssets
+  searchAssets,
+  useSignumAssetMetadata,
+  FEATURED_TOKEN_IDS
 } from 'lib/temple/front';
+import { IAccountToken } from 'lib/temple/repo';
 import { Link, navigate } from 'lib/woozie';
 
 import { AssetsSelectors } from './Assets.selectors';
@@ -34,25 +35,26 @@ const Tokens: FC = () => {
   const account = useAccount();
   const address = account.publicKey;
 
-  const { data: tokens = [] } = useDisplayedFungibleTokens(chainId, address);
+  // const { data: tokens = [] } = useDisplayedFungibleTokens(chainId, address);
 
+  const tokens: IAccountToken[] = [];
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
 
-  const { assetSlugs, latestBalances } = useMemo(() => {
-    const slugs = ['tez'];
+  const { tokenIds, latestBalances } = useMemo(() => {
+    const tokenIds = FEATURED_TOKEN_IDS;
     const balances: Record<string, string> = {};
 
-    for (const { tokenSlug, latestBalance } of tokens) {
-      if (tokenSlug in allTokensBaseMetadata) {
-        slugs.push(tokenSlug);
+    for (const { tokenId, latestBalance } of tokens) {
+      if (tokenId in allTokensBaseMetadata) {
+        tokenIds.push(tokenId);
       }
       if (latestBalance) {
-        balances[tokenSlug] = latestBalance;
+        balances[tokenId] = latestBalance;
       }
     }
 
-    return { assetSlugs: slugs, latestBalances: balances };
-  }, [tokens, allTokensBaseMetadata]);
+    return { tokenIds, latestBalances: balances };
+  }, [allTokensBaseMetadata, tokens]);
 
   const [searchValue, setSearchValue] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
@@ -61,20 +63,21 @@ const Tokens: FC = () => {
   const searchValueExist = useMemo(() => Boolean(searchValue), [searchValue]);
   const [searchValueDebounced] = useDebounce(searchValue, 300);
 
-  const filteredAssets = useMemo(
-    () => searchAssets(searchValueDebounced, assetSlugs, allTokensBaseMetadata),
-    [searchValueDebounced, assetSlugs, allTokensBaseMetadata]
+  const filteredTokens = useMemo(
+    () => searchAssets(searchValueDebounced, tokenIds, allTokensBaseMetadata),
+    [searchValueDebounced, tokenIds, allTokensBaseMetadata]
   );
 
+  // const filteredAssets: any[] = [];
   const activeAsset = useMemo(() => {
-    return searchFocused && searchValueExist && filteredAssets[activeIndex] ? filteredAssets[activeIndex] : null;
-  }, [filteredAssets, searchFocused, searchValueExist, activeIndex]);
+    return searchFocused && searchValueExist && filteredTokens[activeIndex] ? filteredTokens[activeIndex] : null;
+  }, [filteredTokens, searchFocused, searchValueExist, activeIndex]);
 
   useEffect(() => {
-    if (activeIndex !== 0 && activeIndex >= filteredAssets.length) {
+    if (activeIndex !== 0 && activeIndex >= filteredTokens.length) {
       setActiveIndex(0);
     }
-  }, [activeIndex, filteredAssets.length]);
+  }, [activeIndex, filteredTokens.length]);
 
   const handleSearchFieldFocus = useCallback(() => {
     setSearchFocused(true);
@@ -136,7 +139,7 @@ const Tokens: FC = () => {
         </Link>
       </div>
 
-      {filteredAssets.length > 0 ? (
+      {filteredTokens.length > 0 ? (
         <div
           className={classNames(
             'w-full overflow-hidden',
@@ -146,13 +149,13 @@ const Tokens: FC = () => {
           )}
         >
           <TransitionGroup key={chainId}>
-            {filteredAssets.map((asset, i, arr) => {
+            {filteredTokens.map((tokenId, i, arr) => {
               const last = i === arr.length - 1;
-              const active = activeAsset ? asset === activeAsset : false;
+              const active = activeAsset ? tokenId === activeAsset : false;
 
               return (
                 <CSSTransition
-                  key={asset}
+                  key={tokenId}
                   timeout={300}
                   classNames={{
                     enter: 'opacity-0',
@@ -162,11 +165,11 @@ const Tokens: FC = () => {
                   unmountOnExit
                 >
                   <ListItem
-                    assetSlug={asset}
+                    tokenId={tokenId}
                     last={last}
                     active={active}
                     accountPkh={account.publicKey}
-                    latestBalance={latestBalances[asset]}
+                    latestBalance={latestBalances[tokenId]}
                   />
                 </CSSTransition>
               );
@@ -202,17 +205,17 @@ const Tokens: FC = () => {
 export default Tokens;
 
 type ListItemProps = {
-  assetSlug: string;
+  tokenId: string;
   last: boolean;
   active: boolean;
   accountPkh: string;
   latestBalance?: string;
 };
 
-const ListItem = memo<ListItemProps>(({ assetSlug, last, active, accountPkh }) => {
-  const metadata = useAssetMetadata(assetSlug);
+const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountPkh }) => {
+  const metadata = useSignumAssetMetadata(tokenId);
 
-  const balanceSWRKey = useBalanceSWRKey(assetSlug, accountPkh);
+  const balanceSWRKey = useBalanceSWRKey(tokenId, accountPkh);
   const balanceAlreadyLoaded = useMemo(() => cache.has(balanceSWRKey), [balanceSWRKey]);
 
   const toDisplayRef = useRef<HTMLDivElement>(null);
@@ -249,18 +252,18 @@ const ListItem = memo<ListItemProps>(({ assetSlug, last, active, accountPkh }) =
 
   const renderBalanceInUSD = useCallback(
     (balance: BigNumber) => (
-      <InUSD assetSlug={assetSlug} volume={balance} smallFractionFont={false}>
+      <InUSD assetSlug={tokenId} volume={balance} smallFractionFont={false}>
         {usdBalance => (
           <div className={classNames('ml-1', 'font-normal text-gray-500 text-xs text-right')}>≈ {usdBalance} $</div>
         )}
       </InUSD>
     ),
-    [assetSlug]
+    [tokenId]
   );
 
   return (
     <Link
-      to={toExploreAssetLink(assetSlug)}
+      to={toExploreAssetLink(tokenId)}
       className={classNames(
         'relative',
         'block w-full',
@@ -273,19 +276,19 @@ const ListItem = memo<ListItemProps>(({ assetSlug, last, active, accountPkh }) =
         'focus:outline-none'
       )}
       testID={AssetsSelectors.AssetItemButton}
-      testIDProperties={{ key: assetSlug }}
+      testIDProperties={{ key: tokenId }}
     >
-      <AssetIcon assetSlug={assetSlug} size={40} className="mr-2 flex-shrink-0" />
+      <AssetIcon assetSlug={tokenId} size={40} className="mr-2 flex-shrink-0" />
 
       <div ref={toDisplayRef} className="w-full">
         <div className="flex justify-between w-full mb-1">
           <div className="flex items-center">
             <div className={classNames(styles['tokenSymbol'])}>{getAssetSymbol(metadata)}</div>
-            {assetSlug === 'tez' && (
+            {tokenId === 'tez' && (
               <div className={classNames('ml-1 px-2 py-1', styles['apyBadge'])}>{<T id="tezosApy" />}</div>
             )}
           </div>
-          <Balance accountId={accountPkh} assetSlug={assetSlug} displayed={displayed}>
+          <Balance accountId={accountPkh} assetSlug={tokenId} displayed={displayed}>
             {renderBalancInToken}
           </Balance>
         </div>
@@ -293,7 +296,7 @@ const ListItem = memo<ListItemProps>(({ assetSlug, last, active, accountPkh }) =
           <div className={classNames('text-xs font-normal text-gray-700 truncate w-auto flex-1')}>
             {getAssetName(metadata)}
           </div>
-          <Balance accountId={accountPkh} assetSlug={assetSlug} displayed={displayed}>
+          <Balance accountId={accountPkh} assetSlug={tokenId} displayed={displayed}>
             {renderBalanceInUSD}
           </Balance>
         </div>

@@ -7,9 +7,8 @@ try {
 
   // wake up signal
   chrome.runtime.onMessage.addListener(() => {
-    console.debug('⏰ Wake up, Sleepy Worker!')
-  })
-
+    console.debug('⏰ Wake up, Sleepy Worker!');
+  });
 } catch (e) {
   // This will allow you to see error logs during registration/execution
   console.error(e);
