@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { Address, Ledger, Transaction, TransactionType } from '@signumjs/core';
 
@@ -17,8 +17,6 @@ interface FetchArgs {
   firstIndex?: number;
   transactions?: Transaction[];
 }
-
-const SCAN_PAGE_SIZE = 100;
 
 interface LiteTokenTransaction {
   timestamp: number;
@@ -49,31 +47,6 @@ async function fetchTokenTransactionIds(args: FetchArgs): Promise<string[]> {
   return transactions.map(t => t.transactionId);
 }
 
-async function fetchAllTokenTransactionsPerAccount(args: FetchArgs): Promise<Transaction[]> {
-  const { signum, accountId, tokenId, firstIndex = 0, transactions = [] } = args;
-
-  const allTokenTransactionList = await signum.account.getAccountTransactions({
-    accountId,
-    firstIndex,
-    lastIndex: firstIndex + SCAN_PAGE_SIZE - 1,
-    type: TransactionType.Asset
-  });
-
-  transactions.push(...allTokenTransactionList.transactions.filter(({ attachment }) => attachment.asset === tokenId));
-
-  if (transactions.length > 0 && transactions.length < ACTIVITY_PAGE_SIZE) {
-    return fetchAllTokenTransactionsPerAccount({
-      signum,
-      accountId,
-      tokenId,
-      firstIndex: firstIndex + SCAN_PAGE_SIZE,
-      transactions
-    });
-  }
-
-  return transactions;
-}
-
 type TokenActivityProps = {
   publicKey: string;
   tokenId: string;
@@ -87,32 +60,23 @@ const TokenActivity = memo<TokenActivityProps>(({ publicKey, className, tokenId 
   const [restTransactions, setRestTransactions] = useSafeState<Transaction[]>([], safeStateKey);
   const [loadingMore, setLoadingMore] = useSafeState(false, safeStateKey);
   const [isInitialLoading, setInitialLoading] = useSafeState(true, safeStateKey);
+  const [latestTransactions, setLatestTransactions] = useSafeState<Transaction[]>([], safeStateKey);
 
   const accountId = useMemo(() => publicKey && Address.fromPublicKey(publicKey).getNumericId(), [publicKey]);
 
-  const { data: latestTokenTransactions } = useRetryableSWR(
-    ['getAccountTokenTransactions', accountId, tokenId, signum.account],
-    async () => {
-      const args = {
+  const { data: transactionIds } = useRetryableSWR(
+    ['getAccountTokenTransactionIds', accountId, tokenId, signum.account],
+    () => {
+      return fetchTokenTransactionIds({
         signum,
         accountId,
         tokenId
-      };
-      const tokenTransactionIds = await fetchTokenTransactionIds(args);
-      const tokenTransactionRequests = tokenTransactionIds
-        .slice(0, ACTIVITY_PAGE_SIZE)
-        .map(txId => signum.transaction.getTransaction(txId));
-      const transactions = await Promise.all(tokenTransactionRequests);
-      hasMoreRef.current = transactions.length === ACTIVITY_PAGE_SIZE;
-      setInitialLoading(false);
-      return {
-        transactions
-      };
+      });
     },
     {
       revalidateOnMount: true,
-      refreshInterval: 30_000,
-      dedupingInterval: 5_000
+      refreshInterval: 60_000,
+      dedupingInterval: 30_000
     }
   );
 
@@ -129,35 +93,58 @@ const TokenActivity = memo<TokenActivityProps>(({ publicKey, className, tokenId 
     },
     {
       revalidateOnMount: true,
-      refreshInterval: 30_000,
-      dedupingInterval: 5_000
+      refreshInterval: 20_000,
+      dedupingInterval: 15_000
     }
   );
 
+  useEffect(() => {
+    if (!transactionIds) return;
+
+    hasMoreRef.current = transactionIds.length >= ACTIVITY_PAGE_SIZE;
+
+    async function fetchTransactionsByIds(ids: string[]) {
+      const tokenTransactionRequests = ids
+        .slice(0, ACTIVITY_PAGE_SIZE)
+        .map(txId => signum.transaction.getTransaction(txId));
+      const mostRecentTransactions = await Promise.all(tokenTransactionRequests);
+      setLatestTransactions(mostRecentTransactions);
+      setInitialLoading(false);
+    }
+
+    fetchTransactionsByIds(transactionIds);
+  }, [setInitialLoading, setLatestTransactions, signum.transaction, transactionIds]);
+
   const transactions = useMemo(() => {
     const pendingTransactions = unconfirmedTransactions?.unconfirmedTransactions || [];
-    const confirmedTransactions = mergeTransactions(latestTokenTransactions?.transactions, restTransactions);
+    const confirmedTransactions = mergeTransactions(latestTransactions, restTransactions);
     return [...pendingTransactions, ...confirmedTransactions];
-  }, [unconfirmedTransactions, latestTokenTransactions, restTransactions]);
+  }, [unconfirmedTransactions, latestTransactions, restTransactions]);
 
   const handleLoadMore = useCallback(async () => {
+    if (!transactionIds) return;
     setLoadingMore(true);
     try {
-      const firstIndex = transactions?.length ?? 0;
-      const olderTokenTransactions = await fetchAllTokenTransactionsPerAccount({
-        signum,
-        accountId,
-        tokenId,
-        firstIndex
-      });
-      hasMoreRef.current = olderTokenTransactions.length === ACTIVITY_PAGE_SIZE;
-      setRestTransactions(tx => [...tx, ...olderTokenTransactions]);
+      const firstIndex = latestTransactions?.length ?? 0;
+      const tokenTransactionRequests = transactionIds
+        .slice(firstIndex, firstIndex + ACTIVITY_PAGE_SIZE)
+        .map(txId => signum.transaction.getTransaction(txId));
+      const olderTransactions = await Promise.all(tokenTransactionRequests);
+      setRestTransactions(tx => [...tx, ...olderTransactions]);
+      setInitialLoading(false);
+      hasMoreRef.current = olderTransactions.length >= ACTIVITY_PAGE_SIZE;
     } catch (err: any) {
       console.error(err);
     }
-
     setLoadingMore(false);
-  }, [setLoadingMore, transactions?.length, signum, accountId, tokenId, setRestTransactions]);
+  }, [
+    transactionIds,
+    setLoadingMore,
+    latestTransactions?.length,
+    setRestTransactions,
+    setInitialLoading,
+    signum.transaction
+  ]);
 
   return (
     <ActivityView
