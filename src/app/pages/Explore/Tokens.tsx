@@ -241,7 +241,7 @@ const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountPkh }) => 
     return undefined;
   }, [displayed, setDisplayed]);
 
-  const renderBalancInToken = useCallback(
+  const renderBalanceInToken = useCallback(
     (balance: BigNumber) => (
       <div className="text-base font-medium text-gray-800">
         <Money smallFractionFont={false}>{balance}</Money>
@@ -278,7 +278,7 @@ const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountPkh }) => 
       testID={AssetsSelectors.AssetItemButton}
       testIDProperties={{ key: tokenId }}
     >
-      <AssetIcon assetSlug={tokenId} size={40} className="mr-2 flex-shrink-0" />
+      <AssetIcon tokenId={tokenId} size={40} className="mr-2 flex-shrink-0" />
 
       <div ref={toDisplayRef} className="w-full">
         <div className="flex justify-between w-full mb-1">
@@ -288,15 +288,15 @@ const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountPkh }) => 
               <div className={classNames('ml-1 px-2 py-1', styles['apyBadge'])}>{<T id="tezosApy" />}</div>
             )}
           </div>
-          <Balance accountId={accountPkh} assetSlug={tokenId} displayed={displayed}>
-            {renderBalancInToken}
+          <Balance accountId={accountPkh} tokenId={tokenId} displayed={displayed}>
+            {renderBalanceInToken}
           </Balance>
         </div>
         <div className="flex justify-between w-full mb-1">
           <div className={classNames('text-xs font-normal text-gray-700 truncate w-auto flex-1')}>
             {getAssetName(metadata)}
           </div>
-          <Balance accountId={accountPkh} assetSlug={tokenId} displayed={displayed}>
+          <Balance accountId={accountPkh} tokenId={tokenId} displayed={displayed}>
             {renderBalanceInUSD}
           </Balance>
         </div>

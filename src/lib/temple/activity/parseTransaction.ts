@@ -23,6 +23,14 @@ function isPayment(tx: Transaction): boolean {
   );
 }
 
+function isSellTokenOrder(tx: Transaction): boolean {
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AskOrderPlacement;
+}
+
+function isBuyTokenOrder(tx: Transaction): boolean {
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.BidOrderPlacement;
+}
+
 function isMessage(tx: Transaction): boolean {
   return tx.type === TransactionType.Arbitrary && tx.subtype === TransactionArbitrarySubtype.Message;
 }
@@ -82,7 +90,7 @@ function isContractTransaction(tx: Transaction): boolean {
   return tx.senderPublicKey === SMART_CONTRACT_PUBLIC_KEY;
 }
 
-export function parseTransaction(tx: Transaction, accountId: string, accountPrefix: string): TransactionItem {
+export function parseTransaction(tx: Transaction, accountId: string, accountPrefix: string, isTokenView: boolean): TransactionItem {
   // @ts-ignore
   let item: TransactionItem = {
     from: tx.senderRS,
@@ -98,13 +106,21 @@ export function parseTransaction(tx: Transaction, accountId: string, accountPref
   } else if (isContractCreation(tx)) {
     item.type = TransactionItemType.Origination;
     // @ts-ignore
-    item.contract = Address.fromNumericId(tx.transaction!, accountPrefix).getReedSolomonAddress();
+    item.contract = Address.fromNumericId(tx.transaction, accountPrefix).getReedSolomonAddress();
   } else if (isContractTransaction(tx)) {
     item.type = TransactionItemType.Interaction;
     // @ts-ignore
-    item.contract = Address.fromNumericId(tx.sender!, accountPrefix).getReedSolomonAddress();
+    item.contract = Address.fromNumericId(tx.sender, accountPrefix).getReedSolomonAddress();
   } else if (isSelfUpdate(tx)) {
     item = getSelfUpdateItem(tx);
+  } else if (isBuyTokenOrder(tx)) {
+    item.type = TransactionItemType.BuyOrder;
+    // @ts-ignore
+    item.fulfilled = isTokenView;
+  } else if (isSellTokenOrder(tx)) {
+    item.type = TransactionItemType.SellOrder;
+    // @ts-ignore
+    item.fulfilled = isTokenView;
   } else {
     item.type = TransactionItemType.Other;
     // TODO: name the type more precisely

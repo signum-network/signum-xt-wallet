@@ -101,6 +101,18 @@ const TxItemComponent = memo<TxItemComponentProps>(({ item }) => {
             </>
           )
         };
+      case TransactionItemType.BuyOrder:
+        return {
+          base: <>↓ {item.fulfilled ? <T id="buyOrderFulfilled" /> : <T id="buyOrder" />}</>,
+          argsI18nKey: item.fulfilled ? 'transferFromSmb' : undefined,
+          args: [item.from]
+        };
+      case TransactionItemType.SellOrder:
+        return {
+          base: <>↑ {item.fulfilled ? <T id="saleOrderFulfilled" /> : <T id="saleOrder" />}</>,
+          argsI18nKey: item.fulfilled ? 'transferToSmb' : undefined,
+          args: [item.to]
+        };
       case TransactionItemType.Other:
         return {
           base: (

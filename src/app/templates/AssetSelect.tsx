@@ -86,11 +86,11 @@ export default AssetSelect;
 type AssetSelectOptionRenderProps = IconifiedSelectOptionRenderProps<IAsset>;
 
 const AssetIcon: FC<AssetSelectOptionRenderProps> = ({ option }) => (
-  <GenericAssetIcon assetSlug={getSlug(option)} className="h-8 w-auto mr-3" size={32} />
+  <GenericAssetIcon tokenId={getSlug(option)} className="h-8 w-auto mr-3" size={32} />
 );
 
 const AssetSelectedIcon: FC<AssetSelectOptionRenderProps> = ({ option }) => (
-  <GenericAssetIcon assetSlug={getSlug(option)} className="h-12 w-auto mr-3" size={48} />
+  <GenericAssetIcon tokenId={getSlug(option)} className="h-12 w-auto mr-3" size={48} />
 );
 
 const AssetInMenuContent: FC<AssetSelectOptionRenderProps> = ({ option: asset }) => {
@@ -104,7 +104,7 @@ const AssetInMenuContent: FC<AssetSelectOptionRenderProps> = ({ option: asset })
 
       <span className={classNames('text-gray-600', 'text-sm leading-none')}>
         {asset === 'tez' ? (
-          <Balance assetSlug={assetSlug} accountId={account.accountId}>
+          <Balance tokenId={assetSlug} accountId={account.accountId}>
             {balance => (
               <>
                 <Money>{balance}</Money>{' '}
@@ -128,7 +128,7 @@ const AssetSelectedContent: FC<AssetSelectOptionRenderProps> = ({ option }) => {
   const metadata = useAssetMetadata(assetSlug);
 
   return (
-    <Balance assetSlug={assetSlug} accountId={account.accountId}>
+    <Balance tokenId={assetSlug} accountId={account.accountId}>
       {balance => (
         <div className="flex flex-col items-start">
           <span className="text-xl text-gray-800">

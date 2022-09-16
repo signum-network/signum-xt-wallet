@@ -6,7 +6,9 @@ import {
   TransactionMiningSubtype,
   TransactionType
 } from '@signumjs/core';
-import { Amount } from '@signumjs/util';
+import { Amount, ChainValue } from '@signumjs/util';
+
+import { AssetMetadata, SIGNA_TOKEN_ID } from 'lib/temple/metadata';
 
 interface ParseAmountDiffs {
   diff: string;
@@ -16,7 +18,7 @@ const isCommitmentTransaction = (tx: Transaction): boolean =>
   tx.type === TransactionType.Mining &&
   (tx.subtype === TransactionMiningSubtype.AddCommitment || tx.subtype === TransactionMiningSubtype.RemoveCommitment);
 
-export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmountDiffs {
+function parseSignaDiffs(tx: Transaction, accountId: string): ParseAmountDiffs {
   let amount = Amount.fromPlanck(tx.amountNQT || '0');
   let isIncoming = tx.recipient === accountId; // common transaction
 
@@ -40,4 +42,29 @@ export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmoun
     result.diff = amount.getSigna();
   }
   return result;
+}
+
+function parseQuantityDiffs(tx: Transaction, accountId: string, tokenMetadata: AssetMetadata): ParseAmountDiffs {
+  if (tx.type !== TransactionType.Asset) {
+    return {
+      diff: '0'
+    };
+  }
+
+  const quantity = ChainValue.create(tokenMetadata.decimals).setAtomic(tx.attachment.quantityQNT);
+  if (tx.recipient && tx.recipient !== accountId) {
+    return {
+      diff: quantity.multiply(-1).getCompound()
+    };
+  }
+
+  return {
+    diff: quantity.getCompound()
+  };
+}
+
+export function parseAmountDiffs(tx: Transaction, accountId: string, tokenMetadata: AssetMetadata): ParseAmountDiffs {
+  return tokenMetadata.id === SIGNA_TOKEN_ID
+    ? parseSignaDiffs(tx, accountId)
+    : parseQuantityDiffs(tx, accountId, tokenMetadata);
 }

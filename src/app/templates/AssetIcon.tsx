@@ -6,7 +6,7 @@ import Identicon from 'app/atoms/Identicon';
 import { getAssetSymbol, getThumbnailUri, useSignumAssetMetadata } from 'lib/temple/front';
 
 export type AssetIconProps = {
-  assetSlug: string;
+  tokenId: string;
   className?: string;
   style?: CSSProperties;
   size?: number;
@@ -14,9 +14,9 @@ export type AssetIconProps = {
 };
 
 const AssetIcon = memo((props: AssetIconProps) => {
-  const { assetSlug, className, style, size } = props;
+  const { tokenId, className, style, size } = props;
 
-  const metadata = useSignumAssetMetadata(assetSlug);
+  const metadata = useSignumAssetMetadata(tokenId);
   let thumbnailUri = getThumbnailUri(metadata);
 
   const [imageDisplayed, setImageDisplayed] = useState(true);

@@ -12,6 +12,7 @@ import ActivityItem from './ActivityItem';
 
 type ActivityViewProps = {
   accountId: string;
+  tokenId: string;
   transactions: Transaction[];
   initialLoading: boolean;
   loadingMore: boolean;
@@ -21,7 +22,10 @@ type ActivityViewProps = {
 };
 
 const ActivityView = memo<ActivityViewProps>(
-  ({ accountId, transactions, initialLoading, loadingMore, loadMoreDisplayed, loadMore, className }) => {
+  ({
+       accountId,
+       transactions,
+       initialLoading, loadingMore, loadMoreDisplayed, loadMore, className , tokenId}) => {
     const noTransactions = transactions.length === 0;
 
     if (initialLoading) {
@@ -49,6 +53,7 @@ const ActivityView = memo<ActivityViewProps>(
               accountId={accountId}
               transaction={tx}
               className={className}
+              tokenId={tokenId}
             />
           ))}
         </div>

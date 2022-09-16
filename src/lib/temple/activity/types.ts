@@ -6,6 +6,9 @@ export enum TransactionItemType {
   Interaction,
   Origination,
   SelfUpdate,
+  BuyOrder,
+  SellOrder,
+  // Distribution,
   Other
 }
 
@@ -17,6 +20,9 @@ export type TransactionItem =
   | InteractionItem
   | OriginationItem
   | SelfUpdateItem
+  | BuyOrderItem
+  | SellOrderItem
+  // | DistributionItem
   | OtherItem;
 
 export interface TxItemBase {
@@ -61,6 +67,22 @@ export interface SelfUpdateItem extends TxItemBase {
   i18nKey: string;
   amount?: string;
 }
+
+export interface BuyOrderItem extends TxItemBase {
+  type: TransactionItemType.BuyOrder;
+  from: string;
+  fulfilled?: boolean;
+}
+
+export interface SellOrderItem extends TxItemBase {
+  type: TransactionItemType.SellOrder;
+  to: string;
+  fulfilled?: boolean;
+}
+
+// export interface DistributionItem extends TxItemBase {
+//   type: TransactionItemType.Distribution;
+// }
 
 export interface OtherItem extends TxItemBase {
   type: TransactionItemType.Other;

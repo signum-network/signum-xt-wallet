@@ -34,7 +34,7 @@ async function fetchTokenTransactionIds(args: FetchArgs): Promise<string[]> {
   transactions.push(
     ...trades.map(t => ({
       timestamp: t.timestamp,
-      transactionId: t.askOrderHeight < t.height ? t.bidOrder : t.askOrder
+      transactionId: t.tradeType.toLowerCase() === 'buy' ? t.bidOrder : t.askOrder
     })),
     ...transfers.map(t => ({
       timestamp: t.timestamp,
@@ -149,6 +149,7 @@ const TokenActivity = memo<TokenActivityProps>(({ publicKey, className, tokenId 
   return (
     <ActivityView
       accountId={accountId}
+      tokenId={tokenId}
       transactions={transactions}
       initialLoading={isInitialLoading}
       loadingMore={loadingMore}

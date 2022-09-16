@@ -3,7 +3,7 @@ import React, { memo, useCallback, useMemo, useRef } from 'react';
 import { Address, Transaction } from '@signumjs/core';
 
 import { useRetryableSWR } from 'lib/swr';
-import { useSignum } from 'lib/temple/front';
+import {SIGNA_TOKEN_ID, useSignum} from 'lib/temple/front';
 import useSafeState from 'lib/ui/useSafeState';
 
 import ActivityView from './ActivityView';
@@ -93,6 +93,7 @@ const Activity = memo<ActivityProps>(({ publicKey, className }) => {
   return (
     <ActivityView
       accountId={accountId}
+      tokenId={SIGNA_TOKEN_ID}
       transactions={transactions}
       initialLoading={isInitialLoading}
       loadingMore={loadingMore}

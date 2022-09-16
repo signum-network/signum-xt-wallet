@@ -2,7 +2,14 @@ import { Account } from '@signumjs/core';
 import BigNumber from 'bignumber.js';
 
 import { useRetryableSWR } from 'lib/swr';
-import { useTezos, useSignum } from 'lib/temple/front';
+import {
+  useSignum,
+  useNetwork,
+  Network,
+  useSignumAssetMetadata,
+  AssetMetadata,
+  SIGNA_TOKEN_ID
+} from 'lib/temple/front';
 
 export const ZeroAccountBalances: AccountBalances = {
   availableBalance: new BigNumber(0),
@@ -25,18 +32,17 @@ type UseBalanceOptions = {
   initial?: BigNumber;
 };
 
-export function useBalance(assetSlug: string, accountId: string, opts: UseBalanceOptions = {}) {
-  // TODO: accept assetSlugs to get the tokens amounts also
+export function useBalance(tokenId: string, accountId: string, opts: UseBalanceOptions = {}) {
   const signum = useSignum();
+  const metadata = useSignumAssetMetadata(tokenId);
   const displayed = opts.displayed ?? true;
 
   return useRetryableSWR(
-    displayed ? [`balance-${accountId}`, signum] : null,
+    displayed ? [`balance-${accountId}-${tokenId}`, signum] : null,
     async () => {
       try {
         const account = await signum.account.getAccount({ accountId, includeCommittedAmount: true });
-        // TODO: dynamic decimals
-        return getBalances(account, 8);
+        return getBalances(account, metadata);
       } catch (e) {
         return ZeroAccountBalances;
       }
@@ -52,13 +58,28 @@ export function useBalance(assetSlug: string, accountId: string, opts: UseBalanc
   );
 }
 
-function getBalances(account: Account, decimals: number): AccountBalances {
+function getBalances(account: Account, metaData: AssetMetadata): AccountBalances {
+  const { decimals, id: tokenId } = metaData;
   const divider = 10 ** decimals;
-  const totalBalance = new BigNumber(account.balanceNQT || '0').div(divider);
-  const availableBalance = new BigNumber(account.unconfirmedBalanceNQT || '0').div(divider);
-  const committedBalance = new BigNumber(account.committedBalanceNQT || '0').div(divider);
-  // other locked balances
-  const lockedBalance = new BigNumber(totalBalance).minus(availableBalance).minus(committedBalance);
+  if (!tokenId || tokenId === SIGNA_TOKEN_ID) {
+    const totalBalance = new BigNumber(account.balanceNQT || '0').div(divider);
+    const availableBalance = new BigNumber(account.unconfirmedBalanceNQT || '0').div(divider);
+    const committedBalance = new BigNumber(account.committedBalanceNQT || '0').div(divider);
+    const lockedBalance = new BigNumber(totalBalance).minus(availableBalance).minus(committedBalance);
+    return {
+      availableBalance,
+      committedBalance,
+      lockedBalance,
+      totalBalance
+    };
+  }
+
+  const balance = account.assetBalances.find(({ asset }) => asset === tokenId);
+  const unconfirmedBalance = account.unconfirmedAssetBalances.find(({ asset }) => asset === tokenId);
+  const totalBalance = new BigNumber(balance?.balanceQNT || '0').div(divider);
+  const availableBalance = new BigNumber(unconfirmedBalance?.unconfirmedBalanceQNT || '0').div(divider);
+  const committedBalance = new BigNumber('0');
+  const lockedBalance = new BigNumber(totalBalance).minus(availableBalance);
   return {
     availableBalance,
     committedBalance,
@@ -67,11 +88,11 @@ function getBalances(account: Account, decimals: number): AccountBalances {
   };
 }
 
-export function useBalanceSWRKey(assetSlug: string, address: string) {
-  const tezos = useTezos();
-  return getBalanceSWRKey(tezos, assetSlug, address);
+export function useBalanceSWRKey(tokenId: string, address: string) {
+  const network = useNetwork();
+  return getBalanceSWRKey(network, tokenId, address);
 }
 
-export function getBalanceSWRKey(tezos: any, assetSlug: string, address: string) {
-  return ['balance', tezos.checksum, assetSlug, address];
+export function getBalanceSWRKey(network: Network, assetSlug: string, address: string) {
+  return ['balance', network.networkName, assetSlug, address];
 }

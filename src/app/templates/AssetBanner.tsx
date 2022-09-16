@@ -19,11 +19,11 @@ const AssetBanner: FC<AssetBannerProps> = ({ tokenId = SIGNA_TOKEN_ID, accountId
   const assetMetadata = useSignumAssetMetadata(tokenId);
   return (
     <BannerLayout name={<Name style={{ maxWidth: '18rem' }}>{getAssetName(assetMetadata)}</Name>}>
-      <AssetIcon assetSlug={tokenId} size={48} className="mr-3 flex-shrink-0" />
+      <AssetIcon tokenId={tokenId} size={48} className="mr-3 flex-shrink-0" />
 
       <div className="font-light leading-none">
         <div className="flex items-center">
-          <Balance accountId={accountId} assetSlug={tokenId}>
+          <Balance accountId={accountId} tokenId={tokenId}>
             {(totalBalance, balances) => (
               <div className="my-1 relative flex flex-col">
                 <span className="text-xl text-gray-800">

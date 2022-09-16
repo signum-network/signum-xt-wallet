@@ -1428,6 +1428,18 @@
       }
     }
   },
+  "buyOrder": {
+    "message": "Buy"
+  },
+  "saleOrder": {
+    "message": "Sale"
+  },
+  "buyOrderFulfilled": {
+    "message": "Bought"
+  },
+  "saleOrderFulfilled": {
+    "message": "Sold"
+  },
   "transfer": {
     "message": "Transfer"
   },

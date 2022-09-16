@@ -8,15 +8,15 @@ import { useAppEnv } from 'app/env';
 import { getAssetSymbol, useSignumAssetMetadata } from 'lib/temple/front';
 
 type MoneyDiffViewProps = {
-  assetId: string;
+  tokenId: string;
   diff: string;
   pending?: boolean;
   className?: string;
 };
 
-const MoneyDiffView = memo<MoneyDiffViewProps>(({ assetId: assetSlug, diff, pending = false, className }) => {
+const MoneyDiffView = memo<MoneyDiffViewProps>(({ tokenId, diff, pending = false, className }) => {
   const { popup } = useAppEnv();
-  const metadata = useSignumAssetMetadata(assetSlug);
+  const metadata = useSignumAssetMetadata(tokenId);
   return metadata ? (
     <div className={classNames('inline-flex flex-wrap justify-end items-baseline', className)}>
       <div

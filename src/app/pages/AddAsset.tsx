@@ -78,7 +78,9 @@ class ContractNotFoundError extends Error {}
 
 const Form: FC = () => {
   const tezos = useTezos();
-  const { id: networkId } = useNetwork();
+  const network = useNetwork();
+  const networkId = network.id;
+
   const chainId = '';
   const { publicKey: accountPkh } = useAccount();
 
@@ -215,7 +217,7 @@ const Form: FC = () => {
           Repo.toAccountTokenKey(chainId, accountPkh, tokenSlug)
         );
 
-        swrCache.delete(getBalanceSWRKey(tezos, tokenSlug, accountPkh));
+        swrCache.delete(getBalanceSWRKey(network, tokenSlug, accountPkh));
 
         formAnalytics.trackSubmitSuccess();
 
