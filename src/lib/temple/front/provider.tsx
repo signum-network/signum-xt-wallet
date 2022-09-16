@@ -25,7 +25,7 @@ const ConditionalReadyTemple: FC = ({ children }) => {
     () =>
       ready ? (
         <ReadyTempleProvider>
-          <WalletRpcProvider>
+          <LedgerProvider>
             <TokensMetadataProvider>
               {/*  <USDPriceProvider suspense>*/}
               {/*    <SyncTokensProvider>*/}
@@ -35,7 +35,7 @@ const ConditionalReadyTemple: FC = ({ children }) => {
               {/*</SyncTokensProvider>*/}
               {/*</USDPriceProvider>*/}
             </TokensMetadataProvider>
-          </WalletRpcProvider>
+          </LedgerProvider>
         </ReadyTempleProvider>
       ) : (
         <>{children}</>
@@ -44,7 +44,7 @@ const ConditionalReadyTemple: FC = ({ children }) => {
   );
 };
 
-const WalletRpcProvider: FC = ({ children }) => {
+const LedgerProvider: FC = ({ children }) => {
   const network = useNetwork();
 
   return <CustomRpsContext.Provider value={network.rpcBaseURL}>{children}</CustomRpsContext.Provider>;

@@ -13,6 +13,7 @@ import { ReactComponent as SendIcon } from 'app/icons/send-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Tokens from 'app/pages/Explore/Tokens';
 import Activity from 'app/templates/SignumActivity/Activity';
+import TokenActivity from 'app/templates/SignumActivity/TokenActivity';
 import P2PMessages from 'app/templates/SignumP2PMessages/P2PMessages';
 import { T, t } from 'lib/i18n/react';
 import { getAssetSymbol, XTAccountType, useAccount, useSignumAssetMetadata, SIGNA_TOKEN_ID } from 'lib/temple/front';
@@ -156,12 +157,16 @@ type ActivityTabProps = {
   tokenId?: string;
 };
 
-const ActivityTab: FC<ActivityTabProps> = ({ tokenId }) => {
+const ActivityTab: FC<ActivityTabProps> = ({ tokenId = SIGNA_TOKEN_ID }) => {
   const account = useAccount();
 
   return (
     <SuspenseContainer whileMessage={t('operationHistoryWhileMessage')}>
-      <Activity publicKey={account.publicKey} tokenId={tokenId} />
+      {tokenId === SIGNA_TOKEN_ID ? (
+        <Activity publicKey={account.publicKey} />
+      ) : (
+        <TokenActivity publicKey={account.publicKey} tokenId={tokenId} />
+      )}
     </SuspenseContainer>
   );
 };
