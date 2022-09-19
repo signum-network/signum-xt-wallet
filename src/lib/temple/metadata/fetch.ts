@@ -12,6 +12,7 @@ export async function fetchTokenMetadata(signum: Ledger, tokenId: string): Promi
         decimals: token.decimals,
         name: token.name,
         id: token.asset,
+        description: token.description || '',
         thumbnailUri: browser.runtime.getURL(`misc/token-logos/${token.name.toLowerCase()}.svg`) || undefined
       }
     };

@@ -8,7 +8,7 @@ import OperationStatus from 'app/templates/OperationStatus';
 import { SendP2PMessageForm } from 'app/templates/SignumSendForm/SendP2PMessageForm';
 import ViewsSwitcher from 'app/templates/ViewsSwitcher/ViewsSwitcher';
 import { t } from 'lib/i18n/react';
-import { SIGNA_TOKEN_ID, useAccount } from 'lib/temple/front';
+import { useAccount } from 'lib/temple/front';
 import useSafeState from 'lib/ui/useSafeState';
 
 import AssetBanner from '../AssetBanner';
@@ -52,7 +52,7 @@ const SendFormLayout: FC<Props> = ({ tokenId }) => {
       </div>
       <Suspense fallback={<SpinnerSection />}>
         <div className={classNames(transactionFormat.key !== 'transfer' && 'hidden')}>
-          <SendForm setOperation={setOperation} onAddContactRequested={setContactAccountId} />
+          <SendForm setOperation={setOperation} onAddContactRequested={setContactAccountId} tokenId={tokenId} />
         </div>
         <div className={classNames(transactionFormat.key !== 'message' && 'hidden')}>
           <SendP2PMessageForm setOperation={setOperation} onAddContactRequested={setContactAccountId} />

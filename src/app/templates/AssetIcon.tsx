@@ -1,4 +1,4 @@
-import React, { CSSProperties, memo, useCallback, useState } from 'react';
+import React, { CSSProperties, memo, useEffect, useState } from 'react';
 
 import classNames from 'clsx';
 
@@ -13,16 +13,18 @@ export type AssetIconProps = {
   assetType?: string;
 };
 
-const AssetIcon = memo((props: AssetIconProps) => {
+const AssetIcon = (props: AssetIconProps) => {
   const { tokenId, className, style, size } = props;
-
   const metadata = useSignumAssetMetadata(tokenId);
-  let thumbnailUri = getThumbnailUri(metadata);
-
   const [imageDisplayed, setImageDisplayed] = useState(true);
-  const handleImageError = useCallback(() => {
-    setImageDisplayed(false);
-  }, [setImageDisplayed]);
+  const [thumbnailUri, setThumbnailUri] = useState('');
+
+  useEffect(() => {
+    if (!metadata) return;
+    setThumbnailUri(getThumbnailUri(metadata));
+  }, [metadata, setThumbnailUri]);
+
+  console.log('thumbnail', thumbnailUri, tokenId);
 
   if (thumbnailUri && imageDisplayed) {
     return (
@@ -35,12 +37,12 @@ const AssetIcon = memo((props: AssetIconProps) => {
           height: size,
           ...style
         }}
-        onError={handleImageError}
+        onError={e => setImageDisplayed(false)}
       />
     );
   }
 
   return <Identicon type="initials" hash={getAssetSymbol(metadata)} className={className} style={style} size={size} />;
-});
+};
 
 export default AssetIcon;

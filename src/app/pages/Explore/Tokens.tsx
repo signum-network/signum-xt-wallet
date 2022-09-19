@@ -22,7 +22,8 @@ import {
   useAllTokensBaseMetadata,
   searchAssets,
   useSignumAssetMetadata,
-  FEATURED_TOKEN_IDS
+  FEATURED_TOKEN_IDS,
+  useBalance
 } from 'lib/temple/front';
 import { IAccountToken } from 'lib/temple/repo';
 import { Link, navigate } from 'lib/woozie';
@@ -39,22 +40,24 @@ const Tokens: FC = () => {
 
   const tokens: IAccountToken[] = [];
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
+  const tokenIds = FEATURED_TOKEN_IDS;
 
-  const { tokenIds, latestBalances } = useMemo(() => {
-    const tokenIds = FEATURED_TOKEN_IDS;
-    const balances: Record<string, string> = {};
-
-    for (const { tokenId, latestBalance } of tokens) {
-      if (tokenId in allTokensBaseMetadata) {
-        tokenIds.push(tokenId);
-      }
-      if (latestBalance) {
-        balances[tokenId] = latestBalance;
-      }
-    }
-
-    return { tokenIds, latestBalances: balances };
-  }, [allTokensBaseMetadata, tokens]);
+  // const { tokenIds, latestBalances } = useMemo(() => {
+  //   const tokenIds = FEATURED_TOKEN_IDS;
+  //   const balances: Record<string, string> = {};
+  //
+  //   // for (const { tokenId, latestBalance } of tokens) {
+  //   //   if (tokenId in allTokensBaseMetadata) {
+  //   //     // @ts-ignore
+  //   //     tokenIds.push(tokenId);
+  //   //   }
+  //   //   if (latestBalance) {
+  //   //     balances[tokenId] = latestBalance;
+  //   //   }
+  //   // }
+  //
+  //   return { tokenIds, latestBalances: balances };
+  // }, [allTokensBaseMetadata, tokens]);
 
   const [searchValue, setSearchValue] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
@@ -121,7 +124,7 @@ const Tokens: FC = () => {
         />
 
         <Link
-          to="/manage-assets"
+          to="/add-asset"
           className={classNames(
             'ml-2 flex-shrink-0',
             'px-3 py-1',
@@ -135,7 +138,7 @@ const Tokens: FC = () => {
           testID={AssetsSelectors.ManageButton}
         >
           <AddToListIcon className={classNames('mr-1 h-5 w-auto stroke-current stroke-2')} />
-          <T id="manage" />
+          <T id="addToken" />
         </Link>
       </div>
 
@@ -164,13 +167,7 @@ const Tokens: FC = () => {
                   }}
                   unmountOnExit
                 >
-                  <ListItem
-                    tokenId={tokenId}
-                    last={last}
-                    active={active}
-                    accountPkh={account.publicKey}
-                    latestBalance={latestBalances[tokenId]}
-                  />
+                  <ListItem tokenId={tokenId} last={last} active={active} accountId={account.accountId} />
                 </CSSTransition>
               );
             })}
@@ -208,14 +205,12 @@ type ListItemProps = {
   tokenId: string;
   last: boolean;
   active: boolean;
-  accountPkh: string;
-  latestBalance?: string;
+  accountId: string;
 };
 
-const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountPkh }) => {
+const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountId }) => {
   const metadata = useSignumAssetMetadata(tokenId);
-
-  const balanceSWRKey = useBalanceSWRKey(tokenId, accountPkh);
+  const balanceSWRKey = useBalanceSWRKey(tokenId, accountId);
   const balanceAlreadyLoaded = useMemo(() => cache.has(balanceSWRKey), [balanceSWRKey]);
 
   const toDisplayRef = useRef<HTMLDivElement>(null);
@@ -240,26 +235,6 @@ const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountPkh }) => 
     }
     return undefined;
   }, [displayed, setDisplayed]);
-
-  const renderBalanceInToken = useCallback(
-    (balance: BigNumber) => (
-      <div className="text-base font-medium text-gray-800">
-        <Money smallFractionFont={false}>{balance}</Money>
-      </div>
-    ),
-    []
-  );
-
-  const renderBalanceInUSD = useCallback(
-    (balance: BigNumber) => (
-      <InUSD assetSlug={tokenId} volume={balance} smallFractionFont={false}>
-        {usdBalance => (
-          <div className={classNames('ml-1', 'font-normal text-gray-500 text-xs text-right')}>≈ {usdBalance} $</div>
-        )}
-      </InUSD>
-    ),
-    [tokenId]
-  );
 
   return (
     <Link
@@ -288,18 +263,22 @@ const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountPkh }) => 
               <div className={classNames('ml-1 px-2 py-1', styles['apyBadge'])}>{<T id="tezosApy" />}</div>
             )}
           </div>
-          <Balance accountId={accountPkh} tokenId={tokenId} displayed={displayed}>
-            {renderBalanceInToken}
+          <Balance accountId={accountId} tokenId={tokenId} displayed={displayed}>
+            {balance => (
+              <div className="text-base font-medium text-gray-800">
+                <Money smallFractionFont={false}>{balance}</Money>
+              </div>
+            )}
           </Balance>
         </div>
-        <div className="flex justify-between w-full mb-1">
-          <div className={classNames('text-xs font-normal text-gray-700 truncate w-auto flex-1')}>
-            {getAssetName(metadata)}
-          </div>
-          <Balance accountId={accountPkh} tokenId={tokenId} displayed={displayed}>
-            {renderBalanceInUSD}
-          </Balance>
-        </div>
+        {/*<div className="flex justify-between w-full mb-1">*/}
+        {/*  <div className={classNames('text-xs font-normal text-gray-700 truncate w-auto flex-1')}>*/}
+        {/*    {getAssetName(metadata)}*/}
+        {/*  </div>*/}
+        {/*  /!*<Balance accountId={accountId} tokenId={tokenId} displayed={displayed}>*!/*/}
+        {/*  /!*  {renderBalanceInUSD}*!/*/}
+        {/*  /!*</Balance>*!/*/}
+        {/*</div>*/}
       </div>
     </Link>
   );

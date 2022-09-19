@@ -1,10 +1,10 @@
 export type AssetMetadata = {
   // Common
-  //   TODO: make id required
-  id?: string;
+  id: string;
   decimals: number;
   symbol: string;
   name: string;
+  description: string;
 
   // [default: false]
   // Allows wallets to decide whether or not a symbol should be displayed

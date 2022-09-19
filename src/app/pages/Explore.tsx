@@ -12,11 +12,12 @@ import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import Tokens from 'app/pages/Explore/Tokens';
+import AssetBanner from 'app/templates/AssetBanner';
 import Activity from 'app/templates/SignumActivity/Activity';
 import TokenActivity from 'app/templates/SignumActivity/TokenActivity';
 import P2PMessages from 'app/templates/SignumP2PMessages/P2PMessages';
 import { T, t } from 'lib/i18n/react';
-import { getAssetSymbol, XTAccountType, useAccount, useSignumAssetMetadata, SIGNA_TOKEN_ID } from 'lib/temple/front';
+import { XTAccountType, useAccount, useSignumAssetMetadata, SIGNA_TOKEN_ID } from 'lib/temple/front';
 import { useNetworkIsReachable } from 'lib/ui/useNetworkIsReachable';
 import useTippy from 'lib/ui/useTippy';
 import { HistoryAction, Link, navigate, useLocation } from 'lib/woozie';
@@ -26,7 +27,6 @@ import { ExploreSelectors } from './Explore.selectors';
 import { ActivationSection } from './Explore/ActivationSection';
 import AddressChip from './Explore/AddressChip';
 import EditableTitle from './Explore/EditableTitle';
-import MainBanner from './Explore/MainBanner';
 import { useOnboardingProgress } from './Onboarding/hooks/useOnboardingProgress.hook';
 import Onboarding from './Onboarding/Onboarding';
 
@@ -66,7 +66,7 @@ const Explore: FC<ExploreProps> = ({ tokenId }) => {
           {tokenId && (
             <>
               <ChevronRightIcon className="w-auto h-4 mx-px stroke-current opacity-75" />
-              <span className="font-normal">{getAssetSymbol(assetMetadata)}</span>
+              <span className="font-normal">{assetMetadata.name}</span>
             </>
           )}
         </>
@@ -88,7 +88,7 @@ const Explore: FC<ExploreProps> = ({ tokenId }) => {
         )}
         <AddressChip account={account} className="mb-6" />
 
-        <MainBanner accountId={account.accountId} tokenId={token} />
+        <AssetBanner accountId={account.accountId} tokenId={token} />
 
         <div className="flex justify-around mx-auto w-full max-w-sm mt-6 px-8">
           <ActionButton label={<T id="receive" />} Icon={ReceiveIcon} href="/receive" />

@@ -16,6 +16,7 @@ import { useTempleClient } from 'lib/temple/front';
 import * as Woozie from 'lib/woozie';
 
 import AttentionPage from './pages/Onboarding/pages/AttentionPage';
+import AddAsset from 'app/pages/AddAsset';
 
 interface RouteContext {
   popup: boolean;
@@ -67,10 +68,9 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/send/:tokenId?', onlyReady(({ tokenId }) => <Send tokenId={tokenId} />)],
   // ['/dapps', onlyReady(() => <DApps />)],
   // ['/swap/:assetSlug?', onlyReady(({ assetSlug }) => <Swap assetSlug={assetSlug} />)],
-  // ['/delegate', onlyReady(() => <Delegate />)],
   // ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
   // ['/collectible/:assetSlug?', onlyReady(({ assetSlug }) => <CollectiblePage assetSlug={assetSlug!} />)],
-  // ['/add-asset', onlyReady(onlyInFullPage(() => <AddAsset />))],
+  ['/add-asset', onlyReady(onlyInFullPage(() => <AddAsset />))],
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
   ['/attention', onlyReady(onlyInFullPage(() => <AttentionPage />))],
   ['*', () => <Woozie.Redirect to="/" />]

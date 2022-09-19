@@ -6,19 +6,19 @@ import { PREDEFINED_MAINNET_TOKENS } from './predefinedTokens';
 
 export async function setTokenStatus(
   type: Repo.ITokenType,
-  chainId: string,
+  network: string,
   account: string,
   tokenId: string,
   status: Repo.ITokenStatus
 ) {
-  const repoKey = Repo.toAccountTokenKey(chainId, account, tokenId);
+  const repoKey = Repo.toAccountTokenKey(network, account, tokenId);
   const existing = await Repo.accountTokens.get(repoKey);
 
   return Repo.accountTokens.put(
     {
       ...(existing ?? {
         type,
-        chainId,
+        network,
         account,
         tokenId,
         addedAt: Date.now()

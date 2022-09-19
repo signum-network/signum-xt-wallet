@@ -8,7 +8,6 @@ import { getAssetName, getAssetSymbol, SIGNA_TOKEN_ID, useSignumAssetMetadata } 
 import AssetIcon from './AssetIcon';
 import Balance from './Balance';
 import BannerLayout from './BannerLayout';
-import InUSD from './InUSD';
 
 type AssetBannerProps = {
   tokenId?: string;
@@ -56,9 +55,6 @@ const AssetBanner: FC<AssetBannerProps> = ({ tokenId = SIGNA_TOKEN_ID, accountId
                     )}
                   </>
                 )}
-                <InUSD assetSlug={tokenId} volume={totalBalance} smallFractionFont={false}>
-                  {usdBalance => <div className="mt-1 text-sm text-gray-500">≈ {usdBalance} $</div>}
-                </InUSD>
               </div>
             )}
           </Balance>

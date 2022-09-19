@@ -25,8 +25,6 @@ const Balance = memo<BalanceProps>(
     });
     const exist = balances !== undefined;
 
-    console.log('Balance', balances, tokenId)
-
     return useMemo(() => {
       const childNode = children(balances?.totalBalance || new BigNumber(0), balances || ZeroAccountBalances);
 

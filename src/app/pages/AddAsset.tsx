@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useCallback, useEffect, useRef, useMemo } from 'react';
+import React, { FC, ReactNode, useCallback, useEffect, useRef } from 'react';
 
 import classNames from 'clsx';
 import { FormContextValues, useForm } from 'react-hook-form';
@@ -12,24 +12,18 @@ import NoSpaceField from 'app/atoms/NoSpaceField';
 import Spinner from 'app/atoms/Spinner';
 import { ReactComponent as AddIcon } from 'app/icons/add.svg';
 import PageLayout from 'app/layouts/PageLayout';
-import { useFormAnalytics } from 'lib/analytics';
+import AssetIcon from 'app/templates/AssetIcon';
 import { T, t } from 'lib/i18n/react';
 import {
-  useTezos,
-  validateContractAddress,
   useNetwork,
   NotMatchingStandardError,
-  loadContractForCallLambdaView,
   useTokensMetadata,
-  toTokenSlug,
   NotFoundTokenMetadata,
-  assertGetBalance,
   useAccount,
   getBalanceSWRKey,
-  detectTokenStandard,
   IncorrectTokenIdError,
   AssetMetadata,
-  DetailedAssetMetdata
+  useSignum
 } from 'lib/temple/front';
 import * as Repo from 'lib/temple/repo';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
@@ -52,7 +46,7 @@ const AddAsset: FC = () => (
 export default AddAsset;
 
 type FormData = {
-  address: string;
+  tokenId: string;
   id?: number;
   symbol: string;
   name: string;
@@ -77,28 +71,23 @@ const INITIAL_STATE: ComponentState = {
 class ContractNotFoundError extends Error {}
 
 const Form: FC = () => {
-  const tezos = useTezos();
   const network = useNetwork();
-  const networkId = network.id;
-
-  const chainId = '';
   const { publicKey: accountPkh } = useAccount();
-
-  const { fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata } = useTokensMetadata();
-
-  const formAnalytics = useFormAnalytics('AddAsset');
+  const { fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
 
   const { register, handleSubmit, errors, formState, watch, setValue, triggerValidation } = useForm<FormData>({
     mode: 'onChange'
   });
 
-  const contractAddress = watch('address');
-  const tokenId = watch('id') || 0;
+  const tokenId = watch('tokenId');
+  const formValid = validateTokenId(tokenId) === true;
 
-  const formValid = useMemo(
-    () => validateContractAddress(contractAddress) === true && tokenId >= 0,
-    [contractAddress, tokenId]
-  );
+  function validateTokenId(id: string) {
+    if (!/^\d{18,21}$/.test(id)) {
+      return t('invalidAddress');
+    }
+    return true;
+  }
 
   const [{ processing, bottomSectionVisible, tokenValidationError, tokenDataError }, setState] =
     useSafeState(INITIAL_STATE);
@@ -109,7 +98,6 @@ const Form: FC = () => {
 
   const loadMetadataPure = useCallback(async () => {
     if (!formValid) return;
-
     const attempt = ++attemptRef.current;
     setState({
       ...INITIAL_STATE,
@@ -119,39 +107,24 @@ const Form: FC = () => {
     let stateToSet: Partial<ComponentState>;
 
     try {
-      let contract;
-      try {
-        contract = await loadContractForCallLambdaView(tezos, contractAddress);
-      } catch {
-        throw new ContractNotFoundError();
-      }
-
-      const tokenStandard = await detectTokenStandard(tezos, contract);
-      if (!tokenStandard) {
-        throw new NotMatchingStandardError('Failed when detecting token standard');
-      }
-
-      await assertGetBalance(tezos, contract, tokenStandard, tokenId);
-
-      const slug = toTokenSlug(contractAddress, tokenId);
-      const metadata = await fetchMetadata(slug);
-
+      const metadata = await fetchMetadata(tokenId);
       metadataRef.current = metadata;
-
       const { base } = metadata;
-      setValue([
-        { symbol: base.symbol },
-        { name: base.name },
-        { decimals: base.decimals },
-        { thumbnailUri: base.thumbnailUri }
-      ]);
+      // setValue([
+      //   { symbol: base.symbol },
+      //   { name: base.name },
+      //   { decimals: base.decimals },
+      //   { thumbnailUri: base.thumbnailUri }
+      // ]);
+      //
 
+      setValue('name', base.name)
       stateToSet = {
         bottomSectionVisible: true
       };
     } catch (err: any) {
       await withErrorHumanDelay(err, () => {
-        stateToSet = errorHandler(err, contractAddress, setState);
+        stateToSet = errorHandler(err, tokenId, setState);
       });
     }
 
@@ -162,7 +135,7 @@ const Form: FC = () => {
         processing: false
       }));
     }
-  }, [tezos, setValue, setState, fetchMetadata, formValid, contractAddress, tokenId]);
+  }, [setValue, setState, fetchMetadata, tokenId, formValid]);
 
   const loadMetadata = useDebouncedCallback(loadMetadataPure, 500);
 
@@ -178,56 +151,45 @@ const Form: FC = () => {
       setState(INITIAL_STATE);
       attemptRef.current++;
     }
-  }, [setState, formValid, networkId, contractAddress, tokenId]);
+  }, [setState, formValid]);
 
   const cleanContractAddress = useCallback(() => {
-    setValue('address', '');
-    triggerValidation('address');
+    setValue('tokenId', '');
+    triggerValidation('tokenId');
   }, [setValue, triggerValidation]);
 
   const onSubmit = useCallback(
-    async ({ address, symbol, name, decimals, thumbnailUri, id }: FormData) => {
+    async ({ name }: FormData) => {
+      if (!metadataRef.current?.base) return;
       if (formState.isSubmitting) return;
-
       setSubmitError(null);
-
-      formAnalytics.trackSubmit();
       try {
-        const tokenSlug = toTokenSlug(address, id || 0);
-
         const baseMetadata = {
-          ...(metadataRef.current?.base ?? {}),
-          symbol,
-          name,
-          decimals: decimals ? +decimals : 0,
-          thumbnailUri
+          ...metadataRef.current.base,
+          name
         };
 
-        await setTokensBaseMetadata({ [tokenSlug]: baseMetadata });
-
+        await setTokensBaseMetadata({ [tokenId]: baseMetadata });
+        const { networkName } = network;
         await Repo.accountTokens.put(
           {
             type: Repo.ITokenType.Fungible,
-            chainId,
+            network: networkName,
             account: accountPkh,
-            tokenId: tokenSlug,
+            tokenId,
             status: Repo.ITokenStatus.Enabled,
             addedAt: Date.now()
           },
-          Repo.toAccountTokenKey(chainId, accountPkh, tokenSlug)
+          Repo.toAccountTokenKey(networkName, accountPkh, tokenId)
         );
 
-        swrCache.delete(getBalanceSWRKey(network, tokenSlug, accountPkh));
-
-        formAnalytics.trackSubmitSuccess();
+        swrCache.delete(getBalanceSWRKey(network, tokenId, accountPkh));
 
         navigate({
-          pathname: `/explore/${tokenSlug}`,
+          pathname: `/explore/${tokenId}`,
           search: 'after_token_added=true'
         });
       } catch (err: any) {
-        formAnalytics.trackSubmitFail();
-
         console.error(err);
 
         // Human delay
@@ -235,16 +197,7 @@ const Form: FC = () => {
         setSubmitError(err.message);
       }
     },
-    [
-      tezos,
-      formState.isSubmitting,
-      chainId,
-      accountPkh,
-      setSubmitError,
-      setTokensBaseMetadata,
-      setTokensDetailedMetadata,
-      formAnalytics
-    ]
+    [formState.isSubmitting, setSubmitError, setTokensBaseMetadata, tokenId, accountPkh, network]
   );
 
   return (
@@ -252,33 +205,16 @@ const Form: FC = () => {
       <NoSpaceField
         ref={register({
           required: t('required'),
-          validate: validateContractAddress
+          validate: validateTokenId
         })}
-        name="address"
-        id="addtoken-address"
-        textarea
-        rows={2}
-        cleanable={Boolean(contractAddress)}
+        name="tokenId"
+        id="addtoken-tokenid"
+        cleanable={Boolean(tokenId)}
         onClean={cleanContractAddress}
         label={t('address')}
         labelDescription={t('addressOfDeployedTokenContract')}
         placeholder={t('tokenContractPlaceholder')}
-        errorCaption={errors.address?.message}
-        containerClassName="mb-6"
-      />
-
-      <FormField
-        ref={register({
-          min: { value: 0, message: t('nonNegativeIntMessage') }
-        })}
-        min={0}
-        type="number"
-        name="id"
-        id="token-id"
-        label={`${t('assetId')} ${t('optionalComment')}`}
-        labelDescription={t('tokenIdInputDescription')}
-        placeholder="0"
-        errorCaption={errors.id?.message}
+        errorCaption={errors.tokenId?.message}
         containerClassName="mb-6"
       />
 
@@ -295,7 +231,15 @@ const Form: FC = () => {
           hidden: !bottomSectionVisible || processing
         })}
       >
-        <BottomSection register={register} errors={errors} formState={formState} submitError={submitError} />
+        {metadataRef.current && (
+          <BottomSection
+            metaData={metadataRef.current.base}
+            register={register}
+            errors={errors}
+            formState={formState}
+            submitError={submitError}
+          />
+        )}
       </div>
 
       {processing && (
@@ -311,31 +255,20 @@ const Form: FC = () => {
 
 type BottomSectionProps = Pick<FormContextValues, 'register' | 'errors' | 'formState'> & {
   submitError?: ReactNode;
+  metaData: AssetMetadata;
 };
 
 const BottomSection: FC<BottomSectionProps> = props => {
-  const { register, errors, formState, submitError } = props;
-
+  const { metaData, register, errors, formState, submitError } = props;
+  const { id, description } = metaData;
   return (
-    <>
-      <FormField
-        ref={register({
-          required: t('required'),
-          validate: (val: string) => {
-            if (!val || val.length < 2 || val.length > 8) {
-              return t('tokenSymbolPatternDescription');
-            }
-            return true;
-          }
-        })}
-        name="symbol"
-        id="addtoken-symbol"
-        label={t('symbol')}
-        labelDescription={t('tokenSymbolInputDescription')}
-        placeholder={t('tokenSymbolInputPlaceholder')}
-        errorCaption={errors.symbol?.message}
-        containerClassName="mb-4"
-      />
+    <div>
+      <div className="text-center mb-4">
+        <AssetIcon tokenId={id} size={48} />
+        <div>
+          <small>{description}</small>
+        </div>
+      </div>
 
       <FormField
         ref={register({
@@ -355,57 +288,10 @@ const BottomSection: FC<BottomSectionProps> = props => {
         errorCaption={errors.name?.message}
         containerClassName="mb-4"
       />
-
-      <FormField
-        ref={register({
-          min: { value: 0, message: t('nonNegativeIntMessage') }
-        })}
-        type="number"
-        name="decimals"
-        id="addtoken-decimals"
-        label={t('decimals')}
-        labelDescription={t('decimalsInputDescription')}
-        placeholder="0"
-        errorCaption={errors.decimals?.message}
-        containerClassName="mb-4"
-      />
-
-      <FormField
-        ref={register({
-          validate: (val: string) => {
-            if (!val) return true;
-            if (val.match(/(https:\/\/.*)/i) || val.match(/(ipfs:\/\/.*)/i)) {
-              return true;
-            }
-
-            return (
-              <ul className="list-disc list-inside">
-                <T id="validImageURL">{message => <li>{message}</li>}</T>
-                <T id="onlyHTTPS">{message => <li>{message}</li>}</T>
-                <T id="formatsAllowed">{message => <li>{message}</li>}</T>
-                <T id="orIPFSImageURL">{message => <li>{message}</li>}</T>
-              </ul>
-            );
-          }
-        })}
-        name="thumbnailUri"
-        id="addtoken-thumbnailUri"
-        label={
-          <>
-            <T id="iconURL" />{' '}
-            <T id="optionalComment">{message => <span className="text-sm font-light text-gray-600">{message}</span>}</T>
-          </>
-        }
-        labelDescription={t('iconURLInputDescription')}
-        placeholder="e.g. https://cdn.com/mytoken.png"
-        errorCaption={errors.iconUrl?.message}
-        containerClassName="mb-6"
-      />
-
       {submitError && <Alert type="error" title={t('error')} autoFocus description={submitError} className="mb-6" />}
 
       <T id="addToken">{message => <FormSubmitButton loading={formState.isSubmitting}>{message}</FormSubmitButton>}</T>
-    </>
+    </div>
   );
 };
 

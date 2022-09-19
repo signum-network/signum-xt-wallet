@@ -13,11 +13,11 @@ export enum Table {
 
 export const db = new Dexie('signum-xt-wallet');
 db.version(1).stores({
-  [Table.Operations]: indexes('&hash', 'chainId', '*members', '*assetIds', 'addedAt', '[chainId+addedAt]'),
+  [Table.Operations]: indexes('&hash', 'network', '*members', '*assetIds', 'addedAt', '[network+addedAt]'),
   [Table.SyncTimes]: indexes('[service+chainId+address]')
 });
 db.version(2).stores({
-  [Table.AccountTokens]: indexes('', '[chainId+account+type]', '[chainId+type]')
+  [Table.AccountTokens]: indexes('', '[network+account+type]', '[chainId+type]')
 });
 
 export const waitFor = Dexie.waitFor;
@@ -44,7 +44,7 @@ export enum ITokenStatus {
 
 export interface IAccountToken {
   type: ITokenType;
-  chainId: string;
+  network: string;
   account: string;
   tokenId: string;
   status: ITokenStatus;
@@ -55,7 +55,7 @@ export interface IAccountToken {
 
 export interface IOperation {
   hash: string;
-  chainId: string;
+  network: string;
   members: string[];
   assetIds: string[];
   addedAt: number; // timestamp
@@ -70,7 +70,7 @@ export type IOperationData = AtLeastOne<{
 
 export interface ISyncTime {
   service: 'tzkt' | 'bcd';
-  chainId: string;
+  network: string;
   address: string;
   higherTimestamp: number;
   lowerTimestamp: number;

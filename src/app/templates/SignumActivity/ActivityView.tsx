@@ -22,10 +22,7 @@ type ActivityViewProps = {
 };
 
 const ActivityView = memo<ActivityViewProps>(
-  ({
-       accountId,
-       transactions,
-       initialLoading, loadingMore, loadMoreDisplayed, loadMore, className , tokenId}) => {
+  ({ accountId, transactions, initialLoading, loadingMore, loadMoreDisplayed, loadMore, className, tokenId }) => {
     const noTransactions = transactions.length === 0;
 
     if (initialLoading) {

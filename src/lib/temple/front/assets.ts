@@ -93,8 +93,7 @@ export function useSignumAssetMetadata(tokenId: string = SIGNA_TOKEN_ID): AssetM
   const network = useNetwork();
   const forceUpdate = useForceUpdate();
 
-  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata } =
-    useTokensMetadata();
+  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
 
   useEffect(
     () =>
@@ -112,15 +111,10 @@ export function useSignumAssetMetadata(tokenId: string = SIGNA_TOKEN_ID): AssetM
   useEffect(() => {
     if (tokenId !== SIGNA_TOKEN_ID && !exist && !autoFetchMetadataFails.has(tokenId)) {
       enqueueAutoFetchMetadata(() => fetchMetadata(tokenId))
-        .then(metadata =>
-          Promise.all([
-            setTokensBaseMetadata({ [tokenId]: metadata.base })
-            // setTokensDetailedMetadata({ [slug]: metadata.detailed })
-          ])
-        )
+        .then(metadata => Promise.all([setTokensBaseMetadata({ [tokenId]: metadata.base })]))
         .catch(() => autoFetchMetadataFails.add(tokenId));
     }
-  }, [tokenId, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata]);
+  }, [tokenId, exist, fetchMetadata, setTokensBaseMetadata]);
 
   if (tokenId === SIGNA_TOKEN_ID) {
     return network.networkName === NetworkName.Mainnet ? SIGNA_METADATA : SIGNA_TESTNET_METADATA;
@@ -134,7 +128,7 @@ export function useAssetMetadata(slug: string) {
   const tezos = useTezos();
   const forceUpdate = useForceUpdate();
 
-  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata } =
+  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } =
     useTokensMetadata();
 
   useEffect(
@@ -168,7 +162,7 @@ export function useAssetMetadata(slug: string) {
         )
         .catch(() => autoFetchMetadataFails.add(slug));
     }
-  }, [slug, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata]);
+  }, [slug, exist, fetchMetadata, setTokensBaseMetadata]);
 
   // Tezos
   if (tezAsset) {
@@ -215,38 +209,12 @@ export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
     []
   );
 
-  const setTokensDetailedMetadata = useCallback(
-    (toSet: Record<string, DetailedAssetMetdata>) =>
-      browser.storage.local.set(mapObjectKeys(toSet, getDetailedMetadataStorageKey)),
-    []
-  );
-
   return {
     allTokensBaseMetadataRef,
     fetchMetadata,
-    setTokensBaseMetadata,
-    setTokensDetailedMetadata
+    setTokensBaseMetadata
   };
 });
-
-export function useDetailedAssetMetadata(slug: string) {
-  const baseMetadata = useAssetMetadata(slug);
-
-  const storageKey = useMemo(() => getDetailedMetadataStorageKey(slug), [slug]);
-
-  const { data: detailedMetadata, mutate } = useRetryableSWR<DetailedAssetMetdata>(
-    ['detailed-metadata', storageKey],
-    fetchFromStorage,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false
-    }
-  );
-
-  useEffect(() => onStorageChanged(storageKey, mutate), [storageKey, mutate]);
-
-  return detailedMetadata ?? baseMetadata;
-}
 
 export function useAllTokensBaseMetadata() {
   const { allTokensBaseMetadataRef } = useTokensMetadata();

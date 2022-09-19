@@ -40,7 +40,9 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId,
     () => parseTransaction(transaction, accountId, prefix, tokenId !== SIGNA_TOKEN_ID),
     [transaction, accountId, prefix]
   );
-  const isPending = transaction.blockTimestamp === undefined;
+
+  const isPending = transaction.confirmations === undefined;
+
   const transactionStatus = useMemo(() => {
     const content = isPending ? 'pending' : 'applied';
     return (

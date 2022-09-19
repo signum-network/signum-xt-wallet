@@ -2,7 +2,7 @@ import React, { Dispatch, FC, useCallback, useEffect, useLayoutEffect, useMemo, 
 
 import { Address, AttachmentEncryptedMessage, AttachmentMessage, TransactionId } from '@signumjs/core';
 import { encryptMessage } from '@signumjs/crypto';
-import { Amount, FeeQuantPlanck } from '@signumjs/util';
+import { Amount, ChainValue, FeeQuantPlanck } from '@signumjs/util';
 import classNames from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 import useSWR from 'swr';
@@ -19,6 +19,7 @@ import { toLocalFixed } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
 import {
   isSignumAddress,
+  SIGNA_TOKEN_ID,
   SMART_CONTRACT_PUBLIC_KEY,
   useAccount,
   useBalance,
@@ -44,17 +45,17 @@ interface FormData {
 }
 
 type FormProps = {
-  // assetSlug: string;
+  tokenId: string;
   setOperation: Dispatch<any>;
   onAddContactRequested: (address: string) => void;
 };
 
 const MinimumFee = Amount.fromPlanck(FeeQuantPlanck).getSigna();
 
-export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested }) => {
+export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, tokenId }) => {
   const messageFormRef = useRef();
   const { registerBackHandler } = useAppEnv();
-  const assetMetadata = useSignumAssetMetadata();
+  const assetMetadata = useSignumAssetMetadata(tokenId);
   const { resolveAliasToAccountPk } = useSignumAliasResolver();
   const formAnalytics = useFormAnalytics('SendForm');
   const { allContacts } = useFilteredContacts();
@@ -71,9 +72,10 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
   const [feeValue, setFeeValue] = useState(MinimumFee);
 
   const assetSymbol = assetMetadata.symbol;
+  const assetDecimals = assetMetadata.decimals;
   const publicKey = acc.publicKey;
   const accountId = acc.accountId;
-  const { data: balanceData } = useBalance(assetMetadata.name, accountId);
+  const { data: balanceData } = useBalance(tokenId, accountId);
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
     mode: 'onChange'
@@ -151,16 +153,24 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
 
   const maxAmount = useMemo(() => {
     if (!feeValue) return;
+
+    const feeAmount = ChainValue.create(8).setCompound(feeValue);
+
     return balanceData
-      ? Amount.fromSigna(balanceData.availableBalance.toString(10)).subtract(Amount.fromSigna(feeValue))
-      : Amount.Zero();
-  }, [feeValue, balanceData]);
+      ? ChainValue.create(assetDecimals).setCompound(balanceData.availableBalance.toString(10)).subtract(feeAmount)
+      : ChainValue.create(assetDecimals).setCompound(0);
+    // return balanceData
+    //   ? Amount.fromSigna(balanceData.availableBalance.toString(10)).subtract(Amount.fromSigna(feeValue))
+    //   : Amount.Zero();
+  }, [feeValue, balanceData, assetDecimals]);
 
   const totalAmount = useMemo(() => {
     if (!amountValue) return;
-    return Amount.fromSigna(amountValue).add(Amount.fromSigna(feeValue || MinimumFee));
+    const feeAmount = ChainValue.create(assetDecimals).setCompound(feeValue || MinimumFee);
+    return ChainValue.create(assetDecimals).setCompound(amountValue).add(feeAmount);
+    // return Amount.fromSigna(amountValue).add(Amount.fromSigna(feeValue || MinimumFee));
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, [amountValue, feeValue, messageFormData.message]); // keep messageFromData.message
+  }, [amountValue, feeValue, messageFormData.message, assetDecimals]); // keep messageFromData.message
 
   const validateAmount = useCallback(
     (v?: number) => {
@@ -168,14 +178,14 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
       if (v < 0) return t('amountMustBePositive');
       if (!maxAmount) return true;
       try {
-        return Amount.fromSigna(v).lessOrEqual(maxAmount)
+        return ChainValue.create(assetMetadata.decimals).setCompound(v).lessOrEqual(maxAmount)
           ? true
-          : t('maximalAmount', toLocalFixed(maxAmount.getSigna()));
+          : t('maximalAmount', toLocalFixed(maxAmount.getCompound()));
       } catch (e) {
         return t('error'); // WHAT MESSAGE?
       }
     },
-    [maxAmount]
+    [maxAmount, assetMetadata.decimals]
   );
 
   const maxAmountStr = maxAmount?.toString();
@@ -187,7 +197,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
 
   const handleSetMaxAmount = useCallback(() => {
     if (maxAmount) {
-      setValue('amount', maxAmount.getSigna());
+      setValue('amount', maxAmount.getCompound());
       triggerValidation('amount');
     }
   }, [setValue, maxAmount, triggerValidation]);
@@ -240,6 +250,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
 
   const onSubmit = useCallback(
     async ({ amount }: FormData) => {
+      if (!assetMetadata) return;
       if (formState.isSubmitting) return;
       setSubmitError(null);
       setOperation(null);
@@ -247,17 +258,32 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
         const keys = await client.getSignumTransactionKeys(acc.publicKey);
         const attachment = await getTransactionAttachment(keys.p2pKey);
         const recipientId = Address.create(toResolved).getNumericId();
-        const { transaction, fullHash } = (await signum.transaction.sendAmountToSingleRecipient({
-          amountPlanck: Amount.fromSigna(amount).getPlanck(),
-          feePlanck: Amount.fromSigna(feeValue).getPlanck(),
-          recipientId,
-          senderPrivateKey: keys.signingKey,
-          senderPublicKey: keys.publicKey,
-          attachment
-        })) as TransactionId;
+
+        let txId: TransactionId;
+        if (!assetMetadata.id || assetMetadata.id === SIGNA_TOKEN_ID) {
+          txId = (await signum.transaction.sendAmountToSingleRecipient({
+            amountPlanck: Amount.fromSigna(amount).getPlanck(),
+            feePlanck: Amount.fromSigna(feeValue).getPlanck(),
+            recipientId,
+            senderPrivateKey: keys.signingKey,
+            senderPublicKey: keys.publicKey,
+            attachment
+          })) as TransactionId;
+        } else {
+          txId = (await signum.asset.transferAsset({
+            assetId: assetMetadata.id,
+            quantity: ChainValue.create(assetDecimals).setCompound(amount).getAtomic(),
+            feePlanck: Amount.fromSigna(feeValue).getPlanck(),
+            recipientId,
+            senderPrivateKey: keys.signingKey,
+            senderPublicKey: keys.publicKey,
+            attachment
+          })) as TransactionId;
+        }
+
         setOperation({
-          txId: transaction,
-          hash: fullHash
+          txId: txId.transaction,
+          hash: txId.fullHash
         });
         reset({ to: '', amount: '0' });
         // @ts-ignore
@@ -405,7 +431,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
               <T id="availableToSend" />{' '}
               <button type="button" className={classNames('underline')}>
                 <span className={classNames('text-xs leading-none')}>
-                  <Money onClick={handleSetMaxAmount}>{maxAmount.getSigna()}</Money>{' '}
+                  <Money onClick={handleSetMaxAmount}>{maxAmount.getCompound()}</Money>{' '}
                   <span style={{ fontSize: '0.75em' }}>{assetSymbol}</span>
                 </span>
               </button>
@@ -449,7 +475,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested })
               <T id="totalAmount" />
               {': '}
               <span className={'leading-none ml-1'}>
-                <Money>{totalAmount.getSigna()}</Money>
+                <Money>{totalAmount.getCompound()}</Money>
                 {assetSymbol}
               </span>
             </div>
