@@ -37,16 +37,9 @@ export function useBalance(tokenId: string, accountId: string, opts: UseBalanceO
   const metadata = useSignumAssetMetadata(tokenId);
   const displayed = opts.displayed ?? true;
 
-  return useRetryableSWR(
-    displayed ? [`balance-${accountId}-${tokenId}`, signum] : null,
-    async () => {
-      try {
-        const account = await signum.account.getAccount({ accountId, includeCommittedAmount: true });
-        return getBalances(account, metadata);
-      } catch (e) {
-        return ZeroAccountBalances;
-      }
-    },
+  const { data: account } = useRetryableSWR(
+    displayed ? [`balance-${accountId}`, signum] : null,
+    async () => signum.account.getAccount({ accountId, includeCommittedAmount: true }),
     {
       suspense: opts.suspense ?? true,
       revalidateOnFocus: false,
@@ -56,6 +49,10 @@ export function useBalance(tokenId: string, accountId: string, opts: UseBalanceO
       initialData: opts.initial
     }
   );
+
+  return {
+    data: account ? getBalances(account, metadata) : ZeroAccountBalances
+  };
 }
 
 function getBalances(account: Account, metaData: AssetMetadata): AccountBalances {
@@ -73,9 +70,10 @@ function getBalances(account: Account, metaData: AssetMetadata): AccountBalances
       totalBalance
     };
   }
-
-  const balance = account.assetBalances.find(({ asset }) => asset === tokenId);
-  const unconfirmedBalance = account.unconfirmedAssetBalances.find(({ asset }) => asset === tokenId);
+  const balance = account.assetBalances ? account.assetBalances.find(({ asset }) => asset === tokenId) : undefined;
+  const unconfirmedBalance = account.unconfirmedAssetBalances
+    ? account.unconfirmedAssetBalances.find(({ asset }) => asset === tokenId)
+    : undefined;
   const totalBalance = new BigNumber(balance?.balanceQNT || '0').div(divider);
   const availableBalance = new BigNumber(unconfirmedBalance?.unconfirmedBalanceQNT || '0').div(divider);
   const committedBalance = new BigNumber('0');

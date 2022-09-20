@@ -26,8 +26,8 @@ export const accountTokens = db.table<IAccountToken, string>(Table.AccountTokens
 export const operations = db.table<IOperation, string>(Table.Operations);
 export const syncTimes = db.table<ISyncTime, string>(Table.SyncTimes);
 
-export function toAccountTokenKey(chainId: string, account: string, tokenSlug: string) {
-  return [chainId, account, tokenSlug].join('_');
+export function toAccountTokenKey(networkName: string, account: string, tokenSlug: string) {
+  return [networkName, account, tokenSlug].join('_');
 }
 
 export enum ITokenType {

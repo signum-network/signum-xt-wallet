@@ -90,7 +90,12 @@ function isContractTransaction(tx: Transaction): boolean {
   return tx.senderPublicKey === SMART_CONTRACT_PUBLIC_KEY;
 }
 
-export function parseTransaction(tx: Transaction, accountId: string, accountPrefix: string, isTokenView: boolean): TransactionItem {
+export function parseTransaction(
+  tx: Transaction,
+  accountId: string,
+  accountPrefix: string,
+  isTokenView: boolean
+): TransactionItem {
   // @ts-ignore
   let item: TransactionItem = {
     from: tx.senderRS,

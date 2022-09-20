@@ -11,7 +11,8 @@ import HashChip from 'app/templates/HashChip';
 import { getDateFnsLocale, t } from 'lib/i18n/react';
 import { parseTransaction, parseAmountDiffs } from 'lib/temple/activity';
 import {
-  SIGNA_METADATA, SIGNA_TOKEN_ID,
+  SIGNA_METADATA,
+  SIGNA_TOKEN_ID,
   useSignumAccountPrefix,
   useSignumAssetMetadata,
   useSignumExplorerBaseUrls
@@ -34,11 +35,14 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId,
   const { transaction: txId, timestamp } = transaction;
 
   const dateFnsLocale = getDateFnsLocale();
-  const moneyDiff = useMemo(() => parseAmountDiffs(transaction, accountId, metadata), [transaction, accountId, tokenId]);
+  const moneyDiff = useMemo(
+    () => parseAmountDiffs(transaction, accountId, metadata),
+    [transaction, accountId, metadata]
+  );
   const feeAmount = useMemo(() => Amount.fromPlanck(transaction.feeNQT).getSigna(), [transaction.feeNQT]);
   const parsedTransaction = useMemo(
     () => parseTransaction(transaction, accountId, prefix, tokenId !== SIGNA_TOKEN_ID),
-    [transaction, accountId, prefix]
+    [transaction, accountId, prefix, tokenId]
   );
 
   const isPending = transaction.confirmations === undefined;

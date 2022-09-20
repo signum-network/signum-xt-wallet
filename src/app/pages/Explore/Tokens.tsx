@@ -1,6 +1,5 @@
-import React, { FC, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { cache } from 'swr';
@@ -8,62 +7,44 @@ import { useDebounce } from 'use-debounce';
 
 import Money from 'app/atoms/Money';
 import { ReactComponent as AddToListIcon } from 'app/icons/add-to-list.svg';
+import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import { ReactComponent as SearchIcon } from 'app/icons/search.svg';
 import AssetIcon from 'app/templates/AssetIcon';
 import Balance from 'app/templates/Balance';
-import InUSD from 'app/templates/InUSD';
 import SearchAssetField from 'app/templates/SearchAssetField';
-import { T } from 'lib/i18n/react';
+import { t, T } from 'lib/i18n/react';
 import {
   useAccount,
   useBalanceSWRKey,
   getAssetSymbol,
-  getAssetName,
   useAllTokensBaseMetadata,
   searchAssets,
   useSignumAssetMetadata,
   FEATURED_TOKEN_IDS,
-  useBalance
+  useNetwork,
+  useFungibleTokens,
+  getAssetName,
+  removeToken
 } from 'lib/temple/front';
-import { IAccountToken } from 'lib/temple/repo';
+import { useConfirm } from 'lib/ui/dialog';
 import { Link, navigate } from 'lib/woozie';
 
 import { AssetsSelectors } from './Assets.selectors';
 import styles from './Tokens.module.css';
 
 const Tokens: FC = () => {
-  const chainId = '';
+  const network = useNetwork();
   const account = useAccount();
+  const confirm = useConfirm();
   const address = account.publicKey;
-
-  // const { data: tokens = [] } = useDisplayedFungibleTokens(chainId, address);
-
-  const tokens: IAccountToken[] = [];
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
-  const tokenIds = FEATURED_TOKEN_IDS;
-
-  // const { tokenIds, latestBalances } = useMemo(() => {
-  //   const tokenIds = FEATURED_TOKEN_IDS;
-  //   const balances: Record<string, string> = {};
-  //
-  //   // for (const { tokenId, latestBalance } of tokens) {
-  //   //   if (tokenId in allTokensBaseMetadata) {
-  //   //     // @ts-ignore
-  //   //     tokenIds.push(tokenId);
-  //   //   }
-  //   //   if (latestBalance) {
-  //   //     balances[tokenId] = latestBalance;
-  //   //   }
-  //   // }
-  //
-  //   return { tokenIds, latestBalances: balances };
-  // }, [allTokensBaseMetadata, tokens]);
+  const { data: tokens = [], revalidate } = useFungibleTokens(network.networkName, address);
+  const tokenIds = useMemo(() => [...FEATURED_TOKEN_IDS, ...tokens.map(({ tokenId }) => tokenId)], [tokens]);
 
   const [searchValue, setSearchValue] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const searchValueExist = useMemo(() => Boolean(searchValue), [searchValue]);
   const [searchValueDebounced] = useDebounce(searchValue, 300);
 
   const filteredTokens = useMemo(
@@ -71,7 +52,8 @@ const Tokens: FC = () => {
     [searchValueDebounced, tokenIds, allTokensBaseMetadata]
   );
 
-  // const filteredAssets: any[] = [];
+  // TODO: search
+  const searchValueExist = Boolean(searchValue);
   const activeAsset = useMemo(() => {
     return searchFocused && searchValueExist && filteredTokens[activeIndex] ? filteredTokens[activeIndex] : null;
   }, [filteredTokens, searchFocused, searchValueExist, activeIndex]);
@@ -113,6 +95,23 @@ const Tokens: FC = () => {
     return () => window.removeEventListener('keyup', handleKeyup);
   }, [activeAsset, setActiveIndex]);
 
+  const handleTokenRemove = useCallback(
+    async (tokenId: string) => {
+      try {
+        const confirmed = await confirm({
+          title: t('deleteTokenConfirm')
+        });
+        if (!confirmed) return;
+        await removeToken(network.networkName, address, tokenId);
+        await revalidate();
+      } catch (err: any) {
+        console.error(err);
+        alert(err.message);
+      }
+    },
+    [network.networkName, address, confirm, revalidate]
+  );
+
   return (
     <div className={classNames('w-full max-w-sm mx-auto')}>
       <div className="mt-1 mb-3 w-full flex items-strech">
@@ -124,7 +123,7 @@ const Tokens: FC = () => {
         />
 
         <Link
-          to="/add-asset"
+          to="/add-token"
           className={classNames(
             'ml-2 flex-shrink-0',
             'px-3 py-1',
@@ -135,7 +134,6 @@ const Tokens: FC = () => {
             'hover:bg-gray-100',
             'opacity-75 hover:opacity-100 focus:opacity-100'
           )}
-          testID={AssetsSelectors.ManageButton}
         >
           <AddToListIcon className={classNames('mr-1 h-5 w-auto stroke-current stroke-2')} />
           <T id="addToken" />
@@ -151,7 +149,7 @@ const Tokens: FC = () => {
             'text-gray-700 text-sm leading-tight'
           )}
         >
-          <TransitionGroup key={chainId}>
+          <TransitionGroup key={network.networkName}>
             {filteredTokens.map((tokenId, i, arr) => {
               const last = i === arr.length - 1;
               const active = activeAsset ? tokenId === activeAsset : false;
@@ -167,7 +165,13 @@ const Tokens: FC = () => {
                   }}
                   unmountOnExit
                 >
-                  <ListItem tokenId={tokenId} last={last} active={active} accountId={account.accountId} />
+                  <ListItem
+                    tokenId={tokenId}
+                    last={last}
+                    active={active}
+                    accountId={account.accountId}
+                    onRemove={handleTokenRemove}
+                  />
                 </CSSTransition>
               );
             })}
@@ -188,7 +192,7 @@ const Tokens: FC = () => {
               id="ifYouDontSeeYourAsset"
               substitutions={[
                 <b>
-                  <T id="manage" />
+                  <T id="addToken" />
                 </b>
               ]}
             />
@@ -206,13 +210,13 @@ type ListItemProps = {
   last: boolean;
   active: boolean;
   accountId: string;
+  onRemove: (assetSlug: string) => void;
 };
 
-const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountId }) => {
+const ListItem: FC<ListItemProps> = ({ tokenId, last, active, accountId, onRemove }) => {
   const metadata = useSignumAssetMetadata(tokenId);
   const balanceSWRKey = useBalanceSWRKey(tokenId, accountId);
   const balanceAlreadyLoaded = useMemo(() => cache.has(balanceSWRKey), [balanceSWRKey]);
-
   const toDisplayRef = useRef<HTMLDivElement>(null);
   const [displayed, setDisplayed] = useState(balanceAlreadyLoaded);
 
@@ -253,36 +257,48 @@ const ListItem = memo<ListItemProps>(({ tokenId, last, active, accountId }) => {
       testID={AssetsSelectors.AssetItemButton}
       testIDProperties={{ key: tokenId }}
     >
-      <AssetIcon tokenId={tokenId} size={40} className="mr-2 flex-shrink-0" />
+      <div
+        className={classNames(
+          'absolute top-0 right-0',
+          'p-1 rounded-full',
+          'text-gray-400 hover:text-gray-600',
+          'hover:bg-black hover:bg-opacity-5',
+          'transition ease-in-out duration-200'
+        )}
+        onClick={evt => {
+          evt.preventDefault();
+          onRemove(tokenId);
+        }}
+      >
+        <CloseIcon className="w-auto h-4 stroke-current stroke-2" title={t('delete')} />
+      </div>
 
-      <div ref={toDisplayRef} className="w-full">
-        <div className="flex justify-between w-full mb-1">
-          <div className="flex items-center">
-            <div className={classNames(styles['tokenSymbol'])}>{getAssetSymbol(metadata)}</div>
-            {tokenId === 'tez' && (
-              <div className={classNames('ml-1 px-2 py-1', styles['apyBadge'])}>{<T id="tezosApy" />}</div>
-            )}
-          </div>
-          <Balance accountId={accountId} tokenId={tokenId} displayed={displayed}>
-            {balance => (
-              <div className="text-base font-medium text-gray-800">
-                <Money smallFractionFont={false}>{balance}</Money>
+      <div ref={toDisplayRef} className="w-full relative top-[4px]">
+        <div className="flex flex-row justify-between items-center w-full mb-1">
+          <div className="flex flex-row items-center">
+            <AssetIcon metadata={metadata} size={40} className="mr-2 flex-shrink-0" />
+            <div>
+              <div className={classNames(styles['tokenSymbol'])}>{getAssetSymbol(metadata)}</div>
+              <div className={classNames('text-xs font-normal text-gray-700 truncate w-auto flex-1')}>
+                {getAssetName(metadata)}
               </div>
-            )}
-          </Balance>
+            </div>
+          </div>
+          <div className="flex items-end">
+            <Balance accountId={accountId} tokenId={tokenId} displayed={displayed}>
+              {balance => (
+                <div className="text-base font-medium text-gray-800">
+                  <Money smallFractionFont={false}>{balance}</Money>
+                </div>
+              )}
+            </Balance>
+          </div>
         </div>
-        {/*<div className="flex justify-between w-full mb-1">*/}
-        {/*  <div className={classNames('text-xs font-normal text-gray-700 truncate w-auto flex-1')}>*/}
-        {/*    {getAssetName(metadata)}*/}
-        {/*  </div>*/}
-        {/*  /!*<Balance accountId={accountId} tokenId={tokenId} displayed={displayed}>*!/*/}
-        {/*  /!*  {renderBalanceInUSD}*!/*/}
-        {/*  /!*</Balance>*!/*/}
-        {/*</div>*/}
+        <div className="flex justify-between w-full mb-1"></div>
       </div>
     </Link>
   );
-});
+};
 
 function toExploreAssetLink(key: string) {
   return `/explore/${key}`;

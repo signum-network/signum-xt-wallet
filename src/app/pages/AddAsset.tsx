@@ -16,32 +16,35 @@ import AssetIcon from 'app/templates/AssetIcon';
 import { T, t } from 'lib/i18n/react';
 import {
   useNetwork,
-  NotMatchingStandardError,
   useTokensMetadata,
-  NotFoundTokenMetadata,
   useAccount,
   getBalanceSWRKey,
-  IncorrectTokenIdError,
   AssetMetadata,
-  useSignum
+  FEATURED_TOKEN_IDS
 } from 'lib/temple/front';
 import * as Repo from 'lib/temple/repo';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 import useSafeState from 'lib/ui/useSafeState';
-import { navigate } from 'lib/woozie';
+import { navigate, useLocation } from 'lib/woozie';
 
-const AddAsset: FC = () => (
-  <PageLayout
-    pageTitle={
-      <>
-        <AddIcon className="w-auto h-4 mr-1 stroke-current" />
-        <T id="addAsset" />
-      </>
-    }
-  >
-    <Form />
-  </PageLayout>
-);
+const AddAsset: FC = () => {
+  const { search } = useLocation();
+  const usp = new URLSearchParams(search);
+  const tokenId = usp.get('token-id') || undefined;
+
+  return (
+    <PageLayout
+      pageTitle={
+        <>
+          <AddIcon className="w-auto h-4 mr-1 stroke-current" />
+          <T id="addAsset" />
+        </>
+      }
+    >
+      <AddAssetForm tokenId={tokenId} />
+    </PageLayout>
+  );
+};
 
 export default AddAsset;
 
@@ -57,44 +60,50 @@ type FormData = {
 type ComponentState = {
   processing: boolean;
   bottomSectionVisible: boolean;
-  tokenValidationError: ReactNode;
-  tokenDataError: ReactNode;
+  tokenNotFoundError: boolean;
+  tokenAlreadyAdded: boolean;
 };
 
 const INITIAL_STATE: ComponentState = {
   processing: false,
   bottomSectionVisible: false,
-  tokenValidationError: null,
-  tokenDataError: null
+  tokenNotFoundError: false,
+  tokenAlreadyAdded: false
 };
 
-class ContractNotFoundError extends Error {}
+function validateTokenId(id: string) {
+  if (!/^\d{18,21}$/.test(id)) {
+    return t('invalidAddress');
+  }
+  return true;
+}
 
-const Form: FC = () => {
+class TokenAlreadyAdded extends Error {}
+
+interface FormProps {
+  tokenId?: string;
+}
+
+const AddAssetForm: FC<FormProps> = ({ tokenId: token }) => {
   const network = useNetwork();
   const { publicKey: accountPkh } = useAccount();
   const { fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
+  const [{ processing, bottomSectionVisible, tokenNotFoundError, tokenAlreadyAdded }, setState] =
+    useSafeState(INITIAL_STATE);
+  const [submitError, setSubmitError] = useSafeState<ReactNode>(null);
+  const attemptRef = useRef(0);
+  const [metadata, setMetadata] = useSafeState<AssetMetadata | null>(null);
 
   const { register, handleSubmit, errors, formState, watch, setValue, triggerValidation } = useForm<FormData>({
-    mode: 'onChange'
+    mode: 'onChange',
+    defaultValues: {
+      tokenId: token,
+      name: ''
+    }
   });
 
   const tokenId = watch('tokenId');
   const formValid = validateTokenId(tokenId) === true;
-
-  function validateTokenId(id: string) {
-    if (!/^\d{18,21}$/.test(id)) {
-      return t('invalidAddress');
-    }
-    return true;
-  }
-
-  const [{ processing, bottomSectionVisible, tokenValidationError, tokenDataError }, setState] =
-    useSafeState(INITIAL_STATE);
-  const [submitError, setSubmitError] = useSafeState<ReactNode>(null);
-
-  const attemptRef = useRef(0);
-  const metadataRef = useRef<{ base: AssetMetadata }>();
 
   const loadMetadataPure = useCallback(async () => {
     if (!formValid) return;
@@ -103,28 +112,43 @@ const Form: FC = () => {
       ...INITIAL_STATE,
       processing: true
     });
-
     let stateToSet: Partial<ComponentState>;
-
     try {
-      const metadata = await fetchMetadata(tokenId);
-      metadataRef.current = metadata;
-      const { base } = metadata;
-      // setValue([
-      //   { symbol: base.symbol },
-      //   { name: base.name },
-      //   { decimals: base.decimals },
-      //   { thumbnailUri: base.thumbnailUri }
-      // ]);
-      //
+      if (FEATURED_TOKEN_IDS.includes(tokenId)) {
+        throw new TokenAlreadyAdded();
+      }
 
-      setValue('name', base.name)
+      const { networkName } = network;
+      const hasToken = await Repo.accountTokens.get(Repo.toAccountTokenKey(networkName, accountPkh, tokenId));
+      if (hasToken) {
+        throw new TokenAlreadyAdded();
+      }
+
+      const { base } = await fetchMetadata(tokenId);
+
+      setValue('name', base.name);
+      setMetadata(base);
       stateToSet = {
-        bottomSectionVisible: true
+        bottomSectionVisible: true,
+        tokenNotFoundError: false,
+        tokenAlreadyAdded: false
       };
     } catch (err: any) {
       await withErrorHumanDelay(err, () => {
-        stateToSet = errorHandler(err, tokenId, setState);
+        setMetadata(null);
+        if (err instanceof TokenAlreadyAdded) {
+          stateToSet = {
+            bottomSectionVisible: false,
+            tokenNotFoundError: false,
+            tokenAlreadyAdded: true
+          };
+        } else {
+          stateToSet = {
+            bottomSectionVisible: false,
+            tokenNotFoundError: true,
+            tokenAlreadyAdded: false
+          };
+        }
       });
     }
 
@@ -135,41 +159,36 @@ const Form: FC = () => {
         processing: false
       }));
     }
-  }, [setValue, setState, fetchMetadata, tokenId, formValid]);
+  }, [formValid, setState, tokenId, network, accountPkh, fetchMetadata, setValue, setMetadata]);
 
   const loadMetadata = useDebouncedCallback(loadMetadataPure, 500);
 
-  const loadMetadataRef = useRef(loadMetadata);
-  useEffect(() => {
-    loadMetadataRef.current = loadMetadata;
-  }, [loadMetadata]);
-
   useEffect(() => {
     if (formValid) {
-      loadMetadataRef.current();
+      loadMetadata();
     } else {
       setState(INITIAL_STATE);
       attemptRef.current++;
     }
-  }, [setState, formValid]);
+  }, [setState, formValid, loadMetadata, tokenId]);
 
-  const cleanContractAddress = useCallback(() => {
+  const clearTokenIdField = useCallback(() => {
     setValue('tokenId', '');
     triggerValidation('tokenId');
   }, [setValue, triggerValidation]);
 
   const onSubmit = useCallback(
     async ({ name }: FormData) => {
-      if (!metadataRef.current?.base) return;
+      if (!metadata) return;
       if (formState.isSubmitting) return;
       setSubmitError(null);
       try {
-        const baseMetadata = {
-          ...metadataRef.current.base,
-          name
-        };
-
-        await setTokensBaseMetadata({ [tokenId]: baseMetadata });
+        await setTokensBaseMetadata({
+          [tokenId]: {
+            ...metadata,
+            name
+          }
+        });
         const { networkName } = network;
         await Repo.accountTokens.put(
           {
@@ -190,14 +209,12 @@ const Form: FC = () => {
           search: 'after_token_added=true'
         });
       } catch (err: any) {
-        console.error(err);
-
-        // Human delay
-        await new Promise(r => setTimeout(r, 300));
-        setSubmitError(err.message);
+        await withErrorHumanDelay(err, () => {
+          setSubmitError(err.message);
+        });
       }
     },
-    [formState.isSubmitting, setSubmitError, setTokensBaseMetadata, tokenId, accountPkh, network]
+    [metadata, formState.isSubmitting, setSubmitError, setTokensBaseMetadata, tokenId, network, accountPkh]
   );
 
   return (
@@ -210,20 +227,32 @@ const Form: FC = () => {
         name="tokenId"
         id="addtoken-tokenid"
         cleanable={Boolean(tokenId)}
-        onClean={cleanContractAddress}
-        label={t('address')}
-        labelDescription={t('addressOfDeployedTokenContract')}
-        placeholder={t('tokenContractPlaceholder')}
+        onClean={clearTokenIdField}
+        label={t('tokenId')}
+        labelDescription={t('tokenIdLabel')}
+        placeholder={t('tokenIdPlaceholder')}
         errorCaption={errors.tokenId?.message}
         containerClassName="mb-6"
       />
 
-      {tokenValidationError && (
-        <Alert type="error" title={t('error')} autoFocus description={tokenValidationError} className="mb-8" />
+      {tokenNotFoundError && (
+        <Alert
+          type="warn"
+          title={t('tokenNotFoundError')}
+          autoFocus
+          className="mb-8"
+          description={t('tokenNotFoundDescription', tokenId)}
+        />
       )}
 
-      {tokenDataError && (
-        <Alert type="warn" title={t('failedToParseMetadata')} autoFocus description={tokenDataError} className="mb-8" />
+      {tokenAlreadyAdded && (
+        <Alert
+          type="warn"
+          title={t('tokenAlreadyAddedError')}
+          autoFocus
+          className="mb-8"
+          description={t('tokenAlreadyAddedDescription', tokenId)}
+        />
       )}
 
       <div
@@ -231,15 +260,13 @@ const Form: FC = () => {
           hidden: !bottomSectionVisible || processing
         })}
       >
-        {metadataRef.current && (
-          <BottomSection
-            metaData={metadataRef.current.base}
-            register={register}
-            errors={errors}
-            formState={formState}
-            submitError={submitError}
-          />
-        )}
+        <BottomSection
+          metaData={metadata}
+          register={register}
+          errors={errors}
+          formState={formState}
+          submitError={submitError}
+        />
       </div>
 
       {processing && (
@@ -255,18 +282,18 @@ const Form: FC = () => {
 
 type BottomSectionProps = Pick<FormContextValues, 'register' | 'errors' | 'formState'> & {
   submitError?: ReactNode;
-  metaData: AssetMetadata;
+  metaData?: AssetMetadata | null;
 };
 
 const BottomSection: FC<BottomSectionProps> = props => {
   const { metaData, register, errors, formState, submitError } = props;
-  const { id, description } = metaData;
+
   return (
     <div>
-      <div className="text-center mb-4">
-        <AssetIcon tokenId={id} size={48} />
-        <div>
-          <small>{description}</small>
+      <div className="flex flex-col justify-center mb-4">
+        <div className="text-center mx-auto">{metaData && <AssetIcon metadata={metaData} size={48} />}</div>
+        <div className="text-gray-600">
+          <small>{metaData?.description}</small>
         </div>
       </div>
 
@@ -293,26 +320,4 @@ const BottomSection: FC<BottomSectionProps> = props => {
       <T id="addToken">{message => <FormSubmitButton loading={formState.isSubmitting}>{message}</FormSubmitButton>}</T>
     </div>
   );
-};
-
-const errorHandler = (err: any, contractAddress: string, setValue: any) => {
-  if (err instanceof ContractNotFoundError) {
-    return {
-      tokenValidationError: t('referredByTokenContractNotFound', contractAddress)
-    };
-  } else if (err instanceof NotMatchingStandardError) {
-    const errorMessage = err instanceof IncorrectTokenIdError ? `: ${err.message}` : '';
-    return {
-      tokenValidationError: `${t('tokenDoesNotMatchStandard', 'FA')}${errorMessage}`
-    };
-  } else {
-    const errorMessage = t(
-      err instanceof NotFoundTokenMetadata ? 'failedToParseMetadata' : 'unknownParseErrorOccurred'
-    );
-    setValue([{ symbol: '' }, { name: '' }, { decimals: 0 }]);
-    return {
-      bottomSectionVisible: true,
-      tokenDataError: errorMessage
-    };
-  }
 };

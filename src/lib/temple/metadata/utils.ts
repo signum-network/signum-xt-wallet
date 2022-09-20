@@ -1,4 +1,3 @@
-
 import { AssetMetadata } from './types';
 
 export function getAssetSymbol(metadata: AssetMetadata | null, short = false) {
@@ -12,5 +11,5 @@ export function getAssetName(metadata: AssetMetadata | null) {
 }
 
 export function getThumbnailUri(metadata: AssetMetadata | null) {
-  return (metadata && metadata.thumbnailUri) || '';  //&& sanitizeImgUri(formatImgUri(metadata.thumbnailUri));
+  return (metadata && metadata.thumbnailUri) || ''; //&& sanitizeImgUri(formatImgUri(metadata.thumbnailUri));
 }

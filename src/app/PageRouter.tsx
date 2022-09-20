@@ -1,6 +1,7 @@
 import React, { FC, useLayoutEffect, useMemo } from 'react';
 
 import { OpenInFullPage, useAppEnv } from 'app/env';
+import AddAsset from 'app/pages/AddAsset';
 import CreateAccount from 'app/pages/CreateAccount';
 import CreateWallet from 'app/pages/CreateWallet';
 import Explore from 'app/pages/Explore';
@@ -16,7 +17,6 @@ import { useTempleClient } from 'lib/temple/front';
 import * as Woozie from 'lib/woozie';
 
 import AttentionPage from './pages/Onboarding/pages/AttentionPage';
-import AddAsset from 'app/pages/AddAsset';
 
 interface RouteContext {
   popup: boolean;
@@ -30,7 +30,7 @@ type RouteFactory = Woozie.Router.ResolveResult<RouteContext>;
 const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   [
     '/import-wallet',
-    (p, ctx) => {
+    (_, ctx) => {
       switch (true) {
         case ctx.ready:
           return Woozie.Router.SKIP;
@@ -63,14 +63,12 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/create-wallet', onlyNotReady(() => <CreateWallet />)],
   ['/create-account', onlyReady(() => <CreateAccount />)],
   ['/import-account/:tabSlug?', onlyReady(({ tabSlug }) => <ImportAccount tabSlug={tabSlug} />)],
-  // ['/connect-ledger', onlyReady(onlyInFullPage(() => <ConnectLedger />))],
   ['/receive', onlyReady(() => <Receive />)],
   ['/send/:tokenId?', onlyReady(({ tokenId }) => <Send tokenId={tokenId} />)],
   // ['/dapps', onlyReady(() => <DApps />)],
   // ['/swap/:assetSlug?', onlyReady(({ assetSlug }) => <Swap assetSlug={assetSlug} />)],
-  // ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
   // ['/collectible/:assetSlug?', onlyReady(({ assetSlug }) => <CollectiblePage assetSlug={assetSlug!} />)],
-  ['/add-asset', onlyReady(onlyInFullPage(() => <AddAsset />))],
+  ['/add-token', onlyReady(onlyInFullPage(() => <AddAsset />))],
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
   ['/attention', onlyReady(onlyInFullPage(() => <AttentionPage />))],
   ['*', () => <Woozie.Redirect to="/" />]

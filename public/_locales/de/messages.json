@@ -128,7 +128,7 @@
   "addressInputDescriptionWithDomain": {
     "message": "Adresse, ID oder Alias des Kontos"
   },
-  "addressOfDeployedTokenContract": {
+  "tokenIdLabel": {
     "message": "Adresse eines bereitgestellten Vermögenswertvertrags."
   },
   "addressOfTokenContract": {
@@ -1132,13 +1132,8 @@
     "message": "z.B. S-6SJC-..., 17332... oder peter",
     "description": "foobar = Signum Alias"
   },
-  "referredByTokenContractNotFound": {
-    "message": "Der Kontrakt $address$, auf den der Token-Kontrakt verweist, wurde nicht gefunden.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    }
+  "tokenNotFoundError": {
+    "message": "Token existiert nicht."
   },
   "reject": {
     "message": "Ablehnen"
@@ -1328,7 +1323,7 @@
   "toContinue": {
     "message": "Fortfahren"
   },
-  "tokenContractPlaceholder": {
+  "tokenIdPlaceholder": {
     "message": "z.B. KT1v9CmPy..."
   },
   "tokenDoesNotMatchStandard": {

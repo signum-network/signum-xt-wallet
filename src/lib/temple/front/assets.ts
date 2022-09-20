@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import constate from 'constate';
 import deepEqual from 'fast-deep-equal';
 import Fuse from 'fuse.js';
 import useForceUpdate from 'use-force-update';
-import browser from 'webextension-polyfill';
 
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
@@ -14,17 +13,14 @@ import {
   isTezAsset,
   AssetMetadata,
   fetchTokenMetadata,
-  TEZOS_METADATA,
   SIGNA_METADATA,
   fetchDisplayedFungibleTokens,
   fetchFungibleTokens,
   fetchAllKnownFungibleTokenSlugs,
   onStorageChanged,
   putToStorage,
-  fetchFromStorage,
   fetchCollectibleTokens,
   fetchAllKnownCollectibleTokenSlugs,
-  DetailedAssetMetdata,
   useNetwork,
   SIGNA_TESTNET_METADATA,
   NetworkName,
@@ -128,8 +124,7 @@ export function useAssetMetadata(slug: string) {
   const tezos = useTezos();
   const forceUpdate = useForceUpdate();
 
-  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } =
-    useTokensMetadata();
+  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
 
   useEffect(
     () =>
@@ -163,11 +158,6 @@ export function useAssetMetadata(slug: string) {
         .catch(() => autoFetchMetadataFails.add(slug));
     }
   }, [slug, exist, fetchMetadata, setTokensBaseMetadata]);
-
-  // Tezos
-  if (tezAsset) {
-    return TEZOS_METADATA;
-  }
 
   return tokenMetadata;
 }
@@ -235,7 +225,7 @@ export function searchAssets(
   const fuse = new Fuse(
     assetSlugs.map(slug => ({
       slug,
-      metadata: isTezAsset(slug) ? TEZOS_METADATA : allTokensBaseMetadata[slug]
+      metadata: allTokensBaseMetadata[slug]
     })),
     {
       keys: [
@@ -248,17 +238,4 @@ export function searchAssets(
   );
 
   return fuse.search(searchValue).map(({ item: { slug } }) => slug);
-}
-
-function getDetailedMetadataStorageKey(slug: string) {
-  return `detailed_asset_metadata_${slug}`;
-}
-
-function mapObjectKeys<T extends Record<string, any>>(obj: T, predicate: (key: string) => string): T {
-  const newObj: Record<string, any> = {};
-  for (const key of Object.keys(obj)) {
-    newObj[predicate(key)] = obj[key];
-  }
-
-  return newObj as T;
 }

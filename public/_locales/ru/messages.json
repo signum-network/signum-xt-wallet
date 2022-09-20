@@ -128,7 +128,7 @@
   "addressInputDescriptionWithDomain": {
     "message": "Адрес кошелька, идентификатор или никнейм учетной записи"
   },
-  "addressOfDeployedTokenContract": {
+  "tokenIdLabel": {
     "message": "Адрес предоставленного контракта актива."
   },
   "addressOfTokenContract": {
@@ -1132,10 +1132,10 @@
     "message": "например S-6SJC-..., 17332... или Иван",
     "description": "foobar = никнейм Signum"
   },
-  "referredByTokenContractNotFound": {
+  "tokenNotFound": {
     "message": "Контракт $address$, на который ссылается контракт токена, не найден.",
     "placeholders": {
-      "address": {
+      "tokenId": {
         "content": "$1"
       }
     }
@@ -1328,7 +1328,7 @@
   "toContinue": {
     "message": "Продолжить"
   },
-  "tokenContractPlaceholder": {
+  "tokenIdPlaceholder": {
     "message": "например KT1v9CmPy..."
   },
   "tokenDoesNotMatchStandard": {

@@ -128,7 +128,7 @@
   "addressInputDescriptionWithDomain": {
     "message": "Адреса, ідентифікатор або псевдонім облікового запису"
   },
-  "addressOfDeployedTokenContract": {
+  "tokenIdLabel": {
     "message": "Адреса наданого договору активу."
   },
   "addressOfTokenContract": {
@@ -1135,10 +1135,10 @@
     "message": "напр. S-6SJC-..., 17332... або петр",
     "description": "foobar = псевдонім Signum"
   },
-  "referredByTokenContractNotFound": {
+  "tokenNotFound": {
     "message": "Контракт $address$, на який посилається контракт із маркером, не знайдено.",
     "placeholders": {
-      "address": {
+      "tokenId": {
         "content": "$1"
       }
     }
@@ -1331,7 +1331,7 @@
   "toContinue": {
     "message": "Продовжуйте"
   },
-  "tokenContractPlaceholder": {
+  "tokenIdPlaceholder": {
     "message": "напр. KT1v9CmPy..."
   },
   "tokenDoesNotMatchStandard": {

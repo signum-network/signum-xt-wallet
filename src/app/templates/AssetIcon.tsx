@@ -1,12 +1,13 @@
-import React, { CSSProperties, memo, useEffect, useState } from 'react';
+import React, { CSSProperties } from 'react';
 
 import classNames from 'clsx';
 
 import Identicon from 'app/atoms/Identicon';
-import { getAssetSymbol, getThumbnailUri, useSignumAssetMetadata } from 'lib/temple/front';
+import { AssetMetadata, getAssetSymbol } from 'lib/temple/front';
+import useSafeState from 'lib/ui/useSafeState';
 
 export type AssetIconProps = {
-  tokenId: string;
+  metadata: AssetMetadata;
   className?: string;
   style?: CSSProperties;
   size?: number;
@@ -14,30 +15,24 @@ export type AssetIconProps = {
 };
 
 const AssetIcon = (props: AssetIconProps) => {
-  const { tokenId, className, style, size } = props;
-  const metadata = useSignumAssetMetadata(tokenId);
-  const [imageDisplayed, setImageDisplayed] = useState(true);
-  const [thumbnailUri, setThumbnailUri] = useState('');
+  const { className, style, size, metadata } = props;
+  const [imageDisplayed, setImageDisplayed] = useSafeState(true);
 
-  useEffect(() => {
-    if (!metadata) return;
-    setThumbnailUri(getThumbnailUri(metadata));
-  }, [metadata, setThumbnailUri]);
-
-  console.log('thumbnail', thumbnailUri, tokenId);
-
-  if (thumbnailUri && imageDisplayed) {
+  if (imageDisplayed) {
     return (
       <img
-        src={thumbnailUri}
-        alt={metadata?.name}
+        key={metadata.thumbnailUri}
+        src={metadata.thumbnailUri}
+        alt={metadata.name}
         className={classNames('overflow-hidden', className)}
         style={{
           width: size,
           height: size,
           ...style
         }}
-        onError={e => setImageDisplayed(false)}
+        onError={() => {
+          setImageDisplayed(false);
+        }}
       />
     );
   }

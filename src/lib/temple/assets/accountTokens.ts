@@ -4,13 +4,8 @@ import * as Repo from 'lib/temple/repo';
 
 import { PREDEFINED_MAINNET_TOKENS } from './predefinedTokens';
 
-export async function setTokenStatus(
-  type: Repo.ITokenType,
-  network: string,
-  account: string,
-  tokenId: string,
-  status: Repo.ITokenStatus
-) {
+export async function setTokenStatus(network: string, account: string, tokenId: string, status: Repo.ITokenStatus) {
+  const type = Repo.ITokenType.Fungible;
   const repoKey = Repo.toAccountTokenKey(network, account, tokenId);
   const existing = await Repo.accountTokens.get(repoKey);
 
@@ -29,17 +24,26 @@ export async function setTokenStatus(
   );
 }
 
+export async function removeToken(network: string, account: string, tokenId: string) {
+  const repoKey = Repo.toAccountTokenKey(network, account, tokenId);
+  return Repo.accountTokens.delete(repoKey);
+}
+
 export async function fetchDisplayedFungibleTokens(chainId: string, account: string) {
   return Repo.accountTokens
     .where({ type: Repo.ITokenType.Fungible, chainId, account })
     .filter(isTokenDisplayed)
     .reverse()
-    .sortBy('addedAt')
-    .then(items => items.sort(compareAccountTokensByUSDBalance));
+    .sortBy('addedAt');
+  // .then(items => items.sort(compareAccountTokensByUSDBalance));
 }
 
-export async function fetchFungibleTokens(chainId: string, account: string) {
-  return Repo.accountTokens.where({ type: Repo.ITokenType.Fungible, chainId, account }).toArray();
+export async function fetchFungibleTokens(network: string, account: string) {
+  return Repo.accountTokens
+    .where({ type: Repo.ITokenType.Fungible, network, account })
+    .reverse()
+    .sortBy('addedAt')
+    .then(tokens => tokens);
 }
 
 export async function fetchCollectibleTokens(chainId: string, account: string, isDisplayed: boolean) {

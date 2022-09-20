@@ -128,7 +128,7 @@
   "addressInputDescriptionWithDomain": {
     "message": "Address, ID หรือ alias ของ account"
   },
-  "addressOfDeployedTokenContract": {
+  "tokenIdLabel": {
     "message": "Address ของ asset contract ที่จัดหามาให้"
   },
   "addressOfTokenContract": {
@@ -1135,10 +1135,10 @@
     "message": "เช่น S-6SJC-..., 17332... or peter",
     "description": "foobar = Signum Alias"
   },
-  "referredByTokenContractNotFound": {
+  "tokenNotFound": {
     "message": "ไม่พบสัญญาของ $address$ ที่อ้างอิงจากสัญญาของ Token",
     "placeholders": {
-      "address": {
+      "tokenId": {
         "content": "$1"
       }
     }
@@ -1331,7 +1331,7 @@
   "toContinue": {
     "message": "ต่อไป"
   },
-  "tokenContractPlaceholder": {
+  "tokenIdPlaceholder": {
     "message": "เช่น KT1v9CmPy..."
   },
   "tokenDoesNotMatchStandard": {

@@ -83,7 +83,7 @@
     "message": "Add to"
   },
   "addAsset": {
-    "message": "Add asset"
+    "message": "Add Token"
   },
   "addCollectible": {
     "message": "Add collectible"
@@ -108,7 +108,7 @@
     "message": "Add this address to contacts?"
   },
   "addToken": {
-    "message": "Add Asset"
+    "message": "Add Token"
   },
   "additionalFee": {
     "message": "Fee Selection"
@@ -128,8 +128,8 @@
   "addressInputDescriptionWithDomain": {
     "message": "Address, ID or alias of the account"
   },
-  "addressOfDeployedTokenContract": {
-    "message": "Address of a provided asset contract."
+  "tokenIdLabel": {
+    "message": "The numerical Id of the token"
   },
   "addressOfTokenContract": {
     "message": "Address of an $assetSymbol$ token contract.",
@@ -709,7 +709,7 @@
     "message": "ID"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "If you don't see your assets,\ntry to click $toClick$.",
+    "message": "If you don't see your token,\ntry to click $toClick$.",
     "placeholders": {
       "toClick": {
         "content": "$1"
@@ -973,7 +973,7 @@
     "message": "No"
   },
   "noAssetsFound": {
-    "message": "No assets found"
+    "message": "No tokens found"
   },
   "noContactsFound": {
     "message": "No contacts found"
@@ -1151,14 +1151,6 @@
   "recipientInputPlaceholderWithDomain": {
     "message": "e.g. S-6SJC-..., 17332... or peter",
     "description": "foobar = Signum Alias"
-  },
-  "referredByTokenContractNotFound": {
-    "message": "The $address$ contract referenced by the token contract was not found.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    }
   },
   "reject": {
     "message": "Reject"
@@ -1351,8 +1343,30 @@
   "toContinue": {
     "message": "Continue"
   },
-  "tokenContractPlaceholder": {
-    "message": "e.g. KT1v9CmPy..."
+  "tokenIdPlaceholder": {
+    "message": "e.g. 11955..."
+  },
+  "tokenNotFoundError": {
+    "message": "Token does not exist"
+  },
+  "tokenNotFoundDescription": {
+    "message": "The given token id $tokenId$ did not resolve to any valid token. Please check the token id or the selected network",
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenAlreadyAddedError": {
+    "message": "Token already added"
+  },
+  "tokenAlreadyAddedDescription": {
+    "message": "The given token $tokenId$ is already added.",
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    }
   },
   "tokenDoesNotMatchStandard": {
     "message": "Assumed asset contract does not conform to $standard$ standard",
@@ -1365,14 +1379,11 @@
   "tokenId": {
     "message": "Token ID"
   },
-  "tokenIdInputDescription": {
-    "message": "A non-negative integer that identifies the asset within the FA2 contract"
-  },
   "tokenNameInputDescription": {
-    "message": "Asset name, e.g. 'Bitcoin' for BTC asset."
+    "message": "Optional custom token name, e.g. 'Trading Token' for TRT token."
   },
   "tokenNameInputPlaceholder": {
-    "message": "e.g. MySuperToken"
+    "message": "e.g. Me Rich Token"
   },
   "tokenNamePatternDescription": {
     "message": "No special characters, 3-50 length"

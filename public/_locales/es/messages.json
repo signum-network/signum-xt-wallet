@@ -128,7 +128,7 @@
   "addressInputDescriptionWithDomain": {
     "message": "Dirección, ID o alias de la cuenta"
   },
-  "addressOfDeployedTokenContract": {
+  "tokenIdLabel": {
     "message": "Dirección de un contrato de activo proporcionado."
   },
   "addressOfTokenContract": {
@@ -1132,10 +1132,10 @@
     "message": "por ejemplo, S-6SJC-..., 17332... o juan",
     "description": "foobar = alias de cuenta en signum"
   },
-  "referredByTokenContractNotFound": {
+  "tokenNotFound": {
     "message": "No se encontró el contrato $address$ al que hace referencia el contrato token.",
     "placeholders": {
-      "address": {
+      "tokenId": {
         "content": "$1"
       }
     }
@@ -1328,7 +1328,7 @@
   "toContinue": {
     "message": "Continuar"
   },
-  "tokenContractPlaceholder": {
+  "tokenIdPlaceholder": {
     "message": "por ejemplo, KT1v9CmPy..."
   },
   "tokenDoesNotMatchStandard": {
