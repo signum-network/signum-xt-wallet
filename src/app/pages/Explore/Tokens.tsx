@@ -6,8 +6,11 @@ import { cache } from 'swr';
 import { useDebounce } from 'use-debounce';
 
 import Money from 'app/atoms/Money';
+import OpenInExplorerChip from 'app/atoms/OpenInExplorerChip';
 import { ReactComponent as AddToListIcon } from 'app/icons/add-to-list.svg';
+import { ReactComponent as RemoveAllIcon } from 'app/icons/bin.svg';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
+import { ReactComponent as LoadAllIcon } from 'app/icons/entrance.svg';
 import { ReactComponent as SearchIcon } from 'app/icons/search.svg';
 import AssetIcon from 'app/templates/AssetIcon';
 import Balance from 'app/templates/Balance';
@@ -24,8 +27,12 @@ import {
   useNetwork,
   useFungibleTokens,
   getAssetName,
-  removeToken
+  removeToken,
+  useTokensMetadata,
+  useSignum,
+  useSignumExplorerBaseUrls
 } from 'lib/temple/front';
+import * as Repo from 'lib/temple/repo';
 import { useConfirm } from 'lib/ui/dialog';
 import { Link, navigate } from 'lib/woozie';
 
@@ -36,6 +43,8 @@ const Tokens: FC = () => {
   const network = useNetwork();
   const account = useAccount();
   const confirm = useConfirm();
+  const signum = useSignum();
+  const { fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
   const address = account.publicKey;
   const allTokensBaseMetadata = useAllTokensBaseMetadata();
   const { data: tokens = [], revalidate } = useFungibleTokens(network.networkName, address);
@@ -44,6 +53,7 @@ const Tokens: FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [fetchingTokens, setFetchingTokens] = useState(false);
 
   const [searchValueDebounced] = useDebounce(searchValue, 300);
 
@@ -52,11 +62,38 @@ const Tokens: FC = () => {
     [searchValueDebounced, tokenIds, allTokensBaseMetadata]
   );
 
-  // TODO: search
   const searchValueExist = Boolean(searchValue);
   const activeAsset = useMemo(() => {
     return searchFocused && searchValueExist && filteredTokens[activeIndex] ? filteredTokens[activeIndex] : null;
   }, [filteredTokens, searchFocused, searchValueExist, activeIndex]);
+
+  const fetchAllAccountsTokenMetadata = useCallback(async () => {
+    try {
+      setFetchingTokens(true);
+      const { assetBalances } = await signum.account.getAccount({ accountId: account.accountId });
+      for (let { asset: tokenId } of assetBalances) {
+        const { base: metadata } = await fetchMetadata(tokenId);
+        await setTokensBaseMetadata({ [tokenId]: metadata });
+        const { networkName } = network;
+        await Repo.accountTokens.put(
+          {
+            type: Repo.ITokenType.Fungible,
+            network: networkName,
+            account: account.publicKey,
+            tokenId,
+            status: Repo.ITokenStatus.Enabled,
+            addedAt: Date.now()
+          },
+          Repo.toAccountTokenKey(networkName, account.publicKey, tokenId)
+        );
+        await revalidate();
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setFetchingTokens(false);
+    }
+  }, [signum.account, account.accountId, account.publicKey, fetchMetadata, setTokensBaseMetadata, network, revalidate]);
 
   useEffect(() => {
     if (activeIndex !== 0 && activeIndex >= filteredTokens.length) {
@@ -112,20 +149,27 @@ const Tokens: FC = () => {
     [network.networkName, address, confirm, revalidate]
   );
 
+  const handleLoadAllTokensWithBalance = async () => {
+    await fetchAllAccountsTokenMetadata();
+  };
+
+  const handleRemoveAllTokens = async () => {
+    const confirmed = await confirm({
+      title: t('deleteAllTokensConfirm')
+    });
+    if (!confirmed) return;
+
+    await Promise.all(tokens.map(({ tokenId }) => removeToken(network.networkName, address, tokenId)));
+    await revalidate();
+  };
+
   return (
     <div className={classNames('w-full max-w-sm mx-auto')}>
-      <div className="mt-1 mb-3 w-full flex items-strech">
-        <SearchAssetField
-          value={searchValue}
-          onValueChange={setSearchValue}
-          onFocus={handleSearchFieldFocus}
-          onBlur={handleSearchFieldBlur}
-        />
-
+      <div className="mt-1 mb-3 w-full flex items-stretch justify-between">
         <Link
           to="/add-token"
           className={classNames(
-            'ml-2 flex-shrink-0',
+            'flex-shrink-0',
             'px-3 py-1',
             'rounded overflow-hidden',
             'flex items-center',
@@ -138,7 +182,62 @@ const Tokens: FC = () => {
           <AddToListIcon className={classNames('mr-1 h-5 w-auto stroke-current stroke-2')} />
           <T id="addToken" />
         </Link>
+
+        {!fetchingTokens && tokens.length === 0 && (
+          <button
+            className={classNames(
+              'flex-shrink-0',
+              'px-3 py-1',
+              'rounded overflow-hidden',
+              'flex items-center',
+              'text-gray-600 text-sm',
+              'transition ease-in-out duration-200',
+              'hover:bg-gray-100',
+              'opacity-75 hover:opacity-100 focus:opacity-100',
+              fetchingTokens ? 'animate-pulse cursor-not-allowed' : ''
+            )}
+            onClick={handleLoadAllTokensWithBalance}
+            disabled={fetchingTokens}
+          >
+            <LoadAllIcon className={classNames('mr-1 h-5 w-auto stroke-current stroke-2')} />
+            <T id="autoLoadTokens" />
+          </button>
+        )}
+
+        {!fetchingTokens && tokens.length > 0 && (
+          <button
+            className={classNames(
+              'flex-shrink-0',
+              'px-3 py-1',
+              'rounded overflow-hidden',
+              'flex items-center',
+              'text-gray-600 text-sm',
+              'transition ease-in-out duration-200',
+              'hover:bg-gray-100',
+              'opacity-75 hover:opacity-100 focus:opacity-100',
+              fetchingTokens ? 'animate-pulse cursor-not-allowed' : ''
+            )}
+            onClick={handleRemoveAllTokens}
+            disabled={fetchingTokens}
+          >
+            <RemoveAllIcon className={classNames('mr-1 h-5 w-auto stroke-current stroke-2')} />
+            <T id="removeAllAddedTokens" />
+          </button>
+        )}
       </div>
+      {tokens.length > 5 && (
+        <div className="relative mt-1 mb-3 w-full">
+          <SearchAssetField
+            value={searchValue}
+            onValueChange={setSearchValue}
+            onFocus={handleSearchFieldFocus}
+            onBlur={handleSearchFieldBlur}
+          />
+          <div className="absolute top-0 right-0 text-gray-500 text-xs leading-tight">
+            {filteredTokens.length}/{tokens.length}
+          </div>
+        </div>
+      )}
 
       {filteredTokens.length > 0 ? (
         <div
@@ -215,6 +314,7 @@ type ListItemProps = {
 
 const ListItem: FC<ListItemProps> = ({ tokenId, last, active, accountId, onRemove }) => {
   const metadata = useSignumAssetMetadata(tokenId);
+  const explorerBaseUrls = useSignumExplorerBaseUrls();
   const balanceSWRKey = useBalanceSWRKey(tokenId, accountId);
   const balanceAlreadyLoaded = useMemo(() => cache.has(balanceSWRKey), [balanceSWRKey]);
   const toDisplayRef = useRef<HTMLDivElement>(null);
@@ -278,7 +378,10 @@ const ListItem: FC<ListItemProps> = ({ tokenId, last, active, accountId, onRemov
           <div className="flex flex-row items-center">
             <AssetIcon metadata={metadata} size={40} className="mr-2 flex-shrink-0" />
             <div>
-              <div className={classNames(styles['tokenSymbol'])}>{getAssetSymbol(metadata)}</div>
+              <div className={classNames(styles['tokenSymbol'], 'flex flex-row items-center')}>
+                {getAssetSymbol(metadata)}
+                <OpenInExplorerChip baseUrl={explorerBaseUrls.token} id={tokenId} />
+              </div>
               <div className={classNames('text-xs font-normal text-gray-700 truncate w-auto flex-1')}>
                 {getAssetName(metadata)}
               </div>

@@ -5,7 +5,6 @@ export class NotEnoughFundsError extends ArtificialError {}
 export class ZeroBalanceError extends NotEnoughFundsError {}
 export class ZeroTEZBalanceError extends NotEnoughFundsError {}
 
-// TODO: Adjust pattern for Signum
 export const ACCOUNT_NAME_PATTERN = /[^\s-].{0,16}$/;
 
 export const PASSWORD_PATTERN = new RegExp(

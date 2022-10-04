@@ -38,7 +38,8 @@ const OpenInExplorerChip: FC<OpenInExplorerChipProps> = ({
 
   const ref = useTippy<HTMLAnchorElement>(tippyProps);
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.stopPropagation();
     trackEvent(OpenInExplorerChipSelectors.ViewOnBlockExplorerLink, AnalyticsEventCategory.ButtonPress);
   };
 

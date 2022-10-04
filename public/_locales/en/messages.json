@@ -110,6 +110,9 @@
   "addToken": {
     "message": "Add Token"
   },
+  "autoLoadTokens": {
+    "message": "Import your tokens"
+  },
   "additionalFee": {
     "message": "Fee Selection"
   },
@@ -517,6 +520,9 @@
   },
   "deleteTokenConfirm": {
     "message": "Do you really want to delete this token?"
+  },
+  "deleteAllTokensConfirm": {
+    "message": "Do you really want to delete all added tokens?"
   },
   "deployNew": {
     "message": "Deploy again"
@@ -1164,6 +1170,9 @@
   "removeAccountDescription": {
     "message": "Use this section to remove your selected account."
   },
+  "removeAllAddedTokens": {
+    "message": "Remove All"
+  },
   "repeatPassword": {
     "message": "Repeat password"
   },
@@ -1418,6 +1427,9 @@
         "content": "$1"
       }
     }
+  },
+  "messageRecepientInputDescriptionWithDomain": {
+    "message": "Address, ID or alias to send a message to."
   },
   "totalAmount": {
     "message": "Total Amount"

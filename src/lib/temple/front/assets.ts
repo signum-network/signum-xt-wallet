@@ -2,15 +2,12 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import constate from 'constate';
 import deepEqual from 'fast-deep-equal';
-import Fuse from 'fuse.js';
 import useForceUpdate from 'use-force-update';
 
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
 import {
-  useTezos,
   usePassiveStorage,
-  isTezAsset,
   AssetMetadata,
   fetchTokenMetadata,
   SIGNA_METADATA,
@@ -119,49 +116,6 @@ export function useSignumAssetMetadata(tokenId: string = SIGNA_TOKEN_ID): AssetM
   return tokenMetadata;
 }
 
-// FIXME: remove this....
-export function useAssetMetadata(slug: string) {
-  const tezos = useTezos();
-  const forceUpdate = useForceUpdate();
-
-  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
-
-  useEffect(
-    () =>
-      onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
-        if (!deepEqual(newValue[slug], allTokensBaseMetadataRef.current[slug])) {
-          forceUpdate();
-        }
-      }),
-    [slug, allTokensBaseMetadataRef, forceUpdate]
-  );
-
-  const tezAsset = isTezAsset(slug);
-  const tokenMetadata = allTokensBaseMetadataRef.current[slug] ?? null;
-  const exist = Boolean(tokenMetadata);
-
-  // Load token metadata if missing
-  const tezosRef = useRef(tezos);
-  useEffect(() => {
-    tezosRef.current = tezos;
-  }, [tezos]);
-
-  useEffect(() => {
-    if (!isTezAsset(slug) && !exist && !autoFetchMetadataFails.has(slug)) {
-      enqueueAutoFetchMetadata(() => fetchMetadata(slug))
-        .then(metadata =>
-          Promise.all([
-            setTokensBaseMetadata({ [slug]: metadata.base })
-            // setTokensDetailedMetadata({ [slug]: metadata.detailed })
-          ])
-        )
-        .catch(() => autoFetchMetadataFails.add(slug));
-    }
-  }, [slug, exist, fetchMetadata, setTokensBaseMetadata]);
-
-  return tokenMetadata;
-}
-
 const defaultAllTokensBaseMetadata = {};
 const enqueueSetAllTokensBaseMetadata = createQueue();
 
@@ -217,25 +171,16 @@ export function useAllTokensBaseMetadata() {
 
 export function searchAssets(
   searchValue: string,
-  assetSlugs: string[],
+  tokenIds: string[],
   allTokensBaseMetadata: Record<string, AssetMetadata>
 ) {
-  if (!searchValue) return assetSlugs;
+  if (!searchValue) return tokenIds;
 
-  const fuse = new Fuse(
-    assetSlugs.map(slug => ({
-      slug,
-      metadata: allTokensBaseMetadata[slug]
-    })),
-    {
-      keys: [
-        { name: 'metadata.name', weight: 0.9 },
-        { name: 'metadata.symbol', weight: 0.7 },
-        { name: 'slug', weight: 0.3 }
-      ],
-      threshold: 1
-    }
-  );
+  const matches = (s: string, t: string) => s.toLowerCase().indexOf(t) !== -1;
 
-  return fuse.search(searchValue).map(({ item: { slug } }) => slug);
+  const term = searchValue.toLowerCase();
+  return tokenIds.filter(id => {
+    const { description, name, symbol } = allTokensBaseMetadata[id];
+    return matches(description, term) || matches(name, term) || matches(symbol, term);
+  });
 }

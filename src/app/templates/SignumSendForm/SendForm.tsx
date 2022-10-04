@@ -56,6 +56,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
   const messageFormRef = useRef();
   const { registerBackHandler } = useAppEnv();
   const assetMetadata = useSignumAssetMetadata(tokenId);
+  const signumMetadata = useSignumAssetMetadata(SIGNA_TOKEN_ID);
   const { resolveAliasToAccountPk } = useSignumAliasResolver();
   const formAnalytics = useFormAnalytics('SendForm');
   const { allContacts } = useFilteredContacts();
@@ -73,8 +74,10 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
 
   const assetSymbol = assetMetadata.symbol;
   const assetDecimals = assetMetadata.decimals;
+  const signaSymbol = signumMetadata.symbol;
   const publicKey = acc.publicKey;
   const accountId = acc.accountId;
+  const isSignaToken = tokenId === SIGNA_TOKEN_ID;
   const { data: balanceData } = useBalance(tokenId, accountId);
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
@@ -154,23 +157,19 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
   const maxAmount = useMemo(() => {
     if (!feeValue) return;
 
-    const feeAmount = ChainValue.create(8).setCompound(feeValue);
+    const feeAmount = ChainValue.create(8).setCompound(isSignaToken ? feeValue : 0);
 
     return balanceData
       ? ChainValue.create(assetDecimals).setCompound(balanceData.availableBalance.toString(10)).subtract(feeAmount)
       : ChainValue.create(assetDecimals).setCompound(0);
-    // return balanceData
-    //   ? Amount.fromSigna(balanceData.availableBalance.toString(10)).subtract(Amount.fromSigna(feeValue))
-    //   : Amount.Zero();
-  }, [feeValue, balanceData, assetDecimals]);
+  }, [feeValue, isSignaToken, balanceData, assetDecimals]);
 
   const totalAmount = useMemo(() => {
     if (!amountValue) return;
-    const feeAmount = ChainValue.create(assetDecimals).setCompound(feeValue || MinimumFee);
+    const feeAmount = ChainValue.create(8).setCompound(isSignaToken ? feeValue || MinimumFee : 0);
     return ChainValue.create(assetDecimals).setCompound(amountValue).add(feeAmount);
-    // return Amount.fromSigna(amountValue).add(Amount.fromSigna(feeValue || MinimumFee));
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, [amountValue, feeValue, messageFormData.message, assetDecimals]); // keep messageFromData.message
+  }, [isSignaToken, amountValue, feeValue, messageFormData.message, assetDecimals]); // keep messageFromData.message
 
   const validateAmount = useCallback(
     (v?: number) => {
@@ -375,7 +374,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
         label={t('recipient')}
         labelDescription={
           filledContact ? (
-            <FilledContact contact={filledContact} assetSymbol={assetSymbol} />
+            <FilledContact contact={filledContact} metadata={assetMetadata} />
           ) : (
             <T id="tokensRecepientInputDescriptionWithDomain" substitutions={assetSymbol} />
           )
@@ -478,6 +477,13 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
                 <Money>{totalAmount.getCompound()}</Money>
                 {assetSymbol}
               </span>
+
+              {!isSignaToken && (
+                <span className={'text-sm font-normal leading-none ml-1'}>
+                  +<Money>{Amount.fromSigna(feeValue).getSigna()}</Money>
+                  {signaSymbol}
+                </span>
+              )}
             </div>
           )}
 
