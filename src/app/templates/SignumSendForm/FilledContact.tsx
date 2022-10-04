@@ -7,20 +7,21 @@ import Money from 'app/atoms/Money';
 import { Contact } from 'lib/messaging';
 
 import Balance from '../Balance';
+import {AssetMetadata} from 'lib/temple/metadata';
 
 interface FilledContactProps {
   contact: Contact;
-  assetSymbol: string;
+  metadata: AssetMetadata;
 }
 
-const FilledContact: FC<FilledContactProps> = ({ contact, assetSymbol }) => (
+const FilledContact: FC<FilledContactProps> = ({ contact, metadata }) => (
   <div className="flex flex-wrap items-center">
     <IdenticonSignum address={contact.accountId} size={24} className="flex-shrink-0 shadow-xs opacity-75" />
     <div className="ml-1 mr-px font-normal">{contact.name}</div>(
-    <Balance accountId={contact.accountId}>
+    <Balance accountId={contact.accountId} tokenId={metadata.id}>
       {bal => (
         <span className={classNames('text-xs leading-none')}>
-          <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{assetSymbol}</span>
+          <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{metadata.symbol}</span>
         </span>
       )}
     </Balance>

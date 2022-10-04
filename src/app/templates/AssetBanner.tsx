@@ -1,10 +1,16 @@
-import React, { FC, memo } from 'react';
+import React, { memo } from 'react';
 
 import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
 import { T } from 'lib/i18n/react';
 
-import { getAssetName, getAssetSymbol, useSignumAssetMetadata } from '../../lib/temple/front';
+import {
+  getAssetName,
+  getAssetSymbol,
+  SIGNA_TOKEN_ID,
+  useBalance,
+  useSignumAssetMetadata
+} from '../../lib/temple/front';
 import AssetIcon from './AssetIcon';
 import Balance from './Balance';
 import BannerLayout from './BannerLayout';
@@ -16,6 +22,9 @@ type AssetBannerProps = {
 
 const AssetBanner = memo<AssetBannerProps>(({ tokenId, accountId }) => {
   const assetMetadata = useSignumAssetMetadata(tokenId);
+  const signaMetadata = useSignumAssetMetadata(SIGNA_TOKEN_ID);
+  const signaBalance = useBalance(SIGNA_TOKEN_ID, accountId);
+
   return (
     <BannerLayout name={<Name style={{ maxWidth: '18rem' }}>{getAssetName(assetMetadata)}</Name>}>
       <AssetIcon metadata={assetMetadata} size={48} className="mr-3 flex-shrink-0" />
@@ -29,6 +38,14 @@ const AssetBanner = memo<AssetBannerProps>(({ tokenId, accountId }) => {
                   <Money smallFractionFont={false}>{totalBalance}</Money>{' '}
                   <span className="text-lg">{getAssetSymbol(assetMetadata)}</span>
                 </span>
+                {tokenId !== SIGNA_TOKEN_ID && (
+                  <span className="mt-2 text-xs text-gray-600">
+                    <T id="availableBalance">{msg => <span className="text-xs text-gray-600">{msg}</span>}</T>
+                    {': '}
+                    <Money smallFractionFont={false}>{signaBalance.data.availableBalance}</Money>{' '}
+                    <span className="text-xs text-gray-600">{getAssetSymbol(signaMetadata)}</span>
+                  </span>
+                )}
                 {!balances.availableBalance.eq(balances.totalBalance) && (
                   <>
                     <span className="mt-2 text-xs text-gray-600">

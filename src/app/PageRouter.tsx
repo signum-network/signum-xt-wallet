@@ -13,7 +13,7 @@ import Settings from 'app/pages/Settings';
 import Unlock from 'app/pages/Unlock';
 import Welcome from 'app/pages/Welcome';
 import { usePageRouterAnalytics } from 'lib/analytics';
-import { useTempleClient } from 'lib/temple/front';
+import {SIGNA_TOKEN_ID, useTempleClient} from 'lib/temple/front';
 import * as Woozie from 'lib/woozie';
 
 import AttentionPage from './pages/Onboarding/pages/AttentionPage';
@@ -58,8 +58,8 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
       }
     }
   ],
-  ['/', (_p, ctx) => (ctx.ready ? <Explore /> : <Welcome />)],
-  ['/explore/:tokenId?', onlyReady(({ tokenId }) => <Explore tokenId={tokenId} />)],
+  ['/', (_p, ctx) => (ctx.ready ? <Explore tokenId={SIGNA_TOKEN_ID} /> : <Welcome />)],
+  ['/explore/:tokenId?', onlyReady(({ tokenId }) => <Explore tokenId={tokenId ?? SIGNA_TOKEN_ID} />)],
   ['/create-wallet', onlyNotReady(() => <CreateWallet />)],
   ['/create-account', onlyReady(() => <CreateAccount />)],
   ['/import-account/:tabSlug?', onlyReady(({ tabSlug }) => <ImportAccount tabSlug={tabSlug} />)],

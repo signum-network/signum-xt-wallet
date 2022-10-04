@@ -285,9 +285,9 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
         label={t('recipient')}
         labelDescription={
           filledContact ? (
-            <FilledContact contact={filledContact} assetSymbol={assetSymbol} />
+            <FilledContact contact={filledContact} metadata={assetMetadata} />
           ) : (
-            <T id="tokensRecepientInputDescriptionWithDomain" substitutions={assetSymbol} />
+            <T id="messageRecepientInputDescriptionWithDomain" />
           )
         }
         placeholder={t('recipientInputPlaceholderWithDomain')}

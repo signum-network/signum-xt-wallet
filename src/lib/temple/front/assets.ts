@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import constate from 'constate';
 import deepEqual from 'fast-deep-equal';
-import Fuse from 'fuse.js';
 import useForceUpdate from 'use-force-update';
 
 import { createQueue } from 'lib/queue';
@@ -217,25 +216,19 @@ export function useAllTokensBaseMetadata() {
 
 export function searchAssets(
   searchValue: string,
-  assetSlugs: string[],
+  tokenIds: string[],
   allTokensBaseMetadata: Record<string, AssetMetadata>
 ) {
-  if (!searchValue) return assetSlugs;
 
-  const fuse = new Fuse(
-    assetSlugs.map(slug => ({
-      slug,
-      metadata: allTokensBaseMetadata[slug]
-    })),
-    {
-      keys: [
-        { name: 'metadata.name', weight: 0.9 },
-        { name: 'metadata.symbol', weight: 0.7 },
-        { name: 'slug', weight: 0.3 }
-      ],
-      threshold: 1
-    }
-  );
+  if (!searchValue) return tokenIds;
 
-  return fuse.search(searchValue).map(({ item: { slug } }) => slug);
+  const matches = (s:string, t:string) => s.toLowerCase().indexOf(t) !== -1
+
+  const term = searchValue.toLowerCase();
+  return tokenIds.filter( (id) => {
+    const {description, name, symbol} = allTokensBaseMetadata[id];
+    return matches(description, term)
+        || matches(name, term)
+        || matches(symbol, term)
+  })
 }

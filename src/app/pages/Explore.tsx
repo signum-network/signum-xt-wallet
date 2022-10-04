@@ -31,7 +31,7 @@ import { useOnboardingProgress } from './Onboarding/hooks/useOnboardingProgress.
 import Onboarding from './Onboarding/Onboarding';
 
 type ExploreProps = {
-  tokenId?: string | null;
+  tokenId: string;
 };
 
 const Explore: FC<ExploreProps> = ({ tokenId }) => {
@@ -40,8 +40,7 @@ const Explore: FC<ExploreProps> = ({ tokenId }) => {
   const networkIsReachable = useNetworkIsReachable();
   const account = useAccount();
   const { search } = useLocation();
-  const token = tokenId ?? SIGNA_TOKEN_ID;
-  const assetMetadata = useSignumAssetMetadata(token);
+  const assetMetadata = useSignumAssetMetadata(tokenId);
 
   useLayoutEffect(() => {
     const usp = new URLSearchParams(search);
@@ -88,10 +87,10 @@ const Explore: FC<ExploreProps> = ({ tokenId }) => {
         )}
         <AddressChip account={account} className="mb-6" />
 
-        <AssetBanner accountId={account.accountId} tokenId={token} />
+        <AssetBanner accountId={account.accountId} tokenId={tokenId} />
 
         <div className="flex justify-around mx-auto w-full max-w-sm mt-6 px-8">
-          <ActionButton label={<T id="receive" />} Icon={ReceiveIcon} href="/receive" />
+          {tokenId === SIGNA_TOKEN_ID && <ActionButton label={<T id="receive" />} Icon={ReceiveIcon} href="/receive" />}
           <ActionButton
             label={<T id="send" />}
             Icon={SendIcon}
@@ -191,14 +190,13 @@ function useTabSlug() {
 }
 
 type SecondarySectionProps = {
-  tokenId?: string | null;
+  tokenId: string;
   className?: string;
 };
 
 const SecondarySection: FC<SecondarySectionProps> = ({ tokenId, className }) => {
   const { fullPage } = useAppEnv();
   const tabSlug = useTabSlug();
-
   const tabs = useMemo<
     {
       slug: string;
@@ -207,7 +205,7 @@ const SecondarySection: FC<SecondarySectionProps> = ({ tokenId, className }) => 
       testID: string;
     }[]
   >(() => {
-    if (!tokenId) {
+    if (tokenId === SIGNA_TOKEN_ID) {
       return [
         // {
         //   slug: 'collectibles',
