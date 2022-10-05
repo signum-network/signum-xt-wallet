@@ -2,11 +2,13 @@
 
 ## 1.3.0 (TBR)
 
+- Added Token Support
 - Removed automatic Hex detection for P2P messages (#50)
 
 ### Bugfixes
 
 - Fixed P2P Message rendering failure on messages to self
+
 
 ## 1.2.3
 
