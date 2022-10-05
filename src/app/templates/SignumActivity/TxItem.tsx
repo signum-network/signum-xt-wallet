@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 
 import classNames from 'clsx';
 
+import { useAppEnv } from 'app/env';
 import { T, TProps } from 'lib/i18n/react';
 import { TransactionItem, TransactionItemType } from 'lib/temple/activity';
 
@@ -13,9 +14,10 @@ type TxItemProps = {
 };
 
 const TxItem = memo<TxItemProps>(({ item, className }) => {
+  const { fullPage } = useAppEnv();
   return (
     <div className={classNames('flex flex-col', className)}>
-      <TxItemComponent item={item} />
+      <TxItemComponent item={item} isFullPage={fullPage} />
     </div>
   );
 });
@@ -24,9 +26,10 @@ export default TxItem;
 
 type TxItemComponentProps = {
   item: TransactionItem;
+  isFullPage: boolean;
 };
 
-const TxItemComponent = memo<TxItemComponentProps>(({ item }) => {
+const TxItemComponent = memo<TxItemComponentProps>(({ item, isFullPage }) => {
   const toRender = (() => {
     switch (item.type) {
       case TransactionItemType.Origination:
@@ -128,7 +131,9 @@ const TxItemComponent = memo<TxItemComponentProps>(({ item }) => {
     <div className="flex flex-wrap items-center">
       <div className={classNames('flex items-center', 'text-xs text-blue-600 opacity-75')}>{toRender.base}</div>
 
-      {toRender.argsI18nKey && <TxItemArgs i18nKey={toRender.argsI18nKey} args={toRender.args} className="ml-1" />}
+      {toRender.argsI18nKey && (
+        <TxItemArgs i18nKey={toRender.argsI18nKey} args={toRender.args} className="ml-1" isFullPage={isFullPage} />
+      )}
     </div>
   );
 });
@@ -137,15 +142,20 @@ type TxItemArgsProps = {
   i18nKey: TProps['id'];
   args: string[];
   className?: string;
+  isFullPage: boolean;
 };
 
-const TxItemArgs = memo<TxItemArgsProps>(({ i18nKey, args, className }) => (
+const TxItemArgs = memo<TxItemArgsProps>(({ i18nKey, args, className, isFullPage }) => (
   <span className={classNames('font-light text-gray-700 text-xs', className)}>
     <T
       id={i18nKey}
       substitutions={args.map((value, index) => (
         <span key={index}>
-          <HashChip className="text-blue-600 opacity-75" key={index} hash={value} trimAfter={20} type="link" />
+          {isFullPage ? (
+            <HashChip className="text-blue-600 opacity-75" key={index} hash={value} type="link" />
+          ) : (
+            <HashChip className="text-blue-600 opacity-75" key={index} hash={value} trimAfter={20} type="link" />
+          )}
           {index === args.length - 1 ? null : ', '}
         </span>
       ))}

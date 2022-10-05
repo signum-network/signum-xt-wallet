@@ -1,7 +1,4 @@
-import { OperationContentsAndResult } from '@taquito/rpc';
 import Dexie from 'dexie';
-
-import { TzktOperation } from 'lib/tzkt';
 
 export enum Table {
   AccountTokens = 'accountTokens',
@@ -23,8 +20,8 @@ db.version(2).stores({
 export const waitFor = Dexie.waitFor;
 
 export const accountTokens = db.table<IAccountToken, string>(Table.AccountTokens);
-export const operations = db.table<IOperation, string>(Table.Operations);
-export const syncTimes = db.table<ISyncTime, string>(Table.SyncTimes);
+// export const operations = db.table<IOperation, string>(Table.Operations);
+// export const syncTimes = db.table<ISyncTime, string>(Table.SyncTimes);
 
 export function toAccountTokenKey(networkName: string, account: string, tokenSlug: string) {
   return [networkName, account, tokenSlug].join('_');
@@ -53,31 +50,31 @@ export interface IAccountToken {
   latestUSDBalance?: string;
 }
 
-export interface IOperation {
-  hash: string;
-  network: string;
-  members: string[];
-  assetIds: string[];
-  addedAt: number; // timestamp
-  data: IOperationData;
-}
-
-export type IOperationData = AtLeastOne<{
-  localGroup: OperationContentsAndResult[];
-  tzktGroup: TzktOperation[];
-  // bcdTokenTransfers: BcdTokenTransfer[];
-}>;
-
-export interface ISyncTime {
-  service: 'tzkt' | 'bcd';
-  network: string;
-  address: string;
-  higherTimestamp: number;
-  lowerTimestamp: number;
-}
+// export interface IOperation {
+//   hash: string;
+//   network: string;
+//   members: string[];
+//   assetIds: string[];
+//   addedAt: number; // timestamp
+//   data: IOperationData;
+// }
+//
+// export type IOperationData = AtLeastOne<{
+//   localGroup: OperationContentsAndResult[];
+//   tzktGroup: TzktOperation[];
+//   // bcdTokenTransfers: BcdTokenTransfer[];
+// }>;
+//
+// export interface ISyncTime {
+//   service: 'tzkt' | 'bcd';
+//   network: string;
+//   address: string;
+//   higherTimestamp: number;
+//   lowerTimestamp: number;
+// }
 
 function indexes(...items: string[]) {
   return items.join(',');
 }
 
-type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
+// type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
