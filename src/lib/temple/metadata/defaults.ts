@@ -6,6 +6,7 @@ import { browserInfo } from 'lib/browser-info';
 import { AssetMetadata } from './types';
 
 export const SMART_CONTRACT_PUBLIC_KEY = '0000000000000000000000000000000000000000000000000000000000000000';
+export const BURN_ADDRESS = '0';
 export const SIGNA_TOKEN_ID = '0';
 export const TRT_TOKEN_ID = '12402415494995249540';
 export const FEATURED_TOKEN_IDS: string[] = [];

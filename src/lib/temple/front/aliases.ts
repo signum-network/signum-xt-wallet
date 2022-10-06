@@ -32,6 +32,9 @@ export function useSignumAliasResolver() {
   const resolveAliasToAccountPk = useCallback(
     async aliasName => {
       try {
+        if (aliasName.length < 2) {
+          return null;
+        }
         const { account } = await signum.alias.getAliasByName(aliasName);
         const acc = await signum.account.getAccount({
           accountId: account,

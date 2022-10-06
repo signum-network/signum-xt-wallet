@@ -18,6 +18,7 @@ import { useFormAnalytics } from 'lib/analytics';
 import { toLocalFixed } from 'lib/i18n/numbers';
 import { T, t } from 'lib/i18n/react';
 import {
+  BURN_ADDRESS,
   isSignumAddress,
   SIGNA_TOKEN_ID,
   SMART_CONTRACT_PUBLIC_KEY,
@@ -98,6 +99,9 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
     async (_k: string, address: string) => {
       try {
         const id = Address.create(address).getNumericId();
+        if (id === BURN_ADDRESS) {
+          return null;
+        }
         const { publicKey } = await signum.account.getAccount({
           accountId: id,
           includeEstimatedCommitment: false,
@@ -390,9 +394,14 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
       {toResolved && (
         <div className={classNames('mb-4 -mt-3', 'text-xs font-light text-gray-600', 'flex flex-wrap items-center')}>
           <span className="mr-1 whitespace-no-wrap">{t('resolvedAddress')}:</span>
-          {resolvedPublicKey === SMART_CONTRACT_PUBLIC_KEY ? (
+
+          {resolvedPublicKey === SMART_CONTRACT_PUBLIC_KEY && (
             <span className="font-normal">🤖 {Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
-          ) : (
+          )}
+
+          {toResolved === BURN_ADDRESS && <span className="font-normal">🔥 {t('burnAddress')}</span>}
+
+          {resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY && toResolved !== BURN_ADDRESS && (
             <span className="font-normal">{Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
           )}
         </div>
@@ -489,9 +498,19 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
 
           {totalAmount && errors.amount === undefined && messageFormData.isValid && (
             <div className={'flex flex-row items-center justify-center'}>
-              <T id="send">
-                {message => <FormSubmitButton loading={formState.isSubmitting}>{message}</FormSubmitButton>}
-              </T>
+              {toResolved === BURN_ADDRESS ? (
+                <T id="burn">
+                  {message => (
+                    <FormSubmitButton loading={formState.isSubmitting} danger>
+                      {message}
+                    </FormSubmitButton>
+                  )}
+                </T>
+              ) : (
+                <T id="send">
+                  {message => <FormSubmitButton loading={formState.isSubmitting}>{message}</FormSubmitButton>}
+                </T>
+              )}
             </div>
           )}
         </>

@@ -1454,6 +1454,12 @@
   "buyOrder": {
     "message": "Buy"
   },
+  "burn": {
+    "message": "Burn!"
+  },
+  "burnAddress": {
+    "message": "Burn Address"
+  },
   "saleOrder": {
     "message": "Sale"
   },
