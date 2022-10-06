@@ -8,7 +8,8 @@ export enum TransactionItemType {
   SelfUpdate,
   BuyOrder,
   SellOrder,
-  // Distribution,
+  DistributionTo,
+  DistributionFrom,
   Other
 }
 
@@ -22,7 +23,8 @@ export type TransactionItem =
   | SelfUpdateItem
   | BuyOrderItem
   | SellOrderItem
-  // | DistributionItem
+  | DistributionToItem
+  | DistributionFromItem
   | OtherItem;
 
 export interface TxItemBase {
@@ -80,9 +82,13 @@ export interface SellOrderItem extends TxItemBase {
   fulfilled?: boolean;
 }
 
-// export interface DistributionItem extends TxItemBase {
-//   type: TransactionItemType.Distribution;
-// }
+export interface DistributionToItem extends TxItemBase {
+  type: TransactionItemType.DistributionTo;
+}
+export interface DistributionFromItem extends TxItemBase {
+  type: TransactionItemType.DistributionFrom;
+  from: string;
+}
 
 export interface OtherItem extends TxItemBase {
   type: TransactionItemType.Other;

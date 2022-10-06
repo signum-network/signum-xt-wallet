@@ -1480,8 +1480,14 @@
       }
     }
   },
+  "distribution": {
+    "message": "Distribution"
+  },
   "transferTo": {
     "message": "Transfer to"
+  },
+  "transferToMany": {
+    "message": "to many"
   },
   "transferToSmb": {
     "message": "to $receiver$",
@@ -1491,6 +1497,7 @@
       }
     }
   },
+
   "transfers": {
     "message": "Transfers"
   },

@@ -76,6 +76,27 @@ const TxItemComponent = memo<TxItemComponentProps>(({ item, isFullPage }) => {
           argsI18nKey: 'transferToSmb',
           args: [item.to]
         };
+      case TransactionItemType.DistributionFrom:
+        return {
+          base: (
+            <>
+              ↓ <T id="distribution" />
+            </>
+          ),
+          argsI18nKey: 'transferFromSmb',
+          args: [item.from]
+        };
+
+      case TransactionItemType.DistributionTo:
+        return {
+          base: (
+            <>
+              ↑ <T id="distribution" />
+            </>
+          ),
+          argsI18nKey: 'transferToMany',
+          args: []
+        };
       case TransactionItemType.MessageFrom:
         return {
           base: (

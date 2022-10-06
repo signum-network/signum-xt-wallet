@@ -17,10 +17,13 @@ function isPayment(tx: Transaction): boolean {
   return (
     tx.type === TransactionType.Payment ||
     (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetTransfer) ||
-    (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders) || // distribution to token holders
     (tx.type === TransactionType.Asset && tx.subtype === 9) || // asset multi transfer
     (tx.type === TransactionType.Escrow && tx.subtype === TransactionEscrowSubtype.SubscriptionPayment)
   );
+}
+
+function isDistribution(tx: Transaction): boolean {
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders;
 }
 
 function isSellTokenOrder(tx: Transaction): boolean {
@@ -104,6 +107,9 @@ export function parseTransaction(
 
   if (isPayment(tx)) {
     item.type = tx.sender === accountId ? TransactionItemType.TransferTo : TransactionItemType.TransferFrom;
+  } else if (isDistribution(tx)) {
+    item.type = tx.sender === accountId ? TransactionItemType.DistributionTo : TransactionItemType.DistributionFrom;
+    // item.tokenId = tx.distribution.distributedAssetId!
   } else if (isMessage(tx)) {
     item.type = tx.sender === accountId ? TransactionItemType.MessageTo : TransactionItemType.MessageFrom;
     // @ts-ignore
