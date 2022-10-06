@@ -14,6 +14,7 @@ import { useAppEnv } from 'app/env';
 import { MessageForm, MessageFormData } from 'app/templates/SignumSendForm/MessageForm';
 import { T, t } from 'lib/i18n/react';
 import {
+  BURN_ADDRESS,
   isSignumAddress,
   SMART_CONTRACT_PUBLIC_KEY,
   useAccount,
@@ -81,6 +82,9 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
     async (_k: string, address: string) => {
       try {
         const id = Address.create(address).getNumericId();
+        if (id === BURN_ADDRESS) {
+          return null;
+        }
         const a = await signum.account.getAccount({
           accountId: id,
           includeEstimatedCommitment: false,
@@ -301,9 +305,14 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
       {toResolved && (
         <div className={classNames('mb-4 -mt-3', 'text-xs font-light text-gray-600', 'flex flex-wrap items-center')}>
           <span className="mr-1 whitespace-no-wrap">{t('resolvedAddress')}:</span>
-          {resolvedPublicKey === SMART_CONTRACT_PUBLIC_KEY ? (
+
+          {resolvedPublicKey === SMART_CONTRACT_PUBLIC_KEY && (
             <span className="font-normal">🤖 {Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
-          ) : (
+          )}
+
+          {toResolved === BURN_ADDRESS && <span className="font-normal">🔥 {t('burnAddress')}</span>}
+
+          {resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY && toResolved !== BURN_ADDRESS && (
             <span className="font-normal">{Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
           )}
         </div>

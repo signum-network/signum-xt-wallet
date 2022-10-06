@@ -1,18 +1,9 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 
 import { Ledger, LedgerClientFactory } from '@signumjs/core';
-import { TezosToolkit } from '@taquito/taquito';
 import constate from 'constate';
 
-import { IS_DEV_ENV } from 'app/env';
-import {
-  loadFastRpcClient,
-  ReadyState,
-  AppState,
-  WalletStatus,
-  usePassiveStorage,
-  useTempleClient
-} from 'lib/temple/front';
+import { ReadyState, AppState, WalletStatus, usePassiveStorage, useTempleClient } from 'lib/temple/front';
 
 export const [
   ReadyTempleProvider,
@@ -23,7 +14,6 @@ export const [
   useSetAccountPkh,
   useAccount,
   useSettings,
-  useTezos,
   useSignum
 ] = constate(
   useReadyTemple,
@@ -34,7 +24,6 @@ export const [
   v => v.setAccountPkh,
   v => v.account,
   v => v.settings,
-  v => v.tezos,
   v => v.signum
 );
 
@@ -116,28 +105,6 @@ function useReadyTemple() {
     window.dispatchEvent(evt);
   }, [networkId, accountPkh]);
 
-  /**
-   * tezos = TezosToolkit instance
-   * TODO: remove that
-   */
-  const tezos = useMemo(() => {
-    const checksum = [network.id, account.publicKey].join('_');
-    const rpc = network.rpcBaseURL;
-    // const pkh = account.type === TempleAccountType.ManagedKT ? account.owner : account.publicKey;
-
-    const t = new ReactiveTezosToolkit(loadFastRpcClient(rpc), checksum);
-    // t.setSignerProvider(createTaquitoSigner(pkh));
-    // t.setWalletProvider(createTaquitoWallet(pkh, rpc));
-    // t.setPackerProvider(michelEncoder);
-    return t;
-  }, [network, account]);
-
-  useEffect(() => {
-    if (IS_DEV_ENV) {
-      (window as any).tezos = tezos;
-    }
-  }, [tezos]);
-
   const signum = useMemo<Ledger>(() => {
     return LedgerClientFactory.createClient({
       nodeHost: network.rpcBaseURL
@@ -156,7 +123,6 @@ function useReadyTemple() {
     setAccountPkh,
 
     settings,
-    tezos, // TODO: remove tezos
     signum
   };
 }
@@ -172,14 +138,6 @@ export function useRelevantAccounts() {
   }, [allAccounts, account, setAccountPkh]);
 
   return useMemo(() => allAccounts, [allAccounts]);
-}
-
-// FIXME: remove it
-export class ReactiveTezosToolkit extends TezosToolkit {
-  constructor(rpc: string | any, public checksum: string, public lambdaContract?: string) {
-    super(rpc);
-    // this.addExtension(new Tzip16Module());
-  }
 }
 
 function assertReady(state: AppState): asserts state is ReadyState {

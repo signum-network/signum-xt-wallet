@@ -1,6 +1,6 @@
 // DO NOT CHANGE THE ORDER :eyes :shrug :wtf
 export * from 'lib/messaging';
-export * from 'lib/temple/helpers';
+export * from 'lib/temple/signumAddress';
 export * from 'lib/temple/assets';
 export * from 'lib/temple/metadata';
 export * from 'lib/temple/networks';

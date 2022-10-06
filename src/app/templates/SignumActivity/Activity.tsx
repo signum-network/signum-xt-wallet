@@ -3,6 +3,7 @@ import React, { memo, useCallback, useMemo, useRef } from 'react';
 import { Address, Transaction } from '@signumjs/core';
 
 import { useRetryableSWR } from 'lib/swr';
+import { mergeTransactions } from 'lib/temple/activity/mergeTransactions';
 import { SIGNA_TOKEN_ID, useSignum } from 'lib/temple/front';
 import useSafeState from 'lib/ui/useSafeState';
 
@@ -105,17 +106,3 @@ const Activity = memo<ActivityProps>(({ publicKey, className }) => {
 });
 
 export default Activity;
-
-function mergeTransactions(base?: Transaction[], toAppend: Transaction[] = []) {
-  if (!base) return [];
-
-  const uniqueHashes = new Set<string>();
-  const uniques: Transaction[] = [];
-  for (const tx of [...base, ...toAppend]) {
-    if (!uniqueHashes.has(tx.fullHash!)) {
-      uniqueHashes.add(tx.fullHash!);
-      uniques.push(tx);
-    }
-  }
-  return uniques;
-}

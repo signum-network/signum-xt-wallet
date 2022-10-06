@@ -8,6 +8,7 @@
 ### Bugfixes
 
 - Fixed P2P Message rendering failure on messages to self
+- Fixed Burn Address alias resolving (#42)
 
 ## 1.2.3
 

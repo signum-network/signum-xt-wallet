@@ -59,15 +59,6 @@ export function tokensToAtoms(x: BigNumber, decimals: number) {
   return x.times(10 ** decimals).integerValue();
 }
 
-export function isSignumAddress(address: string): boolean {
-  try {
-    Address.create(address);
-    return true;
-  } catch (_) {
-    return false;
-  }
-}
-
 export function isAddressValid(address: string) {
   return validateAddress(address) === ValidationResult.VALID;
 }
