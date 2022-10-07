@@ -116,7 +116,12 @@ const TokenActivity = memo<TokenActivityProps>(({ publicKey, className, tokenId 
       const tokenTransactionRequests = ids.map(txId => signum.transaction.getTransaction(txId));
       const transactions = await Promise.all(tokenTransactionRequests);
       const requests = transactions
-        .filter(t => t.type === TransactionType.Asset && t.subtype === TransactionAssetSubtype.AssetDistributeToHolders)
+        .filter(
+          t =>
+            t.type === TransactionType.Asset &&
+            t.subtype === TransactionAssetSubtype.AssetDistributeToHolders &&
+            t.sender !== accountId
+        )
         .map(tx => signum.transaction.getDistributionAmountsFromTransaction(tx.transaction, accountId));
       const distributions = await Promise.all(requests);
 

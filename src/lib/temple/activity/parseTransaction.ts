@@ -26,6 +26,10 @@ function isDistribution(tx: Transaction): boolean {
   return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders;
 }
 
+function isBurn(tx: Transaction): boolean {
+  return !tx.recipient && isPayment(tx);
+}
+
 function isSellTokenOrder(tx: Transaction): boolean {
   return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AskOrderPlacement;
 }
@@ -105,7 +109,9 @@ export function parseTransaction(
     to: tx.recipientRS || ''
   };
 
-  if (isPayment(tx)) {
+  if (isBurn(tx)) {
+    item.type = TransactionItemType.Burn;
+  } else if (isPayment(tx)) {
     item.type = tx.sender === accountId ? TransactionItemType.TransferTo : TransactionItemType.TransferFrom;
   } else if (isDistribution(tx)) {
     item.type = tx.sender === accountId ? TransactionItemType.DistributionTo : TransactionItemType.DistributionFrom;
@@ -138,5 +144,6 @@ export function parseTransaction(
     // @ts-ignore
     item.name = '';
   }
+
   return item;
 }

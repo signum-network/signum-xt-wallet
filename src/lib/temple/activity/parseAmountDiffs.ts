@@ -3,6 +3,7 @@ import {
   isMultiOutSameTransaction,
   isMultiOutTransaction,
   Transaction,
+  TransactionAssetSubtype,
   TransactionMiningSubtype,
   TransactionType
 } from '@signumjs/core';
@@ -51,15 +52,34 @@ function parseQuantityDiffs(tx: Transaction, accountId: string, tokenMetadata: A
     };
   }
 
-  const quantity = ChainValue.create(tokenMetadata.decimals).setAtomic(tx.attachment.quantityQNT);
+  let quantityQNT = tx.attachment.quantityQNT;
+  if (tx.subtype === TransactionAssetSubtype.AssetMultiTransfer) {
+    const index = tx.attachment.assetIds.findIndex((id: string) => id === tokenMetadata.id);
+    if (index < 0) {
+      console.warn(`Token id ${tokenMetadata.id} not available in asset multi transfer`);
+      return {
+        diff: '0'
+      };
+    }
+    quantityQNT = tx.attachment.quantitiesQNT[index];
+  }
+
   if (tx.recipient && tx.recipient !== accountId) {
     return {
-      diff: quantity.multiply(-1).getCompound()
+      diff: ChainValue.create(tokenMetadata.decimals)
+        .setAtomic('-' + quantityQNT)
+        .getCompound()
+    };
+  }
+
+  if (tx.distribution) {
+    return {
+      diff: ChainValue.create(tokenMetadata.decimals).setAtomic(tx.distribution.quantityQNT).getCompound()
     };
   }
 
   return {
-    diff: quantity.getCompound()
+    diff: ChainValue.create(tokenMetadata.decimals).setAtomic(quantityQNT).getCompound()
   };
 }
 

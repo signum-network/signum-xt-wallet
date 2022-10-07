@@ -10,7 +10,8 @@ export enum TransactionItemType {
   SellOrder,
   DistributionTo,
   DistributionFrom,
-  Other
+  Other,
+  Burn
 }
 
 export type TransactionItem =
@@ -25,7 +26,8 @@ export type TransactionItem =
   | SellOrderItem
   | DistributionToItem
   | DistributionFromItem
-  | OtherItem;
+  | OtherItem
+  | BurnItem;
 
 export interface TxItemBase {
   type: TransactionItemType;
@@ -34,6 +36,10 @@ export interface TxItemBase {
 export interface TransferFromItem extends TxItemBase {
   type: TransactionItemType.TransferFrom;
   from: string;
+}
+
+export interface BurnItem extends TxItemBase {
+  type: TransactionItemType.Burn;
 }
 
 export interface TransferToItem extends TxItemBase {
