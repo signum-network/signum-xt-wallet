@@ -4,15 +4,13 @@ import classNames from 'clsx';
 
 import AccountTypeBadge from 'app/atoms/AccountTypeBadge';
 import HashShortView from 'app/atoms/HashShortView';
-import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
-import Balance from 'app/templates/Balance';
 import { OptionRenderProps } from 'app/templates/CustomSelect';
 import EncryptMsgView from 'app/templates/SignumEncryptMsgView/EncryptMsgView';
 import SignView from 'app/templates/SignumSignView/SignView';
 import { T } from 'lib/i18n/react';
 import { XTAccount, TempleDAppPayload } from 'lib/messaging';
-import { useRelevantAccounts, useSignumAssetMetadata } from 'lib/temple/front';
+import { useRelevantAccounts } from 'lib/temple/front';
 
 import IdenticonSignum from '../../atoms/IdenticonSignum';
 
@@ -20,8 +18,7 @@ const AccountIcon: FC<OptionRenderProps<XTAccount>> = ({ item }) => (
   <IdenticonSignum address={item.publicKey} size={32} className="flex-shrink-0 shadow-xs" />
 );
 
-const AccountOptionContentHOC = (networkRpc: string) => {
-  const { symbol } = useSignumAssetMetadata();
+const AccountOptionContentHOC = () => {
   return memo<OptionRenderProps<XTAccount>>(({ item: acc }) => (
     <div className="flex flex-col">
       <div className="flex flex-wrap items-center">
@@ -33,14 +30,6 @@ const AccountOptionContentHOC = (networkRpc: string) => {
         <div className={classNames('text-xs leading-none', 'text-gray-700')}>
           <HashShortView hash={acc.publicKey} isAccount />
         </div>
-
-        <Balance accountId={acc.accountId} networkRpc={networkRpc}>
-          {bal => (
-            <div className={classNames('ml-2', 'text-xs leading-none', 'text-gray-600')}>
-              <Money>{bal}</Money> <span style={{ fontSize: '0.75em' }}>{symbol}</span>
-            </div>
-          )}
-        </Balance>
       </div>
     </div>
   ));
@@ -53,7 +42,7 @@ interface PayloadContentProps {
 
 const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, payload }) => {
   const allAccounts = useRelevantAccounts();
-  const AccountOptionContent = useMemo(() => AccountOptionContentHOC(payload.network), [payload.network]);
+  const AccountOptionContent = useMemo(() => AccountOptionContentHOC(), []);
   const currentAccount = useMemo(
     () => allAccounts.find((a: XTAccount) => a.publicKey === accountPkhToConnect),
     [allAccounts, accountPkhToConnect]
