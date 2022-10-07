@@ -1454,6 +1454,9 @@
   "buyOrder": {
     "message": "Buy"
   },
+  "createBuyOrder": {
+    "message": "Create Buy Order"
+  },
   "burn": {
     "message": "Burn"
   },
@@ -1462,6 +1465,9 @@
   },
   "saleOrder": {
     "message": "Sale"
+  },
+  "createSaleOrder": {
+    "message": "Create Sale Order"
   },
   "buyOrderFulfilled": {
     "message": "Bought"
@@ -1942,5 +1948,8 @@
   },
   "tokenDistribution": {
     "message": "Token Holder Distribution"
+  },
+  "eachFor": {
+    "message": "each for"
   }
 }

@@ -1,13 +1,16 @@
 import React, { FC, memo, useMemo } from 'react';
 
+import { TransactionAssetSubtype, TransactionType } from '@signumjs/core';
+import { Amount, ChainValue, convertAssetPriceToPlanck } from '@signumjs/util';
+import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 
 import HashShortView from 'app/atoms/HashShortView';
 import Identicon from 'app/atoms/Identicon';
 import IdenticonSignum from 'app/atoms/IdenticonSignum';
 import Money from 'app/atoms/Money';
-import { t } from 'lib/i18n/react';
-import { getAssetSymbol, useSignumAssetMetadata } from 'lib/temple/front';
+import { T, t } from 'lib/i18n/react';
+import { getAssetSymbol, SIGNA_TOKEN_ID, useSignumAssetMetadata } from 'lib/temple/front';
 import {
   ParsedTransaction,
   ParsedTransactionExpense,
@@ -16,10 +19,9 @@ import {
 
 type TransactionViewProps = {
   transaction?: ParsedTransaction;
-  mainnet?: boolean;
 };
 
-const TransactionView: FC<TransactionViewProps> = ({ transaction, mainnet }) => {
+const TransactionView: FC<TransactionViewProps> = ({ transaction }) => {
   if (!transaction) return null;
   return (
     <div className="text-gray-700 text-sm">
@@ -29,9 +31,10 @@ const TransactionView: FC<TransactionViewProps> = ({ transaction, mainnet }) => 
             key={index}
             expense={item}
             last={index === arr.length - 1}
-            mainnet={mainnet}
             type={transaction.type}
             isSelf={transaction.isSelf}
+            txSubtype={transaction.txSubtype}
+            txType={transaction.txType}
           />
         ))}
       </div>
@@ -45,12 +48,18 @@ type ExpenseViewItemProps = {
   expense: ParsedTransactionExpense;
   type: ParsedTransactionType;
   last: boolean;
-  mainnet?: boolean;
   isSelf: boolean;
+  txType: number;
+  txSubtype: number;
 };
 
-const ExpenseViewItem: FC<ExpenseViewItemProps> = ({ expense, last, mainnet = false, type, isSelf }) => {
+const ExpenseViewItem: FC<ExpenseViewItemProps> = ({ expense, last, type, isSelf, txType, txSubtype }) => {
   const operationTypeLabel = useMemo(() => `${type.textIcon} ${t(type.i18nKey)}`, [type.textIcon, type.i18nKey]);
+
+  const isBuyOrSaleOrder =
+    txType === TransactionType.Asset &&
+    (txSubtype === TransactionAssetSubtype.BidOrderPlacement ||
+      txSubtype === TransactionAssetSubtype.AskOrderPlacement);
 
   return (
     <div className={classNames('pt-3 pb-2 px-2 flex justify-start items-center', !last && 'border-b border-gray-200')}>
@@ -69,9 +78,15 @@ const ExpenseViewItem: FC<ExpenseViewItemProps> = ({ expense, last, mainnet = fa
           {expense.aliasName && <HashShortView hash={expense.aliasName} />}
         </div>
 
-        {type.hasAmount && expense.amount && (
+        {isBuyOrSaleOrder && (
           <div className="flex items-end flex-shrink-0 flex-wrap text-gray-800">
-            <OperationVolumeDisplay expense={expense} mainnet={mainnet} />
+            <OrderDisplay expense={expense} />
+          </div>
+        )}
+
+        {!isBuyOrSaleOrder && type.hasAmount && (
+          <div className="flex items-end flex-shrink-0 flex-wrap text-gray-800">
+            <OperationVolumeDisplay expense={expense} />
           </div>
         )}
       </div>
@@ -81,32 +96,54 @@ const ExpenseViewItem: FC<ExpenseViewItemProps> = ({ expense, last, mainnet = fa
 
 type ExpenseVolumeDisplayProps = {
   expense: ParsedTransactionExpense;
-  mainnet: boolean;
 };
 
-const OperationVolumeDisplay = memo<ExpenseVolumeDisplayProps>(({ expense, mainnet }) => {
-  const metadata = useSignumAssetMetadata(); // consider asset slugs in the future
-  const finalVolume = expense.amount.div(10 ** (metadata?.decimals || 0));
+const OperationVolumeDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
+  const metadata = useSignumAssetMetadata(expense.tokenId || SIGNA_TOKEN_ID);
+  let finalVolume = expense.amount?.div(10 ** metadata.decimals) || new BigNumber(0);
 
   return (
-    <>
-      <span className="text-sm">
-        <span className="font-medium">
-          <Money>{finalVolume || 0}</Money>
-        </span>{' '}
-        {getAssetSymbol(metadata, true)}
-      </span>
+    <span className="text-sm">
+      <span className="font-medium">
+        <Money>{finalVolume || 0}</Money>
+      </span>{' '}
+      {getAssetSymbol(metadata)}
+    </span>
+  );
+});
 
-      {/*{expense?.assetSlug && (*/}
-      {/*  <InUSD volume={finalVolume || 0} assetSlug={expense.assetSlug} mainnet={mainnet}>*/}
-      {/*    {usdVolume => (*/}
-      {/*      <div className="text-xs text-gray-500 ml-1">*/}
-      {/*        (<span className="mr-px">$</span>*/}
-      {/*        {usdVolume})*/}
-      {/*      </div>*/}
-      {/*    )}*/}
-      {/*  </InUSD>*/}
-      {/*)}*/}
-    </>
+const OrderDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
+  const tokenMetadata = useSignumAssetMetadata(expense.tokenId);
+  const signaMetadata = useSignumAssetMetadata();
+  const tokenQuantity = new BigNumber(
+    ChainValue.create(tokenMetadata.decimals)
+      .setAtomic(expense.quantity?.toString() || '0')
+      .getCompound()
+  );
+  const price = Amount.fromPlanck(convertAssetPriceToPlanck(expense.price!.toString(), tokenMetadata.decimals));
+
+  const totalSigna = price.clone().multiply(tokenQuantity.toNumber());
+
+  return (
+    <div className="text-sm flex flex-col">
+      <span>
+        <span className="font-medium">
+          <Money>{tokenQuantity || 0}</Money>
+        </span>
+        {` ${getAssetSymbol(tokenMetadata)} `}
+        <T id="eachFor" />{' '}
+        <span className="font-medium">
+          <Money>{price.getSigna() || 0}</Money>
+        </span>
+        {` ${getAssetSymbol(signaMetadata)} `}
+      </span>
+      <span>
+        {' = '}
+        <span className="font-medium">
+          <Money>{totalSigna.getSigna() || 0}</Money>
+        </span>
+        {` ${getAssetSymbol(signaMetadata)} `}
+      </span>
+    </div>
   );
 });

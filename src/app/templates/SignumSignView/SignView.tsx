@@ -7,7 +7,7 @@ import { ReactComponent as CodeAltIcon } from 'app/icons/code-alt.svg';
 import { ReactComponent as EyeIcon } from 'app/icons/eye.svg';
 import ViewsSwitcher from 'app/templates/ViewsSwitcher/ViewsSwitcher';
 import { T, t } from 'lib/i18n/react';
-import { TempleDAppSignPayload, useSignum, useSignumAssetMetadata } from 'lib/temple/front';
+import { TempleDAppSignPayload, useAllTokensBaseMetadata, useSignum, useSignumAssetMetadata } from 'lib/temple/front';
 import { parseSignumTransaction, ParsedTransaction } from 'lib/temple/front/parseSignumTransaction';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
@@ -56,7 +56,6 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
 
   const totalSigna = useMemo(() => {
     if (!parsedTransaction) return '';
-
     const signa = Amount.fromPlanck(parsedTransaction.fee.toString());
     if (parsedTransaction.amount) {
       signa.add(Amount.fromPlanck(parsedTransaction.amount.toString()));
