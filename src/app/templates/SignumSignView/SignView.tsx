@@ -1,13 +1,22 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Amount } from '@signumjs/util';
+import { TransactionAssetSubtype, TransactionType } from '@signumjs/core';
+import { Amount, ChainValue, convertAssetPriceToPlanck } from '@signumjs/util';
+import BigNumber from 'bignumber.js';
 import classNames from 'clsx';
 
+import Money from 'app/atoms/Money';
 import { ReactComponent as CodeAltIcon } from 'app/icons/code-alt.svg';
 import { ReactComponent as EyeIcon } from 'app/icons/eye.svg';
 import ViewsSwitcher from 'app/templates/ViewsSwitcher/ViewsSwitcher';
 import { T, t } from 'lib/i18n/react';
-import { TempleDAppSignPayload, useAllTokensBaseMetadata, useSignum, useSignumAssetMetadata } from 'lib/temple/front';
+import {
+  getAssetSymbol,
+  TempleDAppSignPayload,
+  useAllTokensBaseMetadata,
+  useSignum,
+  useSignumAssetMetadata
+} from 'lib/temple/front';
 import { parseSignumTransaction, ParsedTransaction } from 'lib/temple/front/parseSignumTransaction';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
@@ -41,7 +50,7 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
   const [error, setError] = useState('');
   useEffect(() => {
     if (!payload) return;
-    parseSignumTransaction(payload.preview, payload.sourcePkh, signum)
+    parseSignumTransaction(payload.preview, signum)
       .then(([txParsed, txJson]) => {
         setParsedTransaction(txParsed);
         setJsonTransaction(txJson);
@@ -61,6 +70,23 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
       signa.add(Amount.fromPlanck(parsedTransaction.amount.toString()));
     }
     return signa.getSigna();
+  }, [parsedTransaction]);
+
+  const totalQuantities = useMemo(() => {
+    if (!parsedTransaction) return [];
+    const { expenses, txType, txSubtype } = parsedTransaction;
+
+    const isSellOrder = txType === TransactionType.Asset && txSubtype === TransactionAssetSubtype.AskOrderPlacement;
+    const isBuyOrder = txType === TransactionType.Asset && txSubtype === TransactionAssetSubtype.BidOrderPlacement;
+
+    return expenses
+      .filter(({ tokenId, quantity }) => tokenId && quantity)
+      .map(({ tokenId, quantity, price }) => ({
+        tokenId: tokenId!,
+        quantity: quantity!,
+        price: isBuyOrder ? price : undefined,
+        isReserved: isBuyOrder || isSellOrder
+      }));
   }, [parsedTransaction]);
 
   const handleErrorAlertClose = useCallback(() => setError(''), [setError]);
@@ -103,14 +129,53 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
         <TransactionView transaction={parsedTransaction} />
       </div>
 
-      <div className="mt-4 leading-tight flex text-base font-semibold text-gray-700 items-center justify-between w-full">
+      <div className="mt-4 leading-tight flex text-base font-semibold text-gray-700 items-start justify-between w-full">
         <span>{t('totalAmount')}</span>
-        <span>
-          {totalSigna}&nbsp;{symbol}
-        </span>
+        <div className="flex flex-col w-1/2 text-right">
+          <div>
+            <Money>{totalSigna}</Money>&nbsp;{symbol}
+          </div>
+          <div>
+            {totalQuantities.map((quantities, index) => (
+              <TotalQuantityDisplay key={index} {...quantities} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default SignView;
+
+interface TotalQuantityProps {
+  tokenId: string;
+  quantity: BigNumber;
+  price?: BigNumber;
+  isReserved: boolean;
+}
+
+const TotalQuantityDisplay = memo<TotalQuantityProps>(({ tokenId, quantity, price, isReserved }) => {
+  const tokenMetadata = useSignumAssetMetadata(tokenId);
+  const signaMetadata = useSignumAssetMetadata();
+
+  const tokenQuantity = new BigNumber(
+    ChainValue.create(tokenMetadata.decimals)
+      .setAtomic(quantity.toString() || '0')
+      .getCompound()
+  );
+
+  const pricePlanck = price ? convertAssetPriceToPlanck(price.toString(10), tokenMetadata.decimals) : '';
+  const priceSigna = pricePlanck
+    ? new BigNumber(Amount.fromPlanck(pricePlanck).multiply(tokenQuantity.toNumber()).getSigna())
+    : null;
+  return (
+    <div className="text-sm flex flex-row justify-end items-baseline">
+      {isReserved && <span className="text-xs font-normal mr-1">{t('reserving')}</span>}
+      <span className="font-medium mr-1">
+        <Money>{priceSigna ? priceSigna : tokenQuantity}</Money>
+      </span>
+      {getAssetSymbol(priceSigna ? signaMetadata : tokenMetadata)}
+    </div>
+  );
+});

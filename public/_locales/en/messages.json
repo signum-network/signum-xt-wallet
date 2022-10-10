@@ -1457,6 +1457,9 @@
   "createBuyOrder": {
     "message": "Create Buy Order"
   },
+  "cancelBuyOrder": {
+    "message": "Cancel Buy Order"
+  },
   "burn": {
     "message": "Burn"
   },
@@ -1464,10 +1467,13 @@
     "message": "Burn Address"
   },
   "saleOrder": {
-    "message": "Sale"
+    "message": "Sell"
   },
   "createSaleOrder": {
-    "message": "Create Sale Order"
+    "message": "Create Sell Order"
+  },
+  "cancelSaleOrder": {
+    "message": "Cancel Sell Order"
   },
   "buyOrderFulfilled": {
     "message": "Bought"
@@ -1488,6 +1494,37 @@
   },
   "distribution": {
     "message": "Distribution"
+  },
+  "distributionForAllWithAtLeast": {
+    "message": "distribute $amount$ $signa$ to all with at least $quantity$ $symbol$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "quantity": {
+        "content": "$3"
+      },
+      "symbol": {
+        "content": "$4"
+      }
+    }
+  },
+  "distributionForAllWith": {
+    "message": "distribute $amount$ $signa$ to all having $symbol$",
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$3"
+      }
+    }
   },
   "transferTo": {
     "message": "Transfer to"
@@ -1951,5 +1988,8 @@
   },
   "eachFor": {
     "message": "each for"
+  },
+  "reserving": {
+    "message": "reserving"
   }
 }
