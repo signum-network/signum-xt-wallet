@@ -123,10 +123,11 @@ export interface XTSettings {
   contacts?: Contact[];
 }
 
-export enum TempleSharedStorageKey {
+export enum XTSharedStorageKey {
   DAppEnabled = 'dappenabled',
   PasswordAttempts = 'passwordAttempts',
-  TimeLock = 'timelock'
+  TimeLock = 'timelock',
+  SelectedText = 'selectedText'
 }
 
 export type DAppSessions = Record<string, DAppSession>;
@@ -244,6 +245,8 @@ export enum XTMessageType {
   SignResponse = 'XT_SIGN_RESPONSE',
   ConfirmationRequest = 'XT_CONFIRMATION_REQUEST',
   ConfirmationResponse = 'XT_CONFIRMATION_RESPONSE',
+  PageTextSelectedRequest = 'XT_PAGE_TEXT_SELECTED_REQUEST',
+  PageTextSelectedResponse = 'XT_PAGE_TEXT_SELECTED_RESPONSE',
   PageRequest = 'PAGE_REQUEST',
   PageResponse = 'PAGE_RESPONSE',
   DAppGetPayloadRequest = 'XT_DAPP_GET_PAYLOAD_REQUEST',
@@ -306,7 +309,8 @@ export type TempleRequest =
   | TempleGetAllDAppSessionsRequest
   | TempleRemoveDAppSessionRequest
   | TempleDAppSelectNetworkRequest
-  | TempleDAppSelectAccountRequest;
+  | TempleDAppSelectAccountRequest
+  | TemplePageTextSelectedRequest;
 
 export type TempleResponse =
   | TempleGetStateResponse
@@ -340,7 +344,8 @@ export type TempleResponse =
   | TempleGetAllDAppSessionsResponse
   | TempleRemoveDAppSessionResponse
   | TempleDAppSelectNetworkResponse
-  | TempleDAppSelectAccountResponse;
+  | TempleDAppSelectAccountResponse
+  | TemplePageTextSelectedResponse;
 
 export interface TempleMessageBase {
   type: XTMessageType;
@@ -605,6 +610,12 @@ export interface TempleConfirmationResponse extends TempleMessageBase {
   type: XTMessageType.ConfirmationResponse;
 }
 
+export interface TemplePageTextSelectedRequest extends TempleMessageBase {
+  type: XTMessageType.PageTextSelectedRequest;
+  origin: string;
+  selected: string;
+}
+
 export interface TemplePageRequest extends TempleMessageBase {
   type: XTMessageType.PageRequest;
   origin: string;
@@ -617,6 +628,10 @@ export interface TemplePageResponse extends TempleMessageBase {
   type: XTMessageType.PageResponse;
   payload: any;
   encrypted?: boolean;
+}
+
+export interface TemplePageTextSelectedResponse extends TempleMessageBase {
+  type: XTMessageType.PageTextSelectedResponse;
 }
 
 export interface TempleDAppGetPayloadRequest extends TempleMessageBase {

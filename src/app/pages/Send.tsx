@@ -7,10 +7,11 @@ import { t } from 'lib/i18n/react';
 import { SIGNA_TOKEN_ID } from 'lib/temple/front';
 
 type SendProps = {
-  tokenId?: string | null;
+  tokenId: string | null;
+  recipient: string | null;
 };
 
-const Send: FC<SendProps> = ({ tokenId }) => (
+const Send: FC<SendProps> = ({ tokenId, recipient }) => (
   <PageLayout
     pageTitle={
       <>
@@ -20,7 +21,7 @@ const Send: FC<SendProps> = ({ tokenId }) => (
   >
     <div className="py-4">
       <div className="w-full max-w-sm mx-auto">
-        <SendForm tokenId={tokenId || SIGNA_TOKEN_ID} />
+        <SendForm tokenId={tokenId || SIGNA_TOKEN_ID} recipient={recipient || undefined} />
       </div>
     </div>
   </PageLayout>

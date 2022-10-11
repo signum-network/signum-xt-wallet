@@ -1,8 +1,9 @@
 import browser, { Runtime } from 'webextension-polyfill';
 
-import { AppState, XTMessageType, TempleRequest, XTSettings, TempleSharedStorageKey } from 'lib/messaging';
+import { AppState, XTMessageType, TempleRequest, XTSettings, XTSharedStorageKey } from 'lib/messaging';
 import { createQueue } from 'lib/queue';
 
+import { MenuItems, setMenuItemEnabled } from './context-menus';
 import { getCurrentPermission, requestPermission, requestSign, getAllDApps, removeDApp } from './dapp';
 import { requestSendEncryptedMessage } from './dapp/requestSendEncryptedMessage';
 import { ExtensionMessageType, ExtensionRequest, ExtensionResponse } from './dapp/typings';
@@ -19,6 +20,21 @@ import {
   withUnlocked
 } from './store';
 import { Vault } from './vault';
+
+const NaiveAddressCheck = /^(S|TS)-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{5}$/;
+function isSignumAddress(selection: string) {
+  return (selection.length === 22 || selection.length === 23) && NaiveAddressCheck.test(selection);
+}
+
+export async function handlePageTextSelected(origin: string, selectedText: string) {
+  const enabled = isSignumAddress(selectedText);
+  await Promise.all([
+    setMenuItemEnabled(MenuItems.SendToAddress, enabled),
+    setMenuItemEnabled(MenuItems.OpenInExplorer, enabled)
+  ]);
+
+  await browser.storage.local.set({ [XTSharedStorageKey.SelectedText]: enabled ? selectedText : '' });
+}
 
 const ACCOUNT_NAME_PATTERN = /^.{0,16}$/;
 const AUTODECLINE_AFTER = 60_000;
@@ -44,7 +60,7 @@ export async function isDAppEnabled() {
   const bools = await Promise.all([
     Vault.isExist(),
     (async () => {
-      const key = TempleSharedStorageKey.DAppEnabled;
+      const key = XTSharedStorageKey.DAppEnabled;
       const items = await browser.storage.local.get([key]);
       return key in items ? items[key] : true;
     })()

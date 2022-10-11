@@ -18,9 +18,10 @@ import { SpinnerSection } from './SpinnerSection';
 
 interface Props {
   tokenId: string;
+  recipient?: string;
 }
 
-const SendFormLayout: FC<Props> = ({ tokenId }) => {
+const SendFormLayout: FC<Props> = ({ tokenId, recipient }) => {
   const TransactionFormats = [
     {
       key: 'transfer',
@@ -52,7 +53,12 @@ const SendFormLayout: FC<Props> = ({ tokenId }) => {
       </div>
       <Suspense fallback={<SpinnerSection />}>
         <div className={classNames(transactionFormat.key !== 'transfer' && 'hidden')}>
-          <SendForm setOperation={setOperation} onAddContactRequested={setContactAccountId} tokenId={tokenId} />
+          <SendForm
+            setOperation={setOperation}
+            onAddContactRequested={setContactAccountId}
+            tokenId={tokenId}
+            recipient={recipient}
+          />
         </div>
         <div className={classNames(transactionFormat.key !== 'message' && 'hidden')}>
           <SendP2PMessageForm setOperation={setOperation} onAddContactRequested={setContactAccountId} />

@@ -1991,5 +1991,11 @@
   },
   "reserving": {
     "message": "reserving"
+  },
+  "openInExplorer": {
+    "message": "Open In Explorer"
+  },
+  "sendToAddress": {
+    "message": "Send Signa to this Address"
   }
 }

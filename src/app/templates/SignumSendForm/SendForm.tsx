@@ -47,13 +47,14 @@ interface FormData {
 
 type FormProps = {
   tokenId: string;
+  recipient?: string;
   setOperation: Dispatch<any>;
   onAddContactRequested: (address: string) => void;
 };
 
 const MinimumFee = Amount.fromPlanck(FeeQuantPlanck).getSigna();
 
-export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, tokenId }) => {
+export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, tokenId, recipient }) => {
   const messageFormRef = useRef();
   const { registerBackHandler } = useAppEnv();
   const assetMetadata = useSignumAssetMetadata(tokenId);
@@ -82,7 +83,10 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
   const { data: balanceData } = useBalance(tokenId, accountId);
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
-    mode: 'onChange'
+    mode: 'onChange',
+    defaultValues: {
+      to: recipient
+    }
   });
 
   const toValue = watch('to');

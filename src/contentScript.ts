@@ -1,6 +1,7 @@
 import 'mv3-hot-reload/content';
 import browser from 'webextension-polyfill';
 
+import { debounce } from 'lib/debounce';
 import { IntercomClient } from 'lib/intercom/client';
 import { serializeError } from 'lib/intercom/helpers';
 import { XTMessageType, TempleResponse } from 'lib/messaging';
@@ -56,6 +57,17 @@ window.addEventListener(
   },
   false
 );
+
+const selectionHandler = debounce((evt: any) => {
+  const selectedText = document.getSelection()?.toString().trim() || '';
+  getIntercom().request({
+    type: XTMessageType.PageTextSelectedRequest,
+    origin: evt.target.location.origin,
+    selected: selectedText
+  });
+}, 500);
+
+document.addEventListener('selectionchange', selectionHandler);
 
 function walletRequest(evt: MessageEvent) {
   const { payload, reqId } = evt.data as SignumPageMessage;

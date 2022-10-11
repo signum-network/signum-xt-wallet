@@ -9,7 +9,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import SimplePageLayout from 'app/layouts/SimplePageLayout';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { useLocalStorage, useTempleClient, TempleSharedStorageKey } from 'lib/temple/front';
+import { useLocalStorage, useTempleClient, XTSharedStorageKey } from 'lib/temple/front';
 import { Link } from 'lib/woozie';
 
 interface UnlockProps {
@@ -38,8 +38,8 @@ const Unlock: FC<UnlockProps> = ({ canImportNew = true }) => {
   const { unlock } = useTempleClient();
   const formAnalytics = useFormAnalytics('UnlockWallet');
 
-  const [attempt, setAttempt] = useLocalStorage<number>(TempleSharedStorageKey.PasswordAttempts, 1);
-  const [timelock, setTimeLock] = useLocalStorage<number>(TempleSharedStorageKey.TimeLock, 0);
+  const [attempt, setAttempt] = useLocalStorage<number>(XTSharedStorageKey.PasswordAttempts, 1);
+  const [timelock, setTimeLock] = useLocalStorage<number>(XTSharedStorageKey.TimeLock, 0);
   const lockLevel = LOCK_TIME * Math.floor(attempt / 3);
 
   const [timeleft, setTimeleft] = useState(getTimeLeft(timelock, lockLevel));

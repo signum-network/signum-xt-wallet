@@ -64,7 +64,10 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/create-account', onlyReady(() => <CreateAccount />)],
   ['/import-account/:tabSlug?', onlyReady(({ tabSlug }) => <ImportAccount tabSlug={tabSlug} />)],
   ['/receive', onlyReady(() => <Receive />)],
-  ['/send/:tokenId?', onlyReady(({ tokenId }) => <Send tokenId={tokenId} />)],
+  [
+    '/send/:tokenId?/:recipient?',
+    onlyReady(({ tokenId, recipient }) => <Send tokenId={tokenId} recipient={recipient} />)
+  ],
   // ['/dapps', onlyReady(() => <DApps />)],
   // ['/swap/:assetSlug?', onlyReady(({ assetSlug }) => <Swap assetSlug={assetSlug} />)],
   // ['/collectible/:assetSlug?', onlyReady(({ assetSlug }) => <CollectiblePage assetSlug={assetSlug!} />)],
