@@ -23,11 +23,17 @@ import { Vault } from './vault';
 
 const NaiveAddressCheck = /^(S|TS)-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{5}$/;
 function isSignumAddress(selection: string) {
-  return (selection.length === 22 || selection.length === 23) && NaiveAddressCheck.test(selection);
+  return (
+    (selection.length === 22 || selection.length === 23) && // fast check
+    NaiveAddressCheck.test(selection)
+  );
 }
 
 export async function handlePageTextSelected(origin: string, selectedText: string) {
-  const enabled = isSignumAddress(selectedText);
+  const enabled = isSignumAddress(selectedText.trim());
+
+  console.log('handlePageTextSelected', selectedText);
+
   await Promise.all([
     setMenuItemEnabled(MenuItems.SendToAddress, enabled),
     setMenuItemEnabled(MenuItems.OpenInExplorer, enabled)
@@ -108,14 +114,6 @@ export function createAccount(name?: string) {
   });
 }
 
-export function revealMnemonic(password: string) {
-  return withUnlocked(() => Vault.revealMnemonic(password));
-}
-
-export function revealPrivateKey(accPublicKey: string, password: string) {
-  return withUnlocked(() => Vault.revealPrivateKey(accPublicKey, password));
-}
-
 export function revealPublicKey(accPublicKey: string) {
   return withUnlocked(({ vault }) => vault.revealPublicKey(accPublicKey));
 }
@@ -146,30 +144,9 @@ export function setAccountActivated(accPublicKey: string) {
   });
 }
 
-// export function importAccount(privateKey: string, encPassword?: string) {
-//   return withUnlocked(async ({ vault }) => {
-//     const updatedAccounts = await vault.importAccount(privateKey, encPassword);
-//     accountsUpdated(updatedAccounts);
-//   });
-// }
-
 export function importMnemonicAccount(mnemonic: string, name?: string) {
   return withUnlocked(async ({ vault }) => {
     const updatedAccounts = await vault.importMnemonicAccount(mnemonic, name);
-    accountsUpdated(updatedAccounts);
-  });
-}
-
-export function importFundraiserAccount(email: string, password: string, mnemonic: string) {
-  return withUnlocked(async ({ vault }) => {
-    const updatedAccounts = await vault.importFundraiserAccount(email, password, mnemonic);
-    accountsUpdated(updatedAccounts);
-  });
-}
-
-export function importManagedKTAccount(address: string, chainId: string, owner: string) {
-  return withUnlocked(async ({ vault }) => {
-    const updatedAccounts = await vault.importManagedKTAccount(address, chainId, owner);
     accountsUpdated(updatedAccounts);
   });
 }

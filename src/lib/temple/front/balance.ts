@@ -39,7 +39,13 @@ export function useBalance(tokenId: string, accountId: string, opts: UseBalanceO
 
   const { data: account } = useRetryableSWR(
     displayed ? [`balance-${accountId}`, signum] : null,
-    async () => signum.account.getAccount({ accountId, includeCommittedAmount: true }),
+    async () => {
+      try {
+        return await signum.account.getAccount({ accountId, includeCommittedAmount: true });
+      } catch (e: any) {
+        return null; // possibly new account
+      }
+    },
     {
       suspense: opts.suspense ?? true,
       revalidateOnFocus: false,

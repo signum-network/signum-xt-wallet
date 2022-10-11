@@ -1334,14 +1334,6 @@
   "tokenIdPlaceholder": {
     "message": "เช่น KT1v9CmPy..."
   },
-  "tokenDoesNotMatchStandard": {
-    "message": "Assumed asset contract does not conform to $standard$ standard",
-    "placeholders": {
-      "standard": {
-        "content": "$1"
-      }
-    }
-  },
   "tokenId": {
     "message": "Token ID"
   },

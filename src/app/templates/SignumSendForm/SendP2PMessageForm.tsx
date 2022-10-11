@@ -41,11 +41,12 @@ interface FormData {
 type FormProps = {
   setOperation: Dispatch<any>;
   onAddContactRequested: (address: string) => void;
+  recipient?: string;
 };
 
 const MinimumFee = Amount.fromPlanck(FeeQuantPlanck).getSigna();
 
-export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRequested }) => {
+export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRequested, recipient }) => {
   const messageFormRef = useRef();
   const { registerBackHandler } = useAppEnv();
   const assetMetadata = useSignumAssetMetadata();
@@ -68,7 +69,10 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
   const accountId = acc.accountId;
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
-    mode: 'onChange'
+    mode: 'onChange',
+    defaultValues: {
+      to: recipient
+    }
   });
 
   const toValue = watch('to');

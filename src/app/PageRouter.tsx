@@ -61,7 +61,7 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/', (_p, ctx) => (ctx.ready ? <Explore tokenId={SIGNA_TOKEN_ID} /> : <Welcome />)],
   ['/explore/:tokenId?', onlyReady(({ tokenId }) => <Explore tokenId={tokenId ?? SIGNA_TOKEN_ID} />)],
   ['/create-wallet', onlyNotReady(() => <CreateWallet />)],
-  ['/create-account', onlyReady(() => <CreateAccount />)],
+  ['/create-account', onlyReady(onlyInFullPage(() => <CreateAccount />))],
   ['/import-account/:tabSlug?', onlyReady(({ tabSlug }) => <ImportAccount tabSlug={tabSlug} />)],
   ['/receive', onlyReady(() => <Receive />)],
   [
@@ -71,7 +71,7 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   // ['/dapps', onlyReady(() => <DApps />)],
   // ['/swap/:assetSlug?', onlyReady(({ assetSlug }) => <Swap assetSlug={assetSlug} />)],
   // ['/collectible/:assetSlug?', onlyReady(({ assetSlug }) => <CollectiblePage assetSlug={assetSlug!} />)],
-  ['/add-token', onlyReady(onlyInFullPage(() => <AddAsset />))],
+  ['/add-token', onlyReady(() => <AddAsset />)],
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
   ['/attention', onlyReady(onlyInFullPage(() => <AttentionPage />))],
   ['*', () => <Woozie.Redirect to="/" />]

@@ -61,7 +61,11 @@ const SendFormLayout: FC<Props> = ({ tokenId, recipient }) => {
           />
         </div>
         <div className={classNames(transactionFormat.key !== 'message' && 'hidden')}>
-          <SendP2PMessageForm setOperation={setOperation} onAddContactRequested={setContactAccountId} />
+          <SendP2PMessageForm
+            setOperation={setOperation}
+            onAddContactRequested={setContactAccountId}
+            recipient={recipient}
+          />
         </div>
       </Suspense>
       {contactAccountId && <AddContactModal accountId={contactAccountId} onClose={closeContactModal} />}

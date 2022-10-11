@@ -58,16 +58,17 @@ window.addEventListener(
   false
 );
 
-const selectionHandler = debounce((evt: any) => {
-  const selectedText = document.getSelection()?.toString().trim() || '';
+const selectionHandler = debounce((_evt: MouseEvent) => {
+  const selectedText = document.getSelection()?.toString() || '';
+
   getIntercom().request({
     type: XTMessageType.PageTextSelectedRequest,
-    origin: evt.target.location.origin,
-    selected: selectedText
+    origin: document.location.origin,
+    selected: selectedText.trim()
   });
-}, 500);
+}, 250);
 
-document.addEventListener('selectionchange', selectionHandler);
+document.addEventListener('mouseup', selectionHandler);
 
 function walletRequest(evt: MessageEvent) {
   const { payload, reqId } = evt.data as SignumPageMessage;

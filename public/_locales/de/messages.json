@@ -83,7 +83,7 @@
     "message": "Hinzufügen"
   },
   "addAsset": {
-    "message": "Vermögenswert hinzufügen"
+    "message": "Token hinzufügen"
   },
   "addCollectible": {
     "message": "Sammlerstück hinzufügen"
@@ -108,7 +108,7 @@
     "message": "Diese Adresse zu Kontakten hinzufügen?"
   },
   "addToken": {
-    "message": "Vermögenswert hinzufügen"
+    "message": "Token hinzufügen"
   },
   "additionalFee": {
     "message": "Zusätzliche Gebühr"
@@ -129,7 +129,7 @@
     "message": "Adresse, ID oder Alias des Kontos"
   },
   "tokenIdLabel": {
-    "message": "Adresse eines bereitgestellten Vermögenswertvertrags."
+    "message": "ID des Tokens"
   },
   "addressOfTokenContract": {
     "message": "Adresse eines $assetSymbol$-Token-Kontrakts.",
@@ -227,13 +227,13 @@
     "message": "Token genehmigen"
   },
   "asset": {
-    "message": "Vermögenswert"
+    "message": "Token"
   },
   "assetId": {
-    "message": "Vermögenswert-ID"
+    "message": "Token-ID"
   },
   "assets": {
-    "message": "Vermögenswerte"
+    "message": "Tokens"
   },
   "atLeast1LowercaseLetter": {
     "message": "Mindestens 1 Kleinbuchstabe"
@@ -697,13 +697,13 @@
     "message": "Symbol-URL"
   },
   "iconURLInputDescription": {
-    "message": "Bild-URL für das Vermögenswert-Logo."
+    "message": "Bild-URL für das Token-Logo."
   },
   "id": {
     "message": "ID"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Wenn Sie Ihre Vermögenswerte nicht sehen,\nversuchen, Sie auf $toClick$ zu klicken.",
+    "message": "Wenn Sie Ihre Tokens nicht sehen,\nversuchen, Sie auf $toClick$ zu klicken.",
     "placeholders": {
       "toClick": {
         "content": "$1"
@@ -752,7 +752,7 @@
     "message": "in USD"
   },
   "incorrectTokenIdErrorMessage": {
-    "message": "Fehler beim Verarbeiten des Vermögenswerts mit den bereitgestellten Daten. Stellen Sie sicher, dass die Vermögenswert-ID korrekt ist."
+    "message": "Fehler beim Verarbeiten des Tokens mit den bereitgestellten Daten. Stellen Sie sicher, dass die Token-ID korrekt ist."
   },
   "interaction": {
     "message": "Kontraktinteraktion"
@@ -961,7 +961,7 @@
     "message": "Nein"
   },
   "noAssetsFound": {
-    "message": "Keine Vermögenswerte gefunden"
+    "message": "Keine Tokens gefunden"
   },
   "noContactsFound": {
     "message": "Keine Kontakte gefunden"
@@ -1206,7 +1206,7 @@
     "message": "Speichern"
   },
   "searchAssets": {
-    "message": "Vermögenswerte suchen..."
+    "message": "Tokens suchen..."
   },
   "searchByName": {
     "message": "Nach Name suchen..."
@@ -1218,7 +1218,7 @@
     "message": "Passphrase"
   },
   "selectAnotherAssetPrompt": {
-    "message": "Klicken Sie auf den Bereich, um einen anderen Vermögenswert oder Token auszuwählen."
+    "message": "Klicken Sie auf den Bereich, um ein anderes Token auszuwählen."
   },
   "send": {
     "message": "Senden"
@@ -1326,22 +1326,14 @@
   "tokenIdPlaceholder": {
     "message": "z.B. KT1v9CmPy..."
   },
-  "tokenDoesNotMatchStandard": {
-    "message": "Vorausgesetzter Vermögenswertvertrag entspricht nicht dem $standard$-Standard",
-    "placeholders": {
-      "standard": {
-        "content": "$1"
-      }
-    }
-  },
   "tokenId": {
     "message": "Token-ID"
   },
   "tokenIdInputDescription": {
-    "message": "Eine nicht negative ganze Zahl, die den Vermögenswert innerhalb des FA2-Vertrags identifiziert"
+    "message": "Eine nicht negative ganze Zahl, die den Token innerhalb des FA2-Vertrags identifiziert"
   },
   "tokenNameInputDescription": {
-    "message": "Name des Vermögenswerts, z.B. 'Bitcoin' für BTC-Vermögenswert."
+    "message": "Name des Tokens, z.B. 'Bitcoin' für BTC."
   },
   "tokenNameInputPlaceholder": {
     "message": "z.B. MySuperToken"
@@ -1350,7 +1342,7 @@
     "message": "Keine Sonderzeichen, 3-50 Länge"
   },
   "tokenSymbolInputDescription": {
-    "message": "Vermögenswertsymbol, wie 'USD' für US-Dollar."
+    "message": "Tokensymbol, wie 'USD' für US-Dollar."
   },
   "tokenSymbolInputPlaceholder": {
     "message": "z.B. WEW, BOW, LAL etc."

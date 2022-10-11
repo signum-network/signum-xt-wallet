@@ -1331,14 +1331,6 @@
   "tokenIdPlaceholder": {
     "message": "por exemplo, KT1v9CmPy..."
   },
-  "tokenDoesNotMatchStandard": {
-    "message": "O contrato de ativo presumido não está em conformidade com o padrão $standard$",
-    "placeholders": {
-      "standard": {
-        "content": "$1"
-      }
-    }
-  },
   "tokenId": {
     "message": "Código do token"
   },

@@ -66,20 +66,6 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         publicKey
       };
 
-    case XTMessageType.RevealPrivateKeyRequest:
-      const privateKey = await Actions.revealPrivateKey(req.accountPublicKeyHash, req.password);
-      return {
-        type: XTMessageType.RevealPrivateKeyResponse,
-        privateKey
-      };
-
-    case XTMessageType.RevealMnemonicRequest:
-      const mnemonic = await Actions.revealMnemonic(req.password);
-      return {
-        type: XTMessageType.RevealMnemonicResponse,
-        mnemonic
-      };
-
     case XTMessageType.RemoveAccountRequest:
       await Actions.removeAccount(req.accountPublicKeyHash, req.password);
       DAppNotifications.notifyAccountRemoved(req.accountPublicKeyHash);
@@ -99,28 +85,10 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         type: XTMessageType.ActivateAccountResponse
       };
 
-    // case XTMessageType.ImportAccountRequest:
-    //   await Actions.importAccount(req.privateKey, req.encPassword);
-    //   return {
-    //     type: XTMessageType.ImportAccountResponse
-    //   };
-
     case XTMessageType.ImportMnemonicAccountRequest:
       await Actions.importMnemonicAccount(req.mnemonic, req.name);
       return {
         type: XTMessageType.ImportMnemonicAccountResponse
-      };
-
-    case XTMessageType.ImportFundraiserAccountRequest:
-      await Actions.importFundraiserAccount(req.email, req.password, req.mnemonic);
-      return {
-        type: XTMessageType.ImportFundraiserAccountResponse
-      };
-
-    case XTMessageType.ImportManagedKTAccountRequest:
-      await Actions.importManagedKTAccount(req.address, req.chainId, req.owner);
-      return {
-        type: XTMessageType.ImportManagedKTAccountResponse
       };
 
     case XTMessageType.ImportWatchOnlyAccountRequest:
@@ -142,7 +110,7 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         result
       };
     case XTMessageType.PageTextSelectedRequest:
-      Actions.handlePageTextSelected(req.origin, req.selected);
+      await Actions.handlePageTextSelected(req.origin, req.selected);
       return {
         type: XTMessageType.PageTextSelectedResponse
       };

@@ -1331,14 +1331,6 @@
   "tokenIdPlaceholder": {
     "message": "por ejemplo, KT1v9CmPy..."
   },
-  "tokenDoesNotMatchStandard": {
-    "message": "El contrato de activos asumido no se ajusta al estándar $standard$",
-    "placeholders": {
-      "standard": {
-        "content": "$1"
-      }
-    }
-  },
   "tokenId": {
     "message": "ID del token"
   },

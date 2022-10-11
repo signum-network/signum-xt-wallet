@@ -1331,14 +1331,6 @@
   "tokenIdPlaceholder": {
     "message": "например KT1v9CmPy..."
   },
-  "tokenDoesNotMatchStandard": {
-    "message": "Предполагаемый договор актива не соответствует стандарту $standard$",
-    "placeholders": {
-      "standard": {
-        "content": "$1"
-      }
-    }
-  },
   "tokenId": {
     "message": "Идентификатор токена"
   },

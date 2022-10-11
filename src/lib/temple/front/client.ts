@@ -157,32 +157,6 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     assertResponse(res.type === XTMessageType.LockResponse);
   }, [request]);
 
-  // // TODO: not needed - we can use import Mnemonic Account
-  // const createAccount = useCallback(
-  //   async (name?: string) => {
-  //     const res = await request({
-  //       type: XTMessageType.CreateAccountRequest,
-  //       name
-  //     });
-  //     assertResponse(res.type === XTMessageType.CreateAccountResponse);
-  //   },
-  //   [request]
-  // );
-  //
-  // // TODO: remove not used
-  // const revealPrivateKey = useCallback(
-  //   async (accountPublicKeyHash: string, password: string) => {
-  //     const res = await request({
-  //       type: XTMessageType.RevealPrivateKeyRequest,
-  //       accountPublicKeyHash,
-  //       password
-  //     });
-  //     assertResponse(res.type === XTMessageType.RevealPrivateKeyResponse);
-  //     return res.privateKey;
-  //   },
-  //   [request]
-  // );
-
   const getSignumTransactionKeys = useCallback(
     async (accountPublicKeyHash: string) => {
       const res = await request({
@@ -195,19 +169,6 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
         signingKey: res.signingKey,
         p2pKey: res.p2pKey
       };
-    },
-    [request]
-  );
-
-  // TODO: remove not used
-  const revealMnemonic = useCallback(
-    async (password: string) => {
-      const res = await request({
-        type: XTMessageType.RevealMnemonicRequest,
-        password
-      });
-      assertResponse(res.type === XTMessageType.RevealMnemonicResponse);
-      return res.mnemonic;
     },
     [request]
   );
@@ -453,13 +414,9 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     registerWallet,
     unlock,
     lock,
-    // createAccount,
-    // revealPrivateKey,
-    revealMnemonic,
     removeAccount,
     editAccountName,
     setAccountActivated,
-    // importAccount,
     importMnemonicAccount,
     importFundraiserAccount,
     importKTManagedAccount,
