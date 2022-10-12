@@ -19,6 +19,7 @@
 - Fixed P2P Message rendering failure on messages to self
 - Fixed Burn Address alias resolving (#42)
 - Added featured US Central Node (#41)
+- Fixed layout issue on FF
 
 ## 1.2.3
 
