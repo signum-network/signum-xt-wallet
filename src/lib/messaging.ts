@@ -14,9 +14,6 @@ export interface ReadyState extends AppState {
 export interface DAppSession {
   network: string;
   appMeta: ExtensionDAppMetadata;
-  // // these will be dynamic
-  // accountId: string;
-  // publicKey: string;
 }
 
 export interface AppState {
@@ -24,14 +21,6 @@ export interface AppState {
   accounts: XTAccount[];
   networks: Network[];
   settings: XTSettings | null;
-}
-
-// TODO: remove me - it's obsolete
-export enum TempleChainId {
-  Mainnet = 'NetXdQprcVkpaWU',
-  Granadanet = 'NetXz969SFaFn8k',
-  Hangzhounet = 'NetXZSsxBpMQeAT',
-  Idiazabalnet = 'NetXxkAx4woPLyu'
 }
 
 export enum WalletStatus {

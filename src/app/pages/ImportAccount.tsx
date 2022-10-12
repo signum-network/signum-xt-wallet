@@ -4,7 +4,7 @@ import TabSwitcher from 'app/atoms/TabSwitcher';
 import { ReactComponent as DownloadIcon } from 'app/icons/download.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { T } from 'lib/i18n/react';
-import { useSetAccountPkh, useAllAccounts, useNetwork } from 'lib/temple/front';
+import { useSetCurrentAccount, useAllAccounts, useNetwork } from 'lib/temple/front';
 import { navigate } from 'lib/woozie';
 
 import { ByMnemonicForm } from './ImportAccount/ByMnemonicForm';
@@ -30,18 +30,18 @@ const AllTabs = [
 const ImportAccount: FC<ImportAccountProps> = ({ tabSlug }) => {
   const network = useNetwork();
   const allAccounts = useAllAccounts();
-  const setAccountPkh = useSetAccountPkh();
+  const setCurrentAccount = useSetCurrentAccount();
 
   const prevAccLengthRef = useRef(allAccounts.length);
   const prevNetworkRef = useRef(network);
   useEffect(() => {
     const accLength = allAccounts.length;
     if (prevAccLengthRef.current < accLength) {
-      setAccountPkh(allAccounts[accLength - 1].publicKey);
+      setCurrentAccount(allAccounts[accLength - 1]);
       navigate('/');
     }
     prevAccLengthRef.current = accLength;
-  }, [allAccounts, setAccountPkh]);
+  }, [allAccounts, setCurrentAccount]);
 
   const { slug, ImportForm } = useMemo(() => {
     const tab = tabSlug ? AllTabs.find(currentTab => currentTab.slug === tabSlug) : null;

@@ -80,18 +80,6 @@ export class Vault {
     });
   }
 
-  //
-  // // TODO: remove not used
-  // static async revealPrivateKey(accPublicKey: string, password: string) {
-  //   const passKey = await Vault.toValidPassKey(password);
-  //   console.log('revealPrivateKey', passKey)
-  //   return withError('Failed to reveal private key', async () => {
-  //     const privateKeySeed = await fetchAndDecryptOne<string>(accPrivKeyStrgKey(accPublicKey), passKey);
-  //     const signer = await createMemorySigner(privateKeySeed);
-  //     return signer.secretKey();
-  //   });
-  // }
-
   static async removeAccount(accPublicKey: string, password: string) {
     const passKey = await Vault.toValidPassKey(password);
     return withError('Failed to remove account', async doThrow => {
@@ -174,38 +162,6 @@ export class Vault {
       return [mnemonic, newAllAccounts];
     });
   }
-  //
-  // async importAccount(accPrivateKey: string, encPassword?: string) {
-  //   const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
-  //
-  //   return withError(errMessage, async () => {
-  //     const allAccounts = await this.fetchAccounts();
-  //     const signer = await createMemorySigner(accPrivateKey, encPassword);
-  //     const [realAccPrivateKey, accPublicKey, accPublicKey] = await Promise.all([
-  //       signer.secretKey(),
-  //       signer.publicKey(),
-  //       signer.publicKey()
-  //     ]);
-  //
-  //     const newAccount: XTAccount = {
-  //       type: XTAccountType.Eigen,
-  //       name: getNewAccountName(allAccounts),
-  //       publicKey: accPublicKey
-  //     };
-  //     const newAllAcounts = concatAccount(allAccounts, newAccount);
-  //
-  //     await encryptAndSaveMany(
-  //       [
-  //         [accPrivKeyStrgKey(accPublicKey), realAccPrivateKey],
-  //         [accPubKeyStrgKey(accPublicKey), accPublicKey],
-  //         [accountsStrgKey, newAllAcounts]
-  //       ],
-  //       this.passKey
-  //     );
-  //
-  //     return newAllAcounts;
-  //   });
-  // }
 
   async importAccountSignum(keys: Keys, name?: string): Promise<XTAccount[]> {
     const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
@@ -262,7 +218,13 @@ export class Vault {
       };
       const newAllAcounts = concatAccount(allAccounts, newAccount);
 
-      await encryptAndSaveMany([[accountsStrgKey, newAllAcounts]], this.passKey);
+      await encryptAndSaveMany(
+        [
+          [accPubKeyStrgKey(newAccount.accountId), newAccount.publicKey],
+          [accountsStrgKey, newAllAcounts]
+        ],
+        this.passKey
+      );
 
       return newAllAcounts;
     });

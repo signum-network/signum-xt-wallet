@@ -8,7 +8,7 @@ import { ReactComponent as AddIcon } from 'app/icons/add.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
 import { T, t } from 'lib/i18n/react';
-import { XTAccountType, useTempleClient, useAllAccounts, useSetAccountPkh } from 'lib/temple/front';
+import { XTAccountType, useTempleClient, useAllAccounts, useSetCurrentAccount } from 'lib/temple/front';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 import { navigate } from 'lib/woozie';
 
@@ -23,7 +23,7 @@ const SUBMIT_ERROR_TYPE = 'submit-error';
 const CreateAccount: FC = () => {
   const { importMnemonicAccount } = useTempleClient();
   const allAccounts = useAllAccounts();
-  const setAccountPkh = useSetAccountPkh();
+  const setCurrentAccount = useSetCurrentAccount();
   const [mnemonic, setMnemonic] = useState('');
 
   const allImportedAccounts = useMemo(
@@ -44,11 +44,11 @@ const CreateAccount: FC = () => {
   useEffect(() => {
     const accLength = allAccounts.length;
     if (prevAccLengthRef.current < accLength) {
-      setAccountPkh(allAccounts[accLength - 1].publicKey);
+      setCurrentAccount(allAccounts[accLength - 1]);
       navigate('/');
     }
     prevAccLengthRef.current = accLength;
-  }, [allAccounts, setAccountPkh]);
+  }, [allAccounts, setCurrentAccount]);
 
   const { register, errors, setError, clearError, formState, watch } = useForm<FormData>({
     defaultValues: { name: defaultName }
