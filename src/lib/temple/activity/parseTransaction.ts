@@ -133,11 +133,11 @@ export function parseTransaction(
   } else if (isBuyTokenOrder(tx)) {
     item.type = TransactionItemType.BuyOrder;
     // @ts-ignore
-    item.fulfilled = isTokenView;
+    // item.fulfilled = isTokenView;
   } else if (isSellTokenOrder(tx)) {
     item.type = TransactionItemType.SellOrder;
     // @ts-ignore
-    item.fulfilled = isTokenView;
+    // item.fulfilled = isTokenView;
   } else {
     item.type = TransactionItemType.Other;
     // TODO: name the type more precisely

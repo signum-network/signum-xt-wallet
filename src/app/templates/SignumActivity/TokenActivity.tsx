@@ -27,7 +27,7 @@ interface LiteTokenTransaction {
 async function fetchTokenTransactionIds(args: FetchArgs): Promise<string[]> {
   const { signum, accountId, tokenId } = args;
   let transactions: LiteTokenTransaction[] = [];
-  const [{ trades }, { transfers }, { transactions: distributions }] = await Promise.all([
+  const [{ trades }, { transfers }, { transactions: distributions }, { askOrders }, { bidOrders }] = await Promise.all([
     signum.asset.getAssetTrades({ accountId, assetId: tokenId }),
     signum.asset.getAssetTransfers({ accountId, assetId: tokenId }),
     signum.account.getAccountTransactions({
@@ -35,10 +35,15 @@ async function fetchTokenTransactionIds(args: FetchArgs): Promise<string[]> {
       type: TransactionType.Asset,
       subtype: TransactionAssetSubtype.AssetDistributeToHolders,
       includeIndirect: true
-    })
+    }),
+    signum.asset.getOpenAskOrdersPerAccount({ accountId, assetId: tokenId }),
+    signum.asset.getOpenBidOrdersPerAccount({ accountId, assetId: tokenId })
   ]);
 
   const tokenDistributions = distributions.filter(tx => tx.attachment.assetToDistribute === tokenId);
+  // TODO: this is just a work around.... once the orders come with timestamp we can get rid of next lines
+  const orderTxRequests = askOrders.concat(...bidOrders).map(({ order }) => signum.transaction.getTransaction(order));
+  const orders = await Promise.all(orderTxRequests);
 
   transactions.push(
     ...trades.map(t => ({
@@ -50,6 +55,10 @@ async function fetchTokenTransactionIds(args: FetchArgs): Promise<string[]> {
       transactionId: t.assetTransfer
     })),
     ...tokenDistributions.map(t => ({
+      timestamp: t.timestamp,
+      transactionId: t.transaction
+    })),
+    ...orders.map(t => ({
       timestamp: t.timestamp,
       transactionId: t.transaction
     }))

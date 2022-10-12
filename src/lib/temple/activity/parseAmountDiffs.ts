@@ -64,7 +64,9 @@ function parseQuantityDiffs(tx: Transaction, accountId: string, tokenMetadata: A
     quantityQNT = tx.attachment.quantitiesQNT[index];
   }
 
-  if (tx.recipient && tx.recipient !== accountId) {
+  const isOutgoing = tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders || tx.recipient !== accountId;
+
+  if (isOutgoing) {
     return {
       diff: ChainValue.create(tokenMetadata.decimals)
         .setAtomic('-' + quantityQNT)
@@ -73,12 +75,14 @@ function parseQuantityDiffs(tx: Transaction, accountId: string, tokenMetadata: A
   }
 
   if (tx.distribution) {
+    // received distribution
     return {
       diff: ChainValue.create(tokenMetadata.decimals).setAtomic(tx.distribution.quantityQNT).getCompound()
     };
   }
 
   return {
+    // simple transfer
     diff: ChainValue.create(tokenMetadata.decimals).setAtomic(quantityQNT).getCompound()
   };
 }

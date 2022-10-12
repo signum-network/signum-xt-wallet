@@ -127,13 +127,13 @@ const TxItemComponent = memo<TxItemComponentProps>(({ item, isFullPage }) => {
         };
       case TransactionItemType.BuyOrder:
         return {
-          base: <>↓ {item.fulfilled ? <T id="buyOrderFulfilled" /> : <T id="buyOrder" />}</>,
+          base: <>↓💱 {item.fulfilled ? <T id="buyOrderFulfilled" /> : <T id="buyOrder" />}</>,
           argsI18nKey: item.fulfilled ? 'transferFromSmb' : undefined,
           args: [item.from]
         };
       case TransactionItemType.SellOrder:
         return {
-          base: <>↑ {item.fulfilled ? <T id="saleOrderFulfilled" /> : <T id="saleOrder" />}</>,
+          base: <>↑💱 {item.fulfilled ? <T id="saleOrderFulfilled" /> : <T id="saleOrder" />}</>,
           argsI18nKey: item.fulfilled ? 'transferToSmb' : undefined,
           args: [item.to]
         };

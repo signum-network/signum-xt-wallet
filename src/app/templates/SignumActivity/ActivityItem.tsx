@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 
-import { Transaction } from '@signumjs/core';
+import { Transaction, TransactionAssetSubtype, TransactionType } from '@signumjs/core';
 import { Amount, ChainTime } from '@signumjs/util';
 import classNames from 'clsx';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
@@ -45,6 +45,12 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId,
     [transaction, accountId, prefix, tokenId]
   );
 
+  const isOrder =
+    transaction.type === TransactionType.Asset &&
+    (transaction.subtype === TransactionAssetSubtype.AskOrderPlacement ||
+      transaction.subtype === TransactionAssetSubtype.BidOrderPlacement ||
+      transaction.subtype === TransactionAssetSubtype.AskOrderCancellation ||
+      transaction.subtype === TransactionAssetSubtype.BidOrderCancellation);
   const isPending = transaction.confirmations === undefined;
 
   const transactionStatus = useMemo(() => {
@@ -84,7 +90,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId,
         <div className="flex-1" />
 
         <div className="flex flex-col flex-shrink-0">
-          <MoneyDiffView tokenId={tokenId} diff={moneyDiff.diff} pending={isPending} />
+          <MoneyDiffView tokenId={tokenId} diff={moneyDiff.diff} pending={isPending || isOrder} />
           <div className="text-xs text-gray-700 text-right">
             {feeAmount} {SIGNA_METADATA.symbol}
           </div>
