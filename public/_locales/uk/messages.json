@@ -1135,14 +1135,6 @@
     "message": "напр. S-6SJC-..., 17332... або петр",
     "description": "foobar = псевдонім Signum"
   },
-  "tokenNotFound": {
-    "message": "Контракт $address$, на який посилається контракт із маркером, не знайдено.",
-    "placeholders": {
-      "tokenId": {
-        "content": "$1"
-      }
-    }
-  },
   "reject": {
     "message": "Відхилити"
   },
@@ -1336,9 +1328,6 @@
   },
   "tokenId": {
     "message": "Ідентифікатор токена"
-  },
-  "tokenIdInputDescription": {
-    "message": "Ціле невід’ємне число, яке ідентифікує актив у контракті FA2"
   },
   "tokenNameInputDescription": {
     "message": "Назва активу, напр. «Біткойн» для активу BTC."
@@ -1880,5 +1869,124 @@
   },
   "tokenDistribution": {
     "message": "Розповсюдження власників токенів"
+  },
+  "autoLoadTokens": {
+    "message": "Імпортуйте свої токени"
+  },
+  "availableBalance": {
+    "message": "Доступний залишок"
+  },
+  "burn": {
+    "message": "спалити"
+  },
+  "burnAddress": {
+    "message": "Burn-адресу"
+  },
+  "buyOrder": {
+    "message": "купити"
+  },
+  "buyOrderFulfilled": {
+    "message": "Купив"
+  },
+  "cancelBuyOrder": {
+    "message": "Скасувати замовлення на покупку"
+  },
+  "cancelSaleOrder": {
+    "message": "Скасувати замовлення на продаж"
+  },
+  "committedBalance": {
+    "message": "Здійснений баланс"
+  },
+  "createBuyOrder": {
+    "message": "Створити замовлення на покупку"
+  },
+  "createSaleOrder": {
+    "message": "Створення замовлення на продаж"
+  },
+  "deleteAllTokensConfirm": {
+    "message": "Ви дійсно хочете видалити всі додані маркери?"
+  },
+  "distribution": {
+    "message": "Розподіл"
+  },
+  "distributionForAllWith": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$3"
+      }
+    },
+    "message": "роздайте $amount$ $signa$ усім, хто має $symbol$"
+  },
+  "distributionForAllWithAtLeast": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "quantity": {
+        "content": "$3"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$4"
+      }
+    },
+    "message": "роздайте $amount$ $signa$ усім, хто має принаймні $quantity$ $symbol$"
+  },
+  "eachFor": {
+    "message": "кожен за"
+  },
+  "messageRecepientInputDescriptionWithDomain": {
+    "message": "Адреса, ідентифікатор або псевдонім для надсилання повідомлення."
+  },
+  "openInExplorer": {
+    "message": "Відкрийте в Провіднику"
+  },
+  "removeAllAddedTokens": {
+    "message": "Видалити все"
+  },
+  "reserving": {
+    "message": "резервування"
+  },
+  "saleOrder": {
+    "message": "Продати"
+  },
+  "saleOrderFulfilled": {
+    "message": "Продано"
+  },
+  "sendToAddress": {
+    "message": "Надішліть Signa на цю адресу"
+  },
+  "tokenAlreadyAddedDescription": {
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    },
+    "message": "Даний маркер $tokenId$ уже додано."
+  },
+  "tokenAlreadyAddedError": {
+    "message": "Токен уже додано"
+  },
+  "tokenNotFoundDescription": {
+    "message": "Наданий ідентифікатор маркера $tokenId$ не дозволив жодного дійсного маркера. Перевірте ідентифікатор токена або вибрану мережу",
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenNotFoundError": {
+    "message": "Токен не існує"
+  },
+  "transferToMany": {
+    "message": "забагато"
   }
 }

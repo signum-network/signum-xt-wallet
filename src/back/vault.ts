@@ -284,7 +284,7 @@ export class Vault {
   }
 
   async getSignumTxKeys(accPublicKey: string) {
-    return withError('Failed to fetch Signum transaction keys', async () => {
+    return withError('Failed to fetch the signing keys - Do you use a Watch Only Account?', async () => {
       const accountId = Address.fromPublicKey(accPublicKey).getNumericId();
 
       const [signingKey, p2pEncryptionKey, publicKey] = await Promise.all([

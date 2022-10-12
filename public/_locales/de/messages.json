@@ -1329,9 +1329,6 @@
   "tokenId": {
     "message": "Token-ID"
   },
-  "tokenIdInputDescription": {
-    "message": "Eine nicht negative ganze Zahl, die den Token innerhalb des FA2-Vertrags identifiziert"
-  },
   "tokenNameInputDescription": {
     "message": "Name des Tokens, z.B. 'Bitcoin' für BTC."
   },
@@ -1875,5 +1872,121 @@
   },
   "tokenDistribution": {
     "message": "Token-Holder-Verteilung"
+  },
+  "autoLoadTokens": {
+    "message": "Importieren Sie Ihre Tokens"
+  },
+  "availableBalance": {
+    "message": "Verfügbares Guthaben"
+  },
+  "burn": {
+    "message": "Verbrennen"
+  },
+  "burnAddress": {
+    "message": "Burn-Adresse"
+  },
+  "buyOrder": {
+    "message": "Kaufen"
+  },
+  "buyOrderFulfilled": {
+    "message": "Gekauft"
+  },
+  "cancelBuyOrder": {
+    "message": "Kaufauftrag stornieren"
+  },
+  "cancelSaleOrder": {
+    "message": "Verkaufsauftrag stornieren"
+  },
+  "committedBalance": {
+    "message": "Commitment"
+  },
+  "createBuyOrder": {
+    "message": "Kaufauftrag erstellen"
+  },
+  "createSaleOrder": {
+    "message": "Verkaufsauftrag erstellen"
+  },
+  "deleteAllTokensConfirm": {
+    "message": "Möchten Sie wirklich alle hinzugefügten Token löschen?"
+  },
+  "distribution": {
+    "message": "Verteilung"
+  },
+  "distributionForAllWith": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$3"
+      }
+    },
+    "message": "Verteile $amount$ $signa$ an alle mit $symbol$"
+  },
+  "distributionForAllWithAtLeast": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "quantity": {
+        "content": "$3"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$4"
+      }
+    },
+    "message": "Verteile $amount$ $signa$ an alle mit mindestens $quantity$ $symbol$"
+  },
+  "eachFor": {
+    "message": "jeweils für"
+  },
+  "messageRecepientInputDescriptionWithDomain": {
+    "message": "Adresse, ID oder Alias, an die eine Nachricht gesendet werden soll."
+  },
+  "openInExplorer": {
+    "message": "Im Explorer öffnen"
+  },
+  "removeAllAddedTokens": {
+    "message": "Alles entfernen"
+  },
+  "reserving": {
+    "message": "reservieren"
+  },
+  "saleOrder": {
+    "message": "Verkaufen"
+  },
+  "saleOrderFulfilled": {
+    "message": "Verkauft"
+  },
+  "sendToAddress": {
+    "message": "Signa an diese Adresse senden"
+  },
+  "tokenAlreadyAddedDescription": {
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    },
+    "message": "Token $tokenId$ ist bereits hinzugefügt."
+  },
+  "tokenAlreadyAddedError": {
+    "message": "Token bereits hinzugefügt"
+  },
+  "tokenNotFoundDescription": {
+    "message": "Unter der angegebenen Token-ID $tokenId$ wurde in kein Token gefunden. Bitte überprüfen Sie die Token-ID oder das ausgewählte Netzwerk",
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    }
+  },
+  "transferToMany": {
+    "message": "an viele"
   }
 }

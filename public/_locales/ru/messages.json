@@ -1132,14 +1132,6 @@
     "message": "например S-6SJC-..., 17332... или Иван",
     "description": "foobar = никнейм Signum"
   },
-  "tokenNotFound": {
-    "message": "Контракт $address$, на который ссылается контракт токена, не найден.",
-    "placeholders": {
-      "tokenId": {
-        "content": "$1"
-      }
-    }
-  },
   "reject": {
     "message": "Отклонить"
   },
@@ -1333,9 +1325,6 @@
   },
   "tokenId": {
     "message": "Идентификатор токена"
-  },
-  "tokenIdInputDescription": {
-    "message": "Неотрицательное целое число, идентифицирующее актив в контракте FA2."
   },
   "tokenNameInputDescription": {
     "message": "Название актива, например «Биткойн» для актива BTC."
@@ -1880,5 +1869,124 @@
   },
   "tokenDistribution": {
     "message": "Распределение держателей токенов"
+  },
+  "autoLoadTokens": {
+    "message": "Импортируйте свои токены"
+  },
+  "availableBalance": {
+    "message": "доступные средства"
+  },
+  "burn": {
+    "message": "Гореть"
+  },
+  "burnAddress": {
+    "message": "Burn-адрес"
+  },
+  "buyOrder": {
+    "message": "Купить"
+  },
+  "buyOrderFulfilled": {
+    "message": "Купленный"
+  },
+  "cancelBuyOrder": {
+    "message": "Отменить заказ на покупку"
+  },
+  "cancelSaleOrder": {
+    "message": "Отменить заказ на продажу"
+  },
+  "committedBalance": {
+    "message": "Зарезервированный баланс"
+  },
+  "createBuyOrder": {
+    "message": "Создать заказ на покупку"
+  },
+  "createSaleOrder": {
+    "message": "Создать ордер на продажу"
+  },
+  "deleteAllTokensConfirm": {
+    "message": "Вы действительно хотите удалить все добавленные токены?"
+  },
+  "distribution": {
+    "message": "Распределение"
+  },
+  "distributionForAllWith": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$3"
+      }
+    },
+    "message": "распределите $amount$ $signa$ всем, у кого есть $symbol$"
+  },
+  "distributionForAllWithAtLeast": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "quantity": {
+        "content": "$3"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$4"
+      }
+    },
+    "message": "распределите $amount$ $signa$ всем, у кого есть хотя бы $quantity$ $symbol$"
+  },
+  "eachFor": {
+    "message": "каждый для"
+  },
+  "messageRecepientInputDescriptionWithDomain": {
+    "message": "Адрес, идентификатор или псевдоним для отправки сообщения."
+  },
+  "openInExplorer": {
+    "message": "Открыть в проводнике"
+  },
+  "removeAllAddedTokens": {
+    "message": "Убрать все"
+  },
+  "reserving": {
+    "message": "оговорка"
+  },
+  "saleOrder": {
+    "message": "Продавать"
+  },
+  "saleOrderFulfilled": {
+    "message": "Продано"
+  },
+  "sendToAddress": {
+    "message": "Отправить Signa на этот адрес"
+  },
+  "tokenAlreadyAddedDescription": {
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    },
+    "message": "Данный токен $tokenId$ уже добавлен."
+  },
+  "tokenAlreadyAddedError": {
+    "message": "Токен уже добавлен"
+  },
+  "tokenNotFoundDescription": {
+    "message": "Указанный идентификатор токена $tokenId$ не разрешается ни в один действительный токен. Пожалуйста, проверьте идентификатор токена или выбранную сеть",
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenNotFoundError": {
+    "message": "Токен не существует"
+  },
+  "transferToMany": {
+    "message": "слишком много"
   }
 }

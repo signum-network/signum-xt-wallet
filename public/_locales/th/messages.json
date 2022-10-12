@@ -1135,14 +1135,6 @@
     "message": "เช่น S-6SJC-..., 17332... or peter",
     "description": "foobar = Signum Alias"
   },
-  "tokenNotFound": {
-    "message": "ไม่พบสัญญาของ $address$ ที่อ้างอิงจากสัญญาของ Token",
-    "placeholders": {
-      "tokenId": {
-        "content": "$1"
-      }
-    }
-  },
   "reject": {
     "message": "ปฏิเสธ"
   },
@@ -1250,7 +1242,7 @@
     "message": "Something went wrong"
   },
   "smthWentWrongWhile": {
-    "message": "พบ error ตอนที่ทำ $action$",
+    "message": "เกิดข้อผิดพลาดกับ $action$",
     "placeholders": {
       "action": {
         "content": "$1"
@@ -1258,13 +1250,13 @@
     }
   },
   "social": {
-    "message": "Social"
+    "message": "ทางสังคม"
   },
   "soon": {
-    "message": "Soon"
+    "message": "เร็วๆ นี้"
   },
   "sorry": {
-    "message": "Sorry!"
+    "message": "เสียใจ!"
   },
   "sortBy": {
     "message": "เรียงจาก"
@@ -1273,7 +1265,7 @@
     "message": "พื้นที่ว่าง"
   },
   "step": {
-    "message": "Step"
+    "message": "ขั้นตอน"
   },
   "storageFee": {
     "message": "ค่า Storage Fee"
@@ -1282,10 +1274,10 @@
     "message": "ค่า Storage Fee (สูงสุด)"
   },
   "storageLimit": {
-    "message": "Adjust Memory Limit"
+    "message": "ปรับขีดจำกัดหน่วยความจำ"
   },
   "submit": {
-    "message": "Submit"
+    "message": "ส่ง"
   },
   "success": {
     "message": "สำเร็จ"
@@ -1297,10 +1289,10 @@
     "message": "แลกเปลี่ยน"
   },
   "symbol": {
-    "message": "Symbol"
+    "message": "เครื่องหมาย"
   },
   "templeWalletOptions": {
-    "message": "XT Wallet | options"
+    "message": "กระเป๋าเงิน XT | ตัวเลือก"
   },
   "termsOfUsage": {
     "message": "ข้อตกลงของการใช้งาน"
@@ -1335,10 +1327,7 @@
     "message": "เช่น KT1v9CmPy..."
   },
   "tokenId": {
-    "message": "Token ID"
-  },
-  "tokenIdInputDescription": {
-    "message": "A non-negative integer that identifies the asset within the FA2 contract"
+    "message": "รหัสโทเค็น"
   },
   "tokenNameInputDescription": {
     "message": "ชื่อ Asset เช่น 'Bitcoin' สำหรับ BTC asset."
@@ -1359,10 +1348,10 @@
     "message": "เฉพาะตัวอักษร a-z, A-Z, 0-9 และความยาว 2 ถึง 5 ตัวอักษร"
   },
   "tokenType": {
-    "message": "Token Type"
+    "message": "ประเภทโทเค็น"
   },
   "tokens": {
-    "message": "Tokens"
+    "message": "โทเค็น"
   },
   "tokensRecepientInputDescription": {
     "message": "Address หรือ ID ที่จะส่ง $assetSymbol$ ให้",
@@ -1447,10 +1436,10 @@
     "message": "ธุรกรรมไม่สามารถส่งไปยังผู้รับที่ระบุได้"
   },
   "undelegation": {
-    "message": "Non-delegation"
+    "message": "ไม่ใช่ตัวแทน"
   },
   "unknownErrorCheckingSomeEntrypoint": {
-    "message": "An unknown error occurred while validating the entry point '$name$'.",
+    "message": "เกิดข้อผิดพลาดที่ไม่รู้จักขณะตรวจสอบจุดเข้าใช้งาน '$name$'",
     "placeholders": {
       "name": {
         "content": "$1"
@@ -1466,7 +1455,7 @@
     }
   },
   "unknownParseErrorOccurred": {
-    "message": "An unknown parsing error has occurred."
+    "message": "เกิดข้อผิดพลาดในการแยกวิเคราะห์ที่ไม่รู้จัก"
   },
   "unlock": {
     "message": "ปลดล็อค"
@@ -1880,5 +1869,124 @@
   },
   "tokenDistribution": {
     "message": "การกระจายผู้ถือโทเค็น"
+  },
+  "autoLoadTokens": {
+    "message": "นำเข้าโทเค็นของคุณ"
+  },
+  "availableBalance": {
+    "message": "ยอดเงินคงเหลือ"
+  },
+  "burn": {
+    "message": "เผา"
+  },
+  "burnAddress": {
+    "message": "เบิร์นที่อยู่"
+  },
+  "buyOrder": {
+    "message": "ซื้อ"
+  },
+  "buyOrderFulfilled": {
+    "message": "ซื้อแล้ว"
+  },
+  "cancelBuyOrder": {
+    "message": "ยกเลิกการสั่งซื้อ"
+  },
+  "cancelSaleOrder": {
+    "message": "ยกเลิกคำสั่งขาย"
+  },
+  "committedBalance": {
+    "message": "ภาระผูกพัน"
+  },
+  "createBuyOrder": {
+    "message": "สร้างคำสั่งซื้อ"
+  },
+  "createSaleOrder": {
+    "message": "สร้างคำสั่งขาย"
+  },
+  "deleteAllTokensConfirm": {
+    "message": "คุณต้องการลบโทเค็นที่เพิ่มทั้งหมดหรือไม่"
+  },
+  "distribution": {
+    "message": "การกระจาย"
+  },
+  "distributionForAllWith": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$3"
+      }
+    },
+    "message": "แจกจ่าย $amount$ $signa$ ให้กับทุกคนที่มี $symbol$"
+  },
+  "distributionForAllWithAtLeast": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "quantity": {
+        "content": "$3"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$4"
+      }
+    },
+    "message": "แจกจ่าย $amount$ $signa$ ให้กับทุกคนด้วยอย่างน้อย $quantity$ $symbol$"
+  },
+  "eachFor": {
+    "message": "แต่ละสำหรับ"
+  },
+  "messageRecepientInputDescriptionWithDomain": {
+    "message": "ที่อยู่ ID หรือนามแฝงที่จะส่งข้อความถึง"
+  },
+  "openInExplorer": {
+    "message": "เปิดใน Explorer"
+  },
+  "removeAllAddedTokens": {
+    "message": "ลบทั้งหมด"
+  },
+  "reserving": {
+    "message": "การจอง"
+  },
+  "saleOrder": {
+    "message": "ขาย"
+  },
+  "saleOrderFulfilled": {
+    "message": "ขายแล้ว"
+  },
+  "sendToAddress": {
+    "message": "ส่ง Signa ไปยังที่อยู่นี้"
+  },
+  "tokenAlreadyAddedDescription": {
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    },
+    "message": "เพิ่มโทเค็น $tokenId$ ที่กำหนดแล้ว"
+  },
+  "tokenAlreadyAddedError": {
+    "message": "เพิ่มโทเค็นแล้ว"
+  },
+  "tokenNotFoundDescription": {
+    "message": "รหัสโทเค็นที่กำหนด $tokenId$ ไม่ได้แก้ไขโทเค็นที่ถูกต้องใดๆ โปรดตรวจสอบรหัสโทเค็นหรือเครือข่ายที่เลือก",
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenNotFoundError": {
+    "message": "ไม่มีโทเค็น"
+  },
+  "transferToMany": {
+    "message": "มากมาย"
   }
 }

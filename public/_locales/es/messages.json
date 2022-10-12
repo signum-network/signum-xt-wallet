@@ -1132,14 +1132,6 @@
     "message": "por ejemplo, S-6SJC-..., 17332... o juan",
     "description": "foobar = alias de cuenta en signum"
   },
-  "tokenNotFound": {
-    "message": "No se encontró el contrato $address$ al que hace referencia el contrato token.",
-    "placeholders": {
-      "tokenId": {
-        "content": "$1"
-      }
-    }
-  },
   "reject": {
     "message": "Rechazar"
   },
@@ -1333,9 +1325,6 @@
   },
   "tokenId": {
     "message": "ID del token"
-  },
-  "tokenIdInputDescription": {
-    "message": "Un número entero no negativo que identifica el activo dentro del contrato FA2"
   },
   "tokenNameInputDescription": {
     "message": "Nombre del activo, por ejemplo, 'Bitcoin' para el activo BTC."
@@ -1880,5 +1869,124 @@
   },
   "tokenDistribution": {
     "message": "Distribución de titulares de tokens"
+  },
+  "autoLoadTokens": {
+    "message": "Importa tus fichas"
+  },
+  "availableBalance": {
+    "message": "Saldo disponible"
+  },
+  "burn": {
+    "message": "Quemar"
+  },
+  "burnAddress": {
+    "message": "Dirección de quemado"
+  },
+  "buyOrder": {
+    "message": "Comprar"
+  },
+  "buyOrderFulfilled": {
+    "message": "Comprado"
+  },
+  "cancelBuyOrder": {
+    "message": "Cancelar orden de compra"
+  },
+  "cancelSaleOrder": {
+    "message": "Cancelar orden de venta"
+  },
+  "committedBalance": {
+    "message": "Saldo comprometido"
+  },
+  "createBuyOrder": {
+    "message": "Crear orden de compra"
+  },
+  "createSaleOrder": {
+    "message": "Crear orden de venta"
+  },
+  "deleteAllTokensConfirm": {
+    "message": "¿Realmente desea eliminar todos los tokens agregados?"
+  },
+  "distribution": {
+    "message": "Distribución"
+  },
+  "distributionForAllWith": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$3"
+      }
+    },
+    "message": "distribuir $amount$ $signa$ a todos los que tengan $symbol$"
+  },
+  "distributionForAllWithAtLeast": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "quantity": {
+        "content": "$3"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$4"
+      }
+    },
+    "message": "distribuir $amount$ $signa$ a todos con al menos $quantity$ $symbol$"
+  },
+  "eachFor": {
+    "message": "cada uno para"
+  },
+  "messageRecepientInputDescriptionWithDomain": {
+    "message": "Dirección, ID o alias para enviar un mensaje."
+  },
+  "openInExplorer": {
+    "message": "Abrir en el explorador"
+  },
+  "removeAllAddedTokens": {
+    "message": "Eliminar todo"
+  },
+  "reserving": {
+    "message": "reservando"
+  },
+  "saleOrder": {
+    "message": "Vender"
+  },
+  "saleOrderFulfilled": {
+    "message": "Vendido"
+  },
+  "sendToAddress": {
+    "message": "Enviar Signa a esta dirección"
+  },
+  "tokenAlreadyAddedDescription": {
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    },
+    "message": "El token dado $tokenId$ ya está agregado."
+  },
+  "tokenAlreadyAddedError": {
+    "message": "Token ya agregado"
+  },
+  "tokenNotFoundDescription": {
+    "message": "El identificador de token proporcionado $tokenId$ no se resolvió en ningún token válido. Verifique la identificación del token o la red seleccionada",
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    }
+  },
+  "tokenNotFoundError": {
+    "message": "la ficha no existe"
+  },
+  "transferToMany": {
+    "message": "demasiados"
   }
 }
