@@ -6,8 +6,11 @@
   "scripts": {
     "start": "yarn watch:src",
     "dev": "concurrently yarn:watch:*",
+    "dev:ff": "concurrently yarn:watch-ff:*",
     "watch:src": "cross-env NODE_ENV=development MANIFEST_VERSION=3 webpack --watch --progress",
     "watch:dist": "mv3-hot-reload",
+    "watch-ff:src": "cross-env NODE_ENV=development MANIFEST_VERSION=2 TARGET_BROWSER=firefox webpack --watch --progress",
+    "watch--f:dist": "mv3-hot-reload",
     "build": "cross-env NODE_ENV=production webpack",
     "prebuild": "rimraf ./dist && yarn clear:webpack-cache",
     "build-all": "rimraf ./dist && run-s build:*",

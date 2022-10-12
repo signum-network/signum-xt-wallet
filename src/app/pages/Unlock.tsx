@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'clsx';
 import { useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { useLocalStorage, useTempleClient, XTSharedStorageKey } from 'lib/temple/front';
 import { Link } from 'lib/woozie';
+import * as Woozie from 'lib/woozie';
 
 interface UnlockProps {
   canImportNew?: boolean;
@@ -52,6 +53,10 @@ const Unlock: FC<UnlockProps> = ({ canImportNew = true }) => {
 
   const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
   const submitting = formState.isSubmitting;
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const onSubmit = useCallback(
     async ({ password }) => {
