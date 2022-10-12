@@ -1,14 +1,24 @@
 # Changelog
 
-## 1.3.0 (TBR)
+## 1.3.0
+
+### New features
 
 - Added Token Support
+- Introduced a context menu on web pages to operate on selected Signum Addresses (#43)
+
+### Enhancements
+
+- Added several new/missing transaction previews for the confirmation dialog (#44, #45, #47, #49)
 - Removed automatic Hex detection for P2P messages (#50)
+- DApps Account Events deliver account type now, whether it is "watch only" or not (#46)
+- Major cleanups, i.e. removed all tezos dependencies
 
 ### Bugfixes
 
 - Fixed P2P Message rendering failure on messages to self
 - Fixed Burn Address alias resolving (#42)
+- Added featured US Central Node (#41)
 
 ## 1.2.3
 
