@@ -64,7 +64,10 @@ function parseQuantityDiffs(tx: Transaction, accountId: string, tokenMetadata: A
     quantityQNT = tx.attachment.quantitiesQNT[index];
   }
 
-  const isOutgoing = tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders || tx.recipient !== accountId;
+  const isOutgoing =
+    tx.subtype !== TransactionAssetSubtype.AssetMint &&
+    tx.subtype !== TransactionAssetSubtype.AssetIssuance &&
+    (tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders || tx.recipient !== accountId);
 
   if (isOutgoing) {
     return {

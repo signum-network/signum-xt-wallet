@@ -78,9 +78,10 @@ const SignView: FC<OperationViewProps> = ({ payload }) => {
 
     const isSellOrder = txType === TransactionType.Asset && txSubtype === TransactionAssetSubtype.AskOrderPlacement;
     const isBuyOrder = txType === TransactionType.Asset && txSubtype === TransactionAssetSubtype.BidOrderPlacement;
+    const isMinting = txType === TransactionType.Asset && txSubtype === TransactionAssetSubtype.AssetMint;
 
     return expenses
-      .filter(({ tokenId, quantity }) => tokenId && quantity)
+      .filter(({ tokenId, quantity }) => tokenId && quantity && !isMinting)
       .map(({ tokenId, quantity, price }) => ({
         tokenId: tokenId!,
         quantity: quantity!,
@@ -158,6 +159,8 @@ interface TotalQuantityProps {
 const TotalQuantityDisplay = memo<TotalQuantityProps>(({ tokenId, quantity, price, isReserved }) => {
   const tokenMetadata = useSignumAssetMetadata(tokenId);
   const signaMetadata = useSignumAssetMetadata();
+
+  if (!tokenMetadata) return null;
 
   const tokenQuantity = new BigNumber(
     ChainValue.create(tokenMetadata.decimals)

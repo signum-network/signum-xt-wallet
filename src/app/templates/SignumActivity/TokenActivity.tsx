@@ -27,20 +27,22 @@ interface LiteTokenTransaction {
 async function fetchTokenTransactionIds(args: FetchArgs): Promise<string[]> {
   const { signum, accountId, tokenId } = args;
   let transactions: LiteTokenTransaction[] = [];
-  const [{ trades }, { transfers }, { transactions: distributions }, { askOrders }, { bidOrders }] = await Promise.all([
-    signum.asset.getAssetTrades({ accountId, assetId: tokenId }),
-    signum.asset.getAssetTransfers({ accountId, assetId: tokenId }),
-    signum.account.getAccountTransactions({
-      accountId,
-      type: TransactionType.Asset,
-      subtype: TransactionAssetSubtype.AssetDistributeToHolders,
-      includeIndirect: true
-    }),
-    signum.asset.getOpenAskOrdersPerAccount({ accountId, assetId: tokenId }),
-    signum.asset.getOpenBidOrdersPerAccount({ accountId, assetId: tokenId })
-  ]);
+  const [{ trades }, { transfers }, { transactions: tokenTransactions }, { askOrders }, { bidOrders }] =
+    await Promise.all([
+      signum.asset.getAssetTrades({ accountId, assetId: tokenId }),
+      signum.asset.getAssetTransfers({ accountId, assetId: tokenId }),
+      signum.account.getAccountTransactions({
+        accountId,
+        type: TransactionType.Asset,
+        includeIndirect: true
+      }),
+      signum.asset.getOpenAskOrdersPerAccount({ accountId, assetId: tokenId }),
+      signum.asset.getOpenBidOrdersPerAccount({ accountId, assetId: tokenId })
+    ]);
 
-  const tokenDistributions = distributions.filter(tx => tx.attachment.assetToDistribute === tokenId);
+  const tokenOperations = tokenTransactions.filter(
+    tx => tx.attachment.assetToDistribute === tokenId || tx.attachment.asset === tokenId || tx.transaction === tokenId // token issuance - manually - does not cover SC issuances
+  );
   // TODO: this is just a work around.... once the orders come with timestamp we can get rid of next lines
   const orderTxRequests = askOrders.concat(...bidOrders).map(({ order }) => signum.transaction.getTransaction(order));
   const orders = await Promise.all(orderTxRequests);
@@ -54,7 +56,7 @@ async function fetchTokenTransactionIds(args: FetchArgs): Promise<string[]> {
       timestamp: t.timestamp,
       transactionId: t.assetTransfer
     })),
-    ...tokenDistributions.map(t => ({
+    ...tokenOperations.map(t => ({
       timestamp: t.timestamp,
       transactionId: t.transaction
     })),

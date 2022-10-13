@@ -12,7 +12,6 @@ import { getDateFnsLocale, t } from 'lib/i18n/react';
 import { parseTransaction, parseAmountDiffs } from 'lib/temple/activity';
 import {
   SIGNA_METADATA,
-  SIGNA_TOKEN_ID,
   useSignumAccountPrefix,
   useSignumAssetMetadata,
   useSignumExplorerBaseUrls
@@ -41,7 +40,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId,
   );
   const feeAmount = useMemo(() => Amount.fromPlanck(transaction.feeNQT).getSigna(), [transaction.feeNQT]);
   const parsedTransaction = useMemo(
-    () => parseTransaction(transaction, accountId, prefix, tokenId !== SIGNA_TOKEN_ID),
+    () => parseTransaction(transaction, accountId, prefix),
     [transaction, accountId, prefix, tokenId]
   );
 

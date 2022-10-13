@@ -1966,7 +1966,7 @@
     "message": "Message from"
   },
   "tokenIssuance": {
-    "message": "Token Creation"
+    "message": "Token Issuance"
   },
   "tokenMint": {
     "message": "Token Minting"

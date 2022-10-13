@@ -26,8 +26,6 @@ type TransactionViewProps = {
 const TransactionView: FC<TransactionViewProps> = ({ transaction }) => {
   if (!transaction) return null;
 
-  console.log('TransactionView', transaction);
-
   return (
     <div className="text-gray-700 text-sm">
       <div className="relative rounded-md overflow-y-auto border flex flex-col text-gray-700 text-sm leading-tight h-40">
@@ -62,28 +60,31 @@ type ExpenseViewItemProps = {
   txSubtype: number;
 };
 
-const ExpenseViewItem: FC<ExpenseViewItemProps> = ({
-  expense,
-  first,
-  last,
-  type,
-  isForTokenHolder,
-  txType,
-  txSubtype
-}) => {
+function getExpenseView({ txType, txSubtype, expense, isForTokenHolder }: ExpenseViewItemProps) {
+  if (
+    txType === TransactionType.Asset &&
+    (txSubtype === TransactionAssetSubtype.BidOrderPlacement || txSubtype === TransactionAssetSubtype.AskOrderPlacement)
+  ) {
+    return <OrderDisplay expense={expense} />;
+  }
+
+  if (isForTokenHolder) {
+    return <ForTokenHolderDisplay expense={expense} />;
+  }
+
+  if (txType === TransactionType.Asset && txSubtype === TransactionAssetSubtype.AssetIssuance) {
+    return <TokenIssuanceDisplay expense={expense} />;
+  }
+
+  return <OperationVolumeDisplay expense={expense} />;
+}
+
+const ExpenseViewItem: FC<ExpenseViewItemProps> = props => {
+  const { expense, last, type } = props;
   const operationTypeLabel = useMemo(() => `${type.textIcon} ${t(type.i18nKey)}`, [type.textIcon, type.i18nKey]);
   const metadata = useSignumAssetMetadata(expense.tokenId || SIGNA_TOKEN_ID);
 
-  const isBuyOrSaleOrder =
-    txType === TransactionType.Asset &&
-    (txSubtype === TransactionAssetSubtype.BidOrderPlacement ||
-      txSubtype === TransactionAssetSubtype.AskOrderPlacement);
-
-  const showOrderDisplay = isBuyOrSaleOrder;
-  const showForTokenHolderDisplay = isForTokenHolder;
-  const showOperationVolumeDisplay = !isForTokenHolder && !isBuyOrSaleOrder && type.hasAmount;
-
-  console.log('ExpenseViewItem', showForTokenHolderDisplay, isForTokenHolder, first);
+  const expenseView = getExpenseView(props);
   return (
     <div className={classNames('pt-3 pb-2 px-2 flex justify-start items-center', !last && 'border-b border-gray-200')}>
       <div className="mr-2">
@@ -99,11 +100,7 @@ const ExpenseViewItem: FC<ExpenseViewItemProps> = ({
           {expense.aliasName && <HashShortView hash={expense.aliasName} />}
         </div>
 
-        <div className="flex items-end flex-shrink-0 flex-wrap text-gray-800">
-          {showOrderDisplay && <OrderDisplay expense={expense} />}
-          {showForTokenHolderDisplay && <ForTokenHolderDisplay expense={expense} />}
-          {showOperationVolumeDisplay && <OperationVolumeDisplay expense={expense} />}
-        </div>
+        <div className="flex items-end flex-shrink-0 flex-wrap text-gray-800">{expenseView}</div>
       </div>
     </div>
   );
@@ -114,7 +111,12 @@ type ExpenseVolumeDisplayProps = {
 };
 
 const OperationVolumeDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
+  console.log('OperationVolumeDisplay', expense);
+
   const metadata = useSignumAssetMetadata(expense.tokenId || SIGNA_TOKEN_ID);
+
+  if (!metadata) return null;
+
   const value = expense.quantity ? expense.quantity : expense.amount;
   const finalVolume = ChainValue.create(metadata.decimals)
     .setAtomic(value ? value.toString() : '0')
@@ -130,11 +132,31 @@ const OperationVolumeDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => 
   );
 });
 
+const TokenIssuanceDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
+  console.log('TokenIssuanceDisplay', expense);
+
+  const qnt = expense.quantity?.toString() || '0';
+  const issuedQuantity = ChainValue.create(parseInt(expense.tokenDecimals || '0'))
+    .setAtomic(qnt)
+    .getCompound();
+  return (
+    <span className="text-sm">
+      <span className="font-medium">
+        <Money>{issuedQuantity}</Money>
+        &nbsp;
+        {expense.tokenName}
+      </span>
+    </span>
+  );
+});
+
 const ForTokenHolderDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
+  console.log('ForTokenHolderDisplay', expense);
+
   const tokenMetadata = useSignumAssetMetadata(expense.tokenId);
   const signaMetadata = useSignumAssetMetadata();
 
-  console.log('ForTokenHolderDisplay', expense);
+  if (!tokenMetadata) return null;
 
   const distributionThreshold = expense.quantity?.gte(0)
     ? ChainValue.create(tokenMetadata.decimals)
@@ -175,8 +197,13 @@ const ForTokenHolderDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
 });
 
 const OrderDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
+  console.log('OrderDisplay', expense);
+
   const tokenMetadata = useSignumAssetMetadata(expense.tokenId);
   const signaMetadata = useSignumAssetMetadata();
+
+  if (!tokenMetadata) return null;
+
   const tokenQuantity = new BigNumber(
     ChainValue.create(tokenMetadata.decimals)
       .setAtomic(expense.quantity?.toString() || '0')

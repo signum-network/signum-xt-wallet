@@ -16,6 +16,7 @@ import { BURN_ADDRESS, SIGNA_TOKEN_ID } from 'lib/temple/metadata';
 export type ParsedTransactionExpense = {
   tokenAddress?: string;
   tokenId?: string;
+  tokenName?: string;
   tokenDecimals?: string;
   aliasName?: string;
   hash?: string;
@@ -268,6 +269,23 @@ function parseAssetExpenses(tx: Transaction): ParsedTransactionExpense[] {
           tokenId: tx.attachment.asset
         }
       ];
+    case TransactionAssetSubtype.AssetIssuance:
+      return [
+        {
+          to: tx.sender, // self
+          tokenName: tx.attachment.name,
+          tokenDecimals: tx.attachment.decimals,
+          quantity: new BigNumber(tx.attachment.quantityQNT)
+        }
+      ];
+    case TransactionAssetSubtype.AssetMint:
+      return [
+        {
+          to: tx.sender,
+          tokenId: tx.attachment.asset,
+          quantity: new BigNumber(tx.attachment.quantityQNT)
+        }
+      ];
     case TransactionAssetSubtype.AssetTransfer:
     default:
       return [
@@ -367,7 +385,7 @@ function parseAssetSubType(tx: Transaction): ParsedTransactionType {
       return {
         i18nKey: 'createBuyOrder',
         textIcon: '💱',
-        hasAmount: false
+        hasAmount: true
       };
     case TransactionAssetSubtype.AskOrderCancellation:
       return {
@@ -379,6 +397,18 @@ function parseAssetSubType(tx: Transaction): ParsedTransactionType {
       return {
         i18nKey: 'cancelBuyOrder',
         textIcon: '💱❌',
+        hasAmount: false
+      };
+    case TransactionAssetSubtype.AssetIssuance:
+      return {
+        i18nKey: 'tokenIssuance',
+        textIcon: '🪙✨',
+        hasAmount: false
+      };
+    case TransactionAssetSubtype.AssetMint:
+      return {
+        i18nKey: 'tokenMint',
+        textIcon: '🌬️🪙',
         hasAmount: false
       };
   }

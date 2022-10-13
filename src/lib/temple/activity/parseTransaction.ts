@@ -43,7 +43,11 @@ function isMessage(tx: Transaction): boolean {
 }
 
 function isSelfUpdate(tx: Transaction): boolean {
-  return tx.type === TransactionType.Arbitrary && tx.subtype === TransactionArbitrarySubtype.AccountInfo;
+  return (
+    (tx.type === TransactionType.Arbitrary && tx.subtype !== TransactionArbitrarySubtype.Message) ||
+    (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetIssuance) ||
+    (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetMint)
+  );
 }
 
 function getSelfUpdateItem(tx: Transaction): SelfUpdateItem {
@@ -77,10 +81,10 @@ function getSelfUpdateItem(tx: Transaction): SelfUpdateItem {
     item.prefix = '👤';
     item.i18nKey = 'aliasBuy';
   } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetIssuance) {
-    item.prefix = '🪙';
+    item.prefix = '🪙✨';
     item.i18nKey = 'tokenIssuance';
   } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetMint) {
-    item.prefix = '🪙';
+    item.prefix = '🌬️🪙';
     item.i18nKey = 'tokenMint';
   } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount) {
     item.prefix = '🏦';
@@ -97,12 +101,7 @@ function isContractTransaction(tx: Transaction): boolean {
   return tx.senderPublicKey === SMART_CONTRACT_PUBLIC_KEY;
 }
 
-export function parseTransaction(
-  tx: Transaction,
-  accountId: string,
-  accountPrefix: string,
-  isTokenView: boolean
-): TransactionItem {
+export function parseTransaction(tx: Transaction, accountId: string, accountPrefix: string): TransactionItem {
   // @ts-ignore
   let item: TransactionItem = {
     from: tx.senderRS,
@@ -132,12 +131,8 @@ export function parseTransaction(
     item = getSelfUpdateItem(tx);
   } else if (isBuyTokenOrder(tx)) {
     item.type = TransactionItemType.BuyOrder;
-    // @ts-ignore
-    // item.fulfilled = isTokenView;
   } else if (isSellTokenOrder(tx)) {
     item.type = TransactionItemType.SellOrder;
-    // @ts-ignore
-    // item.fulfilled = isTokenView;
   } else {
     item.type = TransactionItemType.Other;
     // TODO: name the type more precisely
