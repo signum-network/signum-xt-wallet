@@ -83,14 +83,16 @@ const ExpenseViewItem: FC<ExpenseViewItemProps> = props => {
   const { expense, last, type } = props;
   const operationTypeLabel = useMemo(() => `${type.textIcon} ${t(type.i18nKey)}`, [type.textIcon, type.i18nKey]);
   const metadata = useSignumAssetMetadata(expense.tokenId || SIGNA_TOKEN_ID);
-
   const expenseView = getExpenseView(props);
+
   return (
     <div className={classNames('pt-3 pb-2 px-2 flex justify-start items-center', !last && 'border-b border-gray-200')}>
       <div className="mr-2">
         {expense.hash && <Identicon hash={expense.hash} type="bottts" size={40} className="shadow-xs" />}
         {expense.to && <IdenticonSignum address={expense.to} size={40} className="shadow-xs" />}
-        {!expense.to && expense.tokenId && <AssetIcon metadata={metadata} size={40} className="shadow-xs" />}
+        {!expense.to && expense.tokenId && metadata && (
+          <AssetIcon metadata={metadata} size={40} className="shadow-xs" />
+        )}
       </div>
 
       <div className="flex-1 flex-col">
@@ -111,8 +113,6 @@ type ExpenseVolumeDisplayProps = {
 };
 
 const OperationVolumeDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
-  console.log('OperationVolumeDisplay', expense);
-
   const metadata = useSignumAssetMetadata(expense.tokenId || SIGNA_TOKEN_ID);
 
   if (!metadata) return null;
@@ -133,8 +133,6 @@ const OperationVolumeDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => 
 });
 
 const TokenIssuanceDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
-  console.log('TokenIssuanceDisplay', expense);
-
   const qnt = expense.quantity?.toString() || '0';
   const issuedQuantity = ChainValue.create(parseInt(expense.tokenDecimals || '0'))
     .setAtomic(qnt)
@@ -151,8 +149,6 @@ const TokenIssuanceDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
 });
 
 const ForTokenHolderDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
-  console.log('ForTokenHolderDisplay', expense);
-
   const tokenMetadata = useSignumAssetMetadata(expense.tokenId);
   const signaMetadata = useSignumAssetMetadata();
 

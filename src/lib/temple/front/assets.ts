@@ -82,12 +82,13 @@ export function useAllKnownCollectibleTokenSlugs(chainId: string) {
 const enqueueAutoFetchMetadata = createQueue();
 const autoFetchMetadataFails = new Set<string>();
 
-export function useSignumAssetMetadata(tokenId: string = SIGNA_TOKEN_ID): AssetMetadata {
+export function useSignumAssetMetadata(tokenId: string = SIGNA_TOKEN_ID) {
   const network = useNetwork();
   const forceUpdate = useForceUpdate();
 
   const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
 
+  // TODO: refactor this code.... it can cause some issues in prod build.
   useEffect(
     () =>
       onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
