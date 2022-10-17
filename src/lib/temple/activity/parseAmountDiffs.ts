@@ -52,7 +52,7 @@ function parseQuantityDiffs(tx: Transaction, accountId: string, tokenMetadata: A
     };
   }
 
-  let quantityQNT = tx.attachment.quantityQNT;
+  let quantityQNT = tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders ? '0' : tx.attachment.quantityQNT;
   if (tx.subtype === TransactionAssetSubtype.AssetMultiTransfer) {
     const index = tx.attachment.assetIds.findIndex((id: string) => id === tokenMetadata.id);
     if (index < 0) {
@@ -64,23 +64,23 @@ function parseQuantityDiffs(tx: Transaction, accountId: string, tokenMetadata: A
     quantityQNT = tx.attachment.quantitiesQNT[index];
   }
 
+  if (tx.distribution) {
+    // received distribution
+    return {
+      diff: ChainValue.create(tokenMetadata.decimals).setAtomic(tx.distribution.quantityQNT).getCompound()
+    };
+  }
+
   const isOutgoing =
+    tx.sender === accountId &&
     tx.subtype !== TransactionAssetSubtype.AssetMint &&
-    tx.subtype !== TransactionAssetSubtype.AssetIssuance &&
-    (tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders || tx.recipient !== accountId);
+    tx.subtype !== TransactionAssetSubtype.AssetIssuance;
 
   if (isOutgoing) {
     return {
       diff: ChainValue.create(tokenMetadata.decimals)
         .setAtomic('-' + quantityQNT)
         .getCompound()
-    };
-  }
-
-  if (tx.distribution) {
-    // received distribution
-    return {
-      diff: ChainValue.create(tokenMetadata.decimals).setAtomic(tx.distribution.quantityQNT).getCompound()
     };
   }
 

@@ -85,6 +85,7 @@ type TokenActivityProps = {
 const TokenActivity = memo<TokenActivityProps>(({ publicKey, className, tokenId }) => {
   const signum = useSignum();
   const hasMoreRef = useRef(false);
+  const fetchedTxCountRef = useRef(0);
   const safeStateKey = useMemo(() => publicKey, [publicKey]);
   const [restTransactions, setRestTransactions] = useSafeState<Transaction[]>([], safeStateKey);
   const [loadingMore, setLoadingMore] = useSafeState(false, safeStateKey);
@@ -160,6 +161,7 @@ const TokenActivity = memo<TokenActivityProps>(({ publicKey, className, tokenId 
     if (!transactionIds) return;
     hasMoreRef.current = transactionIds.length >= ACTIVITY_PAGE_SIZE;
     fetchTransactionsByIds(transactionIds.slice(0, ACTIVITY_PAGE_SIZE)).then(resolvedTransactions => {
+      fetchedTxCountRef.current += ACTIVITY_PAGE_SIZE;
       setLatestTransactions(resolvedTransactions);
       setInitialLoading(false);
     });
@@ -175,12 +177,13 @@ const TokenActivity = memo<TokenActivityProps>(({ publicKey, className, tokenId 
     if (!transactionIds) return;
     setLoadingMore(true);
     try {
-      const firstIndex = latestTransactions?.length ?? 0;
+      const firstIndex = fetchedTxCountRef.current;
       const nextTransactionIds = transactionIds.slice(firstIndex, firstIndex + ACTIVITY_PAGE_SIZE);
       const olderTransactions = await fetchTransactionsByIds(nextTransactionIds);
+      fetchedTxCountRef.current += ACTIVITY_PAGE_SIZE;
       setRestTransactions(tx => [...tx, ...olderTransactions]);
       setInitialLoading(false);
-      hasMoreRef.current = olderTransactions.length >= ACTIVITY_PAGE_SIZE;
+      hasMoreRef.current = transactionIds.length > fetchedTxCountRef.current;
     } catch (err: any) {
       console.error(err);
     }
@@ -189,9 +192,9 @@ const TokenActivity = memo<TokenActivityProps>(({ publicKey, className, tokenId 
     transactionIds,
     setLoadingMore,
     latestTransactions?.length,
+    fetchTransactionsByIds,
     setRestTransactions,
-    setInitialLoading,
-    signum.transaction
+    setInitialLoading
   ]);
 
   return (

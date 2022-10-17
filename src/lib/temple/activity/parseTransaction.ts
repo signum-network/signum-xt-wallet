@@ -5,6 +5,7 @@ import {
   TransactionAssetSubtype,
   TransactionEscrowSubtype,
   TransactionMiningSubtype,
+  TransactionPaymentSubtype,
   TransactionSmartContractSubtype,
   TransactionType
 } from '@signumjs/core';
@@ -17,7 +18,7 @@ function isPayment(tx: Transaction): boolean {
   return (
     tx.type === TransactionType.Payment ||
     (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetTransfer) ||
-    (tx.type === TransactionType.Asset && tx.subtype === 9) || // asset multi transfer
+    (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetMultiTransfer) ||
     (tx.type === TransactionType.Escrow && tx.subtype === TransactionEscrowSubtype.SubscriptionPayment)
   );
 }
@@ -27,7 +28,12 @@ function isDistribution(tx: Transaction): boolean {
 }
 
 function isBurn(tx: Transaction): boolean {
-  return !tx.recipient && isPayment(tx);
+  return (
+    !tx.recipient &&
+    tx.subtype !== TransactionPaymentSubtype.MultiOut &&
+    tx.subtype !== TransactionPaymentSubtype.MultiOutSameAmount &&
+    isPayment(tx)
+  );
 }
 
 function isSellTokenOrder(tx: Transaction): boolean {

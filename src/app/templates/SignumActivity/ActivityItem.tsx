@@ -41,7 +41,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId,
   const feeAmount = useMemo(() => Amount.fromPlanck(transaction.feeNQT).getSigna(), [transaction.feeNQT]);
   const parsedTransaction = useMemo(
     () => parseTransaction(transaction, accountId, prefix),
-    [transaction, accountId, prefix, tokenId]
+    [transaction, accountId, prefix, tokenId] // tokenId must be here, as additional trigger
   );
 
   const isOrder =
