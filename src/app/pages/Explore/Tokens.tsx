@@ -71,7 +71,7 @@ const Tokens: FC = () => {
     try {
       setFetchingTokens(true);
       const { assetBalances } = await signum.account.getAccount({ accountId: account.accountId });
-      for (let { asset: tokenId } of assetBalances) {
+      for (let { asset: tokenId } of assetBalances || []) {
         const { base: metadata } = await fetchMetadata(tokenId);
         await setTokensBaseMetadata({ [tokenId]: metadata });
         const { networkName } = network;

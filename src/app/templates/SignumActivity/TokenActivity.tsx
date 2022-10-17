@@ -27,6 +27,9 @@ interface LiteTokenTransaction {
 async function fetchTokenTransactionIds(args: FetchArgs): Promise<string[]> {
   const { signum, accountId, tokenId } = args;
   let transactions: LiteTokenTransaction[] = [];
+  // We do different requests here to be as accurate as possible
+  // Note: using only getAccountTransactions would reveal only the last 500 transactions of the account
+  // a quite active account can easily do hundreds of tx per day, and then no
   const [{ trades }, { transfers }, { transactions: tokenTransactions }, { askOrders }, { bidOrders }] =
     await Promise.all([
       signum.asset.getAssetTrades({ accountId, assetId: tokenId }),
@@ -41,9 +44,11 @@ async function fetchTokenTransactionIds(args: FetchArgs): Promise<string[]> {
     ]);
 
   const tokenOperations = tokenTransactions.filter(
-    tx => tx.attachment.assetToDistribute === tokenId || tx.attachment.asset === tokenId || tx.transaction === tokenId // token issuance - manually - does not cover SC issuances
+    tx =>
+      tx.attachment &&
+      (tx.attachment.assetToDistribute === tokenId || tx.attachment.asset === tokenId || tx.transaction === tokenId) // token issuance - manually - does not cover SC issuances
   );
-  // TODO: this is just a work around.... once the orders come with timestamp we can get rid of next lines
+  // // TODO: this is just a work around.... once the orders come with timestamp we can get rid of next lines
   const orderTxRequests = askOrders.concat(...bidOrders).map(({ order }) => signum.transaction.getTransaction(order));
   const orders = await Promise.all(orderTxRequests);
 
