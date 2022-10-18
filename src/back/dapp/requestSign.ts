@@ -5,7 +5,7 @@ import { XTMessageType } from 'lib/messaging';
 
 import { HttpAdapterFetch } from '../httpAdapterFetch';
 import { withUnlocked } from '../store';
-import { getCurrentAccountPublicKey, getCurrentNetworkHost, getDApp } from './dapp';
+import { getCurrentAccountInfo, getCurrentNetworkHost, getDApp } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import { ExtensionErrorType, ExtensionMessageType, ExtensionSignRequest, ExtensionSignResponse } from './typings';
 
@@ -16,14 +16,14 @@ export async function requestSign(origin: string, req: ExtensionSignRequest): Pr
     throw new Error(ExtensionErrorType.InvalidParams);
   }
 
-  const [dApp, accountPublicKey] = await Promise.all([getDApp(origin), getCurrentAccountPublicKey()]);
+  const [dApp, accountInfo] = await Promise.all([getDApp(origin), getCurrentAccountInfo()]);
 
   if (!dApp) {
     throw new Error(ExtensionErrorType.NotGranted);
   }
 
   const networkHost = await getCurrentNetworkHost();
-
+  const accountPublicKey = accountInfo.publicKey;
   // Network check is done on UI - no send possible
 
   return new Promise(async (resolve, reject) => {

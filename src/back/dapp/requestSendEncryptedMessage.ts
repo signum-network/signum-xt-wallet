@@ -6,7 +6,7 @@ import { XTMessageType } from 'lib/messaging';
 
 import { HttpAdapterFetch } from '../httpAdapterFetch';
 import { withUnlocked } from '../store';
-import { getCurrentAccountPublicKey, getCurrentNetworkHost, getDApp } from './dapp';
+import { getCurrentAccountInfo, getCurrentNetworkHost, getDApp } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import {
   ExtensionSendEncryptedMessageRequest,
@@ -25,13 +25,13 @@ export async function requestSendEncryptedMessage(
   origin: string,
   req: ExtensionSendEncryptedMessageRequest
 ): Promise<ExtensionSendEncryptedMessageResponse> {
-  const [dApp, accountPublicKey] = await Promise.all([getDApp(origin), getCurrentAccountPublicKey()]);
+  const [dApp, accountInfo] = await Promise.all([getDApp(origin), getCurrentAccountInfo()]);
 
   if (!dApp) {
     throw new Error(ExtensionErrorType.NotGranted);
   }
   const networkHost = await getCurrentNetworkHost();
-
+  const accountPublicKey = accountInfo.publicKey;
   return new Promise(async (resolve, reject) => {
     const id = uuid();
     const { rpcBaseURL } = networkHost;

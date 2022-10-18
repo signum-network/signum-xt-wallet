@@ -21,7 +21,7 @@ import { t, T } from 'lib/i18n/react';
 import {
   useAccount,
   useRelevantAccounts,
-  useSetAccountPkh,
+  useSetCurrentAccount,
   useSignumAssetMetadata,
   useTempleClient
 } from 'lib/temple/front';
@@ -40,7 +40,7 @@ const AccountDropdown: FC<AccountDropdownProps> = ({ opened, setOpened }) => {
   const allAccounts = useRelevantAccounts();
   const account = useAccount();
   const metadata = useSignumAssetMetadata();
-  const setAccountPkh = useSetAccountPkh();
+  const setCurrentAccount = useSetCurrentAccount();
   const [searchValue, setSearchValue] = useState('');
 
   const isShowSearch = useMemo(() => allAccounts.length > 5, [allAccounts.length]);
@@ -196,7 +196,7 @@ const AccountDropdown: FC<AccountDropdownProps> = ({ opened, setOpened }) => {
                 const selected = acc.publicKey === account.publicKey;
                 const handleAccountClick = () => {
                   if (!selected) {
-                    setAccountPkh(acc.publicKey);
+                    setCurrentAccount(acc);
                   }
                   setOpened(false);
                 };

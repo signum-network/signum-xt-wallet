@@ -4,12 +4,14 @@ import { ReactComponent as SendIcon } from 'app/icons/send.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import SendForm from 'app/templates/SignumSendForm';
 import { t } from 'lib/i18n/react';
+import { SIGNA_TOKEN_ID } from 'lib/temple/front';
 
 type SendProps = {
-  assetSlug?: string | null;
+  tokenId: string | null;
+  recipient: string | null;
 };
 
-const Send: FC<SendProps> = ({ assetSlug }) => (
+const Send: FC<SendProps> = ({ tokenId, recipient }) => (
   <PageLayout
     pageTitle={
       <>
@@ -19,7 +21,7 @@ const Send: FC<SendProps> = ({ assetSlug }) => (
   >
     <div className="py-4">
       <div className="w-full max-w-sm mx-auto">
-        <SendForm />
+        <SendForm tokenId={tokenId || SIGNA_TOKEN_ID} recipient={recipient || undefined} />
       </div>
     </div>
   </PageLayout>

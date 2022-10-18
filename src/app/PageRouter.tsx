@@ -1,6 +1,7 @@
 import React, { FC, useLayoutEffect, useMemo } from 'react';
 
 import { OpenInFullPage, useAppEnv } from 'app/env';
+import AddAsset from 'app/pages/AddAsset';
 import CreateAccount from 'app/pages/CreateAccount';
 import CreateWallet from 'app/pages/CreateWallet';
 import Explore from 'app/pages/Explore';
@@ -12,7 +13,7 @@ import Settings from 'app/pages/Settings';
 import Unlock from 'app/pages/Unlock';
 import Welcome from 'app/pages/Welcome';
 import { usePageRouterAnalytics } from 'lib/analytics';
-import { useTempleClient } from 'lib/temple/front';
+import { SIGNA_TOKEN_ID, useTempleClient } from 'lib/temple/front';
 import * as Woozie from 'lib/woozie';
 
 import AttentionPage from './pages/Onboarding/pages/AttentionPage';
@@ -29,7 +30,7 @@ type RouteFactory = Woozie.Router.ResolveResult<RouteContext>;
 const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   [
     '/import-wallet',
-    (p, ctx) => {
+    (_, ctx) => {
       switch (true) {
         case ctx.ready:
           return Woozie.Router.SKIP;
@@ -57,20 +58,20 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
       }
     }
   ],
-  ['/', (_p, ctx) => (ctx.ready ? <Explore /> : <Welcome />)],
-  ['/explore/:assetSlug?', onlyReady(({ assetSlug }) => <Explore assetSlug={assetSlug} />)],
+  ['/', (_p, ctx) => (ctx.ready ? <Explore tokenId={SIGNA_TOKEN_ID} /> : <Welcome />)],
+  ['/explore/:tokenId?', onlyReady(({ tokenId }) => <Explore tokenId={tokenId ?? SIGNA_TOKEN_ID} />)],
   ['/create-wallet', onlyNotReady(() => <CreateWallet />)],
-  ['/create-account', onlyReady(() => <CreateAccount />)],
+  ['/create-account', onlyReady(onlyInFullPage(() => <CreateAccount />))],
   ['/import-account/:tabSlug?', onlyReady(({ tabSlug }) => <ImportAccount tabSlug={tabSlug} />)],
-  // ['/connect-ledger', onlyReady(onlyInFullPage(() => <ConnectLedger />))],
   ['/receive', onlyReady(() => <Receive />)],
-  ['/send/:assetSlug?', onlyReady(({ assetSlug }) => <Send assetSlug={assetSlug} />)],
+  [
+    '/send/:tokenId?/:recipient?',
+    onlyReady(({ tokenId, recipient }) => <Send tokenId={tokenId} recipient={recipient} />)
+  ],
   // ['/dapps', onlyReady(() => <DApps />)],
   // ['/swap/:assetSlug?', onlyReady(({ assetSlug }) => <Swap assetSlug={assetSlug} />)],
-  // ['/delegate', onlyReady(() => <Delegate />)],
-  // ['/manage-assets/:assetType?', onlyReady(({ assetType }) => <ManageAssets assetType={assetType!} />)],
   // ['/collectible/:assetSlug?', onlyReady(({ assetSlug }) => <CollectiblePage assetSlug={assetSlug!} />)],
-  // ['/add-asset', onlyReady(onlyInFullPage(() => <AddAsset />))],
+  ['/add-token', onlyReady(() => <AddAsset />)],
   ['/settings/:tabSlug?', onlyReady(({ tabSlug }) => <Settings tabSlug={tabSlug} />)],
   ['/attention', onlyReady(onlyInFullPage(() => <AttentionPage />))],
   ['*', () => <Woozie.Redirect to="/" />]

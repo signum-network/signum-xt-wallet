@@ -5,6 +5,7 @@ import {
   TransactionAssetSubtype,
   TransactionEscrowSubtype,
   TransactionMiningSubtype,
+  TransactionPaymentSubtype,
   TransactionSmartContractSubtype,
   TransactionType
 } from '@signumjs/core';
@@ -17,10 +18,30 @@ function isPayment(tx: Transaction): boolean {
   return (
     tx.type === TransactionType.Payment ||
     (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetTransfer) ||
-    (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders) || // distribution to token holders
-    (tx.type === TransactionType.Asset && tx.subtype === 9) || // asset multi transfer
+    (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetMultiTransfer) ||
     (tx.type === TransactionType.Escrow && tx.subtype === TransactionEscrowSubtype.SubscriptionPayment)
   );
+}
+
+function isDistribution(tx: Transaction): boolean {
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders;
+}
+
+function isBurn(tx: Transaction): boolean {
+  return (
+    !tx.recipient &&
+    tx.subtype !== TransactionPaymentSubtype.MultiOut &&
+    tx.subtype !== TransactionPaymentSubtype.MultiOutSameAmount &&
+    isPayment(tx)
+  );
+}
+
+function isSellTokenOrder(tx: Transaction): boolean {
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AskOrderPlacement;
+}
+
+function isBuyTokenOrder(tx: Transaction): boolean {
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.BidOrderPlacement;
 }
 
 function isMessage(tx: Transaction): boolean {
@@ -28,7 +49,11 @@ function isMessage(tx: Transaction): boolean {
 }
 
 function isSelfUpdate(tx: Transaction): boolean {
-  return tx.type === TransactionType.Arbitrary && tx.subtype === TransactionArbitrarySubtype.AccountInfo;
+  return (
+    (tx.type === TransactionType.Arbitrary && tx.subtype !== TransactionArbitrarySubtype.Message) ||
+    (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetIssuance) ||
+    (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetMint)
+  );
 }
 
 function getSelfUpdateItem(tx: Transaction): SelfUpdateItem {
@@ -62,10 +87,10 @@ function getSelfUpdateItem(tx: Transaction): SelfUpdateItem {
     item.prefix = '👤';
     item.i18nKey = 'aliasBuy';
   } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetIssuance) {
-    item.prefix = '🪙';
+    item.prefix = '🪙✨';
     item.i18nKey = 'tokenIssuance';
   } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetMint) {
-    item.prefix = '🪙';
+    item.prefix = '🌬️🪙';
     item.i18nKey = 'tokenMint';
   } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount) {
     item.prefix = '🏦';
@@ -89,8 +114,13 @@ export function parseTransaction(tx: Transaction, accountId: string, accountPref
     to: tx.recipientRS || ''
   };
 
-  if (isPayment(tx)) {
+  if (isBurn(tx)) {
+    item.type = TransactionItemType.Burn;
+  } else if (isPayment(tx)) {
     item.type = tx.sender === accountId ? TransactionItemType.TransferTo : TransactionItemType.TransferFrom;
+  } else if (isDistribution(tx)) {
+    item.type = tx.sender === accountId ? TransactionItemType.DistributionTo : TransactionItemType.DistributionFrom;
+    // item.tokenId = tx.distribution.distributedAssetId!
   } else if (isMessage(tx)) {
     item.type = tx.sender === accountId ? TransactionItemType.MessageTo : TransactionItemType.MessageFrom;
     // @ts-ignore
@@ -98,18 +128,23 @@ export function parseTransaction(tx: Transaction, accountId: string, accountPref
   } else if (isContractCreation(tx)) {
     item.type = TransactionItemType.Origination;
     // @ts-ignore
-    item.contract = Address.fromNumericId(tx.transaction!, accountPrefix).getReedSolomonAddress();
+    item.contract = Address.fromNumericId(tx.transaction, accountPrefix).getReedSolomonAddress();
   } else if (isContractTransaction(tx)) {
     item.type = TransactionItemType.Interaction;
     // @ts-ignore
-    item.contract = Address.fromNumericId(tx.sender!, accountPrefix).getReedSolomonAddress();
+    item.contract = Address.fromNumericId(tx.sender, accountPrefix).getReedSolomonAddress();
   } else if (isSelfUpdate(tx)) {
     item = getSelfUpdateItem(tx);
+  } else if (isBuyTokenOrder(tx)) {
+    item.type = TransactionItemType.BuyOrder;
+  } else if (isSellTokenOrder(tx)) {
+    item.type = TransactionItemType.SellOrder;
   } else {
     item.type = TransactionItemType.Other;
     // TODO: name the type more precisely
     // @ts-ignore
     item.name = '';
   }
+
   return item;
 }

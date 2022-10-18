@@ -6,9 +6,10 @@ import jdenticonSpirtes from '@dicebear/avatars-jdenticon-sprites';
 import classNames from 'clsx';
 
 import initialsSprites from 'lib/avatars-initials-sprites';
+import { identiheart } from 'lib/ui/identiheart';
 
 type IdenticonProps = HTMLAttributes<HTMLDivElement> & {
-  type?: 'jdenticon' | 'bottts' | 'initials';
+  type?: 'jdenticon' | 'bottts' | 'initials' | 'hearts';
   hash: string;
   size?: number;
 };
@@ -18,7 +19,7 @@ const DEFAULT_FONT_SIZE = 50;
 
 const cache = new Map<string, string>();
 
-const icons: Record<NonNullable<IdenticonProps['type']>, Avatars<{}>> = {
+const icons: Record<string, Avatars<{}>> = {
   jdenticon: new Avatars(jdenticonSpirtes),
   bottts: new Avatars(botttsSprites),
   initials: new Avatars(initialsSprites)
@@ -37,16 +38,23 @@ const Identicon: FC<IdenticonProps> = ({ type = 'jdenticon', hash, size = 100, c
         margin: 4
       };
 
-      const opts =
-        type === 'initials'
-          ? {
-              ...basicOpts,
-              chars: MAX_INITIALS_LENGTH,
-              radius: 50,
-              fontSize: estimateOptimalFontSize(hash.slice(0, MAX_INITIALS_LENGTH).length)
-            }
-          : basicOpts;
-      const imgSrc = icons[type].create(hash, opts);
+      let opts: any = basicOpts;
+      let imgSrc: string = '';
+      switch (type) {
+        case 'hearts':
+          imgSrc = identiheart({ digest: hash }).toDataURL();
+          break;
+        case 'initials':
+          opts = {
+            ...basicOpts,
+            chars: MAX_INITIALS_LENGTH,
+            radius: 50,
+            fontSize: estimateOptimalFontSize(hash.slice(0, MAX_INITIALS_LENGTH).length)
+          };
+        // eslint-disable-next-line no-fallthrough
+        default:
+          imgSrc = icons[type].create(hash, opts);
+      }
 
       const bi = `url('${imgSrc}')`;
       cache.set(key, bi);
@@ -58,8 +66,8 @@ const Identicon: FC<IdenticonProps> = ({ type = 'jdenticon', hash, size = 100, c
     <div
       className={classNames(
         'inline-block',
-        type === 'initials' ? 'bg-transparent' : 'bg-gray-100',
-        'bg-no-repeat bg-center',
+        type === 'initials' || type === 'hearts' ? 'bg-transparent' : 'bg-gray-100',
+        'bg-no-repeat bg-center bg-cover',
         'overflow-hidden',
         className
       )}

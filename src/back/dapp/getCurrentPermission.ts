@@ -1,10 +1,12 @@
 import { Address } from '@signumjs/core';
 
-import { getCurrentAccountPublicKey, getCurrentNetworkHost, getDApp, getNetworkHosts } from './dapp';
+import { XTAccountType } from 'lib/messaging';
+
+import { getCurrentAccountInfo, getCurrentNetworkHost, getDApp, getNetworkHosts } from './dapp';
 import { ExtensionGetCurrentPermissionResponse, ExtensionMessageType } from './typings';
 
 export async function getCurrentPermission(origin: string): Promise<ExtensionGetCurrentPermissionResponse> {
-  const [dApp, publicKey] = await Promise.all([getDApp(origin), getCurrentAccountPublicKey()]);
+  const [dApp, account] = await Promise.all([getDApp(origin), getCurrentAccountInfo()]);
   if (!dApp) {
     return {
       type: ExtensionMessageType.GetCurrentPermissionResponse,
@@ -15,14 +17,17 @@ export async function getCurrentPermission(origin: string): Promise<ExtensionGet
   const currentNodeHost = currentNetworkHost.rpcBaseURL;
   const networkHosts = await getNetworkHosts(dApp?.network);
   const availableNodeHosts = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
-  const accountId = Address.fromPublicKey(publicKey).getNumericId();
+  const publicKey = account.publicKey;
+  const watchOnly = account.type === XTAccountType.WatchOnly;
+  const accountId = Address.fromPublicKey(account.publicKey).getNumericId();
   return {
     type: ExtensionMessageType.GetCurrentPermissionResponse,
     permission: {
       availableNodeHosts,
       currentNodeHost,
       accountId,
-      publicKey
+      publicKey,
+      watchOnly
     }
   };
 }

@@ -10,7 +10,7 @@ import DAppLogo from 'app/templates/DAppLogo';
 import { T, t } from 'lib/i18n/react';
 import { DAppSession, DAppSessions } from 'lib/messaging';
 import { useRetryableSWR } from 'lib/swr';
-import { useStorage, TempleSharedStorageKey, useTempleClient } from 'lib/temple/front';
+import { useStorage, XTSharedStorageKey, useTempleClient } from 'lib/temple/front';
 import { useConfirm } from 'lib/ui/dialog';
 
 type DAppEntry = [string, DAppSession];
@@ -32,7 +32,7 @@ const DAppSettings: FC = () => {
   });
   const dAppSessions = data!;
 
-  const [dAppEnabled, setDAppEnabled] = useStorage(TempleSharedStorageKey.DAppEnabled, true);
+  const [dAppEnabled, setDAppEnabled] = useStorage(XTSharedStorageKey.DAppEnabled, true);
 
   const changingRef = useRef(false);
   const [error, setError] = useState<any>(null);

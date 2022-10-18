@@ -1,8 +1,8 @@
-import { XTMessageType, Network, XTAccount } from 'lib/messaging';
+import { Network, XTAccount, XTAccountType, XTMessageType } from 'lib/messaging';
 
 import { intercom } from '../defaults';
 
-async function notifyDApps(message: any) {
+function notifyDApps(message: any) {
   intercom.broadcast(message);
 }
 
@@ -32,6 +32,7 @@ export function notifyAccountChanged(newAccount: XTAccount) {
   notifyDApps({
     type: XTMessageType.DAppAccountChanged,
     accountId: newAccount.accountId,
-    accountPublicKey: newAccount.publicKey
+    accountPublicKey: newAccount.publicKey,
+    watchOnly: newAccount.type === XTAccountType.WatchOnly
   });
 }

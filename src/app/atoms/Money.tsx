@@ -19,7 +19,7 @@ type MoneyProps = {
   onClick?: MouseEventHandler;
 };
 
-const DEFAULT_CRYPTO_DECIMALS = 6;
+const DEFAULT_CRYPTO_DECIMALS = 8;
 const ENOUGH_INT_LENGTH = 4;
 
 const Money = memo<MoneyProps>(

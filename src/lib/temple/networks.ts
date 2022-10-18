@@ -58,13 +58,23 @@ export const NETWORKS: Network[] = [
     disabled: false
   },
   {
+    id: 'signum-us-central',
+    networkName: NetworkName.Mainnet,
+    name: 'US Central',
+    description: 'Featured Node from the US',
+    type: 'main',
+    rpcBaseURL: 'https://us-central.signum.network',
+    color: '#009186',
+    disabled: false
+  },
+  {
     id: 'signum-canada',
     networkName: NetworkName.Mainnet,
     name: 'Canada',
     description: 'Featured Node from Canada',
     type: 'main',
     rpcBaseURL: 'https://canada.signum.network',
-    color: '#009186',
+    color: '#00B7AE',
     disabled: false
   },
   {
@@ -74,7 +84,7 @@ export const NETWORKS: Network[] = [
     description: 'Featured Node from Latin America',
     type: 'main',
     rpcBaseURL: 'https://latam.signum.network',
-    color: '#00B7AE',
+    color: '#0090A2',
     disabled: false
   },
   {
@@ -84,7 +94,7 @@ export const NETWORKS: Network[] = [
     description: 'Featured Node from South America',
     type: 'main',
     rpcBaseURL: 'https://brazil.signum.network',
-    color: '#0090A2',
+    color: '#0070A2',
     disabled: false
   },
   {
@@ -94,7 +104,7 @@ export const NETWORKS: Network[] = [
     description: 'Featured Node from Australia',
     type: 'main',
     rpcBaseURL: 'https://australia.signum.network',
-    color: '#001b69',
+    color: '#005669',
     disabled: false
   },
   {

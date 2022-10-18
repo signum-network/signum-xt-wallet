@@ -1,34 +1,28 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import constate from 'constate';
 import deepEqual from 'fast-deep-equal';
-import Fuse from 'fuse.js';
 import useForceUpdate from 'use-force-update';
-import browser from 'webextension-polyfill';
 
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
 import {
-  useTezos,
   usePassiveStorage,
-  isTezAsset,
   AssetMetadata,
   fetchTokenMetadata,
-  PRESERVED_TOKEN_METADATA,
-  TEZOS_METADATA,
   SIGNA_METADATA,
   fetchDisplayedFungibleTokens,
   fetchFungibleTokens,
   fetchAllKnownFungibleTokenSlugs,
   onStorageChanged,
   putToStorage,
-  fetchFromStorage,
   fetchCollectibleTokens,
   fetchAllKnownCollectibleTokenSlugs,
-  DetailedAssetMetdata,
   useNetwork,
   SIGNA_TESTNET_METADATA,
-  NetworkName
+  NetworkName,
+  useSignum,
+  SIGNA_TOKEN_ID
 } from 'lib/temple/front';
 
 export const ALL_TOKENS_BASE_METADATA_STORAGE_KEY = 'tokens_base_metadata';
@@ -88,60 +82,36 @@ export function useAllKnownCollectibleTokenSlugs(chainId: string) {
 const enqueueAutoFetchMetadata = createQueue();
 const autoFetchMetadataFails = new Set<string>();
 
-export function useSignumAssetMetadata(slug?: string): AssetMetadata {
-  // TODO: support the slugs - i.e. other tokens
+export function useSignumAssetMetadata(tokenId: string = SIGNA_TOKEN_ID) {
   const network = useNetwork();
-  return network.networkName === NetworkName.Mainnet ? SIGNA_METADATA : SIGNA_TESTNET_METADATA;
-}
-
-export function useAssetMetadata(slug: string) {
-  const tezos = useTezos();
   const forceUpdate = useForceUpdate();
 
-  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata } =
-    useTokensMetadata();
+  const { allTokensBaseMetadataRef, fetchMetadata, setTokensBaseMetadata } = useTokensMetadata();
 
+  // TODO: refactor this code.... it can cause some issues in prod build.
   useEffect(
     () =>
       onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
-        if (!deepEqual(newValue[slug], allTokensBaseMetadataRef.current[slug])) {
+        if (!deepEqual(newValue[tokenId], allTokensBaseMetadataRef.current[tokenId])) {
           forceUpdate();
         }
       }),
-    [slug, allTokensBaseMetadataRef, forceUpdate]
+    [tokenId, allTokensBaseMetadataRef, forceUpdate]
   );
 
-  const tezAsset = isTezAsset(slug);
-  const tokenMetadata = allTokensBaseMetadataRef.current[slug] ?? null;
+  const tokenMetadata = allTokensBaseMetadataRef.current[tokenId] ?? null;
   const exist = Boolean(tokenMetadata);
 
-  // Load token metadata if missing
-  const tezosRef = useRef(tezos);
   useEffect(() => {
-    tezosRef.current = tezos;
-  }, [tezos]);
-
-  useEffect(() => {
-    if (!isTezAsset(slug) && !exist && !autoFetchMetadataFails.has(slug)) {
-      enqueueAutoFetchMetadata(() => fetchMetadata(slug))
-        .then(metadata =>
-          Promise.all([
-            setTokensBaseMetadata({ [slug]: metadata.base }),
-            setTokensDetailedMetadata({ [slug]: metadata.detailed })
-          ])
-        )
-        .catch(() => autoFetchMetadataFails.add(slug));
+    if (tokenId !== SIGNA_TOKEN_ID && !exist && !autoFetchMetadataFails.has(tokenId)) {
+      enqueueAutoFetchMetadata(() => fetchMetadata(tokenId))
+        .then(metadata => Promise.all([setTokensBaseMetadata({ [tokenId]: metadata.base })]))
+        .catch(() => autoFetchMetadataFails.add(tokenId));
     }
-  }, [slug, exist, fetchMetadata, setTokensBaseMetadata, setTokensDetailedMetadata]);
+  }, [tokenId, exist, fetchMetadata, setTokensBaseMetadata]);
 
-  // Tezos
-  if (tezAsset) {
-    return TEZOS_METADATA;
-  }
-
-  // Preserved for legacy tokens
-  if (!exist && PRESERVED_TOKEN_METADATA.has(slug)) {
-    return PRESERVED_TOKEN_METADATA.get(slug)!;
+  if (tokenId === SIGNA_TOKEN_ID) {
+    return network.networkName === NetworkName.Mainnet ? SIGNA_METADATA : SIGNA_TESTNET_METADATA;
   }
 
   return tokenMetadata;
@@ -157,6 +127,7 @@ export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
   );
 
   const allTokensBaseMetadataRef = useRef(initialAllTokensBaseMetadata);
+
   useEffect(
     () =>
       onStorageChanged(ALL_TOKENS_BASE_METADATA_STORAGE_KEY, newValue => {
@@ -164,14 +135,13 @@ export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
       }),
     []
   );
-
-  const tezos = useTezos();
-  const tezosRef = useRef(tezos);
+  const signum = useSignum();
+  const signumRef = useRef(signum);
   useEffect(() => {
-    tezosRef.current = tezos;
-  }, [tezos]);
+    signumRef.current = signum;
+  }, [signum]);
 
-  const fetchMetadata = useCallback((slug: string) => fetchTokenMetadata(tezosRef.current, slug), []);
+  const fetchMetadata = useCallback((tokenId: string) => fetchTokenMetadata(signumRef.current, tokenId), []);
 
   const setTokensBaseMetadata = useCallback(
     (toSet: Record<string, AssetMetadata>) =>
@@ -184,38 +154,12 @@ export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
     []
   );
 
-  const setTokensDetailedMetadata = useCallback(
-    (toSet: Record<string, DetailedAssetMetdata>) =>
-      browser.storage.local.set(mapObjectKeys(toSet, getDetailedMetadataStorageKey)),
-    []
-  );
-
   return {
     allTokensBaseMetadataRef,
     fetchMetadata,
-    setTokensBaseMetadata,
-    setTokensDetailedMetadata
+    setTokensBaseMetadata
   };
 });
-
-export function useDetailedAssetMetadata(slug: string) {
-  const baseMetadata = useAssetMetadata(slug);
-
-  const storageKey = useMemo(() => getDetailedMetadataStorageKey(slug), [slug]);
-
-  const { data: detailedMetadata, mutate } = useRetryableSWR<DetailedAssetMetdata>(
-    ['detailed-metadata', storageKey],
-    fetchFromStorage,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false
-    }
-  );
-
-  useEffect(() => onStorageChanged(storageKey, mutate), [storageKey, mutate]);
-
-  return detailedMetadata ?? baseMetadata;
-}
 
 export function useAllTokensBaseMetadata() {
   const { allTokensBaseMetadataRef } = useTokensMetadata();
@@ -228,38 +172,16 @@ export function useAllTokensBaseMetadata() {
 
 export function searchAssets(
   searchValue: string,
-  assetSlugs: string[],
+  tokenIds: string[],
   allTokensBaseMetadata: Record<string, AssetMetadata>
 ) {
-  if (!searchValue) return assetSlugs;
+  if (!searchValue) return tokenIds;
 
-  const fuse = new Fuse(
-    assetSlugs.map(slug => ({
-      slug,
-      metadata: isTezAsset(slug) ? TEZOS_METADATA : allTokensBaseMetadata[slug]
-    })),
-    {
-      keys: [
-        { name: 'metadata.name', weight: 0.9 },
-        { name: 'metadata.symbol', weight: 0.7 },
-        { name: 'slug', weight: 0.3 }
-      ],
-      threshold: 1
-    }
-  );
+  const matches = (s: string, t: string) => s.toLowerCase().indexOf(t) !== -1;
 
-  return fuse.search(searchValue).map(({ item: { slug } }) => slug);
-}
-
-function getDetailedMetadataStorageKey(slug: string) {
-  return `detailed_asset_metadata_${slug}`;
-}
-
-function mapObjectKeys<T extends Record<string, any>>(obj: T, predicate: (key: string) => string): T {
-  const newObj: Record<string, any> = {};
-  for (const key of Object.keys(obj)) {
-    newObj[predicate(key)] = obj[key];
-  }
-
-  return newObj as T;
+  const term = searchValue.toLowerCase();
+  return tokenIds.filter(id => {
+    const { description, name, symbol } = allTokensBaseMetadata[id];
+    return matches(description, term) || matches(name, term) || matches(symbol, term);
+  });
 }

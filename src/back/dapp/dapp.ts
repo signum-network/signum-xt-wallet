@@ -35,9 +35,15 @@ function setDApps(newDApps: DAppSessions) {
   return browser.storage.local.set({ [STORAGE_KEY]: newDApps });
 }
 
-export async function getCurrentAccountPublicKey() {
-  const { account_publickey: publicKey } = await browser.storage.local.get('account_publickey');
-  return publicKey;
+export async function getCurrentAccountInfo() {
+  const { account_publickey: publicKey, account_type: type } = await browser.storage.local.get([
+    'account_publickey',
+    'account_type'
+  ]);
+  return {
+    publicKey,
+    type
+  };
 }
 
 export async function getCurrentNetworkHost() {

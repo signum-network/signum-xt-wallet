@@ -34,6 +34,7 @@ const fileFormat = '[name].[hash][ext]';
 module.exports = {
   mode: process.env.NODE_ENV,
   devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : false,
+  // devtool: 'inline-source-map',
   cache: {
     type: 'filesystem',
     allowCollectingMemory: true

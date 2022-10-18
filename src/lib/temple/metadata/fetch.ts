@@ -1,11 +1,24 @@
-import { AssetMetadata, DetailedAssetMetdata } from './types';
-// TODO: implement once we need it
-export async function fetchTokenMetadata(
-  tezos: any,
-  assetSlug: string
-): Promise<{ base: AssetMetadata; detailed: DetailedAssetMetdata }> {
-  // TODO: signum implementation if needed
-  throw new NotFoundTokenMetadata();
+import { Ledger } from '@signumjs/core';
+import browser from 'webextension-polyfill';
+
+import { AssetMetadata } from './types';
+
+export async function fetchTokenMetadata(signum: Ledger, tokenId: string): Promise<{ base: AssetMetadata }> {
+  try {
+    const token = await signum.asset.getAsset({ assetId: tokenId });
+    return {
+      base: {
+        symbol: token.name,
+        decimals: token.decimals,
+        name: token.name,
+        id: token.asset,
+        description: token.description || '',
+        thumbnailUri: browser.runtime.getURL(`misc/token-logos/${token.name.toLowerCase()}.svg`) || undefined
+      }
+    };
+  } catch (e: any) {
+    throw new NotFoundTokenMetadata();
+  }
 }
 
 export class NotFoundTokenMetadata extends Error {

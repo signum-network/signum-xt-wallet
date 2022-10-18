@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'clsx';
 import { useForm } from 'react-hook-form';
@@ -9,8 +9,9 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import SimplePageLayout from 'app/layouts/SimplePageLayout';
 import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
-import { useLocalStorage, useTempleClient, TempleSharedStorageKey } from 'lib/temple/front';
+import { useLocalStorage, useTempleClient, XTSharedStorageKey } from 'lib/temple/front';
 import { Link } from 'lib/woozie';
+import * as Woozie from 'lib/woozie';
 
 interface UnlockProps {
   canImportNew?: boolean;
@@ -38,8 +39,8 @@ const Unlock: FC<UnlockProps> = ({ canImportNew = true }) => {
   const { unlock } = useTempleClient();
   const formAnalytics = useFormAnalytics('UnlockWallet');
 
-  const [attempt, setAttempt] = useLocalStorage<number>(TempleSharedStorageKey.PasswordAttempts, 1);
-  const [timelock, setTimeLock] = useLocalStorage<number>(TempleSharedStorageKey.TimeLock, 0);
+  const [attempt, setAttempt] = useLocalStorage<number>(XTSharedStorageKey.PasswordAttempts, 1);
+  const [timelock, setTimeLock] = useLocalStorage<number>(XTSharedStorageKey.TimeLock, 0);
   const lockLevel = LOCK_TIME * Math.floor(attempt / 3);
 
   const [timeleft, setTimeleft] = useState(getTimeLeft(timelock, lockLevel));
@@ -52,6 +53,10 @@ const Unlock: FC<UnlockProps> = ({ canImportNew = true }) => {
 
   const { register, handleSubmit, errors, setError, clearError, formState } = useForm<FormData>();
   const submitting = formState.isSubmitting;
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const onSubmit = useCallback(
     async ({ password }) => {

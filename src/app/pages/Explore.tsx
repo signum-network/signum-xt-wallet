@@ -11,10 +11,13 @@ import { ReactComponent as ExploreIcon } from 'app/icons/explore.svg';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
+import Tokens from 'app/pages/Explore/Tokens';
+import AssetBanner from 'app/templates/AssetBanner';
 import Activity from 'app/templates/SignumActivity/Activity';
+import TokenActivity from 'app/templates/SignumActivity/TokenActivity';
 import P2PMessages from 'app/templates/SignumP2PMessages/P2PMessages';
 import { T, t } from 'lib/i18n/react';
-import { getAssetSymbol, XTAccountType, useAccount, useSignumAssetMetadata } from 'lib/temple/front';
+import { XTAccountType, useAccount, useSignumAssetMetadata, SIGNA_TOKEN_ID } from 'lib/temple/front';
 import { useNetworkIsReachable } from 'lib/ui/useNetworkIsReachable';
 import useTippy from 'lib/ui/useTippy';
 import { HistoryAction, Link, navigate, useLocation } from 'lib/woozie';
@@ -24,36 +27,34 @@ import { ExploreSelectors } from './Explore.selectors';
 import { ActivationSection } from './Explore/ActivationSection';
 import AddressChip from './Explore/AddressChip';
 import EditableTitle from './Explore/EditableTitle';
-import MainBanner from './Explore/MainBanner';
 import { useOnboardingProgress } from './Onboarding/hooks/useOnboardingProgress.hook';
 import Onboarding from './Onboarding/Onboarding';
 
 type ExploreProps = {
-  assetSlug?: string | null;
+  tokenId: string;
 };
 
-const Explore: FC<ExploreProps> = ({ assetSlug }) => {
+const Explore: FC<ExploreProps> = ({ tokenId }) => {
   const { fullPage, registerBackHandler } = useAppEnv();
   const { onboardingCompleted } = useOnboardingProgress();
   const networkIsReachable = useNetworkIsReachable();
   const account = useAccount();
   const { search } = useLocation();
-  const assetMetadata = useSignumAssetMetadata(assetSlug || 'signa');
+  const assetMetadata = useSignumAssetMetadata(tokenId);
 
   useLayoutEffect(() => {
     const usp = new URLSearchParams(search);
-    if (assetSlug && usp.get('after_token_added') === 'true') {
+    if (tokenId && usp.get('after_token_added') === 'true') {
       return registerBackHandler(() => {
         navigate('/', HistoryAction.Replace);
       });
     }
     return undefined;
-  }, [registerBackHandler, assetSlug, search]);
+  }, [registerBackHandler, tokenId, search]);
 
   const canSend = account.type !== XTAccountType.WatchOnly;
   const fullpageClassName = fullPage ? 'mb-10' : 'mb-6';
-  // const swapLink = assetSlug ? `/swap/${assetSlug}` : '/swap';
-  const sendLink = assetSlug ? `/send/${assetSlug}` : '/send';
+  const sendLink = tokenId ? `/send/${tokenId}` : '/send';
 
   return onboardingCompleted ? (
     <PageLayout
@@ -61,10 +62,10 @@ const Explore: FC<ExploreProps> = ({ assetSlug }) => {
         <>
           <ExploreIcon className="w-auto h-4 mr-1 stroke-current" />
           <T id="explore" />
-          {assetSlug && (
+          {tokenId && (
             <>
               <ChevronRightIcon className="w-auto h-4 mx-px stroke-current opacity-75" />
-              <span className="font-normal">{getAssetSymbol(assetMetadata)}</span>
+              <span className="font-normal">{assetMetadata.name}</span>
             </>
           )}
         </>
@@ -86,10 +87,10 @@ const Explore: FC<ExploreProps> = ({ assetSlug }) => {
         )}
         <AddressChip account={account} className="mb-6" />
 
-        <MainBanner accountId={account.accountId} assetSlug={assetSlug} />
+        <AssetBanner accountId={account.accountId} tokenId={tokenId} />
 
         <div className="flex justify-around mx-auto w-full max-w-sm mt-6 px-8">
-          <ActionButton label={<T id="receive" />} Icon={ReceiveIcon} href="/receive" />
+          {tokenId === SIGNA_TOKEN_ID && <ActionButton label={<T id="receive" />} Icon={ReceiveIcon} href="/receive" />}
           <ActionButton
             label={<T id="send" />}
             Icon={SendIcon}
@@ -106,7 +107,7 @@ const Explore: FC<ExploreProps> = ({ assetSlug }) => {
         <ActivationSection />
       </div>
 
-      <SecondarySection assetSlug={assetSlug} />
+      <SecondarySection tokenId={tokenId} />
     </PageLayout>
   ) : (
     <Onboarding />
@@ -152,15 +153,19 @@ const ActionButton: FC<ActionButtonProps> = ({ label, Icon, href, disabled, tipp
 };
 
 type ActivityTabProps = {
-  assetSlug?: string;
+  tokenId?: string;
 };
 
-const ActivityTab: FC<ActivityTabProps> = ({ assetSlug }) => {
+const ActivityTab: FC<ActivityTabProps> = ({ tokenId = SIGNA_TOKEN_ID }) => {
   const account = useAccount();
 
   return (
     <SuspenseContainer whileMessage={t('operationHistoryWhileMessage')}>
-      <Activity publicKey={account.publicKey} />
+      {tokenId === SIGNA_TOKEN_ID ? (
+        <Activity publicKey={account.publicKey} />
+      ) : (
+        <TokenActivity publicKey={account.publicKey} tokenId={tokenId} />
+      )}
     </SuspenseContainer>
   );
 };
@@ -185,14 +190,13 @@ function useTabSlug() {
 }
 
 type SecondarySectionProps = {
-  assetSlug?: string | null;
+  tokenId: string;
   className?: string;
 };
 
-const SecondarySection: FC<SecondarySectionProps> = ({ assetSlug, className }) => {
+const SecondarySection: FC<SecondarySectionProps> = ({ tokenId, className }) => {
   const { fullPage } = useAppEnv();
   const tabSlug = useTabSlug();
-
   const tabs = useMemo<
     {
       slug: string;
@@ -201,14 +205,8 @@ const SecondarySection: FC<SecondarySectionProps> = ({ assetSlug, className }) =
       testID: string;
     }[]
   >(() => {
-    if (!assetSlug) {
+    if (tokenId === SIGNA_TOKEN_ID) {
       return [
-        // {
-        //   slug: 'tokens',
-        //   title: t('tokens'),
-        //   Component: Tokens,
-        //   testID: ExploreSelectors.AssetsTab
-        // },
         // {
         //   slug: 'collectibles',
         //   title: t('collectibles'),
@@ -226,6 +224,12 @@ const SecondarySection: FC<SecondarySectionProps> = ({ assetSlug, className }) =
           title: t('messages'),
           Component: P2PMessagesTab,
           testID: ExploreSelectors.MessagesTab
+        },
+        {
+          slug: 'tokens',
+          title: t('tokens'),
+          Component: Tokens,
+          testID: ExploreSelectors.AssetsTab
         }
       ];
     }
@@ -233,7 +237,7 @@ const SecondarySection: FC<SecondarySectionProps> = ({ assetSlug, className }) =
     const activity = {
       slug: 'activity',
       title: t('activity'),
-      Component: () => <ActivityTab assetSlug={assetSlug} />,
+      Component: () => <ActivityTab tokenId={tokenId} />,
       testID: ExploreSelectors.ActivityTab
     };
 
@@ -245,7 +249,7 @@ const SecondarySection: FC<SecondarySectionProps> = ({ assetSlug, className }) =
     // };
 
     return [activity];
-  }, [assetSlug]);
+  }, [tokenId]);
 
   const { slug, Component } = useMemo(() => {
     const tab = tabSlug ? tabs.find(currentTab => currentTab.slug === tabSlug) : null;
@@ -260,7 +264,7 @@ const SecondarySection: FC<SecondarySectionProps> = ({ assetSlug, className }) =
 
           return (
             <Link
-              key={assetSlug ? `asset_${currentTab.slug}` : currentTab.slug}
+              key={tokenId ? `asset_${currentTab.slug}` : currentTab.slug}
               to={lctn => ({ ...lctn, search: `?tab=${currentTab.slug}` })}
               replace
               className={classNames(

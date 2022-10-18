@@ -1,8 +1,9 @@
 import {
-  Api,
   getRecipientAmountsFromMultiOutPayment,
+  Ledger,
   Transaction,
   TransactionArbitrarySubtype,
+  TransactionAssetSubtype,
   TransactionMiningSubtype,
   TransactionPaymentSubtype,
   TransactionSmartContractSubtype,
@@ -10,12 +11,18 @@ import {
 } from '@signumjs/core';
 import BigNumber from 'bignumber.js';
 
+import { BURN_ADDRESS, SIGNA_TOKEN_ID } from 'lib/temple/metadata';
+
 export type ParsedTransactionExpense = {
   tokenAddress?: string;
   tokenId?: string;
+  tokenName?: string;
+  tokenDecimals?: string;
   aliasName?: string;
   hash?: string;
-  amount: BigNumber;
+  amount?: BigNumber;
+  price?: BigNumber;
+  quantity?: BigNumber;
   to: string;
 };
 
@@ -26,6 +33,8 @@ export interface ParsedTransactionType {
 }
 
 export type ParsedTransaction = {
+  txType: number;
+  txSubtype: number;
   amount?: BigNumber;
   delegate?: string;
   type: ParsedTransactionType;
@@ -34,19 +43,24 @@ export type ParsedTransaction = {
   expenses: ParsedTransactionExpense[];
   fee: BigNumber;
   isSelf: boolean;
+  isDistribution: boolean;
 };
 
 const throwInappropriateTransactionType = () => {
   throw new Error('Inappropriate Transaction Type');
 };
 
-async function isContractInteraction(signumApi: Api, recipientId: string): Promise<boolean> {
+async function isContractInteraction(signum: Ledger, recipientId: string): Promise<boolean> {
   try {
-    await signumApi.contract.getContract(recipientId);
+    await signum.contract.getContract(recipientId);
     return true;
   } catch (e) {
     return false;
   }
+}
+
+function isDistribution(tx: Transaction): boolean {
+  return tx.type === TransactionType.Asset && tx.subtype == TransactionAssetSubtype.AssetDistributeToHolders;
 }
 
 function isTransactionToSelf(tx: Transaction): boolean {
@@ -67,21 +81,24 @@ function isTransactionToSelf(tx: Transaction): boolean {
 
 export async function parseSignumTransaction(
   transaction: string,
-  accountAddress: string,
-  signumApi: Api
+  signum: Ledger
 ): Promise<[ParsedTransaction, object]> {
   const jsonTx = JSON.parse(transaction) as Transaction;
-  const contractInteraction = await isContractInteraction(signumApi, jsonTx.recipient || '');
+  const contractInteraction = await isContractInteraction(signum, jsonTx.recipient || '');
+  const expenses = parseTransactionExpenses(jsonTx);
   return [
     {
       amount: calculateAmount(jsonTx),
-      fee: new BigNumber(jsonTx.feeNQT!),
-      expenses: parseTransactionExpenses(jsonTx, accountAddress),
+      expenses,
+      fee: new BigNumber(jsonTx.feeNQT),
       contractAddress: contractInteraction ? jsonTx.recipient : undefined,
       delegate: undefined,
       isEntrypointInteraction: contractInteraction,
       type: parseTransactionType(jsonTx),
-      isSelf: isTransactionToSelf(jsonTx)
+      isSelf: isTransactionToSelf(jsonTx),
+      isDistribution: isDistribution(jsonTx),
+      txType: jsonTx.type,
+      txSubtype: jsonTx.subtype
     },
     jsonTx
   ];
@@ -94,15 +111,14 @@ function calculateAmount(tx: Transaction): BigNumber {
   }
   return new BigNumber(tx.amountNQT || 0);
 }
-
 // --- EXPENSES SECTION
 
-function parseTransactionExpenses(tx: Transaction, senderAddress: string): ParsedTransactionExpense[] {
+function parseTransactionExpenses(tx: Transaction): ParsedTransactionExpense[] {
   switch (tx.type) {
     case TransactionType.Payment:
       return parsePaymentExpenses(tx);
     case TransactionType.Asset:
-      return parseAssetExpenses(tx, senderAddress);
+      return parseAssetExpenses(tx);
     case TransactionType.AT:
       return parseContractExpenses(tx);
     case TransactionType.Arbitrary:
@@ -120,7 +136,7 @@ function parseMiningExpenses(tx: Transaction): ParsedTransactionExpense[] {
     case TransactionMiningSubtype.RemoveCommitment:
       return [
         {
-          to: tx.sender!,
+          to: tx.sender,
           amount: new BigNumber(tx?.attachment.amountNQT || 0)
         }
       ];
@@ -143,7 +159,7 @@ function parseContractExpenses(tx: Transaction): ParsedTransactionExpense[] {
       return [
         {
           to: '',
-          hash: tx.referencedTransactionFullHash || tx.senderPublicKey!,
+          hash: tx.referencedTransactionFullHash || tx.senderPublicKey,
           amount
         }
       ];
@@ -163,7 +179,7 @@ function parseArbitraryExpenses(tx: Transaction): ParsedTransactionExpense[] {
     case TransactionArbitrarySubtype.AliasAssignment:
       return [
         {
-          to: tx.sender!,
+          to: tx.sender,
           aliasName: tx.attachment.alias,
           amount: new BigNumber(0)
         }
@@ -171,7 +187,7 @@ function parseArbitraryExpenses(tx: Transaction): ParsedTransactionExpense[] {
     case TransactionArbitrarySubtype.AliasSale:
       return [
         {
-          to: tx.recipient || tx.sender!,
+          to: tx.recipient || tx.sender,
           aliasName: tx.attachment.alias || tx.attachment.uri,
           amount: new BigNumber(tx.attachment.priceNQT)
         }
@@ -179,7 +195,7 @@ function parseArbitraryExpenses(tx: Transaction): ParsedTransactionExpense[] {
     case TransactionArbitrarySubtype.AliasBuy:
       return [
         {
-          to: tx.sender!,
+          to: tx.sender,
           aliasName: tx.attachment.alias || tx.attachment.uri,
           amount: new BigNumber(tx.amountNQT || 0)
         }
@@ -189,16 +205,97 @@ function parseArbitraryExpenses(tx: Transaction): ParsedTransactionExpense[] {
     default:
       return [
         {
-          to: tx.recipient || tx.sender!,
+          to: tx.recipient || tx.sender,
           amount: new BigNumber(0)
         }
       ];
   }
 }
 
-function parseAssetExpenses(tx: Transaction, senderAddress: string): ParsedTransactionExpense[] {
-  // TODO: add asset expenses stuff
-  return [];
+function parseAssetExpenses(tx: Transaction): ParsedTransactionExpense[] {
+  switch (tx.subtype) {
+    case TransactionAssetSubtype.AssetDistributeToHolders:
+      const distExpenses: ParsedTransactionExpense[] = [
+        {
+          to: '',
+          tokenId: tx.attachment.asset,
+          quantity: new BigNumber(tx.attachment.quantityMinimumQNT),
+          amount: new BigNumber(tx.amountNQT || 0)
+        }
+      ];
+      if (tx.attachment.assetToDistribute && tx.attachment.assetToDistribute !== '0') {
+        distExpenses.push({
+          to: '',
+          tokenId: tx.attachment.assetToDistribute,
+          quantity: new BigNumber(tx.attachment.quantityQNT)
+        });
+      }
+      return distExpenses;
+    case TransactionAssetSubtype.AssetMultiTransfer:
+      const multiExpenses: ParsedTransactionExpense[] = [];
+      const amount = new BigNumber(tx.amountNQT || '0');
+      if (amount.gte(0)) {
+        multiExpenses.push({
+          to: tx.recipient!,
+          amount,
+          tokenId: SIGNA_TOKEN_ID
+        });
+      }
+      let index = 0;
+      for (const tokenId of tx.attachment.assetIds) {
+        multiExpenses.push({
+          to: tx.recipient!,
+          tokenId,
+          quantity: new BigNumber(tx.attachment.quantitiesQNT[index])
+        });
+        ++index;
+      }
+      return multiExpenses;
+    case TransactionAssetSubtype.AskOrderPlacement:
+    case TransactionAssetSubtype.BidOrderPlacement:
+      return [
+        {
+          to: '',
+          tokenId: tx.attachment.asset,
+          quantity: new BigNumber(tx.attachment.quantityQNT),
+          price: new BigNumber(tx.attachment.priceNQT)
+        }
+      ];
+    case TransactionAssetSubtype.AskOrderCancellation:
+    case TransactionAssetSubtype.BidOrderCancellation:
+      return [
+        {
+          to: '',
+          tokenId: tx.attachment.asset
+        }
+      ];
+    case TransactionAssetSubtype.AssetIssuance:
+      return [
+        {
+          to: tx.sender, // self
+          tokenName: tx.attachment.name,
+          tokenDecimals: tx.attachment.decimals,
+          quantity: new BigNumber(tx.attachment.quantityQNT)
+        }
+      ];
+    case TransactionAssetSubtype.AssetMint:
+      return [
+        {
+          to: tx.sender,
+          tokenId: tx.attachment.asset,
+          quantity: new BigNumber(tx.attachment.quantityQNT)
+        }
+      ];
+    case TransactionAssetSubtype.AssetTransfer:
+    default:
+      return [
+        {
+          to: tx.recipient || BURN_ADDRESS,
+          tokenId: tx.attachment.asset,
+          quantity: new BigNumber(tx.attachment.quantityQNT)
+        }
+      ];
+  }
 }
 
 function parsePaymentExpenses(tx: Transaction): ParsedTransactionExpense[] {
@@ -214,7 +311,7 @@ function parsePaymentExpenses(tx: Transaction): ParsedTransactionExpense[] {
     default:
       return [
         {
-          to: tx.recipient!,
+          to: tx.recipient || BURN_ADDRESS,
           amount: new BigNumber(tx?.amountNQT || 0)
         }
       ];
@@ -226,12 +323,9 @@ function parsePaymentExpenses(tx: Transaction): ParsedTransactionExpense[] {
 function parseTransactionType(tx: Transaction): ParsedTransactionType {
   switch (tx.type) {
     case TransactionType.Payment:
+      return parsePaymentSubType(tx);
     case TransactionType.Asset:
-      return {
-        i18nKey: 'transferTo',
-        textIcon: '➡',
-        hasAmount: true
-      };
+      return parseAssetSubType(tx);
     case TransactionType.AT:
       return parseATSubType(tx);
     case TransactionType.Arbitrary:
@@ -245,6 +339,80 @@ function parseTransactionType(tx: Transaction): ParsedTransactionType {
         hasAmount: true
       };
   }
+}
+
+function parsePaymentSubType(tx: Transaction): ParsedTransactionType {
+  return !tx.recipient
+    ? {
+        i18nKey: 'burn',
+        textIcon: '🔥',
+        hasAmount: true
+      }
+    : {
+        i18nKey: 'transferTo',
+        textIcon: '➡',
+        hasAmount: true
+      };
+}
+function parseAssetSubType(tx: Transaction): ParsedTransactionType {
+  switch (tx.subtype) {
+    case TransactionAssetSubtype.AssetTransfer:
+    case TransactionAssetSubtype.AssetMultiTransfer:
+      return !tx.recipient
+        ? {
+            i18nKey: 'burn',
+            textIcon: '🔥',
+            hasAmount: true
+          }
+        : {
+            i18nKey: 'transferTo',
+            textIcon: '➡',
+            hasAmount: true
+          };
+    case TransactionAssetSubtype.AssetDistributeToHolders:
+      return {
+        i18nKey: 'distribution',
+        textIcon: '🌦️',
+        hasAmount: true
+      };
+    case TransactionAssetSubtype.AskOrderPlacement:
+      return {
+        i18nKey: 'createSaleOrder',
+        textIcon: '💱',
+        hasAmount: false
+      };
+    case TransactionAssetSubtype.BidOrderPlacement:
+      return {
+        i18nKey: 'createBuyOrder',
+        textIcon: '💱',
+        hasAmount: true
+      };
+    case TransactionAssetSubtype.AskOrderCancellation:
+      return {
+        i18nKey: 'cancelSaleOrder',
+        textIcon: '💱❌',
+        hasAmount: false
+      };
+    case TransactionAssetSubtype.BidOrderCancellation:
+      return {
+        i18nKey: 'cancelBuyOrder',
+        textIcon: '💱❌',
+        hasAmount: false
+      };
+    case TransactionAssetSubtype.AssetIssuance:
+      return {
+        i18nKey: 'tokenIssuance',
+        textIcon: '🪙✨',
+        hasAmount: false
+      };
+    case TransactionAssetSubtype.AssetMint:
+      return {
+        i18nKey: 'tokenMint',
+        textIcon: '🌬️🪙',
+        hasAmount: false
+      };
+  }
+  return throwInappropriateTransactionType();
 }
 
 function parseATSubType(tx: Transaction): ParsedTransactionType {

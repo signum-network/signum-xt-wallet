@@ -1,9 +1,9 @@
 import { Address } from '@signumjs/core';
 import { v4 as uuid } from 'uuid';
 
-import { XTMessageType } from 'lib/messaging';
+import { XTAccountType, XTMessageType } from 'lib/messaging';
 
-import { getDApp, getNetworkHosts, setDApp, getCurrentNetworkHost, getCurrentAccountPublicKey } from './dapp';
+import { getDApp, getNetworkHosts, setDApp, getCurrentNetworkHost, getCurrentAccountInfo } from './dapp';
 import { requestConfirm } from './requestConfirm';
 import {
   ExtensionErrorType,
@@ -27,8 +27,10 @@ export async function requestPermission(
     throw new Error(ExtensionErrorType.InvalidNetwork);
   }
   const hostUrls = networkHosts.map(({ rpcBaseURL }) => rpcBaseURL);
-  const [dApp, publicKey] = await Promise.all([getDApp(origin), getCurrentAccountPublicKey()]);
+  const [dApp, account] = await Promise.all([getDApp(origin), getCurrentAccountInfo()]);
 
+  const publicKey = account.publicKey;
+  const watchOnly = account.type === XTAccountType.WatchOnly;
   const accountId = Address.fromPublicKey(publicKey).getNumericId();
   if (dApp && req.network === dApp.network && req.appMeta.name === dApp.appMeta.name) {
     return {
@@ -36,7 +38,8 @@ export async function requestPermission(
       availableNodeHosts: hostUrls,
       currentNodeHost: currentHostUrl,
       accountId,
-      publicKey
+      publicKey,
+      watchOnly
     };
   }
 
@@ -67,7 +70,8 @@ export async function requestPermission(
               accountId,
               publicKey,
               availableNodeHosts: hostUrls,
-              currentNodeHost: currentHostUrl
+              currentNodeHost: currentHostUrl,
+              watchOnly
             });
           } else {
             decline();

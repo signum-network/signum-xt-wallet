@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useState } from 'react';
+import React, { FC, Suspense, useCallback, useState } from 'react';
 
 import classNames from 'clsx';
 
@@ -16,7 +16,12 @@ import AddContactModal from './AddContactModal';
 import { SendForm } from './SendForm';
 import { SpinnerSection } from './SpinnerSection';
 
-const SendFormLayout = () => {
+interface Props {
+  tokenId: string;
+  recipient?: string;
+}
+
+const SendFormLayout: FC<Props> = ({ tokenId, recipient }) => {
   const TransactionFormats = [
     {
       key: 'transfer',
@@ -41,17 +46,26 @@ const SendFormLayout = () => {
   return (
     <>
       {operation && <OperationStatus typeTitle={t('transaction')} operation={operation} />}
-      <AssetBanner assetSlug="signa" accountId={accountId} />
+      <AssetBanner tokenId={tokenId} accountId={accountId} />
       <hr className="mt-2" />
       <div className="mt-2">
         <ViewsSwitcher activeItem={transactionFormat} items={TransactionFormats} onChange={setTransactionFormat} />
       </div>
       <Suspense fallback={<SpinnerSection />}>
         <div className={classNames(transactionFormat.key !== 'transfer' && 'hidden')}>
-          <SendForm setOperation={setOperation} onAddContactRequested={setContactAccountId} />
+          <SendForm
+            setOperation={setOperation}
+            onAddContactRequested={setContactAccountId}
+            tokenId={tokenId}
+            recipient={recipient}
+          />
         </div>
         <div className={classNames(transactionFormat.key !== 'message' && 'hidden')}>
-          <SendP2PMessageForm setOperation={setOperation} onAddContactRequested={setContactAccountId} />
+          <SendP2PMessageForm
+            setOperation={setOperation}
+            onAddContactRequested={setContactAccountId}
+            recipient={recipient}
+          />
         </div>
       </Suspense>
       {contactAccountId && <AddContactModal accountId={contactAccountId} onClose={closeContactModal} />}

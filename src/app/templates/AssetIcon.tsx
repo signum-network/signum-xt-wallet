@@ -1,46 +1,45 @@
-import React, { CSSProperties, memo, useCallback, useState } from 'react';
+import React from 'react';
 
 import classNames from 'clsx';
 
 import Identicon from 'app/atoms/Identicon';
-import { getAssetSymbol, getThumbnailUri, useSignumAssetMetadata } from 'lib/temple/front';
+import { AssetMetadata, SIGNA_TOKEN_ID } from 'lib/temple/front';
 
 export type AssetIconProps = {
-  assetSlug: string;
+  metadata: AssetMetadata;
   className?: string;
-  style?: CSSProperties;
   size?: number;
   assetType?: string;
 };
 
-const AssetIcon = memo((props: AssetIconProps) => {
-  const { assetSlug, className, style, size } = props;
+// TODO: when alias logo is in place we use those!
+const AssetIcon = (props: AssetIconProps) => {
+  const { className, size, metadata } = props;
 
-  const metadata = useSignumAssetMetadata(assetSlug);
-  let thumbnailUri = getThumbnailUri(metadata);
-
-  const [imageDisplayed, setImageDisplayed] = useState(true);
-  const handleImageError = useCallback(() => {
-    setImageDisplayed(false);
-  }, [setImageDisplayed]);
-
-  if (thumbnailUri && imageDisplayed) {
+  if (metadata.id !== SIGNA_TOKEN_ID) {
     return (
-      <img
-        src={thumbnailUri}
-        alt={metadata?.name}
-        className={classNames('overflow-hidden', className)}
-        style={{
-          width: size,
-          height: size,
-          ...style
-        }}
-        onError={handleImageError}
+      <Identicon
+        type="hearts"
+        hash={metadata.id}
+        className={className}
+        style={{ borderRadius: '50%', border: '1px solid #cbd5e0' }}
+        size={size}
       />
     );
   }
 
-  return <Identicon type="initials" hash={getAssetSymbol(metadata)} className={className} style={style} size={size} />;
-});
+  return (
+    <img
+      key={metadata.thumbnailUri}
+      src={metadata.thumbnailUri}
+      alt={metadata.name}
+      className={classNames('overflow-hidden', className)}
+      style={{
+        width: size,
+        height: size
+      }}
+    />
+  );
+};
 
 export default AssetIcon;

@@ -3,10 +3,13 @@ import {
   isMultiOutSameTransaction,
   isMultiOutTransaction,
   Transaction,
+  TransactionAssetSubtype,
   TransactionMiningSubtype,
   TransactionType
 } from '@signumjs/core';
-import { Amount } from '@signumjs/util';
+import { Amount, ChainValue } from '@signumjs/util';
+
+import { AssetMetadata, SIGNA_TOKEN_ID } from 'lib/temple/metadata';
 
 interface ParseAmountDiffs {
   diff: string;
@@ -16,7 +19,7 @@ const isCommitmentTransaction = (tx: Transaction): boolean =>
   tx.type === TransactionType.Mining &&
   (tx.subtype === TransactionMiningSubtype.AddCommitment || tx.subtype === TransactionMiningSubtype.RemoveCommitment);
 
-export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmountDiffs {
+function parseSignaDiffs(tx: Transaction, accountId: string): ParseAmountDiffs {
   let amount = Amount.fromPlanck(tx.amountNQT || '0');
   let isIncoming = tx.recipient === accountId; // common transaction
 
@@ -40,4 +43,55 @@ export function parseAmountDiffs(tx: Transaction, accountId: string): ParseAmoun
     result.diff = amount.getSigna();
   }
   return result;
+}
+
+function parseQuantityDiffs(tx: Transaction, accountId: string, tokenMetadata: AssetMetadata): ParseAmountDiffs {
+  if (tx.type !== TransactionType.Asset) {
+    return {
+      diff: '0'
+    };
+  }
+
+  let quantityQNT = tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders ? '0' : tx.attachment.quantityQNT;
+  if (tx.subtype === TransactionAssetSubtype.AssetMultiTransfer) {
+    const index = tx.attachment.assetIds.findIndex((id: string) => id === tokenMetadata.id);
+    if (index < 0) {
+      console.warn(`Token id ${tokenMetadata.id} not available in asset multi transfer`);
+      return {
+        diff: '0'
+      };
+    }
+    quantityQNT = tx.attachment.quantitiesQNT[index];
+  }
+
+  if (tx.distribution) {
+    // received distribution
+    return {
+      diff: ChainValue.create(tokenMetadata.decimals).setAtomic(tx.distribution.quantityQNT).getCompound()
+    };
+  }
+
+  const isOutgoing =
+    tx.sender === accountId &&
+    tx.subtype !== TransactionAssetSubtype.AssetMint &&
+    tx.subtype !== TransactionAssetSubtype.AssetIssuance;
+
+  if (isOutgoing) {
+    return {
+      diff: ChainValue.create(tokenMetadata.decimals)
+        .setAtomic('-' + quantityQNT)
+        .getCompound()
+    };
+  }
+
+  return {
+    // simple transfer
+    diff: ChainValue.create(tokenMetadata.decimals).setAtomic(quantityQNT).getCompound()
+  };
+}
+
+export function parseAmountDiffs(tx: Transaction, accountId: string, tokenMetadata: AssetMetadata): ParseAmountDiffs {
+  return tokenMetadata.id === SIGNA_TOKEN_ID
+    ? parseSignaDiffs(tx, accountId)
+    : parseQuantityDiffs(tx, accountId, tokenMetadata);
 }

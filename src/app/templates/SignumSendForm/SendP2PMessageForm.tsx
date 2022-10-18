@@ -14,6 +14,7 @@ import { useAppEnv } from 'app/env';
 import { MessageForm, MessageFormData } from 'app/templates/SignumSendForm/MessageForm';
 import { T, t } from 'lib/i18n/react';
 import {
+  BURN_ADDRESS,
   isSignumAddress,
   SMART_CONTRACT_PUBLIC_KEY,
   useAccount,
@@ -40,11 +41,12 @@ interface FormData {
 type FormProps = {
   setOperation: Dispatch<any>;
   onAddContactRequested: (address: string) => void;
+  recipient?: string;
 };
 
 const MinimumFee = Amount.fromPlanck(FeeQuantPlanck).getSigna();
 
-export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRequested }) => {
+export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRequested, recipient }) => {
   const messageFormRef = useRef();
   const { registerBackHandler } = useAppEnv();
   const assetMetadata = useSignumAssetMetadata();
@@ -67,7 +69,10 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
   const accountId = acc.accountId;
 
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation, reset } = useForm<FormData>({
-    mode: 'onChange'
+    mode: 'onChange',
+    defaultValues: {
+      to: recipient
+    }
   });
 
   const toValue = watch('to');
@@ -81,6 +86,9 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
     async (_k: string, address: string) => {
       try {
         const id = Address.create(address).getNumericId();
+        if (id === BURN_ADDRESS) {
+          return null;
+        }
         const a = await signum.account.getAccount({
           accountId: id,
           includeEstimatedCommitment: false,
@@ -285,9 +293,9 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
         label={t('recipient')}
         labelDescription={
           filledContact ? (
-            <FilledContact contact={filledContact} assetSymbol={assetSymbol} />
+            <FilledContact contact={filledContact} metadata={assetMetadata} />
           ) : (
-            <T id="tokensRecepientInputDescriptionWithDomain" substitutions={assetSymbol} />
+            <T id="messageRecepientInputDescriptionWithDomain" />
           )
         }
         placeholder={t('recipientInputPlaceholderWithDomain')}
@@ -301,9 +309,14 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
       {toResolved && (
         <div className={classNames('mb-4 -mt-3', 'text-xs font-light text-gray-600', 'flex flex-wrap items-center')}>
           <span className="mr-1 whitespace-no-wrap">{t('resolvedAddress')}:</span>
-          {resolvedPublicKey === SMART_CONTRACT_PUBLIC_KEY ? (
+
+          {resolvedPublicKey === SMART_CONTRACT_PUBLIC_KEY && (
             <span className="font-normal">🤖 {Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
-          ) : (
+          )}
+
+          {toResolved === BURN_ADDRESS && <span className="font-normal">🔥 {t('burnAddress')}</span>}
+
+          {resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY && toResolved !== BURN_ADDRESS && (
             <span className="font-normal">{Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
           )}
         </div>
@@ -324,7 +337,7 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
       <MessageForm
         ref={messageFormRef}
         onChange={setMessageFormData}
-        showEncrypted={resolvedPublicKey && resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY}
+        showEncrypted={resolvedPublicKey ? resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY : false}
         mode="p2pMessage"
       />
 

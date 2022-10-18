@@ -48,6 +48,7 @@ export interface ExtensionPermissionResponse extends ExtensionMessageBase {
   type: ExtensionMessageType.PermissionResponse;
   accountId: string;
   publicKey: string;
+  watchOnly: boolean;
   availableNodeHosts: string[];
   currentNodeHost: string;
 }
@@ -89,6 +90,7 @@ export type ExtensionPermission = {
   availableNodeHosts: string[];
   accountId: string;
   publicKey: string;
+  watchOnly: boolean;
 } | null;
 
 export type ExtensionSigned = {

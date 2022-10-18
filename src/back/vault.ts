@@ -7,7 +7,6 @@ import {
   verifySignature
 } from '@signumjs/crypto';
 import { convertByteArrayToHexString } from '@signumjs/util';
-import { InMemorySigner } from '@taquito/signer';
 import browser from 'webextension-polyfill';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
@@ -23,7 +22,6 @@ const DEFAULT_SETTINGS: XTSettings = {};
 
 enum StorageEntity {
   Check = 'check',
-  Mnemonic = 'mnemonic',
   AccPrivKey = 'accprivkey',
   AccPrivP2PKey = 'accprivp2pkey',
   AccPubKey = 'accpubkey',
@@ -32,7 +30,6 @@ enum StorageEntity {
 }
 
 const checkStrgKey = createStorageKey(StorageEntity.Check);
-const mnemonicStrgKey = createStorageKey(StorageEntity.Mnemonic);
 const accPrivP2PStrgKey = createDynamicStorageKey(StorageEntity.AccPrivP2PKey);
 const accPrivKeyStrgKey = createDynamicStorageKey(StorageEntity.AccPrivKey);
 const accPubKeyStrgKey = createDynamicStorageKey(StorageEntity.AccPubKey);
@@ -80,22 +77,6 @@ export class Vault {
         ],
         passKey
       );
-    });
-  }
-
-  // TODO: remove not used
-  static async revealMnemonic(password: string) {
-    const passKey = await Vault.toValidPassKey(password);
-    return withError('Failed to reveal seed phrase', () => fetchAndDecryptOne<string>(mnemonicStrgKey, passKey));
-  }
-
-  // TODO: remove not used
-  static async revealPrivateKey(accPublicKey: string, password: string) {
-    const passKey = await Vault.toValidPassKey(password);
-    return withError('Failed to reveal private key', async () => {
-      const privateKeySeed = await fetchAndDecryptOne<string>(accPrivKeyStrgKey(accPublicKey), passKey);
-      const signer = await createMemorySigner(privateKeySeed);
-      return signer.secretKey();
     });
   }
 
@@ -181,38 +162,6 @@ export class Vault {
       return [mnemonic, newAllAccounts];
     });
   }
-  //
-  // async importAccount(accPrivateKey: string, encPassword?: string) {
-  //   const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
-  //
-  //   return withError(errMessage, async () => {
-  //     const allAccounts = await this.fetchAccounts();
-  //     const signer = await createMemorySigner(accPrivateKey, encPassword);
-  //     const [realAccPrivateKey, accPublicKey, accPublicKey] = await Promise.all([
-  //       signer.secretKey(),
-  //       signer.publicKey(),
-  //       signer.publicKey()
-  //     ]);
-  //
-  //     const newAccount: XTAccount = {
-  //       type: XTAccountType.Eigen,
-  //       name: getNewAccountName(allAccounts),
-  //       publicKey: accPublicKey
-  //     };
-  //     const newAllAcounts = concatAccount(allAccounts, newAccount);
-  //
-  //     await encryptAndSaveMany(
-  //       [
-  //         [accPrivKeyStrgKey(accPublicKey), realAccPrivateKey],
-  //         [accPubKeyStrgKey(accPublicKey), accPublicKey],
-  //         [accountsStrgKey, newAllAcounts]
-  //       ],
-  //       this.passKey
-  //     );
-  //
-  //     return newAllAcounts;
-  //   });
-  // }
 
   async importAccountSignum(keys: Keys, name?: string): Promise<XTAccount[]> {
     const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
@@ -254,36 +203,6 @@ export class Vault {
     });
   }
 
-  // TODO: remove, we dont have it
-  async importFundraiserAccount(email: string, password: string, mnemonic: string) {
-    return withError('Failed to import fundraiser account', async () => {
-      throw new Error('Not implemented');
-    });
-  }
-
-  // TODO: remove we don't have it
-  async importManagedKTAccount(accPublicKey: string, chainId: string, owner: string) {
-    return withError('Failed to import Managed KT account', async () => {
-      const allAccounts = await this.fetchAccounts();
-      const newAccount: XTAccount = {
-        type: XTAccountType.ManagedKT,
-        name: getNewAccountName(
-          allAccounts.filter(({ type }) => type === XTAccountType.ManagedKT),
-          'defaultManagedKTAccountName'
-        ),
-        publicKey: accPublicKey,
-        chainId,
-        owner,
-        accountId: Address.fromPublicKey(accPublicKey).getNumericId()
-      };
-      const newAllAcounts = concatAccount(allAccounts, newAccount);
-
-      await encryptAndSaveMany([[accountsStrgKey, newAllAcounts]], this.passKey);
-
-      return newAllAcounts;
-    });
-  }
-
   async importWatchOnlyAccount(accPublicKey: string, chainId?: string) {
     return withError('Failed to import Watch Only account', async () => {
       const allAccounts = await this.fetchAccounts();
@@ -299,46 +218,17 @@ export class Vault {
       };
       const newAllAcounts = concatAccount(allAccounts, newAccount);
 
-      await encryptAndSaveMany([[accountsStrgKey, newAllAcounts]], this.passKey);
+      await encryptAndSaveMany(
+        [
+          [accPubKeyStrgKey(newAccount.accountId), newAccount.publicKey],
+          [accountsStrgKey, newAllAcounts]
+        ],
+        this.passKey
+      );
 
       return newAllAcounts;
     });
   }
-
-  // async createLedgerAccount(name: string, derivationPath?: string, derivationType?: DerivationType) {
-  //   return withError('Failed to connect Ledger account', async () => {
-  //     if (!derivationPath) derivationPath = getMainDerivationPath(0);
-  //
-  //     const { signer, cleanup } = await createLedgerSigner(derivationPath, derivationType);
-  //
-  //     try {
-  //       const accPublicKey = await signer.publicKey();
-  //       const accPublicKey = await signer.publicKey();
-  //
-  //       const newAccount: TempleAccount = {
-  //         type: TempleAccountType.Ledger,
-  //         name,
-  //         publicKey: accPublicKey,
-  //         derivationPath,
-  //         derivationType
-  //       };
-  //       const allAccounts = await this.fetchAccounts();
-  //       const newAllAcounts = concatAccount(allAccounts, newAccount);
-  //
-  //       await encryptAndSaveMany(
-  //         [
-  //           [accPubKeyStrgKey(accPublicKey), accPublicKey],
-  //           [accountsStrgKey, newAllAcounts]
-  //         ],
-  //         this.passKey
-  //       );
-  //
-  //       return newAllAcounts;
-  //     } finally {
-  //       cleanup();
-  //     }
-  //   });
-  // }
 
   async editAccountName(accPublicKey: string, name: string) {
     return withError('Failed to edit account name', async () => {
@@ -394,7 +284,7 @@ export class Vault {
   }
 
   async getSignumTxKeys(accPublicKey: string) {
-    return withError('Failed to fetch Signum transaction keys', async () => {
+    return withError('Failed to fetch the signing keys - Do you use a Watch Only Account?', async () => {
       const accountId = Address.fromPublicKey(accPublicKey).getNumericId();
 
       const [signingKey, p2pEncryptionKey, publicKey] = await Promise.all([
@@ -432,9 +322,9 @@ function getNewAccountName(allAccounts: XTAccount[], templateI18nKey = 'defaultA
   return `Account ${allAccounts.length + 1}`;
 }
 
-async function createMemorySigner(privateKey: string, encPassword?: string) {
-  return InMemorySigner.fromSecretKey(privateKey, encPassword);
-}
+// async function createMemorySigner(privateKey: string, encPassword?: string) {
+//   return InMemorySigner.fromSecretKey(privateKey, encPassword);
+// }
 
 function createStorageKey(id: StorageEntity) {
   return combineStorageKey(STORAGE_KEY_PREFIX, id);

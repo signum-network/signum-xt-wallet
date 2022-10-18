@@ -83,7 +83,7 @@
     "message": "Hinzufügen"
   },
   "addAsset": {
-    "message": "Vermögenswert hinzufügen"
+    "message": "Token hinzufügen"
   },
   "addCollectible": {
     "message": "Sammlerstück hinzufügen"
@@ -108,7 +108,7 @@
     "message": "Diese Adresse zu Kontakten hinzufügen?"
   },
   "addToken": {
-    "message": "Vermögenswert hinzufügen"
+    "message": "Token hinzufügen"
   },
   "additionalFee": {
     "message": "Zusätzliche Gebühr"
@@ -128,8 +128,8 @@
   "addressInputDescriptionWithDomain": {
     "message": "Adresse, ID oder Alias des Kontos"
   },
-  "addressOfDeployedTokenContract": {
-    "message": "Adresse eines bereitgestellten Vermögenswertvertrags."
+  "tokenIdLabel": {
+    "message": "ID des Tokens"
   },
   "addressOfTokenContract": {
     "message": "Adresse eines $assetSymbol$-Token-Kontrakts.",
@@ -227,13 +227,13 @@
     "message": "Token genehmigen"
   },
   "asset": {
-    "message": "Vermögenswert"
+    "message": "Token"
   },
   "assetId": {
-    "message": "Vermögenswert-ID"
+    "message": "Token-ID"
   },
   "assets": {
-    "message": "Vermögenswerte"
+    "message": "Tokens"
   },
   "atLeast1LowercaseLetter": {
     "message": "Mindestens 1 Kleinbuchstabe"
@@ -697,13 +697,13 @@
     "message": "Symbol-URL"
   },
   "iconURLInputDescription": {
-    "message": "Bild-URL für das Vermögenswert-Logo."
+    "message": "Bild-URL für das Token-Logo."
   },
   "id": {
     "message": "ID"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Wenn Sie Ihre Vermögenswerte nicht sehen,\nversuchen, Sie auf $toClick$ zu klicken.",
+    "message": "Wenn Sie Ihre Tokens nicht sehen,\nversuchen, Sie auf $toClick$ zu klicken.",
     "placeholders": {
       "toClick": {
         "content": "$1"
@@ -752,7 +752,7 @@
     "message": "in USD"
   },
   "incorrectTokenIdErrorMessage": {
-    "message": "Fehler beim Verarbeiten des Vermögenswerts mit den bereitgestellten Daten. Stellen Sie sicher, dass die Vermögenswert-ID korrekt ist."
+    "message": "Fehler beim Verarbeiten des Tokens mit den bereitgestellten Daten. Stellen Sie sicher, dass die Token-ID korrekt ist."
   },
   "interaction": {
     "message": "Kontraktinteraktion"
@@ -961,7 +961,7 @@
     "message": "Nein"
   },
   "noAssetsFound": {
-    "message": "Keine Vermögenswerte gefunden"
+    "message": "Keine Tokens gefunden"
   },
   "noContactsFound": {
     "message": "Keine Kontakte gefunden"
@@ -1132,13 +1132,8 @@
     "message": "z.B. S-6SJC-..., 17332... oder peter",
     "description": "foobar = Signum Alias"
   },
-  "referredByTokenContractNotFound": {
-    "message": "Der Kontrakt $address$, auf den der Token-Kontrakt verweist, wurde nicht gefunden.",
-    "placeholders": {
-      "address": {
-        "content": "$1"
-      }
-    }
+  "tokenNotFoundError": {
+    "message": "Token existiert nicht."
   },
   "reject": {
     "message": "Ablehnen"
@@ -1211,7 +1206,7 @@
     "message": "Speichern"
   },
   "searchAssets": {
-    "message": "Vermögenswerte suchen..."
+    "message": "Tokens suchen..."
   },
   "searchByName": {
     "message": "Nach Name suchen..."
@@ -1223,7 +1218,7 @@
     "message": "Passphrase"
   },
   "selectAnotherAssetPrompt": {
-    "message": "Klicken Sie auf den Bereich, um einen anderen Vermögenswert oder Token auszuwählen."
+    "message": "Klicken Sie auf den Bereich, um ein anderes Token auszuwählen."
   },
   "send": {
     "message": "Senden"
@@ -1328,25 +1323,14 @@
   "toContinue": {
     "message": "Fortfahren"
   },
-  "tokenContractPlaceholder": {
+  "tokenIdPlaceholder": {
     "message": "z.B. KT1v9CmPy..."
-  },
-  "tokenDoesNotMatchStandard": {
-    "message": "Vorausgesetzter Vermögenswertvertrag entspricht nicht dem $standard$-Standard",
-    "placeholders": {
-      "standard": {
-        "content": "$1"
-      }
-    }
   },
   "tokenId": {
     "message": "Token-ID"
   },
-  "tokenIdInputDescription": {
-    "message": "Eine nicht negative ganze Zahl, die den Vermögenswert innerhalb des FA2-Vertrags identifiziert"
-  },
   "tokenNameInputDescription": {
-    "message": "Name des Vermögenswerts, z.B. 'Bitcoin' für BTC-Vermögenswert."
+    "message": "Name des Tokens, z.B. 'Bitcoin' für BTC."
   },
   "tokenNameInputPlaceholder": {
     "message": "z.B. MySuperToken"
@@ -1355,7 +1339,7 @@
     "message": "Keine Sonderzeichen, 3-50 Länge"
   },
   "tokenSymbolInputDescription": {
-    "message": "Vermögenswertsymbol, wie 'USD' für US-Dollar."
+    "message": "Tokensymbol, wie 'USD' für US-Dollar."
   },
   "tokenSymbolInputPlaceholder": {
     "message": "z.B. WEW, BOW, LAL etc."
@@ -1888,5 +1872,121 @@
   },
   "tokenDistribution": {
     "message": "Token-Holder-Verteilung"
+  },
+  "autoLoadTokens": {
+    "message": "Importieren Sie Ihre Tokens"
+  },
+  "availableBalance": {
+    "message": "Verfügbares Guthaben"
+  },
+  "burn": {
+    "message": "Verbrennen"
+  },
+  "burnAddress": {
+    "message": "Burn-Adresse"
+  },
+  "buyOrder": {
+    "message": "Kaufen"
+  },
+  "buyOrderFulfilled": {
+    "message": "Gekauft"
+  },
+  "cancelBuyOrder": {
+    "message": "Kaufauftrag stornieren"
+  },
+  "cancelSaleOrder": {
+    "message": "Verkaufsauftrag stornieren"
+  },
+  "committedBalance": {
+    "message": "Commitment"
+  },
+  "createBuyOrder": {
+    "message": "Kaufauftrag erstellen"
+  },
+  "createSaleOrder": {
+    "message": "Verkaufsauftrag erstellen"
+  },
+  "deleteAllTokensConfirm": {
+    "message": "Möchten Sie wirklich alle hinzugefügten Token löschen?"
+  },
+  "distribution": {
+    "message": "Verteilung"
+  },
+  "distributionForAllWith": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$3"
+      }
+    },
+    "message": "Verteile $amount$ $signa$ an alle mit $symbol$"
+  },
+  "distributionForAllWithAtLeast": {
+    "placeholders": {
+      "amount": {
+        "content": "$1"
+      },
+      "quantity": {
+        "content": "$3"
+      },
+      "signa": {
+        "content": "$2"
+      },
+      "symbol": {
+        "content": "$4"
+      }
+    },
+    "message": "Verteile $amount$ $signa$ an alle mit mindestens $quantity$ $symbol$"
+  },
+  "eachFor": {
+    "message": "jeweils für"
+  },
+  "messageRecepientInputDescriptionWithDomain": {
+    "message": "Adresse, ID oder Alias, an die eine Nachricht gesendet werden soll."
+  },
+  "openInExplorer": {
+    "message": "Im Explorer öffnen"
+  },
+  "removeAllAddedTokens": {
+    "message": "Alles entfernen"
+  },
+  "reserving": {
+    "message": "reservieren"
+  },
+  "saleOrder": {
+    "message": "Verkaufen"
+  },
+  "saleOrderFulfilled": {
+    "message": "Verkauft"
+  },
+  "sendToAddress": {
+    "message": "Signa an diese Adresse senden"
+  },
+  "tokenAlreadyAddedDescription": {
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    },
+    "message": "Token $tokenId$ ist bereits hinzugefügt."
+  },
+  "tokenAlreadyAddedError": {
+    "message": "Token bereits hinzugefügt"
+  },
+  "tokenNotFoundDescription": {
+    "message": "Unter der angegebenen Token-ID $tokenId$ wurde in kein Token gefunden. Bitte überprüfen Sie die Token-ID oder das ausgewählte Netzwerk",
+    "placeholders": {
+      "tokenId": {
+        "content": "$1"
+      }
+    }
+  },
+  "transferToMany": {
+    "message": "an viele"
   }
 }

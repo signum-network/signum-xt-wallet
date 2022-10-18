@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 
-import { Transaction } from '@signumjs/core';
+import { Transaction, TransactionAssetSubtype, TransactionType } from '@signumjs/core';
 import { Amount, ChainTime } from '@signumjs/util';
 import classNames from 'clsx';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
@@ -10,31 +10,48 @@ import Time from 'app/atoms/Time';
 import HashChip from 'app/templates/HashChip';
 import { getDateFnsLocale, t } from 'lib/i18n/react';
 import { parseTransaction, parseAmountDiffs } from 'lib/temple/activity';
-import { useSignumAccountPrefix, useSignumAssetMetadata, useSignumExplorerBaseUrls } from 'lib/temple/front';
+import {
+  SIGNA_METADATA,
+  useSignumAccountPrefix,
+  useSignumAssetMetadata,
+  useSignumExplorerBaseUrls
+} from 'lib/temple/front';
 
 import MoneyDiffView from './MoneyDiffView';
 import TxItem from './TxItem';
 
 type ActivityItemProps = {
   accountId: string;
+  tokenId: string;
   transaction: Transaction;
   className?: string;
 };
 
-const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, className }) => {
+const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId, className }) => {
   const { transaction: explorerBaseUrl } = useSignumExplorerBaseUrls();
-  const metadata = useSignumAssetMetadata();
+  const metadata = useSignumAssetMetadata(tokenId);
   const prefix = useSignumAccountPrefix();
   const { transaction: txId, timestamp } = transaction;
 
   const dateFnsLocale = getDateFnsLocale();
-  const moneyDiff = useMemo(() => parseAmountDiffs(transaction, accountId), [transaction, accountId]);
-  const feeAmount = useMemo(() => Amount.fromPlanck(transaction.feeNQT!).getSigna(), [transaction.feeNQT]);
+  const moneyDiff = useMemo(
+    () => parseAmountDiffs(transaction, accountId, metadata),
+    [transaction, accountId, metadata]
+  );
+  const feeAmount = useMemo(() => Amount.fromPlanck(transaction.feeNQT).getSigna(), [transaction.feeNQT]);
   const parsedTransaction = useMemo(
     () => parseTransaction(transaction, accountId, prefix),
-    [transaction, accountId, prefix]
+    [transaction, accountId, prefix, tokenId] // tokenId must be here, as additional trigger
   );
-  const isPending = transaction.blockTimestamp === undefined;
+
+  const isOrder =
+    transaction.type === TransactionType.Asset &&
+    (transaction.subtype === TransactionAssetSubtype.AskOrderPlacement ||
+      transaction.subtype === TransactionAssetSubtype.BidOrderPlacement ||
+      transaction.subtype === TransactionAssetSubtype.AskOrderCancellation ||
+      transaction.subtype === TransactionAssetSubtype.BidOrderCancellation);
+  const isPending = transaction.confirmations === undefined;
+
   const transactionStatus = useMemo(() => {
     const content = isPending ? 'pending' : 'applied';
     return (
@@ -45,9 +62,9 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, classNam
   return (
     <div className={classNames('my-3', className)}>
       <div className="w-full flex items-center">
-        <HashChip hash={txId!} firstCharsCount={10} lastCharsCount={7} small className="mr-2" />
+        <HashChip hash={txId} firstCharsCount={10} lastCharsCount={7} small className="mr-2" />
 
-        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} id={txId!} className="mr-2" />}
+        {explorerBaseUrl && <OpenInExplorerChip baseUrl={explorerBaseUrl} id={txId} className="mr-2" />}
 
         <div className={classNames('flex-1', 'h-px', 'bg-gray-100')} />
       </div>
@@ -59,7 +76,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, classNam
           <Time
             children={() => (
               <span className="text-xs font-light text-gray-700">
-                {formatDistanceToNow(ChainTime.fromChainTimestamp(timestamp!).getDate(), {
+                {formatDistanceToNow(ChainTime.fromChainTimestamp(timestamp).getDate(), {
                   includeSeconds: true,
                   addSuffix: true,
                   locale: dateFnsLocale
@@ -72,9 +89,9 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, classNam
         <div className="flex-1" />
 
         <div className="flex flex-col flex-shrink-0">
-          <MoneyDiffView assetId="signa" diff={moneyDiff.diff} pending={isPending} />
+          <MoneyDiffView tokenId={tokenId} diff={moneyDiff.diff} pending={isPending || isOrder} />
           <div className="text-xs text-gray-700 text-right">
-            {feeAmount} {metadata.symbol}
+            {feeAmount} {SIGNA_METADATA.symbol}
           </div>
         </div>
       </div>

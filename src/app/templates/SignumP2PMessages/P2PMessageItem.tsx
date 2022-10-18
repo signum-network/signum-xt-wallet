@@ -86,7 +86,7 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
           {isEncrypted ? '🔐' : '✉'}
           {isReceivedMessage ? t('messageFrom') : t('messageTo')}
         </span>
-        <HashChip hash={isReceivedMessage ? message.sender! : message.recipient!} isAccount small />
+        <HashChip hash={isReceivedMessage ? message.sender! : message.recipient! || message.sender} isAccount small />
         {explorerBaseUrls && (
           <OpenInExplorerChip baseUrl={explorerBaseUrls.account!} id={message.sender!} className="mr-2" />
         )}
