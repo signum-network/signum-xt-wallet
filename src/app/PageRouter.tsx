@@ -62,7 +62,7 @@ const ROUTE_MAP = Woozie.Router.createMap<RouteContext>([
   ['/explore/:tokenId?', onlyReady(({ tokenId }) => <Explore tokenId={tokenId ?? SIGNA_TOKEN_ID} />)],
   ['/create-wallet', onlyNotReady(() => <CreateWallet />)],
   ['/create-account', onlyReady(onlyInFullPage(() => <CreateAccount />))],
-  ['/import-account/:tabSlug?', onlyReady(({ tabSlug }) => <ImportAccount tabSlug={tabSlug} />)],
+  ['/import-account/:tabSlug?', onlyReady(onlyInFullPage(({ tabSlug }) => <ImportAccount tabSlug={tabSlug} />))],
   ['/receive', onlyReady(() => <Receive />)],
   [
     '/send/:tokenId?/:recipient?',
