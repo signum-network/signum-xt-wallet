@@ -5,12 +5,10 @@ import browser, { WebNavigation } from 'webextension-polyfill';
 import { getCurrentNetworkHost } from './dapp';
 
 function findSRC47URI(url: URL): string {
-  // @ts-ignore
-  const resolver = new URIResolver(null);
   const parse = (str: string) => {
     try {
       str = str.endsWith('/') ? str.substring(0, str.length - 1) : str;
-      resolver.parseURI(str);
+      URIResolver.parseURI(str);
       return str;
     } catch (e: any) {
       /// ignore - not valid uri
