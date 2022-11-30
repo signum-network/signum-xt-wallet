@@ -63,7 +63,6 @@ async function handleOpenInExplorer() {
 }
 
 export async function initContextMenu() {
-  console.log('initContextMenu');
   await browser.contextMenus.removeAll();
 
   const [openInExplorerTitle, sendToAddressTitle] = await Promise.all([
