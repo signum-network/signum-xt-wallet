@@ -1,5 +1,4 @@
 import { sanitizeUrl } from '@braintree/sanitize-url';
-import { LedgerClientFactory } from '@signumjs/core';
 import { URIResolver } from '@signumjs/standards';
 import browser, { WebNavigation } from 'webextension-polyfill';
 
@@ -10,6 +9,7 @@ function findSRC47URI(url: URL): string {
   const resolver = new URIResolver(null);
   const parse = (str: string) => {
     try {
+      str = str.endsWith('/') ? str.substring(0, str.length - 1) : str;
       resolver.parseURI(str);
       return str;
     } catch (e: any) {
@@ -17,7 +17,7 @@ function findSRC47URI(url: URL): string {
       return '';
     }
   };
-  const uri = parse(url.host);
+  const uri = parse(url.origin);
   if (!uri) {
     const search = url.searchParams;
     for (let [, value] of search) {
@@ -25,8 +25,23 @@ function findSRC47URI(url: URL): string {
       if (validURI) return validURI;
     }
   }
-  return '';
+  return uri;
 }
+
+// Service Workers can only use fetch api.... SignumJS legder uses Axios and does not work here
+const SWHackyLedger = (nodeHost: string) => ({
+  alias: {
+    getAliasByName: async (aliasName: string) => {
+      const response = await fetch(`${nodeHost}/api?requestType=getAlias&aliasName=${aliasName}`);
+      const result = await response.json();
+      if (result.errorCode) {
+        // @ts-ignore
+        throw new Error('Failed', result.error);
+      }
+      return result;
+    }
+  }
+});
 
 async function handleBeforeNavigate(details: WebNavigation.OnBeforeNavigateDetailsType) {
   if (details.frameId > 0) return;
@@ -34,7 +49,8 @@ async function handleBeforeNavigate(details: WebNavigation.OnBeforeNavigateDetai
     const foundURI = findSRC47URI(new URL(details.url));
     if (!foundURI) return;
     const { rpcBaseURL: nodeHost } = await getCurrentNetworkHost();
-    const resolver = new URIResolver(LedgerClientFactory.createClient({ nodeHost }));
+    // @ts-ignore
+    const resolver = new URIResolver(SWHackyLedger(nodeHost));
     const resolved = await resolver.resolve(foundURI);
     if (typeof resolved !== 'string') return;
     new URL(resolved); // throws on invalid URL
@@ -43,6 +59,7 @@ async function handleBeforeNavigate(details: WebNavigation.OnBeforeNavigateDetai
     await browser.tabs.update({ url });
   } catch (e: any) {
     // no op
+    console.debug(e.message);
   }
 }
 

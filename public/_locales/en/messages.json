@@ -1765,7 +1765,7 @@
     "message": "Create Contract"
   },
   "aliasCreation": {
-    "message": "Create Alias"
+    "message": "Create/Update Alias"
   },
   "aliasBuy": {
     "message": "Buy Alias"
