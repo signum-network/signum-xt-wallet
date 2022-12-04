@@ -8,11 +8,13 @@ import * as DAppNotifications from './dapp/notifications';
 import { intercom } from './defaults';
 import { initSrc47Resolver } from './src47Resolver';
 import { store, toFront } from './store';
+import { initOmnibox } from './omnibox';
 
 export async function start() {
   intercom.onRequest(processRequest);
   initContextMenu();
   initSrc47Resolver();
+  initOmnibox();
   await Actions.init();
   const frontStore = store.map(toFront);
   frontStore.watch(() => {
