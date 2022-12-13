@@ -11,7 +11,8 @@ export enum TransactionItemType {
   DistributionTo,
   DistributionFrom,
   Other,
-  Burn
+  Burn,
+  AddTreasuryAccount
 }
 
 export type TransactionItem =
@@ -26,8 +27,7 @@ export type TransactionItem =
   | SellOrderItem
   | DistributionToItem
   | DistributionFromItem
-  | OtherItem
-  | BurnItem;
+  | OtherItem;
 
 export interface TxItemBase {
   type: TransactionItemType;

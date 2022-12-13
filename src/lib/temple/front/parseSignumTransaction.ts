@@ -1,5 +1,6 @@
 import {
   getRecipientAmountsFromMultiOutPayment,
+  isAttachmentVersion,
   Ledger,
   Transaction,
   TransactionArbitrarySubtype,
@@ -16,6 +17,7 @@ import { BURN_ADDRESS, SIGNA_TOKEN_ID } from 'lib/temple/metadata';
 export type ParsedTransactionExpense = {
   tokenAddress?: string;
   tokenId?: string;
+  refHash?: string;
   tokenName?: string;
   tokenDecimals?: string;
   aliasName?: string;
@@ -75,6 +77,26 @@ function isTransactionToSelf(tx: Transaction): boolean {
   return tx.recipient === tx.sender;
 }
 
+async function eventuallyResolveTokenId(signum: Ledger, jsonTx: Transaction) {
+  console.log('eventuallyResolveTokenId called', jsonTx);
+  if (jsonTx.type === TransactionType.Asset && jsonTx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount) {
+    try {
+      const tx = await signum.service.query<Transaction>('getTransaction', {
+        fullHash: jsonTx.referencedTransactionFullHash
+      });
+      console.log('eventuallyResolveTokenId resolved:', tx);
+      return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetIssuance
+        ? tx.transaction
+        : undefined;
+    } catch (e: any) {
+      console.error('eventuallyResolveTokenId error:', e.message);
+      return Promise.resolve(undefined);
+    }
+  }
+
+  return Promise.resolve(undefined);
+}
+
 /*
  * {"type":0,"subtype":0,"timestamp":234874675,"deadline":1440,"senderPublicKey":"c213e4144ba84af94aae2458308fae1f0cb083870c8f3012eea58147f3b09d4a","recipient":"6502115112683865257","recipientRS":"TS-K37B-9V85-FB95-793HN","amountNQT":"100000000","feeNQT":"735000","sender":"2402520554221019656","senderRS":"TS-QAJA-QW5Y-SWVP-4RVP4","height":2147483647,"version":1,"ecBlockId":"9556561047696549169","ecBlockHeight":384189,"verify":false,"requestProcessingTime":0}
  */
@@ -84,8 +106,12 @@ export async function parseSignumTransaction(
   signum: Ledger
 ): Promise<[ParsedTransaction, object]> {
   const jsonTx = JSON.parse(transaction) as Transaction;
-  const contractInteraction = await isContractInteraction(signum, jsonTx.recipient || '');
-  const expenses = parseTransactionExpenses(jsonTx);
+  const [contractInteraction, resolvedTokenId] = await Promise.all([
+    isContractInteraction(signum, jsonTx.recipient || ''),
+    eventuallyResolveTokenId(signum, jsonTx)
+  ]);
+
+  const expenses = parseTransactionExpenses(jsonTx, resolvedTokenId);
   return [
     {
       amount: calculateAmount(jsonTx),
@@ -111,14 +137,15 @@ function calculateAmount(tx: Transaction): BigNumber {
   }
   return new BigNumber(tx.amountNQT || 0);
 }
+
 // --- EXPENSES SECTION
 
-function parseTransactionExpenses(tx: Transaction): ParsedTransactionExpense[] {
+function parseTransactionExpenses(tx: Transaction, resolvedTokenId?: string): ParsedTransactionExpense[] {
   switch (tx.type) {
     case TransactionType.Payment:
       return parsePaymentExpenses(tx);
     case TransactionType.Asset:
-      return parseAssetExpenses(tx);
+      return parseAssetExpenses(tx, resolvedTokenId);
     case TransactionType.AT:
       return parseContractExpenses(tx);
     case TransactionType.Arbitrary:
@@ -212,7 +239,7 @@ function parseArbitraryExpenses(tx: Transaction): ParsedTransactionExpense[] {
   }
 }
 
-function parseAssetExpenses(tx: Transaction): ParsedTransactionExpense[] {
+function parseAssetExpenses(tx: Transaction, resolvedTokenId?: string): ParsedTransactionExpense[] {
   switch (tx.subtype) {
     case TransactionAssetSubtype.AssetDistributeToHolders:
       const distExpenses: ParsedTransactionExpense[] = [
@@ -286,6 +313,13 @@ function parseAssetExpenses(tx: Transaction): ParsedTransactionExpense[] {
           quantity: new BigNumber(tx.attachment.quantityQNT)
         }
       ];
+    case TransactionAssetSubtype.AssetAddTreasureyAccount:
+      return [
+        {
+          to: tx.sender,
+          tokenId: resolvedTokenId
+        }
+      ];
     case TransactionAssetSubtype.AssetTransfer:
     default:
       return [
@@ -354,6 +388,7 @@ function parsePaymentSubType(tx: Transaction): ParsedTransactionType {
         hasAmount: true
       };
 }
+
 function parseAssetSubType(tx: Transaction): ParsedTransactionType {
   switch (tx.subtype) {
     case TransactionAssetSubtype.AssetTransfer:
@@ -411,6 +446,12 @@ function parseAssetSubType(tx: Transaction): ParsedTransactionType {
         textIcon: '🌬️🪙',
         hasAmount: false
       };
+    case TransactionAssetSubtype.AssetAddTreasureyAccount:
+      return {
+        i18nKey: 'addTreasuryAccount',
+        textIcon: '🏦',
+        hasAmount: false
+      };
   }
   return throwInappropriateTransactionType();
 }
@@ -431,19 +472,19 @@ function parseMiningSubType(tx: Transaction): ParsedTransactionType {
     case TransactionMiningSubtype.RemoveCommitment:
       return {
         i18nKey: 'removeCommitment',
-        textIcon: '⚒',
+        textIcon: '⚒📉',
         hasAmount: false
       };
     case TransactionMiningSubtype.AddCommitment:
       return {
         i18nKey: 'addCommitment',
-        textIcon: '⚒',
+        textIcon: '⚒📈',
         hasAmount: true
       };
     case TransactionMiningSubtype.RewardRecipientAssignment:
       return {
         i18nKey: 'joinPool',
-        textIcon: '⚒',
+        textIcon: '⚒👪',
         hasAmount: false
       };
   }

@@ -13,6 +13,8 @@ import {
 import { SMART_CONTRACT_PUBLIC_KEY } from 'lib/temple/metadata';
 
 import { SelfUpdateItem, TransactionItem, TransactionItemType } from './types';
+import { T } from 'lib/i18n/react';
+import React from 'react';
 
 function isPayment(tx: Transaction): boolean {
   return (
@@ -67,15 +69,15 @@ function getSelfUpdateItem(tx: Transaction): SelfUpdateItem {
     item.prefix = 'ℹ';
     item.i18nKey = 'updateAccountInfo';
   } else if (tx.type === TransactionType.Mining && tx.subtype === TransactionMiningSubtype.AddCommitment) {
-    item.prefix = '⚒';
+    item.prefix = '⚒📈';
     item.i18nKey = 'addCommitment';
     item.amount = tx.attachment.amountNQT;
   } else if (tx.type === TransactionType.Mining && tx.subtype === TransactionMiningSubtype.RemoveCommitment) {
-    item.prefix = '⚒';
+    item.prefix = '⚒📉';
     item.i18nKey = 'removeCommitment';
     item.amount = tx.attachment.amountNQT;
   } else if (tx.type === TransactionType.Mining && tx.subtype === TransactionMiningSubtype.RewardRecipientAssignment) {
-    item.prefix = '⚒';
+    item.prefix = '⚒👪';
     item.i18nKey = 'joinPool';
   } else if (tx.type === TransactionType.Arbitrary && tx.subtype === TransactionArbitrarySubtype.AliasAssignment) {
     item.prefix = '👤';
@@ -92,9 +94,6 @@ function getSelfUpdateItem(tx: Transaction): SelfUpdateItem {
   } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetMint) {
     item.prefix = '🌬️🪙';
     item.i18nKey = 'tokenMint';
-  } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount) {
-    item.prefix = '🏦';
-    item.i18nKey = 'addTreasuryAccount';
   }
   return item;
 }
@@ -107,6 +106,10 @@ function isContractTransaction(tx: Transaction): boolean {
   return tx.senderPublicKey === SMART_CONTRACT_PUBLIC_KEY;
 }
 
+function isAddTreasuryAccount(tx: Transaction) {
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount;
+}
+
 export function parseTransaction(tx: Transaction, accountId: string, accountPrefix: string): TransactionItem {
   // @ts-ignore
   let item: TransactionItem = {
@@ -115,7 +118,11 @@ export function parseTransaction(tx: Transaction, accountId: string, accountPref
   };
 
   if (isBurn(tx)) {
-    item.type = TransactionItemType.Burn;
+    item.type = TransactionItemType.Other;
+    // @ts-ignore
+    item.prefix = '🔥';
+    // @ts-ignore
+    item.name = 'burn';
   } else if (isPayment(tx)) {
     item.type = tx.sender === accountId ? TransactionItemType.TransferTo : TransactionItemType.TransferFrom;
   } else if (isDistribution(tx)) {
@@ -139,6 +146,12 @@ export function parseTransaction(tx: Transaction, accountId: string, accountPref
     item.type = TransactionItemType.BuyOrder;
   } else if (isSellTokenOrder(tx)) {
     item.type = TransactionItemType.SellOrder;
+  } else if (isAddTreasuryAccount(tx)) {
+    item.type = TransactionItemType.Other;
+    // @ts-ignore
+    item.prefix = '🏦';
+    // @ts-ignore
+    item.name = 'addTreasuryAccount';
   } else {
     item.type = TransactionItemType.Other;
     // TODO: name the type more precisely

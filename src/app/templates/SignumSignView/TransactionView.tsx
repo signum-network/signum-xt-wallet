@@ -193,8 +193,6 @@ const ForTokenHolderDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
 });
 
 const OrderDisplay = memo<ExpenseVolumeDisplayProps>(({ expense }) => {
-  console.log('OrderDisplay', expense);
-
   const tokenMetadata = useSignumAssetMetadata(expense.tokenId);
   const signaMetadata = useSignumAssetMetadata();
 
