@@ -42,7 +42,7 @@ const SWHackyLedger = (nodeHost: string) => ({
 });
 
 async function handleBeforeNavigate(details: WebNavigation.OnBeforeNavigateDetailsType) {
-  // if (details.frameId > 0) return;
+  if (details.frameId > 0) return;
   try {
     const foundURI = findSRC47URI(new URL(details.url));
     if (!foundURI) return;
