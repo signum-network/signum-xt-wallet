@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.4.0
+
+### New features
+
+- Support for Alias Name Resolution Standard SRC47 in Omnibox (#58, #59)
+- Supports new Descriptor Standard (SRC44) for Account Data and shows custom avatars (#56)
+
+### Bugfixes
+
+- Fixed wrong sign for buy/sell token (#55)
+- Fixed "Add Treasury Account" Transaction Type (#54)
+
 ## 1.3.0
 
 ### New features
