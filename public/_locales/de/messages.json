@@ -1557,7 +1557,7 @@
     "message": "Alias kaufen"
   },
   "aliasCreation": {
-    "message": "Alias erstellen"
+    "message": "Alias erstellen/editieren"
   },
   "browserVersionIsOutOfDate": {
     "message": "Ihre Browserversion ist veraltet, wir empfehlen dringend, auf die neueste Version zu aktualisieren!"

@@ -2,6 +2,7 @@
   "manifest_version": 2,
   "name": "Signum XT Wallet",
   "version": "__VERSION__",
+  "omnibox": { "keyword": "signum" },
 
   "icons": {
     "16": "misc/signum-icon-16.png",
@@ -14,7 +15,7 @@
   "__chrome|firefox|opera__homepage_url": "https://github.com/signum-network/signum-xt-wallet",
   "short_name": "Signum XT Wallet",
 
-  "permissions": ["storage", "clipboardWrite", "contextMenus"],
+  "permissions": ["storage", "clipboardWrite", "contextMenus", "tabs", "webNavigation"],
 
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 

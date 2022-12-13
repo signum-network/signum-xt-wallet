@@ -6,11 +6,15 @@ import * as Actions from './actions';
 import { initContextMenu } from './context-menus';
 import * as DAppNotifications from './dapp/notifications';
 import { intercom } from './defaults';
+import { initSrc47Resolver } from './src47Resolver';
 import { store, toFront } from './store';
+import { initOmnibox } from './omnibox';
 
 export async function start() {
   intercom.onRequest(processRequest);
   initContextMenu();
+  initSrc47Resolver();
+  initOmnibox();
   await Actions.init();
   const frontStore = store.map(toFront);
   frontStore.watch(() => {
@@ -58,14 +62,12 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         mnemonic
       };
     }
-
     case XTMessageType.RevealPublicKeyRequest:
       const publicKey = await Actions.revealPublicKey(req.accountPublicKeyHash);
       return {
         type: XTMessageType.RevealPublicKeyResponse,
         publicKey
       };
-
     case XTMessageType.RemoveAccountRequest:
       await Actions.removeAccount(req.accountPublicKeyHash, req.password);
       DAppNotifications.notifyAccountRemoved(req.accountPublicKeyHash);
