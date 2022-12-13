@@ -73,6 +73,7 @@ function parseQuantityDiffs(tx: Transaction, accountId: string, tokenMetadata: A
 
   const isOutgoing =
     tx.sender === accountId &&
+    tx.subtype !== TransactionAssetSubtype.BidOrderPlacement &&
     tx.subtype !== TransactionAssetSubtype.AssetMint &&
     tx.subtype !== TransactionAssetSubtype.AssetIssuance;
 

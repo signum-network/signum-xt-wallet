@@ -44,12 +44,6 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId,
     [transaction, accountId, prefix, tokenId] // tokenId must be here, as additional trigger
   );
 
-  const isOrder =
-    transaction.type === TransactionType.Asset &&
-    (transaction.subtype === TransactionAssetSubtype.AskOrderPlacement ||
-      transaction.subtype === TransactionAssetSubtype.BidOrderPlacement ||
-      transaction.subtype === TransactionAssetSubtype.AskOrderCancellation ||
-      transaction.subtype === TransactionAssetSubtype.BidOrderCancellation);
   const isPending = transaction.confirmations === undefined;
 
   const transactionStatus = useMemo(() => {
@@ -89,7 +83,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId,
         <div className="flex-1" />
 
         <div className="flex flex-col flex-shrink-0">
-          <MoneyDiffView tokenId={tokenId} diff={moneyDiff.diff} pending={isPending || isOrder} />
+          <MoneyDiffView tokenId={tokenId} diff={moneyDiff.diff} pending={isPending} />
           <div className="text-xs text-gray-700 text-right">
             {feeAmount} {SIGNA_METADATA.symbol}
           </div>
