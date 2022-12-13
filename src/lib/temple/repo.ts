@@ -6,8 +6,6 @@ export enum Table {
   SyncTimes = 'syncTimes'
 }
 
-// TODO: adjust for Signum
-
 export const db = new Dexie('signum-xt-wallet');
 db.version(1).stores({
   [Table.Operations]: indexes('&hash', 'network', '*members', '*assetIds', 'addedAt', '[network+addedAt]'),
