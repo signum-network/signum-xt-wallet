@@ -1,6 +1,6 @@
 import { sanitizeUrl } from '@braintree/sanitize-url';
 import { URIResolver } from '@signumjs/standards';
-import browser, { WebNavigation, WebRequest } from 'webextension-polyfill';
+import browser, { WebNavigation } from 'webextension-polyfill';
 
 import { getCurrentNetworkHost } from './dapp';
 

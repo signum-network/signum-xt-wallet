@@ -1,7 +1,7 @@
-import React, { FC, HTMLAttributes, memo, useEffect, useMemo, useState } from 'react';
+import React, { HTMLAttributes, memo, useEffect, useState } from 'react';
 
 import { Address } from '@signumjs/core';
-import { DescriptorData, DescriptorDataClient } from '@signumjs/standards';
+import { DescriptorData } from '@signumjs/standards';
 import classNames from 'clsx';
 // @ts-ignore
 import hashicon from 'hashicon';

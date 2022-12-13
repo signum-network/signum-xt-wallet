@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 
-import { Transaction, TransactionAssetSubtype, TransactionType } from '@signumjs/core';
+import { Transaction } from '@signumjs/core';
 import { Amount, ChainTime } from '@signumjs/util';
 import classNames from 'clsx';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';

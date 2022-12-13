@@ -1,6 +1,5 @@
 import {
   getRecipientAmountsFromMultiOutPayment,
-  isAttachmentVersion,
   Ledger,
   Transaction,
   TransactionArbitrarySubtype,
@@ -62,7 +61,7 @@ async function isContractInteraction(signum: Ledger, recipientId: string): Promi
 }
 
 function isDistribution(tx: Transaction): boolean {
-  return tx.type === TransactionType.Asset && tx.subtype == TransactionAssetSubtype.AssetDistributeToHolders;
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders;
 }
 
 function isTransactionToSelf(tx: Transaction): boolean {

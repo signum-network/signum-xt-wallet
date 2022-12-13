@@ -13,8 +13,6 @@ import {
 import { SMART_CONTRACT_PUBLIC_KEY } from 'lib/temple/metadata';
 
 import { SelfUpdateItem, TransactionItem, TransactionItemType } from './types';
-import { T } from 'lib/i18n/react';
-import React from 'react';
 
 function isPayment(tx: Transaction): boolean {
   return (

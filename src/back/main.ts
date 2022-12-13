@@ -6,9 +6,9 @@ import * as Actions from './actions';
 import { initContextMenu } from './context-menus';
 import * as DAppNotifications from './dapp/notifications';
 import { intercom } from './defaults';
+import { initOmnibox } from './omnibox';
 import { initSrc47Resolver } from './src47Resolver';
 import { store, toFront } from './store';
-import { initOmnibox } from './omnibox';
 
 export async function start() {
   intercom.onRequest(processRequest);

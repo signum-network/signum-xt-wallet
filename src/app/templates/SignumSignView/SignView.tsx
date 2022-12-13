@@ -10,13 +10,7 @@ import { ReactComponent as CodeAltIcon } from 'app/icons/code-alt.svg';
 import { ReactComponent as EyeIcon } from 'app/icons/eye.svg';
 import ViewsSwitcher from 'app/templates/ViewsSwitcher/ViewsSwitcher';
 import { T, t } from 'lib/i18n/react';
-import {
-  getAssetSymbol,
-  TempleDAppSignPayload,
-  useAllTokensBaseMetadata,
-  useSignum,
-  useSignumAssetMetadata
-} from 'lib/temple/front';
+import { getAssetSymbol, TempleDAppSignPayload, useSignum, useSignumAssetMetadata } from 'lib/temple/front';
 import { parseSignumTransaction, ParsedTransaction } from 'lib/temple/front/parseSignumTransaction';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 

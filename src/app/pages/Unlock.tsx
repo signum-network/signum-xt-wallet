@@ -11,7 +11,6 @@ import { useFormAnalytics } from 'lib/analytics';
 import { T, t } from 'lib/i18n/react';
 import { useLocalStorage, useTempleClient, XTSharedStorageKey } from 'lib/temple/front';
 import { Link } from 'lib/woozie';
-import * as Woozie from 'lib/woozie';
 
 interface UnlockProps {
   canImportNew?: boolean;
