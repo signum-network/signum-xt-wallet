@@ -78,18 +78,15 @@ function isTransactionToSelf(tx: Transaction): boolean {
 }
 
 async function eventuallyResolveTokenId(signum: Ledger, jsonTx: Transaction) {
-  console.log('eventuallyResolveTokenId called', jsonTx);
   if (jsonTx.type === TransactionType.Asset && jsonTx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount) {
     try {
       const tx = await signum.service.query<Transaction>('getTransaction', {
         fullHash: jsonTx.referencedTransactionFullHash
       });
-      console.log('eventuallyResolveTokenId resolved:', tx);
       return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetIssuance
         ? tx.transaction
         : undefined;
     } catch (e: any) {
-      console.error('eventuallyResolveTokenId error:', e.message);
       return Promise.resolve(undefined);
     }
   }
