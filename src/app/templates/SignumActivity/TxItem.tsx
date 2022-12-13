@@ -141,15 +141,8 @@ const TxItemComponent = memo<TxItemComponentProps>(({ item, isFullPage }) => {
         return {
           base: (
             <>
+              {item.prefix}&nbsp;
               <T id={item.name} />
-            </>
-          )
-        };
-      case TransactionItemType.Burn:
-        return {
-          base: (
-            <>
-              🔥 <T id={'burn'} />
             </>
           )
         };
