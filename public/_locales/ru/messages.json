@@ -1991,5 +1991,11 @@
   },
   "transferOwnership": {
     "message": "Передача владения токеном"
+  },
+  "subscriptionCancellation": {
+    "message": "Отменить подписку"
+  },
+  "subscriptionCreation": {
+    "message": "Создать подписку"
   }
 }

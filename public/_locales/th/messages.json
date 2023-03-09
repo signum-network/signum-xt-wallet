@@ -1991,5 +1991,11 @@
   },
   "transferOwnership": {
     "message": "โอนกรรมสิทธิ์โทเค็น"
+  },
+  "subscriptionCancellation": {
+    "message": "ยกเลิกการสมัครสมาชิก"
+  },
+  "subscriptionCreation": {
+    "message": "สร้างการสมัครสมาชิก"
   }
 }

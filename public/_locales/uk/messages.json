@@ -1991,5 +1991,11 @@
   },
   "transferOwnership": {
     "message": "Передача права власності на токени"
+  },
+  "subscriptionCancellation": {
+    "message": "Скасувати підписку"
+  },
+  "subscriptionCreation": {
+    "message": "Створити підписку"
   }
 }

@@ -1991,5 +1991,11 @@
   },
   "transferOwnership": {
     "message": "Transfer Token Ownership"
+  },
+  "subscriptionCreation": {
+    "message": "Create Subscription"
+  },
+  "subscriptionCancellation": {
+    "message": "Cancel Subscription"
   }
 }
