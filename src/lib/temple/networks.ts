@@ -38,12 +38,12 @@ export const NETWORKS: Network[] = [
     disabled: false
   },
   {
-    id: 'signum-uk',
+    id: 'signum-ru',
     networkName: NetworkName.Mainnet,
-    name: 'United Kingdom',
-    description: 'Featured Node from the UK',
+    name: 'Russia',
+    description: 'Featured Node from Russia',
     type: 'main',
-    rpcBaseURL: 'https://uk.signum.network',
+    rpcBaseURL: 'https://ru.signum.network',
     color: '#00AD89',
     disabled: false
   },
