@@ -1988,5 +1988,8 @@
   },
   "transferToMany": {
     "message": "слишком много"
+  },
+  "transferOwnership": {
+    "message": "Передача владения токеном"
   }
 }

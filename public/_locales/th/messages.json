@@ -1988,5 +1988,8 @@
   },
   "transferToMany": {
     "message": "มากมาย"
+  },
+  "transferOwnership": {
+    "message": "โอนกรรมสิทธิ์โทเค็น"
   }
 }

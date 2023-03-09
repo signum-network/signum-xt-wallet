@@ -1988,5 +1988,8 @@
   },
   "sendToAddress": {
     "message": "Send Signa to this Address"
+  },
+  "transferOwnership": {
+    "message": "Transfer Token Ownership"
   }
 }

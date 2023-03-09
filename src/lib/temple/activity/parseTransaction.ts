@@ -107,6 +107,9 @@ function isContractTransaction(tx: Transaction): boolean {
 function isAddTreasuryAccount(tx: Transaction) {
   return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount;
 }
+function isTokenTransferOwnership(tx: Transaction) {
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetTransferOwnership;
+}
 
 export function parseTransaction(tx: Transaction, accountId: string, accountPrefix: string): TransactionItem {
   // @ts-ignore
@@ -150,6 +153,12 @@ export function parseTransaction(tx: Transaction, accountId: string, accountPref
     item.prefix = '🏦';
     // @ts-ignore
     item.name = 'addTreasuryAccount';
+  } else if (isTokenTransferOwnership(tx)) {
+    item.type = TransactionItemType.Other;
+    // @ts-ignore
+    item.prefix = '➡🪙';
+    // @ts-ignore
+    item.name = 'transferOwnership';
   } else {
     item.type = TransactionItemType.Other;
     // TODO: name the type more precisely

@@ -1988,5 +1988,8 @@
   },
   "transferToMany": {
     "message": "забагато"
+  },
+  "transferOwnership": {
+    "message": "Передача права власності на токени"
   }
 }

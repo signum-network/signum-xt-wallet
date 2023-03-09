@@ -77,7 +77,11 @@ function isTransactionToSelf(tx: Transaction): boolean {
 }
 
 async function eventuallyResolveTokenId(signum: Ledger, jsonTx: Transaction) {
-  if (jsonTx.type === TransactionType.Asset && jsonTx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount) {
+  if (
+    jsonTx.type === TransactionType.Asset &&
+    (jsonTx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount ||
+      jsonTx.subtype === TransactionAssetSubtype.AssetTransferOwnership)
+  ) {
     try {
       const tx = await signum.service.query<Transaction>('getTransaction', {
         fullHash: jsonTx.referencedTransactionFullHash
@@ -89,7 +93,6 @@ async function eventuallyResolveTokenId(signum: Ledger, jsonTx: Transaction) {
       return Promise.resolve(undefined);
     }
   }
-
   return Promise.resolve(undefined);
 }
 
@@ -309,6 +312,7 @@ function parseAssetExpenses(tx: Transaction, resolvedTokenId?: string): ParsedTr
           quantity: new BigNumber(tx.attachment.quantityQNT)
         }
       ];
+    case TransactionAssetSubtype.AssetTransferOwnership:
     case TransactionAssetSubtype.AssetAddTreasureyAccount:
       return [
         {
@@ -446,6 +450,12 @@ function parseAssetSubType(tx: Transaction): ParsedTransactionType {
       return {
         i18nKey: 'addTreasuryAccount',
         textIcon: '🏦',
+        hasAmount: false
+      };
+    case TransactionAssetSubtype.AssetTransferOwnership:
+      return {
+        i18nKey: 'transferOwnership',
+        textIcon: '➡🪙',
         hasAmount: false
       };
   }

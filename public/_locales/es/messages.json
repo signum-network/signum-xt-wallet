@@ -1988,5 +1988,8 @@
   },
   "transferToMany": {
     "message": "demasiados"
+  },
+  "transferOwnership": {
+    "message": "Transferir la propiedad del token"
   }
 }
