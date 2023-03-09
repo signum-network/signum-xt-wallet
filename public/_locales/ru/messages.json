@@ -1993,9 +1993,12 @@
     "message": "Передача владения токеном"
   },
   "subscriptionCancellation": {
-    "message": "Отменить подписку"
+    "message": "Отменить автоплатеж"
   },
   "subscriptionCreation": {
-    "message": "Создать подписку"
+    "message": "Создать автоплатеж"
+  },
+  "aliasSell": {
+    "message": "Продать псевдоним"
   }
 }

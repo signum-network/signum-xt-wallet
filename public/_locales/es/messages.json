@@ -1993,9 +1993,12 @@
     "message": "Transferir la propiedad del token"
   },
   "subscriptionCancellation": {
-    "message": "Cancelar suscripción"
+    "message": "Cancelar pago automático"
   },
   "subscriptionCreation": {
-    "message": "Crear suscripción"
+    "message": "Crear pago automático"
+  },
+  "aliasSell": {
+    "message": "vender alias"
   }
 }

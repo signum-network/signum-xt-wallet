@@ -1770,6 +1770,9 @@
   "aliasBuy": {
     "message": "Buy Alias"
   },
+  "aliasSell": {
+    "message": "Sell Alias"
+  },
   "addCommitment": {
     "message": "Add Commitment"
   },
@@ -1993,9 +1996,9 @@
     "message": "Transfer Token Ownership"
   },
   "subscriptionCreation": {
-    "message": "Create Subscription"
+    "message": "Create Auto-Payment"
   },
   "subscriptionCancellation": {
-    "message": "Cancel Subscription"
+    "message": "Cancel Auto-Payment"
   }
 }

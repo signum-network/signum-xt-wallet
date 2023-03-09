@@ -1993,9 +1993,12 @@
     "message": "Token-Besitz übertragen"
   },
   "subscriptionCancellation": {
-    "message": "Abonnement beenden"
+    "message": "Automatische Zahlung stornieren"
   },
   "subscriptionCreation": {
-    "message": "Abonnement erstellen"
+    "message": "Automatische Zahlung erstellen"
+  },
+  "aliasSell": {
+    "message": "Alias verkaufen"
   }
 }

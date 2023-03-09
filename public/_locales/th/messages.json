@@ -1993,9 +1993,12 @@
     "message": "โอนกรรมสิทธิ์โทเค็น"
   },
   "subscriptionCancellation": {
-    "message": "ยกเลิกการสมัครสมาชิก"
+    "message": "ยกเลิกการชำระเงินอัตโนมัติ"
   },
   "subscriptionCreation": {
-    "message": "สร้างการสมัครสมาชิก"
+    "message": "สร้างการชำระเงินอัตโนมัติ"
+  },
+  "aliasSell": {
+    "message": "ขายนามแฝง"
   }
 }
