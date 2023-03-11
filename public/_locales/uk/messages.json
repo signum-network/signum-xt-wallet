@@ -1988,5 +1988,17 @@
   },
   "transferToMany": {
     "message": "забагато"
+  },
+  "transferOwnership": {
+    "message": "Передача права власності на токени"
+  },
+  "subscriptionCancellation": {
+    "message": "Скасувати автоматичну оплату"
+  },
+  "subscriptionCreation": {
+    "message": "Створіть автоматичний платіж"
+  },
+  "aliasSell": {
+    "message": "Продати псевдонім"
   }
 }

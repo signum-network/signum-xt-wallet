@@ -32,9 +32,9 @@ const P2PMessageItem = memo<Props>(({ accountId, message }) => {
 
   const dateFnsLocale = getDateFnsLocale();
   const isPending = message.blockTimestamp === undefined;
-  const isEncrypted = message.attachment.encryptedMessage;
-  const plainMessage = message.attachment.message;
-  const isReceivedMessage = message.sender !== accountId;
+  const isEncrypted = message.attachment && message.attachment.encryptedMessage;
+  const plainMessage = message.attachment ? message.attachment.message : '';
+  const isReceivedMessage = message.sender !== accountId || message.sender === message.recipient;
 
   const transactionStatus = useMemo(() => {
     const content = isPending ? 'pending' : 'applied';

@@ -1988,5 +1988,17 @@
   },
   "transferToMany": {
     "message": "an viele"
+  },
+  "transferOwnership": {
+    "message": "Token-Besitz übertragen"
+  },
+  "subscriptionCancellation": {
+    "message": "Automatische Zahlung stornieren"
+  },
+  "subscriptionCreation": {
+    "message": "Automatische Zahlung erstellen"
+  },
+  "aliasSell": {
+    "message": "Alias verkaufen"
   }
 }

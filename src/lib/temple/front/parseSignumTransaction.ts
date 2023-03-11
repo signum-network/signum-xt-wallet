@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArbitrarySubtype,
   TransactionAssetSubtype,
+  TransactionEscrowSubtype,
   TransactionMiningSubtype,
   TransactionPaymentSubtype,
   TransactionSmartContractSubtype,
@@ -77,7 +78,11 @@ function isTransactionToSelf(tx: Transaction): boolean {
 }
 
 async function eventuallyResolveTokenId(signum: Ledger, jsonTx: Transaction) {
-  if (jsonTx.type === TransactionType.Asset && jsonTx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount) {
+  if (
+    jsonTx.type === TransactionType.Asset &&
+    (jsonTx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount ||
+      jsonTx.subtype === TransactionAssetSubtype.AssetTransferOwnership)
+  ) {
     try {
       const tx = await signum.service.query<Transaction>('getTransaction', {
         fullHash: jsonTx.referencedTransactionFullHash
@@ -89,7 +94,6 @@ async function eventuallyResolveTokenId(signum: Ledger, jsonTx: Transaction) {
       return Promise.resolve(undefined);
     }
   }
-
   return Promise.resolve(undefined);
 }
 
@@ -140,6 +144,8 @@ function parseTransactionExpenses(tx: Transaction, resolvedTokenId?: string): Pa
   switch (tx.type) {
     case TransactionType.Payment:
       return parsePaymentExpenses(tx);
+    case TransactionType.Escrow:
+      return parseEscrowExpenses(tx);
     case TransactionType.Asset:
       return parseAssetExpenses(tx, resolvedTokenId);
     case TransactionType.AT:
@@ -316,6 +322,13 @@ function parseAssetExpenses(tx: Transaction, resolvedTokenId?: string): ParsedTr
           tokenId: resolvedTokenId
         }
       ];
+    case TransactionAssetSubtype.AssetTransferOwnership:
+      return [
+        {
+          to: tx.recipient || BURN_ADDRESS,
+          tokenId: resolvedTokenId
+        }
+      ];
     case TransactionAssetSubtype.AssetTransfer:
     default:
       return [
@@ -348,12 +361,30 @@ function parsePaymentExpenses(tx: Transaction): ParsedTransactionExpense[] {
   }
 }
 
+function parseEscrowExpenses(tx: Transaction): ParsedTransactionExpense[] {
+  if (tx.subtype === TransactionEscrowSubtype.SubscriptionCancel) {
+    return [
+      {
+        to: tx.sender // self
+      }
+    ];
+  }
+  return [
+    {
+      to: tx.recipient || BURN_ADDRESS,
+      amount: new BigNumber(tx?.amountNQT || 0)
+    }
+  ];
+}
+
 // -- TYPE SECTION
 
 function parseTransactionType(tx: Transaction): ParsedTransactionType {
   switch (tx.type) {
     case TransactionType.Payment:
       return parsePaymentSubType(tx);
+    case TransactionType.Escrow:
+      return parseEscrowSubType(tx);
     case TransactionType.Asset:
       return parseAssetSubType(tx);
     case TransactionType.AT:
@@ -383,6 +414,25 @@ function parsePaymentSubType(tx: Transaction): ParsedTransactionType {
         textIcon: '➡',
         hasAmount: true
       };
+}
+
+function parseEscrowSubType(tx: Transaction): ParsedTransactionType {
+  switch (tx.subtype) {
+    case TransactionEscrowSubtype.SubscriptionCancel:
+      return {
+        i18nKey: 'subscriptionCancellation',
+        textIcon: '❌🕖',
+        hasAmount: false
+      };
+    case TransactionEscrowSubtype.SubscriptionSubscribe:
+      return {
+        i18nKey: 'subscriptionCreation',
+        textIcon: '🕖✨',
+        hasAmount: true
+      };
+  }
+
+  return throwInappropriateTransactionType();
 }
 
 function parseAssetSubType(tx: Transaction): ParsedTransactionType {
@@ -446,6 +496,12 @@ function parseAssetSubType(tx: Transaction): ParsedTransactionType {
       return {
         i18nKey: 'addTreasuryAccount',
         textIcon: '🏦',
+        hasAmount: false
+      };
+    case TransactionAssetSubtype.AssetTransferOwnership:
+      return {
+        i18nKey: 'transferOwnership',
+        textIcon: '➡🪙',
         hasAmount: false
       };
   }

@@ -1988,5 +1988,17 @@
   },
   "transferToMany": {
     "message": "слишком много"
+  },
+  "transferOwnership": {
+    "message": "Передача владения токеном"
+  },
+  "subscriptionCancellation": {
+    "message": "Отменить автоплатеж"
+  },
+  "subscriptionCreation": {
+    "message": "Создать автоплатеж"
+  },
+  "aliasSell": {
+    "message": "Продать псевдоним"
   }
 }

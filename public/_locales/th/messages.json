@@ -1988,5 +1988,17 @@
   },
   "transferToMany": {
     "message": "มากมาย"
+  },
+  "transferOwnership": {
+    "message": "โอนกรรมสิทธิ์โทเค็น"
+  },
+  "subscriptionCancellation": {
+    "message": "ยกเลิกการชำระเงินอัตโนมัติ"
+  },
+  "subscriptionCreation": {
+    "message": "สร้างการชำระเงินอัตโนมัติ"
+  },
+  "aliasSell": {
+    "message": "ขายนามแฝง"
   }
 }

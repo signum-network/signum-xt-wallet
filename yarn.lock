@@ -1471,27 +1471,28 @@
   resolved "https://registry.yarnpkg.com/@serh11p/jest-webextension-mock/-/jest-webextension-mock-4.0.0.tgz#c3b2a00e8c758e156a4a922718b35183e9023af9"
   integrity sha512-SQDFFOJGwQpaPopzYkFgzdDdi8tL8US/XM2UjBu4rmLLztTI/wOSecwXj/i3lhOUwOs3bHO2Zz9eRu2rPy5p9A==
 
-"@signumjs/contracts@^1.0.0-rc.53":
-  version "1.0.0-rc.53"
-  resolved "https://registry.yarnpkg.com/@signumjs/contracts/-/contracts-1.0.0-rc.53.tgz#43e51fc09ae4ada29880fb74a8902d87e8c7ea81"
-  integrity sha512-0gsRBD4HTIcCiMvfpnIN1OmMuRletu53JiKeOHufLOudcDAuB9qrT8V4itjvoKLcOREqOqQ+qqCZ/HrxtVETxw==
+"@signumjs/contracts@^1.0.0-rc.58":
+  version "1.0.0-rc.58"
+  resolved "https://registry.yarnpkg.com/@signumjs/contracts/-/contracts-1.0.0-rc.58.tgz#0cd9125be285daef37ef6753b3d6740dea82e716"
+  integrity sha512-+rDMm6IicOaln1QsKHHSQvZ2DG1tgj9y+NWKr++TS9dPRfHcg7k9tAYl4JlKqNNOtgSfWaOY78N0gYXbC6gstg==
   dependencies:
-    "@signumjs/util" "^1.0.0-rc.53"
+    "@signumjs/util" "^1.0.0-rc.58"
 
-"@signumjs/core@^1.0.0-rc.53":
-  version "1.0.0-rc.53"
-  resolved "https://registry.yarnpkg.com/@signumjs/core/-/core-1.0.0-rc.53.tgz#d025a9298eff1498d99706c9047311a93178ba55"
-  integrity sha512-RPopcqKurblGZI03vkIWDiulL9bsHD/uyOUPDJGJvsMzNi/DxDGMAcmOJVXpfRSF9IYlzQdhu6RVebrseyh5Aw==
+"@signumjs/core@^1.0.0-rc.58":
+  version "1.0.0-rc.58"
+  resolved "https://registry.yarnpkg.com/@signumjs/core/-/core-1.0.0-rc.58.tgz#2ff301e659b0ca4a11f7854d06557a8dc9531160"
+  integrity sha512-LZYTymCXKDIoFI3TEbTgiHzmZqTIC8Chju88xikMiCRRwtH5tZCq3myAqcp4sibJOeyvucWt8uJLZlhYBlJ7Kw==
   dependencies:
-    "@signumjs/contracts" "^1.0.0-rc.53"
-    "@signumjs/crypto" "^1.0.0-rc.53"
-    "@signumjs/http" "^1.0.0-rc.53"
-    "@signumjs/util" "^1.0.0-rc.53"
+    "@signumjs/contracts" "^1.0.0-rc.58"
+    "@signumjs/crypto" "^1.0.0-rc.58"
+    "@signumjs/http" "^1.0.0-rc.58"
+    "@signumjs/util" "^1.0.0-rc.58"
+    bignumber.js "^9.0.0"
 
-"@signumjs/crypto@^1.0.0-rc.53":
-  version "1.0.0-rc.53"
-  resolved "https://registry.yarnpkg.com/@signumjs/crypto/-/crypto-1.0.0-rc.53.tgz#beb30096a1d3a11d2f7159068990697fbafdab4d"
-  integrity sha512-kSSr2aQK7gXpZu/4o0J5JRS+urwpKiAYaWTw7R++x8uyWScWRClM9OWXsAee+jYhVEf9RXDgaDzYL/qNDyRIug==
+"@signumjs/crypto@^1.0.0-rc.58":
+  version "1.0.0-rc.58"
+  resolved "https://registry.yarnpkg.com/@signumjs/crypto/-/crypto-1.0.0-rc.58.tgz#cbe20b86f93d95fd7861e510e99a7c5da0289310"
+  integrity sha512-qVnRbGN9cMyg/rYUW1EWKmesAVYVMCT08HanO5kM1+yEJlFBxWCyTuhvC6LDtl17MdtFpbijuRmuUbADBkmtzQ==
   dependencies:
     "@types/crypto-js" "^3.1.43"
     "@types/node" "^12.0.0"
@@ -1501,25 +1502,25 @@
     pako "^1.0.10"
     seedrandom "^3.0.5"
 
-"@signumjs/http@^1.0.0-rc.53":
-  version "1.0.0-rc.53"
-  resolved "https://registry.yarnpkg.com/@signumjs/http/-/http-1.0.0-rc.53.tgz#f669733e72248d2b89fafa7c34ae03d11a2c136a"
-  integrity sha512-zt/r7leMdaUyjj+NBinsnO6ARXMwDxUQe/VA7OJ41N/d5tH3MFaEQsyP7YnN5vm8BRFLNFkazON6u5cNhPxQMQ==
+"@signumjs/http@^1.0.0-rc.58":
+  version "1.0.0-rc.58"
+  resolved "https://registry.yarnpkg.com/@signumjs/http/-/http-1.0.0-rc.58.tgz#23d5896a816d23ef0afb93ba0ec6820f627892d0"
+  integrity sha512-RXBmMYY4tetBpgFRP2qHMx9sCUqh+v6hD8iMbgTnVgaggp0049YR1e9S5qpmWiDbly/V0LL2kaMjyATfInrHSA==
   dependencies:
     axios "^0.21.4"
 
-"@signumjs/standards@^1.0.0-rc.53":
-  version "1.0.0-rc.53"
-  resolved "https://registry.yarnpkg.com/@signumjs/standards/-/standards-1.0.0-rc.53.tgz#74964a29d6f4f3492ab4f02a05e87d498a9c2b18"
-  integrity sha512-cWR1j9UXxYjJF0fYmrO4ZuCrx1/bHQseNgUia5CBS3Mf6vxQJG/cnCuAaNdBQ5ZbiGcZGYWiiVBrCue93k0+dw==
+"@signumjs/standards@^1.0.0-rc.58":
+  version "1.0.0-rc.58"
+  resolved "https://registry.yarnpkg.com/@signumjs/standards/-/standards-1.0.0-rc.58.tgz#e26bc52a121b666d8835217713bed08a28150dbb"
+  integrity sha512-yx02abKwXe45aBgLrg3GbWcRzSUFZyutbGFaf0kwp9nDMrC3f0dSsdIa3HiAmXvw7RTBXfJh+VNVxCsYnd9PMw==
   dependencies:
     "@braintree/sanitize-url" "^6.0.1"
-    "@signumjs/core" "^1.0.0-rc.53"
+    "@signumjs/core" "^1.0.0-rc.58"
 
-"@signumjs/util@^1.0.0-rc.53":
-  version "1.0.0-rc.53"
-  resolved "https://registry.yarnpkg.com/@signumjs/util/-/util-1.0.0-rc.53.tgz#7987e5cc0b21070d26e35a9c5135e1bddd6220e9"
-  integrity sha512-/jZf2RGBI6uKegypARMmo1c5kaV7Qj2hWckCE5veToVJQW7PRygv2+7kT164lmYoDPgM2JDRlf5xTMJ5l492vg==
+"@signumjs/util@^1.0.0-rc.58":
+  version "1.0.0-rc.58"
+  resolved "https://registry.yarnpkg.com/@signumjs/util/-/util-1.0.0-rc.58.tgz#718d1ff2b4607bbb8ad6f08b63bd4da86b9a6a20"
+  integrity sha512-nS+U6nTwUqy5eaDVPBsjud1Vag3SB6/ENxufrlv9kebu5v6C4mFdApq18+zl99AdJdF1Y4jVmiKxtohJP6XkTw==
   dependencies:
     bignumber.js "^9.0.0"
     js-base64 "^3.6.0"
@@ -3526,11 +3527,6 @@ date-fns@^2.16.1:
   version "2.28.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
   integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
-
-debounce-promise@3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/debounce-promise/-/debounce-promise-3.1.2.tgz#320fb8c7d15a344455cd33cee5ab63530b6dc7c5"
-  integrity sha512-rZHcgBkbYavBeD9ej6sP56XfG53d51CD4dnaw989YX/nZ/ZJfgRx/9ePKmTNiUiyQvh4mtrMoS3OAWW+yoYtpg==
 
 debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
   version "4.3.3"
@@ -6263,13 +6259,6 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
-map-age-cleaner@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/map-age-cleaner/-/map-age-cleaner-0.1.3.tgz#7d583a7306434c055fe474b0f45078e6e1b4b92a"
-  integrity sha512-bJzx6nMoP6PDLPBFmg7+xRKeFZvFboMrGlxmNj9ClvX53KrmvM5bXFXEWjbz4cz1AFn+jWJ9z/DJSz7hrs0w3w==
-  dependencies:
-    p-defer "^1.0.0"
-
 map-cache@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
@@ -6370,11 +6359,6 @@ mimic-fn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
-
-mimic-fn@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-3.1.0.tgz#65755145bbf3e36954b949c16450427451d5ca74"
-  integrity sha512-Ysbi9uYW9hFyfrThdDEQuykN4Ey6BuwPD2kpI5ES/nFTDn/98yxYNLZJcgUAKPT/mcrLLKaGzJR9YVxJrIdASQ==
 
 mimic-fn@^4.0.0:
   version "4.0.0"
@@ -6524,11 +6508,6 @@ node-fetch@^1.0.1:
   dependencies:
     encoding "^0.1.11"
     is-stream "^1.0.1"
-
-node-forge@0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
-  integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
 
 node-int64@^0.4.0:
   version "0.4.0"
@@ -6798,11 +6777,6 @@ os-tmpdir@~1.0.2:
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
   integrity sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=
 
-p-defer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"
-  integrity sha1-n26xgvbJqozXQwBKfU+WsZaw+ww=
-
 p-each-series@^2.1.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-each-series/-/p-each-series-2.2.0.tgz#105ab0357ce72b202a8a8b94933672657b5e2a9a"
@@ -6820,7 +6794,7 @@ p-limit@^1.1.0:
   dependencies:
     p-try "^1.0.0"
 
-p-limit@^2.0.0, p-limit@^2.2.0, p-limit@^2.2.2:
+p-limit@^2.0.0, p-limit@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.3.0.tgz#3dd33c647a214fdfffd835933eb086da0dc21db1"
   integrity sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==
@@ -6854,28 +6828,6 @@ p-map@^4.0.0:
   integrity sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==
   dependencies:
     aggregate-error "^3.0.0"
-
-p-memoize@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/p-memoize/-/p-memoize-4.0.3.tgz#9f3b9965f1fd79dadc2e6ec957c1b43c410a6f99"
-  integrity sha512-lX9GfP1NT5jheKsmvc1071L74/Vw7vul+uZEnst7LNuMtbKlWYwKItqcLSAVUyJnrfQAqFFCJQ5bt0whrDsWQA==
-  dependencies:
-    map-age-cleaner "^0.1.3"
-    mimic-fn "^3.0.0"
-    p-settle "^4.1.1"
-
-p-reflect@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/p-reflect/-/p-reflect-2.1.0.tgz#5d67c7b3c577c4e780b9451fc9129675bd99fe67"
-  integrity sha512-paHV8NUz8zDHu5lhr/ngGWQiW067DK/+IbJ+RfZ4k+s8y4EKyYCz8pGYWjxCg35eHztpJAt+NUgvN4L+GCbPlg==
-
-p-settle@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/p-settle/-/p-settle-4.1.1.tgz#37fbceb2b02c9efc28658fc8d36949922266035f"
-  integrity sha512-6THGh13mt3gypcNMm0ADqVNCcYa3BK6DWsuJWFCuEKP1rpY+OKGp7gaZwVmLspmic01+fsg/fN57MfvDzZ/PuQ==
-  dependencies:
-    p-limit "^2.2.2"
-    p-reflect "^2.1.0"
 
 p-try@^1.0.0:
   version "1.0.0"

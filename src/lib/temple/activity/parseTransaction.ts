@@ -27,6 +27,13 @@ function isDistribution(tx: Transaction): boolean {
   return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetDistributeToHolders;
 }
 
+function isSubscriptionCreation(tx: Transaction): boolean {
+  return tx.type === TransactionType.Escrow && tx.subtype === TransactionEscrowSubtype.SubscriptionSubscribe;
+}
+function isSubscriptionCancellation(tx: Transaction): boolean {
+  return tx.type === TransactionType.Escrow && tx.subtype === TransactionEscrowSubtype.SubscriptionCancel;
+}
+
 function isBurn(tx: Transaction): boolean {
   return (
     !tx.recipient &&
@@ -107,6 +114,9 @@ function isContractTransaction(tx: Transaction): boolean {
 function isAddTreasuryAccount(tx: Transaction) {
   return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetAddTreasureyAccount;
 }
+function isTokenTransferOwnership(tx: Transaction) {
+  return tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetTransferOwnership;
+}
 
 export function parseTransaction(tx: Transaction, accountId: string, accountPrefix: string): TransactionItem {
   // @ts-ignore
@@ -150,6 +160,24 @@ export function parseTransaction(tx: Transaction, accountId: string, accountPref
     item.prefix = '🏦';
     // @ts-ignore
     item.name = 'addTreasuryAccount';
+  } else if (isTokenTransferOwnership(tx)) {
+    item.type = TransactionItemType.Other;
+    // @ts-ignore
+    item.prefix = '➡🪙';
+    // @ts-ignore
+    item.name = 'transferOwnership';
+  } else if (isSubscriptionCreation(tx)) {
+    item.type = TransactionItemType.Other;
+    // @ts-ignore
+    item.prefix = '🕖✨';
+    // @ts-ignore
+    item.name = 'subscriptionCreation';
+  } else if (isSubscriptionCancellation(tx)) {
+    item.type = TransactionItemType.Other;
+    // @ts-ignore
+    item.prefix = '❌🕖';
+    // @ts-ignore
+    item.name = 'subscriptionCreation';
   } else {
     item.type = TransactionItemType.Other;
     // TODO: name the type more precisely
