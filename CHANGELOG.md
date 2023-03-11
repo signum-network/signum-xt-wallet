@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.4.1
+
+### New features
+
+- Support for Transfer Token Ownership (visualization only)
+- Added official/featured Russian node, removed shut down UK node
+
+### Bugfixes
+
+- Fixed Sell Alias Transaction Preview (#66)
+- Fixed Subscription Previews (#61, #62)
+- Fixed Broken Rendering for certain P2P message (#63)
+
 ## 1.4.0
 
 ### New features
