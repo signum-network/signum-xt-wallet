@@ -232,7 +232,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
 
   const getTransactionAttachment = useCallback(
     async (p2pKey: string) => {
-      if (!(messageFormData && messageFormData.isValid)) {
+      if (!(messageFormData && messageFormData.isValid && messageFormData.message)) {
         return undefined;
       }
 
