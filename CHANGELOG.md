@@ -4,6 +4,19 @@
 
 ### New features
 
+- Support for Transfer Token Ownership (visualization only)
+- Added official/featured russian node, removed shut down UK node
+
+### Bugfixes
+
+- Fixed Sell Alias Transaction Preview (#66)
+- Fixed Subscription Previews (#61, #62)
+- Fixed Broken Rendering for certain P2P message (#63)
+
+## 1.4.0
+
+### New features
+
 - Support for Alias Name Resolution Standard SRC47 in Omnibox (#58, #59)
 - Supports new Descriptor Standard (SRC44) for Account Data and shows custom avatars (#56)
 
