@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.4.3
+
+### New features
+
+- Address QR Code shown for import in mobile wallet
+
+### Bugfixes
+
+- Fixed burning failures due to deep verification issues
+- Fixed unwanted trimming on passphrase import (#68)
+- Fixed swapped Alias Sale/Buy in Tx List (#69)
+
+## 1.4.2 (Hotfix)
+
+- Fixed sending failures due to deep verification issues
+
 ## 1.4.1
 
 ### New features
