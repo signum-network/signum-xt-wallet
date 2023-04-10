@@ -8,7 +8,7 @@ import Name from 'app/atoms/Name';
 import Balance from 'app/templates/Balance';
 import { t } from 'lib/i18n/react';
 import { useSignumAssetMetadata, XTAccount } from 'lib/temple/front';
-
+import { QRCode } from 'react-qr-svg';
 import HashShortView from '../atoms/HashShortView';
 import IdenticonSignum from '../atoms/IdenticonSignum';
 

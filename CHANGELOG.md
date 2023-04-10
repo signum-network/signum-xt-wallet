@@ -1,9 +1,5 @@
 # Changelog
 
-## 1.4.2 (Hotfix)
-
-- Fixed sending failures due to deep verification issues
-
 ## 1.4.1
 
 ### New features

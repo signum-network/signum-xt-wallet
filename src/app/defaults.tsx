@@ -25,5 +25,5 @@ export const URL_PATTERN =
   /^((?:https:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+)|(http(s)?:\/\/localhost:[0-9]+)$/;
 
 export function formatMnemonic(m: string) {
-  return m.replace(/\n/g, ' ').trim();
+  return m.replace(/\n/g, ' ');
 }

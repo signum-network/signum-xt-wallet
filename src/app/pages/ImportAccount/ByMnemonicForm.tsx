@@ -1,11 +1,12 @@
-import React, { FC, ReactNode, useCallback, useState } from 'react';
+import React, { FC, ReactNode, useCallback, useEffect, useState } from 'react';
 
+import { Address } from '@signumjs/core';
+import { generateMasterKeys } from '@signumjs/crypto';
 import { useForm } from 'react-hook-form';
 
 import Alert from 'app/atoms/Alert';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { formatMnemonic } from 'app/defaults';
 import { T, t } from 'lib/i18n/react';
 import { useTempleClient } from 'lib/temple/front';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
@@ -16,8 +17,24 @@ interface ByMnemonicFormData {
 
 export const ByMnemonicForm: FC = () => {
   const { importMnemonicAccount } = useTempleClient();
-  const { register, handleSubmit, errors, formState } = useForm<ByMnemonicFormData>();
+  const { register, watch, handleSubmit, errors, formState } = useForm<ByMnemonicFormData>();
   const [error, setError] = useState<ReactNode>(null);
+  const [address, setAddress] = useState('');
+  const mnemonic = watch('mnemonic');
+
+  useEffect(() => {
+    if (!mnemonic) {
+      setAddress('');
+      return;
+    }
+
+    try {
+      const { publicKey } = generateMasterKeys(mnemonic);
+      setAddress(Address.fromPublicKey(publicKey).getReedSolomonAddress(false));
+    } catch (e: any) {
+      console.warn('');
+    }
+  }, [mnemonic]);
 
   const onSubmit = useCallback(
     async ({ mnemonic }: ByMnemonicFormData) => {
@@ -25,7 +42,7 @@ export const ByMnemonicForm: FC = () => {
 
       setError(null);
       try {
-        await importMnemonicAccount(formatMnemonic(mnemonic));
+        await importMnemonicAccount(mnemonic);
       } catch (err: any) {
         console.error(err);
         await withErrorHumanDelay(err, () => {
@@ -58,6 +75,14 @@ export const ByMnemonicForm: FC = () => {
         containerClassName="mb-4"
         className="resize-none"
       />
+      <T id="address">
+        {message => (
+          <>
+            <span className="text-base font-semibold text-gray-700">{message}:</span>
+            <span className="text-base font-semibold text-gray-700">&nbsp;{address}</span>
+          </>
+        )}
+      </T>
 
       <T id="importAccount">
         {message => (
