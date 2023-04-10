@@ -89,10 +89,10 @@ function getSelfUpdateItem(tx: Transaction): SelfUpdateItem {
     item.i18nKey = 'aliasCreation';
   } else if (tx.type === TransactionType.Arbitrary && tx.subtype === TransactionArbitrarySubtype.AliasBuy) {
     item.prefix = '👤';
-    item.i18nKey = 'aliasSell';
+    item.i18nKey = 'aliasBuy';
   } else if (tx.type === TransactionType.Arbitrary && tx.subtype === TransactionArbitrarySubtype.AliasSale) {
     item.prefix = '👤';
-    item.i18nKey = 'aliasBuy';
+    item.i18nKey = 'aliasSell';
   } else if (tx.type === TransactionType.Asset && tx.subtype === TransactionAssetSubtype.AssetIssuance) {
     item.prefix = '🪙✨';
     item.i18nKey = 'tokenIssuance';

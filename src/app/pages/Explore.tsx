@@ -1,6 +1,7 @@
 import React, { FC, FunctionComponent, ReactNode, Suspense, SVGProps, useLayoutEffect, useMemo } from 'react';
 
 import classNames from 'clsx';
+import { QRCode } from 'react-qr-svg';
 import { Props as TippyProps } from 'tippy.js';
 
 import Spinner from 'app/atoms/Spinner';
@@ -85,8 +86,12 @@ const Explore: FC<ExploreProps> = ({ tokenId }) => {
             <Alert type="error" title={t('cantConnectToNetwork')} description={t('cantConnectToNetworkHint')} />
           </div>
         )}
-        <AddressChip account={account} className="mb-6" />
-
+        <div className="flex flex-row justify-between items-center mb-6">
+          <div className="p-1 bg-gray-100 border-2 border-gray-300 rounded" style={{ maxWidth: '64px' }}>
+            <QRCode bgColor="#f7fafc" fgColor="#000000" level="Q" style={{ width: '100%' }} value={account.accountId} />
+          </div>
+          <AddressChip account={account} />
+        </div>
         <AssetBanner accountId={account.accountId} tokenId={tokenId} />
 
         <div className="flex justify-around mx-auto w-full max-w-sm mt-6 px-8">
