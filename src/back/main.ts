@@ -88,7 +88,7 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
       };
 
     case XTMessageType.ImportMnemonicAccountRequest:
-      await Actions.importMnemonicAccount(req.mnemonic, req.name);
+      await Actions.importMnemonicAccount(req.mnemonic, req.name, req.withNostr);
       return {
         type: XTMessageType.ImportMnemonicAccountResponse
       };

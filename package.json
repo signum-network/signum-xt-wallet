@@ -31,6 +31,7 @@
     "@dicebear/avatars": "4.2.5",
     "@dicebear/avatars-bottts-sprites": "4.2.5",
     "@dicebear/avatars-jdenticon-sprites": "4.2.5",
+    "@noble/secp256k1": "^2.0.0",
     "@popperjs/core": "2.4.4",
     "@serh11p/jest-webextension-mock": "4.0.0",
     "@signumjs/core": "^1.0.0-rc.65",
@@ -71,8 +72,8 @@
     "webextension-polyfill": "^0.8.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.17.0",
     "@babel/core": "^7.17.2",
+    "@babel/eslint-parser": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "@peculiar/webcrypto": "1.1.6",
     "@svgr/webpack": "^6.2.1",

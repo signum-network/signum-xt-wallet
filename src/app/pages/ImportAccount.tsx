@@ -28,12 +28,9 @@ const AllTabs = [
 ];
 
 const ImportAccount: FC<ImportAccountProps> = ({ tabSlug }) => {
-  const network = useNetwork();
   const allAccounts = useAllAccounts();
   const setCurrentAccount = useSetCurrentAccount();
-
   const prevAccLengthRef = useRef(allAccounts.length);
-  const prevNetworkRef = useRef(network);
   useEffect(() => {
     const accLength = allAccounts.length;
     if (prevAccLengthRef.current < accLength) {
@@ -47,13 +44,6 @@ const ImportAccount: FC<ImportAccountProps> = ({ tabSlug }) => {
     const tab = tabSlug ? AllTabs.find(currentTab => currentTab.slug === tabSlug) : null;
     return tab ?? AllTabs[0];
   }, [tabSlug]);
-  useEffect(() => {
-    const prevNetworkType = prevNetworkRef.current.type;
-    prevNetworkRef.current = network;
-    if (prevNetworkType !== 'main' && network.type === 'main' && slug === 'faucet') {
-      navigate(`/import-account/private-key`);
-    }
-  }, [network, slug]);
 
   return (
     <PageLayout

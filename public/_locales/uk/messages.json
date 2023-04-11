@@ -2000,5 +2000,8 @@
   },
   "aliasSell": {
     "message": "Продати псевдонім"
+  },
+  "nostrAccount": {
+    "message": "Також імпортуйте як обліковий запис nostr"
   }
 }

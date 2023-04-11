@@ -2000,5 +2000,8 @@
   },
   "aliasSell": {
     "message": "Vender Alias"
+  },
+  "nostrAccount": {
+    "message": "Importar também como conta nostr"
   }
 }

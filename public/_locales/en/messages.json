@@ -2000,5 +2000,8 @@
   },
   "subscriptionCancellation": {
     "message": "Cancel Auto-Payment"
+  },
+  "nostrAccount": {
+    "message": "Also import as nostr account"
   }
 }

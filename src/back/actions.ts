@@ -144,9 +144,9 @@ export function setAccountActivated(accPublicKey: string) {
   });
 }
 
-export function importMnemonicAccount(mnemonic: string, name?: string) {
+export function importMnemonicAccount(mnemonic: string, name?: string, withNostr?: boolean) {
   return withUnlocked(async ({ vault }) => {
-    const updatedAccounts = await vault.importMnemonicAccount(mnemonic, name);
+    const updatedAccounts = await vault.importMnemonicAccount(mnemonic, name, withNostr);
     accountsUpdated(updatedAccounts);
   });
 }

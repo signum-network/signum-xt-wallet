@@ -2000,5 +2000,8 @@
   },
   "aliasSell": {
     "message": "ขายนามแฝง"
+  },
+  "nostrAccount": {
+    "message": "นำเข้าเป็นบัญชี nostr ด้วย"
   }
 }

@@ -5,14 +5,17 @@ import { generateMasterKeys } from '@signumjs/crypto';
 import { useForm } from 'react-hook-form';
 
 import Alert from 'app/atoms/Alert';
+import FormCheckbox from 'app/atoms/FormCheckbox';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import { T, t } from 'lib/i18n/react';
+import { ReactComponent as NostrIcon } from 'app/icons/nostr-logo.svg';
+import { t } from 'lib/i18n/react';
 import { useTempleClient } from 'lib/temple/front';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 interface ByMnemonicFormData {
   mnemonic: string;
+  withNostr: boolean;
 }
 
 export const ByMnemonicForm: FC = () => {
@@ -37,12 +40,12 @@ export const ByMnemonicForm: FC = () => {
   }, [mnemonic]);
 
   const onSubmit = useCallback(
-    async ({ mnemonic }: ByMnemonicFormData) => {
+    async ({ mnemonic, withNostr }: ByMnemonicFormData) => {
       if (formState.isSubmitting) return;
 
       setError(null);
       try {
-        await importMnemonicAccount(mnemonic);
+        await importMnemonicAccount(mnemonic, undefined, withNostr);
       } catch (err: any) {
         console.error(err);
         await withErrorHumanDelay(err, () => {
@@ -72,25 +75,21 @@ export const ByMnemonicForm: FC = () => {
         id="importfundacc-mnemonic"
         placeholder={t('mnemonicInputPlaceholder')}
         spellCheck={false}
-        containerClassName="mb-4"
+        containerClassName="mb-2"
         className="resize-none"
       />
-      <T id="address">
-        {message => (
-          <>
-            <span className="text-base font-semibold text-gray-700">{message}:</span>
-            <span className="text-base font-semibold text-gray-700">&nbsp;{address}</span>
-          </>
-        )}
-      </T>
+      <>
+        <span className="text-base font-semibold text-gray-700">{t('address')}:</span>
+        <span className="text-base font-semibold text-gray-700">&nbsp;{address}</span>
+      </>
 
-      <T id="importAccount">
-        {message => (
-          <FormSubmitButton loading={formState.isSubmitting} className="mt-8">
-            {message}
-          </FormSubmitButton>
-        )}
-      </T>
+      <div className="flex flex-row items-center mt-4">
+        <FormCheckbox name="withNostr" ref={register()} label={t('nostrAccount')} />
+        <NostrIcon className="ml-2 h-12 w-auto" />
+      </div>
+      <FormSubmitButton loading={formState.isSubmitting} className="mt-8">
+        {t('importAccount')}
+      </FormSubmitButton>
     </form>
   );
 };

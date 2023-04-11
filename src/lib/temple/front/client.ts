@@ -209,11 +209,12 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
   );
 
   const importMnemonicAccount = useCallback(
-    async (mnemonic: string, name?) => {
+    async (mnemonic: string, name?: string, withNostr?: boolean) => {
       const res = await request({
         type: XTMessageType.ImportMnemonicAccountRequest,
         mnemonic,
-        name
+        name,
+        withNostr
       });
       assertResponse(res.type === XTMessageType.ImportMnemonicAccountResponse);
     },

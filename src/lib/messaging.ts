@@ -67,6 +67,7 @@ export interface XTAccountBase {
   type: XTAccountType;
   name: string;
   publicKey: string;
+  publicKeyNostr?: string;
   accountId: string;
   isActivated?: boolean;
   hdIndex?: number;
@@ -503,6 +504,7 @@ export interface TempleImportMnemonicAccountRequest extends TempleMessageBase {
   type: XTMessageType.ImportMnemonicAccountRequest;
   mnemonic: string;
   name?: string;
+  withNostr?: boolean;
 }
 
 export interface TempleImportMnemonicAccountResponse extends TempleMessageBase {

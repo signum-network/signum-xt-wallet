@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0 (TBD)
+
+- Nostr key management
+
 ## 1.4.3
 
 ### New features
