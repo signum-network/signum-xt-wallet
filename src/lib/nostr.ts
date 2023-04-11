@@ -1,5 +1,5 @@
 import * as secp256k1 from '@noble/secp256k1';
-
+import { nip19 } from 'nostr-tools';
 export interface NostrKeys {
   publicKey: string;
   privateKey: string;
@@ -21,4 +21,8 @@ export async function generateNostrKeys(seed: string): Promise<NostrKeys> {
     privateKey,
     publicKey
   };
+}
+
+export async function encodePubKey(pubKey: string) {
+  return nip19.npubEncode(pubKey);
 }

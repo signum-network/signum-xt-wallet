@@ -7,6 +7,7 @@ import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
 import { ReactComponent as HelpIcon } from 'app/icons/help.svg';
 import { ReactComponent as MinusIcon } from 'app/icons/minus.svg';
+import { ReactComponent as NostrIcon } from 'app/icons/nostr-logo-no-text-outline-white.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
@@ -18,9 +19,9 @@ import HelpAndCommunity from 'app/templates/HelpAndCommunity';
 import RemoveAccount from 'app/templates/RemoveAccount';
 import AddressBook from 'app/templates/SignumAddressBook';
 import { T } from 'lib/i18n/react';
+import { useRelevantAccounts } from 'lib/temple/front';
 import { Link } from 'lib/woozie';
 
-import { useRelevantAccounts } from '../../lib/temple/front';
 import { SettingsSelectors } from './Settings.selectors';
 
 type SettingsProps = {
@@ -51,7 +52,7 @@ const TABS = [
     titleI18nKey: 'dApps',
     Icon: AppsIcon,
     Component: DAppSettings,
-    color: '#9F7AEA',
+    color: '#eaac7a',
     descriptionI18nKey: 'dAppsDescription',
     testID: SettingsSelectors.DAppsButton
   },
@@ -81,6 +82,14 @@ const TABS = [
     color: 'rgb(245, 101, 101)',
     descriptionI18nKey: 'removeAccountDescription',
     testID: SettingsSelectors.RemoveAccountButton
+  },
+  {
+    slug: 'nostr-account',
+    titleI18nKey: 'nostrAccount',
+    Icon: NostrIcon,
+    Component: HelpAndCommunity,
+    color: '#9F7AEA',
+    descriptionI18nKey: 'nostrAccountDescription'
   },
   {
     slug: 'about',

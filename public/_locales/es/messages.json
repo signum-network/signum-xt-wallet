@@ -2002,6 +2002,15 @@
     "message": "vender alias"
   },
   "nostrAccount": {
+    "message": "Cuenta Nostr"
+  },
+  "viewNostrAccount": {
+    "message": "Ver cuenta Nostr"
+  },
+  "nostrAccountDescription": {
+    "message": "Aquí puede ver todos los detalles de su cuenta nostr, como las claves y el estado de verificación."
+  },
+  "nostrAccountImport": {
     "message": "Importar también como cuenta nostr"
   }
 }

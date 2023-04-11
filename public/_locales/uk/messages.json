@@ -2002,6 +2002,15 @@
     "message": "Продати псевдонім"
   },
   "nostrAccount": {
+    "message": "Обліковий запис Nostr"
+  },
+  "viewNostrAccount": {
+    "message": "Переглянути обліковий запис Nostr"
+  },
+  "nostrAccountDescription": {
+    "message": "Тут ви можете переглянути всі деталі свого облікового запису nostr, як-от ключі та статус підтвердження."
+  },
+  "nostrAccountImport": {
     "message": "Також імпортуйте як обліковий запис nostr"
   }
 }

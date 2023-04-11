@@ -2002,6 +2002,15 @@
     "message": "Alias verkaufen"
   },
   "nostrAccount": {
+    "message": "Nostr-Konto"
+  },
+  "viewNostrAccount": {
+    "message": "Nostr-Konto anzeigen"
+  },
+  "nostrAccountDescription": {
+    "message": "Hier kannst Du alle Details zu deinem nostr-Konto sie, wie Schlüssel und Verifizierungsstatus."
+  },
+  "nostrAccountImport": {
     "message": "Auch als nostr Account importieren"
   }
 }

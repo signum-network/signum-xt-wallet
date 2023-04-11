@@ -2002,6 +2002,15 @@
     "message": "Cancel Auto-Payment"
   },
   "nostrAccount": {
+    "message": "Nostr Account"
+  },
+  "viewNostrAccount": {
+    "message": "View Nostr Account"
+  },
+  "nostrAccountDescription": {
+    "message": "Here you can see all the details for your nostr account, like keys and verification status. "
+  },
+  "nostrAccountImport": {
     "message": "Also import as nostr account"
   }
 }

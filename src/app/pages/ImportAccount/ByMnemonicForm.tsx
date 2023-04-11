@@ -84,8 +84,8 @@ export const ByMnemonicForm: FC = () => {
       </>
 
       <div className="flex flex-row items-center mt-4">
-        <FormCheckbox name="withNostr" ref={register()} label={t('nostrAccount')} />
-        <NostrIcon className="ml-2 h-12 w-auto" />
+        <FormCheckbox name="withNostr" ref={register()} label={t('nostrAccountImport')} />
+        <NostrIcon className="ml-2 h-10 w-auto" />
       </div>
       <FormSubmitButton loading={formState.isSubmitting} className="mt-8">
         {t('importAccount')}

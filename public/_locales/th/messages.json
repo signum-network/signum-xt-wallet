@@ -2002,6 +2002,15 @@
     "message": "ขายนามแฝง"
   },
   "nostrAccount": {
+    "message": "บัญชี Nostr"
+  },
+  "viewNostrAccount": {
+    "message": "ดูบัญชี Nostr"
+  },
+  "nostrAccountDescription": {
+    "message": "ที่นี่ คุณสามารถดูรายละเอียดทั้งหมดสำหรับบัญชี nostr ของคุณ เช่น กุญแจและสถานะการยืนยัน"
+  },
+  "nostrAccountImport": {
     "message": "นำเข้าเป็นบัญชี nostr ด้วย"
   }
 }

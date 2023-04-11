@@ -32,8 +32,6 @@ function isSignumAddress(selection: string) {
 export async function handlePageTextSelected(origin: string, selectedText: string) {
   const enabled = isSignumAddress(selectedText.trim());
 
-  console.log('handlePageTextSelected', selectedText);
-
   await Promise.all([
     setMenuItemEnabled(MenuItems.SendToAddress, enabled),
     setMenuItemEnabled(MenuItems.OpenInExplorer, enabled)

@@ -1,4 +1,3 @@
-import * as secp256k1 from '@noble/secp256k1';
 import { Address } from '@signumjs/core';
 import {
   generateMasterKeys,
@@ -12,10 +11,10 @@ import browser from 'webextension-polyfill';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
 import { XTAccount, XTAccountType, XTSettings } from 'lib/messaging';
+import { generateNostrKeys, NostrKeys } from 'lib/nostr';
 import { clearStorage } from 'lib/temple/reset';
 
 import { PublicError } from './defaults';
-import { generateNostrKeys, NostrKeys } from './nostr';
 import * as Passworder from './passworder';
 import { encryptAndSaveMany, fetchAndDecryptOne, isStored, removeMany } from './safe-storage';
 
