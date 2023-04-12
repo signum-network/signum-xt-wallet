@@ -221,6 +221,18 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     [request]
   );
 
+  const importNostrPrivateKeyAccount = useCallback(
+    async (nsecOrHex: string, name?: string) => {
+      const res = await request({
+        type: XTMessageType.ImportNostrAccountRequest,
+        nsecOrHex,
+        name
+      });
+      assertResponse(res.type === XTMessageType.ImportNostrAccountResponse);
+    },
+    [request]
+  );
+
   const importFundraiserAccount = useCallback(
     async (email: string, password: string, mnemonic: string) => {
       const res = await request({
@@ -432,6 +444,7 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     editAccountName,
     setAccountActivated,
     importMnemonicAccount,
+    importNostrPrivateKeyAccount,
     importFundraiserAccount,
     importKTManagedAccount,
     importWatchOnlyAccount,

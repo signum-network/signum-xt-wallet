@@ -270,13 +270,13 @@
     "message": "Traced back"
   },
   "backupNewSeedPhrase": {
-    "message": "Save new passphrase"
+    "message": "Save new Recovery Phrase"
   },
   "backupedInputDescription": {
     "message": "And accept the risks that if I lose the phrase\nmy funds could be lost."
   },
   "backupedInputLabel": {
-    "message": "I made a passphrase backup"
+    "message": "I made a Recovery Phrase backup"
   },
   "baker": {
     "message": "Baker"
@@ -738,13 +738,13 @@
     "message": "Import Existing Wallet"
   },
   "importExistingWalletDescription": {
-    "message": "Already have a wallet? Import them with your passphrase"
+    "message": "Already have a wallet? Import them with your Recovery Phrase"
   },
   "importNewAccountTitle": {
     "message": "Recover account? Would you like to sign in with a different account?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Import wallet with passphrase"
+    "message": "Import wallet with Recovery Phrase"
   },
   "important": {
     "message": "Important"
@@ -913,13 +913,13 @@
     "message": "The minimum fee for this transaction is higher than your balance."
   },
   "mnemonic": {
-    "message": "Mnemonic"
+    "message": "Signum Recovery Phrase"
   },
   "mnemonicInputDescription": {
-    "message": "Your secret passphrase; usually 12 words."
+    "message": "Your secret Recovery Phrase; usually 12 words."
   },
   "mnemonicInputLabel": {
-    "message": "Passphrase"
+    "message": "Recovery Phrase"
   },
   "mnemonicInputPlaceholder": {
     "message": "e.g. venue sock milk update..."
@@ -1220,7 +1220,7 @@
     "message": "Reveal"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>Click below</b> to view your new passphrase.\nThen, write that phrase down on a piece of paper and/or <b>keep it in a safe place</b>."
+    "message": "<b>Click below</b> to view your new Recovery Phrase.\nThen, write that phrase down on a piece of paper and/or <b>keep it in a safe place</b>."
   },
   "rocketFeeDescription": {
     "message": "Rocket"
@@ -1241,7 +1241,7 @@
     "message": "Browse DApps"
   },
   "seedPhrase": {
-    "message": "Passphrase"
+    "message": "Recovery Phrase"
   },
   "selectAnotherAssetPrompt": {
     "message": "Click the area to select a different asset or token."
@@ -1608,10 +1608,10 @@
     "message": "Valid image URL"
   },
   "verifySeedPhrase": {
-    "message": "Verify passphrase"
+    "message": "Verify Recovery Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "Fill in the blanks with the words to verify your passphrase"
+    "message": "Fill in the blanks with the words to verify your Recovery Phrase"
   },
   "versionLabel": {
     "message": "Version: $version$",
@@ -1631,7 +1631,7 @@
     "message": "View all"
   },
   "watchOnlyAccount": {
-    "message": "Watching"
+    "message": "Signum Address"
   },
   "website": {
     "message": "Site"
@@ -1651,7 +1651,7 @@
     "message": "Yes"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "If you ever switch browsers or devices, you'll need this passphrase to access your accounts."
+    "message": "If you ever switch browsers or devices, you'll need this Recovery Phrase to access your accounts."
   },
   "yourBalanceIsZero": {
     "message": "Your balance is zero."
@@ -2011,7 +2011,7 @@
     "message": "Here you can see all the details for your nostr account, like keys and verification status. "
   },
   "nostrAccountImport": {
-    "message": "Also import as nostr account"
+    "message": "Also import as Nostr account"
   },
   "enterSecretToReveal": {
     "message": "Enter password to reveal"
@@ -2036,5 +2036,43 @@
   },
   "nostrPublicKeyDescription": {
     "message": "The public key is used to let others find and contact you."
+  },
+  "noNostrAccount": {
+    "message": "Not a Nostr Account"
+  },
+  "noNostrAccountDescription": {
+    "message": "The selected account $account$ has no Nostr-Keys attached. You might want to import this account using the recovery phrase and enable Nostr import.",
+    "placeholders": {
+      "account": {
+        "content": "$1"
+      }
+    }
+  },
+  "nostrPrivateKey": {
+    "message": "Nostr Private Key"
+  },
+  "nostrAccountImportDescription": {
+    "message": "You can use the Signum Recovery Phrase to generate a Nostr account. If you select the option it is possible to use the wallet with Nostr Clients as well. You can see the generated keys in the settings."
+  },
+  "importAccountRecoveryPhraseDescription": {
+    "message": "The Recovery Phrase allows you to import an account completely. You can then execute transactions and DApps can also request transactions to be executed. Your signing keys are encrypted and stored exclusively on this browser instance."
+  },
+  "importAccountWatchOnlyDescription": {
+    "message": "If you only use an account address or account id to import, it will not be possible to carry out transactions. You can only observe the imported account."
+  },
+  "importAccountNostrPrivKeyDescription": {
+    "message": "If you have a Nostr account but no Signum account, you can use your private Nostr key to create a matching Signum account for your existing Nostr account. You can also use the private Nostr key in other Signum wallets."
+  },
+  "nostrPrivateKeyInputLabel": {
+    "message": "Private Nostr Key"
+  },
+  "nostrPrivateKeyInputDescription": {
+    "message": "Nostr private key in hexadecimal or nsec (NIP19) form."
+  },
+  "nostrPrivateKeyInputPlaceholder": {
+    "message": "nsec1c7m0..., c7b6ff7e18...."
+  },
+  "nostrPrivateKeyInputWarning": {
+    "message": "Invalid Key"
   }
 }

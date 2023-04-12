@@ -31,7 +31,7 @@
     "@dicebear/avatars": "4.2.5",
     "@dicebear/avatars-bottts-sprites": "4.2.5",
     "@dicebear/avatars-jdenticon-sprites": "4.2.5",
-    "@noble/secp256k1": "^2.0.0",
+    "@noble/secp256k1": "1.7.0",
     "@popperjs/core": "2.4.4",
     "@serh11p/jest-webextension-mock": "4.0.0",
     "@signumjs/core": "^1.0.0-rc.65",

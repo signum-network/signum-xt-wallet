@@ -267,13 +267,13 @@
     "message": "Zurückverfolgt"
   },
   "backupNewSeedPhrase": {
-    "message": "Neue Passphrase sichern"
+    "message": "Speichere neue Recovery Phrase"
   },
   "backupedInputDescription": {
     "message": "Und akzeptiere die Risiken, dass wenn ich die Phrase verliere,\nkönnten meine Gelder verloren gehen."
   },
   "backupedInputLabel": {
-    "message": "Ich habe ein Passphrasen-Backup erstellt"
+    "message": "Ich habe ein Recovery Phrase-Backup erstellt"
   },
   "baker": {
     "message": "Baker"
@@ -726,13 +726,13 @@
     "message": "Bestehende Wallet importieren"
   },
   "importExistingWalletDescription": {
-    "message": "Haben Sie bereits eine Wallet? Importieren Sie sie mit Ihrer Passphrase"
+    "message": "Hast Du bereits einen Account/eine Wallet? Importiere sie mit deiner Recovery Phrase."
   },
   "importNewAccountTitle": {
     "message": "Konto wiederherstellen? Möchten Sie sich mit einem anderen Konto anmelden?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Wallet mit Passphrase importieren"
+    "message": "Wallet mit Recovery Phrase importieren"
   },
   "important": {
     "message": "Wichtig"
@@ -901,13 +901,13 @@
     "message": "Die Mindestgebühr für diese Transaktion ist höher als Ihr Guthaben."
   },
   "mnemonic": {
-    "message": "Passphrase"
+    "message": "Signum Recovery Phrase"
   },
   "mnemonicInputDescription": {
-    "message": "Ihre geheime Passphrase; üblicherweise 12 Wörter."
+    "message": "Deine geheime Recovery Phrase; normalerweise 12 Wörter."
   },
   "mnemonicInputLabel": {
-    "message": "Passphrase"
+    "message": "Recovery Phrase"
   },
   "mnemonicInputPlaceholder": {
     "message": "z.B. venue sock milk update..."
@@ -1194,7 +1194,7 @@
     "message": "Freigeben"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>Klicken Sie auf den unteren Bereich</b>, um Ihre neue Passphrase anzuzeigen.\nSchreiben Sie diese Phrase dann auf ein Blatt Papier und-oder <b>bewahren Sie es an einem sicheren Ort auf</b>."
+    "message": "<b>Klicke unten drauf</b>, um deine neue Recovery Phrase anzuzeigen.\nSchreibe sie dann auf ein Stück Papier und/oder <b>bewahre sie es an einem sicheren Ort auf</b>."
   },
   "rocketFeeDescription": {
     "message": "Rakete"
@@ -1215,7 +1215,7 @@
     "message": "DApps durchsuchen"
   },
   "seedPhrase": {
-    "message": "Passphrase"
+    "message": "Recovery Phrase"
   },
   "selectAnotherAssetPrompt": {
     "message": "Klicken Sie auf den Bereich, um ein anderes Token auszuwählen."
@@ -1487,10 +1487,10 @@
     "message": "Gültige Bild-URL"
   },
   "verifySeedPhrase": {
-    "message": "Passphrase überprüfen"
+    "message": "Überprüfe Recovery Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "Füllen Sie die leeren Felder mit den Wörtern aus, um Ihre Passphrase zu überprüfen"
+    "message": "Fülle die Lücken mit den Wörtern aus, um die Recovery Phrase zu bestätigen"
   },
   "versionLabel": {
     "message": "Version: $version$",
@@ -1510,7 +1510,7 @@
     "message": "Alle ansehen"
   },
   "watchOnlyAccount": {
-    "message": "Beobachten"
+    "message": "Signum-Adresse"
   },
   "website": {
     "message": "Website"
@@ -1530,7 +1530,7 @@
     "message": "Ja"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "Wenn Sie jemals zwischen Browsern oder Geräten wechseln, benötigen Sie diese Passphrase, um auf Ihre Konten zuzugreifen."
+    "message": "Wenn Du jemals den Browser oder das Gerät wechselst, benötigst Du diesen Recovery Phrase, um auf dein Konto zuzugreifen."
   },
   "yourBalanceIsZero": {
     "message": "Ihr Guthaben ist null."
@@ -2011,7 +2011,7 @@
     "message": "Hier kannst Du alle Details zu deinem nostr-Konto sie, wie Schlüssel und Verifizierungsstatus."
   },
   "nostrAccountImport": {
-    "message": "Auch als nostr Account importieren"
+    "message": "Zusätzlich als Nostr Account importieren"
   },
   "enterSecretToReveal": {
     "message": "Geben Sie das Passwort ein, um es anzuzeigen"
@@ -2036,5 +2036,43 @@
   },
   "nostrPublicKeyDescription": {
     "message": "Der öffentliche Schlüssel wird verwendet, damit andere dich finden und kontaktieren können."
+  },
+  "noNostrAccount": {
+    "message": "Kein Nostr-Konto"
+  },
+  "noNostrAccountDescription": {
+    "placeholders": {
+      "account": {
+        "content": "$1"
+      }
+    },
+    "message": "Dem ausgewählten Konto $account$ sind keine Nostr-Keys zugeordnet. Möglicherweise möchtest du dieses Konto mithilfe der Wiederherstellungsphrase importieren und den Nostr-Import aktivieren."
+  },
+  "nostrPrivateKey": {
+    "message": "Nostr Privater Schlüssel"
+  },
+  "nostrAccountImportDescription": {
+    "message": "Du kannst die Signum Recovery Phrase verwenden um einen Nostr Account zu generieren. Wenn du die Option auswählst ist es moeglich die Wallet auch mit Nostr Clients zu verwenden. Die generierten Schlüssel kannst Du in den Einstellungen einsehen."
+  },
+  "importAccountRecoveryPhraseDescription": {
+    "message": "Mit der Recovery Phrase kannst du ein Konto vollständig importieren. Du kannst dann Transaktionen ausgeführen und DApps können auch die Ausführung von Transaktionen beantragen. Deine Signierungsschlüssel werden verschlüsselt und ausschliesslich auf dieser Browser-Instanz gespeichert."
+  },
+  "importAccountWatchOnlyDescription": {
+    "message": "Wenn du nur eine Konto-Adresse oder Konto-Id zum Importieren verwendest, ist es nicht möglich Transaktionen auszuführen. Du kannst das importierte Konto lediglich beobachten. "
+  },
+  "importAccountNostrPrivKeyDescription": {
+    "message": "Wenn du ein Nostr Konto, aber kein Signum Konto hast, kannst du deinen privaten Nostr Schlüssel verwenden, um zu deinem bestehenden Nostr Account ein passendes Signum Konto zu erstellen. Du kannst den privaten Nostr Schlüssel auch in anderen Signum Wallets verwenden."
+  },
+  "nostrPrivateKeyInputLabel": {
+    "message": "Privater Nostr-Schlüssel"
+  },
+  "nostrPrivateKeyInputDescription": {
+    "message": "Nostr privater Schlüssel in hexadezimaler oder nsec (NIP19) Form."
+  },
+  "nostrPrivateKeyInputPlaceholder": {
+    "message": "nsec1c7m0..., c7b6ff7e18...."
+  },
+  "nostrPrivateKeyInputWarning": {
+    "message": "Ungültiger Schlüssel"
   }
 }

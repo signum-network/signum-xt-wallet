@@ -11,7 +11,7 @@ import browser from 'webextension-polyfill';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
 import { XTAccount, XTAccountType, XTSettings } from 'lib/messaging';
-import { generateNostrKeys, NostrKeys } from 'lib/nostr';
+import { generateNostrKeys, getNostrKeysFromPrivateKey, NostrKeys } from 'lib/nostr';
 import { clearStorage } from 'lib/temple/reset';
 
 import { PublicError } from './defaults';
@@ -221,6 +221,17 @@ export class Vault {
     });
   }
 
+  async importAccountFromNostrPrivKey(nsecOrHex: string, name?: string) {
+    return withError('Failed to import account', async () => {
+      try {
+        const nostrKeys = getNostrKeysFromPrivateKey(nsecOrHex);
+        const keys = generateMasterKeys(nostrKeys.privateKey);
+        return this.importAccount(keys, name, nostrKeys);
+      } catch (_err) {
+        throw new PublicError('Invalid Nostr PrivateKey');
+      }
+    });
+  }
   async importWatchOnlyAccount(accPublicKey: string, chainId?: string) {
     return withError('Failed to import Watch Only account', async () => {
       const allAccounts = await this.fetchAccounts();

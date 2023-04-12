@@ -267,13 +267,13 @@
     "message": "ถอยหลังไป"
   },
   "backupNewSeedPhrase": {
-    "message": "บันทึก passphrase อันใหม่"
+    "message": "บันทึกวลีการกู้คืนใหม่"
   },
   "backupedInputDescription": {
     "message": "จำให้ขึ้นใจไปตลอดเลย ถ้าลืมรหัสกระเป๋าตังที่เป็น Seed จะไม่สามารถเอาเงินมาได้อีกเลย\n ต้องเก็บรักษารหัสเอาไว้ให้ดีเยี่ยงชีวิต"
   },
   "backupedInputLabel": {
-    "message": "เราสำรองและบันทึกรหัสแล้ว"
+    "message": "ฉันทำการสำรองข้อมูล Recovery Phrase"
   },
   "baker": {
     "message": "Baker"
@@ -729,13 +729,13 @@
     "message": "นำเข้า Existing Wallet"
   },
   "importExistingWalletDescription": {
-    "message": "ถ้ามี Account และอยากใช้ก็ให้ Import นำเข้า passphrase"
+    "message": "มีกระเป๋าสตางค์แล้วหรือยัง? นำเข้าด้วย Recovery Phrase ของคุณ"
   },
   "importNewAccountTitle": {
     "message": "อยากกู้ account เหรอ? หรือว่าอยากจะ Sign in ด้วย account อื่นแทน?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "นำเข้า wallet ด้วย passphrase"
+    "message": "นำเข้ากระเป๋าเงินด้วย Recovery Phrase"
   },
   "important": {
     "message": "สำคัญ"
@@ -904,13 +904,13 @@
     "message": "ตรวจพบว่า ค่า minimum fee มีค่าสูงกว่าเงินในกระเป๋าของท่าน"
   },
   "mnemonic": {
-    "message": "Mnemonic"
+    "message": "วลีการกู้คืน Signum"
   },
   "mnemonicInputDescription": {
-    "message": "รหัส passphrase; ปกติจะมี 12 คำ"
+    "message": "วลีการกู้คืนความลับของคุณ โดยปกติ 12 คำ"
   },
   "mnemonicInputLabel": {
-    "message": "Passphrase"
+    "message": "วลีการกู้คืน"
   },
   "mnemonicInputPlaceholder": {
     "message": "ยกตัวอย่างเช่น venue sock milk update..."
@@ -1194,7 +1194,7 @@
     "message": "เปิดเผย"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>กดด้านล่าง</b> เพื่อแสดง passphrase.\n อย่าลืมหาที่จดรหัสเช่นกระดาษ <b>แล้วเก็บไว้ในที่ปลอดภัย</b>"
+    "message": "<b>คลิกด้านล่าง</b> เพื่อดู Recovery Phrase ใหม่ของคุณ\nจากนั้น เขียนวลีนั้นลงบนกระดาษ และ/หรือ <b>เก็บไว้ในที่ปลอดภัย</b>"
   },
   "rocketFeeDescription": {
     "message": "Rocket"
@@ -1215,7 +1215,7 @@
     "message": "หา DApps"
   },
   "seedPhrase": {
-    "message": "Passphrase"
+    "message": "วลีการกู้คืน"
   },
   "selectAnotherAssetPrompt": {
     "message": "กดตรงพื้นที่ ที่จะเลือก Asset หรือ Token อื่น ๆ"
@@ -1487,10 +1487,10 @@
     "message": "Valid image URL"
   },
   "verifySeedPhrase": {
-    "message": "Verify passphrase"
+    "message": "ตรวจสอบวลีการกู้คืน"
   },
   "verifySeedPhraseDescription": {
-    "message": "เติมคำในช่องว่างเพื่อทำการ verify passphrase ของท่าน"
+    "message": "เติมคำในช่องว่างเพื่อยืนยัน Recovery Phrase ของคุณ"
   },
   "versionLabel": {
     "message": "เวอร์ชั่นโปรแกรม : $version$",
@@ -1510,7 +1510,7 @@
     "message": "ดูทั้งหมด"
   },
   "watchOnlyAccount": {
-    "message": "Watching"
+    "message": "ที่อยู่เข้าสู่ระบบ"
   },
   "website": {
     "message": "Site"
@@ -1530,7 +1530,7 @@
     "message": "ใช่"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "ถ้าท่านเปลี่ยนเว็บ Browser หรือเปลี่ยนอุปกรณ์ จะต้องกรอก passpharse เพื่อเข้าถึง Account ที่มีอยู่ก่อนแล้ว"
+    "message": "หากคุณเคยเปลี่ยนเบราว์เซอร์หรืออุปกรณ์ คุณจะต้องใช้ Recovery Phrase นี้เพื่อเข้าถึงบัญชีของคุณ"
   },
   "yourBalanceIsZero": {
     "message": "เงินของท่านเป็น 0"
@@ -2011,7 +2011,7 @@
     "message": "ที่นี่ คุณสามารถดูรายละเอียดทั้งหมดสำหรับบัญชี nostr ของคุณ เช่น กุญแจและสถานะการยืนยัน"
   },
   "nostrAccountImport": {
-    "message": "นำเข้าเป็นบัญชี nostr ด้วย"
+    "message": "นำเข้าเป็นบัญชี Nostr ด้วย"
   },
   "enterSecretToReveal": {
     "message": "ป้อนรหัสผ่านเพื่อเปิดเผย"
@@ -2036,5 +2036,43 @@
   },
   "nostrPublicKeyDescription": {
     "message": "รหัสสาธารณะใช้เพื่อให้คนอื่นค้นหาและติดต่อคุณ"
+  },
+  "noNostrAccount": {
+    "message": "ไม่ใช่บัญชี Nostr"
+  },
+  "noNostrAccountDescription": {
+    "placeholders": {
+      "account": {
+        "content": "$1"
+      }
+    },
+    "message": "บัญชี $account$ ที่เลือกไม่มี Nostr-Keys แนบมาด้วย คุณอาจต้องการนำเข้าบัญชีนี้โดยใช้วลีการกู้คืนและเปิดใช้งานการนำเข้า Nostr"
+  },
+  "nostrPrivateKey": {
+    "message": "คีย์ส่วนตัวของ Nostr"
+  },
+  "nostrAccountImportDescription": {
+    "message": "คุณสามารถใช้ Signum Recovery Phrase เพื่อสร้างบัญชี Nostr หากคุณเลือกตัวเลือกนี้ คุณจะสามารถใช้กระเป๋าเงินกับ Nostr Clients ได้เช่นกัน คุณสามารถดูคีย์ที่สร้างขึ้นได้ในการตั้งค่า"
+  },
+  "importAccountRecoveryPhraseDescription": {
+    "message": "วลีการกู้คืนช่วยให้คุณสามารถนำเข้าบัญชีได้อย่างสมบูรณ์ จากนั้นคุณสามารถดำเนินการธุรกรรมได้ และ DApps ยังสามารถร้องขอให้ดำเนินการธุรกรรมได้อีกด้วย คีย์การเซ็นชื่อของคุณได้รับการเข้ารหัสและจัดเก็บไว้ในอินสแตนซ์ของเบราว์เซอร์นี้โดยเฉพาะ"
+  },
+  "importAccountWatchOnlyDescription": {
+    "message": "หากคุณใช้เพียงที่อยู่บัญชีหรือรหัสบัญชีเพื่อนำเข้า จะไม่สามารถทำธุรกรรมได้ คุณสามารถสังเกตบัญชีที่นำเข้าเท่านั้น"
+  },
+  "importAccountNostrPrivKeyDescription": {
+    "message": "หากคุณมีบัญชี Nostr แต่ไม่มีบัญชี Signum คุณสามารถใช้คีย์ Nostr ส่วนตัวของคุณเพื่อสร้างบัญชี Signum ที่ตรงกันสำหรับบัญชี Nostr ที่คุณมีอยู่ คุณยังสามารถใช้คีย์ Nostr ส่วนตัวในกระเป๋าเงิน Signum อื่นๆ"
+  },
+  "nostrPrivateKeyInputLabel": {
+    "message": "คีย์ Nostr ส่วนตัว"
+  },
+  "nostrPrivateKeyInputDescription": {
+    "message": "รหัสส่วนตัว Nostr ในรูปแบบเลขฐานสิบหกหรือ nsec (NIP19)"
+  },
+  "nostrPrivateKeyInputPlaceholder": {
+    "message": "nsec1c7m0..., c7b6ff7e18...."
+  },
+  "nostrPrivateKeyInputWarning": {
+    "message": "กุญแจนี้ใช้ไม่ได้"
   }
 }

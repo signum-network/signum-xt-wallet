@@ -151,6 +151,12 @@ export function importMnemonicAccount(mnemonic: string, name?: string, withNostr
     accountsUpdated(updatedAccounts);
   });
 }
+export function importAccountFromNostrPrivateKey(nsecOrHex: string, name?: string) {
+  return withUnlocked(async ({ vault }) => {
+    const updatedAccounts = await vault.importAccountFromNostrPrivKey(nsecOrHex, name);
+    accountsUpdated(updatedAccounts);
+  });
+}
 
 export function importWatchOnlyAccount(address: string, chainId?: string) {
   return withUnlocked(async ({ vault }) => {

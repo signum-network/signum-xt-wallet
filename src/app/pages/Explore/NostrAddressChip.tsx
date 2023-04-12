@@ -33,15 +33,15 @@ export const NostrAddressChip = ({ account, className }: AddressChipProps) => {
   if (!account.publicKeyNostr || !pubKey) return null;
   const handleNostrClick = () => {
     console.log('Nostr click');
-    // navigate({
-    //     pathname: `/explore/${tokenId}`,
-    // });
+    navigate({
+      pathname: `/settings/nostr-account`
+    });
   };
 
   return (
     <div className={`flex flex-row justify-between items-center bg-purple-200 rounded py-1 px-4 ${className}`}>
       <CopyButton text={account.publicKeyNostr} className="bg-purple-200">
-        <HashShortView hash={pubKey} firstCharsCount={8} lastCharsCount={8} />
+        <HashShortView hash={pubKey} firstCharsCount={8} lastCharsCount={8} delimiter=":" />
       </CopyButton>
       <Button
         ref={buttonRef}

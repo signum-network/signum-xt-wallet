@@ -7,8 +7,9 @@ import { T } from 'lib/i18n/react';
 import { useSetCurrentAccount, useAllAccounts, useNetwork } from 'lib/temple/front';
 import { navigate } from 'lib/woozie';
 
-import { ByMnemonicForm } from './ImportAccount/ByMnemonicForm';
+import { ByRecoveryPhraseForm } from './ImportAccount/ByMnemonicForm';
 import { WatchOnlyForm } from './ImportAccount/WatchOnlyForm';
+import { ByNostrKeyForm } from './ImportAccount/NostrForm';
 
 type ImportAccountProps = {
   tabSlug: string | null;
@@ -18,12 +19,17 @@ const AllTabs = [
   {
     slug: 'mnemonic',
     i18nKey: 'mnemonic',
-    ImportForm: ByMnemonicForm
+    ImportForm: ByRecoveryPhraseForm
   },
   {
     slug: 'watch-only',
     i18nKey: 'watchOnlyAccount',
     ImportForm: WatchOnlyForm
+  },
+  {
+    slug: 'nostr',
+    i18nKey: 'nostrPrivateKey',
+    ImportForm: ByNostrKeyForm
   }
 ];
 

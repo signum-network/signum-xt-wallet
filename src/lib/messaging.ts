@@ -219,6 +219,8 @@ export enum XTMessageType {
   ImportAccountResponse = 'XT_IMPORT_ACCOUNT_RESPONSE',
   ImportMnemonicAccountRequest = 'XT_IMPORT_MNEMONIC_ACCOUNT_REQUEST',
   ImportMnemonicAccountResponse = 'XT_IMPORT_MNEMONIC_ACCOUNT_RESPONSE',
+  ImportNostrAccountRequest = 'XT_IMPORT_NOSTR_ACCOUNT_REQUEST',
+  ImportNostrAccountResponse = 'XT_IMPORT_NOSTR_ACCOUNT_RESPONSE',
   ImportFundraiserAccountRequest = 'XT_IMPORT_FUNDRAISER_ACCOUNT_REQUEST',
   ImportFundraiserAccountResponse = 'XT_IMPORT_FUNDRAISER_ACCOUNT_RESPONSE',
   ImportManagedKTAccountRequest = 'XT_IMPORT_MANAGED_KT_ACCOUNT_REQUEST',
@@ -281,6 +283,7 @@ export type TempleRequest =
   | TempleEditAccountRequest
   | TempleImportAccountRequest
   | TempleImportMnemonicAccountRequest
+  | TempleImportNostrAccountRequest
   | TempleImportFundraiserAccountRequest
   | TempleImportManagedKTAccountRequest
   | TempleImportWatchOnlyAccountRequest
@@ -316,6 +319,7 @@ export type TempleResponse =
   | TempleEditAccountResponse
   | TempleImportAccountResponse
   | TempleImportMnemonicAccountResponse
+  | TempleImportNostrAccountResponse
   | TempleImportFundraiserAccountResponse
   | TempleImportManagedKTAccountResponse
   | TempleImportWatchOnlyAccountResponse
@@ -509,6 +513,16 @@ export interface TempleImportMnemonicAccountRequest extends TempleMessageBase {
 
 export interface TempleImportMnemonicAccountResponse extends TempleMessageBase {
   type: XTMessageType.ImportMnemonicAccountResponse;
+}
+
+export interface TempleImportNostrAccountRequest extends TempleMessageBase {
+  type: XTMessageType.ImportNostrAccountRequest;
+  nsecOrHex: string;
+  name?: string;
+}
+
+export interface TempleImportNostrAccountResponse extends TempleMessageBase {
+  type: XTMessageType.ImportNostrAccountResponse;
 }
 
 export interface TempleImportFundraiserAccountRequest extends TempleMessageBase {

@@ -726,13 +726,13 @@
     "message": "Importar billetera existente"
   },
   "importExistingWalletDescription": {
-    "message": "¿Ya tienes una billetera? Importarlo con su frase de recuperación"
+    "message": "¿Ya tienes una billetera? Importarlos con tu Frase de Recuperación"
   },
   "importNewAccountTitle": {
     "message": "¿Recuperar cuenta? ¿Desea iniciar sesión con una cuenta diferente?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Importar billetera con frase de recuperación"
+    "message": "Importar monedero con frase de recuperación"
   },
   "important": {
     "message": "Importante"
@@ -901,10 +901,10 @@
     "message": "La tarifa mínima para esta transacción es más alto que su balance."
   },
   "mnemonic": {
-    "message": "Mnemotécnico"
+    "message": "Frase de recuperación de Signum"
   },
   "mnemonicInputDescription": {
-    "message": "Su frase de recuperación, normalmente 12 palabras."
+    "message": "Tu Frase de Recuperación secreta; generalmente 12 palabras."
   },
   "mnemonicInputLabel": {
     "message": "Frase de recuperación"
@@ -1487,7 +1487,7 @@
     "message": "Verificar frase de recuperación"
   },
   "verifySeedPhraseDescription": {
-    "message": "Complete los espacios en blanco con las palabras para verificar su contraseña"
+    "message": "Complete los espacios en blanco con las palabras para verificar su frase de recuperación"
   },
   "versionLabel": {
     "message": "Versión: $version$",
@@ -1507,7 +1507,7 @@
     "message": "Ver todo"
   },
   "watchOnlyAccount": {
-    "message": "Solo lectura"
+    "message": "Dirección de firma"
   },
   "website": {
     "message": "sitio"
@@ -2011,7 +2011,7 @@
     "message": "Aquí puede ver todos los detalles de su cuenta nostr, como las claves y el estado de verificación."
   },
   "nostrAccountImport": {
-    "message": "Importar también como cuenta nostr"
+    "message": "Importar también como cuenta Nostr"
   },
   "enterSecretToReveal": {
     "message": "Ingrese la contraseña para revelar"
@@ -2036,5 +2036,43 @@
   },
   "nostrPublicKeyDescription": {
     "message": "La clave pública se utiliza para permitir que otros lo encuentren y se comuniquen con usted."
+  },
+  "noNostrAccount": {
+    "message": "No es una cuenta de Nostr"
+  },
+  "noNostrAccountDescription": {
+    "placeholders": {
+      "account": {
+        "content": "$1"
+      }
+    },
+    "message": "La cuenta $account$ seleccionada no tiene Nostr-Keys adjuntas. Es posible que desee importar esta cuenta utilizando la frase de recuperación y habilitar la importación de Nostr."
+  },
+  "nostrPrivateKey": {
+    "message": "Clave privada de Nostr"
+  },
+  "nostrAccountImportDescription": {
+    "message": "Puede utilizar la frase de recuperación Signum para generar una cuenta Nostr. Si selecciona la opción, también es posible usar la billetera con Clientes Nostr. Puede ver las claves generadas en la configuración."
+  },
+  "importAccountRecoveryPhraseDescription": {
+    "message": "La frase de recuperación le permite importar una cuenta por completo. Luego puede ejecutar transacciones y DApps también puede solicitar que se ejecuten transacciones. Sus claves de firma se cifran y almacenan exclusivamente en esta instancia del navegador."
+  },
+  "importAccountWatchOnlyDescription": {
+    "message": "Si solo usa una dirección de cuenta o una identificación de cuenta para importar, no será posible realizar transacciones. Solo puede observar la cuenta importada."
+  },
+  "importAccountNostrPrivKeyDescription": {
+    "message": "Si tiene una cuenta Nostr pero no una cuenta Signum, puede usar su clave Nostr privada para crear una cuenta Signum que coincida con su cuenta Nostr existente. También puede usar la clave privada Nostr en otras billeteras Signum."
+  },
+  "nostrPrivateKeyInputLabel": {
+    "message": "Clave Nostr privada"
+  },
+  "nostrPrivateKeyInputDescription": {
+    "message": "Clave privada Nostr en forma hexadecimal o nsec (NIP19)."
+  },
+  "nostrPrivateKeyInputPlaceholder": {
+    "message": "nsec1c7m0..., c7b6ff7e18...."
+  },
+  "nostrPrivateKeyInputWarning": {
+    "message": "Tecla inválida"
   }
 }

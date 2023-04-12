@@ -99,6 +99,12 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         type: XTMessageType.ImportMnemonicAccountResponse
       };
 
+    case XTMessageType.ImportNostrAccountRequest:
+      await Actions.importAccountFromNostrPrivateKey(req.nsecOrHex, req.name);
+      return {
+        type: XTMessageType.ImportNostrAccountResponse
+      };
+
     case XTMessageType.ImportWatchOnlyAccountRequest:
       await Actions.importWatchOnlyAccount(req.address, req.chainId);
       return {
