@@ -7,6 +7,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import AccountBanner from 'app/templates/AccountBanner';
 import { T, t } from 'lib/i18n/react';
 import { useTempleClient, useRelevantAccounts, useAccount } from 'lib/temple/front';
+import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 import { navigate } from 'lib/woozie';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';
@@ -35,16 +36,14 @@ const RemoveAccount: FC = () => {
   const onSubmit = useCallback(
     async ({ password }) => {
       if (submitting) return;
-
       clearError('password');
       try {
         await removeAccount(account.publicKey, password);
       } catch (err: any) {
         console.error(err);
-
-        // Human delay.
-        await new Promise(res => setTimeout(res, 300));
-        setError('password', SUBMIT_ERROR_TYPE, err.message);
+        await withErrorHumanDelay(err, () => {
+          setError('password', SUBMIT_ERROR_TYPE, err.message);
+        });
       }
     },
     [submitting, clearError, setError, removeAccount, account.publicKey]

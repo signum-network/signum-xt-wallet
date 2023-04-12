@@ -105,6 +105,14 @@ export class Vault {
     });
   }
 
+  static async revealNostrPrivateKey(accPublicKey: string, password: string) {
+    const passKey = await Vault.toValidPassKey(password);
+    return withError('Failed to reveal Nostr private key', () => {
+      const accountId = Address.fromPublicKey(accPublicKey).getNumericId();
+      return fetchAndDecryptOne<string>(nostrPrivKeyStrgKey(accountId), passKey);
+    });
+  }
+
   private static toValidPassKey(password: string) {
     return withError('Invalid password', async doThrow => {
       const passKey = await Passworder.generateKey(password);

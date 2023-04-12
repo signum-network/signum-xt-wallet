@@ -68,6 +68,12 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         type: XTMessageType.RevealPublicKeyResponse,
         publicKey
       };
+    case XTMessageType.RevealNostrPrivateKeyRequest:
+      const privateKey = await Actions.revealNostrPrivateKey(req.accountPublicKey, req.password);
+      return {
+        type: XTMessageType.RevealNostrPrivateKeyResponse,
+        privateKey
+      };
     case XTMessageType.RemoveAccountRequest:
       await Actions.removeAccount(req.accountPublicKeyHash, req.password);
       DAppNotifications.notifyAccountRemoved(req.accountPublicKeyHash);

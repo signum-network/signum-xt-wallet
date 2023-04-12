@@ -2012,5 +2012,29 @@
   },
   "nostrAccountImport": {
     "message": "Также импортировать как учетную запись nostr"
+  },
+  "enterSecretToReveal": {
+    "message": "Введите пароль, чтобы открыть"
+  },
+  "nostrPrivateKeyDescription": {
+    "message": "Если вы хотите импортировать свою учетную запись Nostr в другие приложения, вам понадобится ваш закрытый ключ. Введите свой пароль, чтобы раскрыть свой закрытый ключ."
+  },
+  "nostrPrivateKeyLabel": {
+    "message": "Закрытый ключ"
+  },
+  "enterPasswordToRevealKey": {
+    "message": "Введите пароль, чтобы открыть закрытый ключ."
+  },
+  "nostrKeysEncodedDescription": {
+    "message": "Ключи Nostr могут быть представлены в закодированной форме в соответствии с NIP-19, так что ключи имеют префикс «npub» или «nsec»."
+  },
+  "encodeNostrKeys": {
+    "message": "Показать кодировку"
+  },
+  "nostrPublicKeyLabel": {
+    "message": "Открытый ключ"
+  },
+  "nostrPublicKeyDescription": {
+    "message": "Открытый ключ используется, чтобы позволить другим найти вас и связаться с вами."
   }
 }

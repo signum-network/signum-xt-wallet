@@ -272,6 +272,19 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     [request]
   );
 
+  const revealNostrPrivateKey = useCallback(
+    async (accountPublicKey: string, password: string) => {
+      const res = await request({
+        type: XTMessageType.RevealNostrPrivateKeyRequest,
+        accountPublicKey,
+        password
+      });
+      assertResponse(res.type === XTMessageType.RevealNostrPrivateKeyResponse);
+      return res.privateKey;
+    },
+    [request]
+  );
+
   const updateSettings = useCallback(
     async (settings: Partial<XTSettings>) => {
       const res = await request({
@@ -423,6 +436,7 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     importKTManagedAccount,
     importWatchOnlyAccount,
     createLedgerAccount,
+    revealNostrPrivateKey,
     updateSettings,
     confirmInternal,
     getDAppPayload,

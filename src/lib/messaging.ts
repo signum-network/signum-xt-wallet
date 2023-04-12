@@ -205,8 +205,8 @@ export enum XTMessageType {
   CreateAccountResponse = 'XT_CREATE_ACCOUNT_RESPONSE',
   RevealPublicKeyRequest = 'XT_REVEAL_PUBLIC_KEY_REQUEST',
   RevealPublicKeyResponse = 'XT_REVEAL_PUBLIC_KEY_RESPONSE',
-  RevealPrivateKeyRequest = 'XT_REVEAL_PRIVATE_KEY_REQUEST',
-  RevealPrivateKeyResponse = 'XT_REVEAL_PRIVATE_KEY_RESPONSE',
+  RevealNostrPrivateKeyRequest = 'XT_REVEAL_NOSTR_PRIVATE_KEY_REQUEST',
+  RevealNostrPrivateKeyResponse = 'XT_REVEAL_NOSTR_PRIVATE_KEY_RESPONSE',
   RevealMnemonicRequest = 'XT_REVEAL_MNEMONIC_REQUEST',
   RevealMnemonicResponse = 'XT_REVEAL_MNEMONIC_RESPONSE',
   RemoveAccountRequest = 'XT_REMOVE_ACCOUNT_REQUEST',
@@ -275,7 +275,7 @@ export type TempleRequest =
   | TempleLockRequest
   | TempleCreateAccountRequest
   | TempleRevealPublicKeyRequest
-  | TempleRevealPrivateKeyRequest
+  | TempleRevealNostrPrivateKeyRequest
   | TempleRevealMnemonicRequest
   | TempleActivateAccountRequest
   | TempleEditAccountRequest
@@ -310,7 +310,7 @@ export type TempleResponse =
   | TempleLockResponse
   | TempleCreateAccountResponse
   | TempleRevealPublicKeyResponse
-  | TempleRevealPrivateKeyResponse
+  | TempleRevealNostrPrivateKeyResponse
   | TempleRevealMnemonicResponse
   | TempleActivateAccountResponse
   | TempleEditAccountResponse
@@ -440,14 +440,14 @@ export interface TempleRevealPublicKeyResponse extends TempleMessageBase {
   publicKey: string;
 }
 
-export interface TempleRevealPrivateKeyRequest extends TempleMessageBase {
-  type: XTMessageType.RevealPrivateKeyRequest;
-  accountPublicKeyHash: string;
+export interface TempleRevealNostrPrivateKeyRequest extends TempleMessageBase {
+  type: XTMessageType.RevealNostrPrivateKeyRequest;
+  accountPublicKey: string;
   password: string;
 }
 
-export interface TempleRevealPrivateKeyResponse extends TempleMessageBase {
-  type: XTMessageType.RevealPrivateKeyResponse;
+export interface TempleRevealNostrPrivateKeyResponse extends TempleMessageBase {
+  type: XTMessageType.RevealNostrPrivateKeyResponse;
   privateKey: string;
 }
 

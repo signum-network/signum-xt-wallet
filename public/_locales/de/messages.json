@@ -2012,5 +2012,29 @@
   },
   "nostrAccountImport": {
     "message": "Auch als nostr Account importieren"
+  },
+  "enterSecretToReveal": {
+    "message": "Geben Sie das Passwort ein, um es anzuzeigen"
+  },
+  "nostrPrivateKeyDescription": {
+    "message": "Wenn du dein Nostr-Konto in andere Anwendungen importieren möchtest, benötigst du deinen privaten Schlüssel. Gib dein Passwort ein, um deinen privaten Schlüssel anzuzeigen."
+  },
+  "nostrPrivateKeyLabel": {
+    "message": "Privater Schlüssel"
+  },
+  "enterPasswordToRevealKey": {
+    "message": "Gib dein Passwort ein, um den privaten Schlüssel anzuzeigen."
+  },
+  "nostrKeysEncodedDescription": {
+    "message": "Nostr-Schlüssel können gemäß NIP-19 in verschlüsselter Form dargestellt werden, sodass Schlüsseln entweder „npub“ oder „nsec“ vorangestellt wird."
+  },
+  "encodeNostrKeys": {
+    "message": "Kodiert anzeigen"
+  },
+  "nostrPublicKeyLabel": {
+    "message": "Öffentlicher Schlüssel"
+  },
+  "nostrPublicKeyDescription": {
+    "message": "Der öffentliche Schlüssel wird verwendet, damit andere dich finden und kontaktieren können."
   }
 }

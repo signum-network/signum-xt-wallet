@@ -11,13 +11,14 @@ import { ReactComponent as NostrIcon } from 'app/icons/nostr-logo-no-text-outlin
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
-import About from 'app/templates/About';
-import CustomNetworksSettings from 'app/templates/CustomNetworksSettings';
-import DAppSettings from 'app/templates/DAppSettings';
-import GeneralSettings from 'app/templates/GeneralSettings';
-import HelpAndCommunity from 'app/templates/HelpAndCommunity';
-import RemoveAccount from 'app/templates/RemoveAccount';
-import AddressBook from 'app/templates/SignumAddressBook';
+import About from 'app/templates/Settings/About';
+import CustomNetworksSettings from 'app/templates/Settings/CustomNetworksSettings';
+import DAppSettings from 'app/templates/Settings/DAppSettings';
+import GeneralSettings from 'app/templates/Settings/GeneralSettings';
+import HelpAndCommunity from 'app/templates/Settings/HelpAndCommunity';
+import RemoveAccount from 'app/templates/Settings/RemoveAccount';
+import AddressBook from 'app/templates/Settings/SignumAddressBook';
+import NostrAccount from 'app/templates/Settings/NostrAccount';
 import { T } from 'lib/i18n/react';
 import { useRelevantAccounts } from 'lib/temple/front';
 import { Link } from 'lib/woozie';
@@ -87,7 +88,7 @@ const TABS = [
     slug: 'nostr-account',
     titleI18nKey: 'nostrAccount',
     Icon: NostrIcon,
-    Component: HelpAndCommunity,
+    Component: NostrAccount,
     color: '#9F7AEA',
     descriptionI18nKey: 'nostrAccountDescription'
   },

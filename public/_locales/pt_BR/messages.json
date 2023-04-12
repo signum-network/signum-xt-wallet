@@ -2012,5 +2012,29 @@
   },
   "nostrAccountImport": {
     "message": "Importar também como conta nostr"
+  },
+  "enterSecretToReveal": {
+    "message": "Digite a senha para revelar"
+  },
+  "nostrPrivateKeyDescription": {
+    "message": "Se você quiser importar sua conta Nostr em outros aplicativos, precisará de sua chave privada. Digite sua senha para revelar sua chave privada."
+  },
+  "nostrPrivateKeyLabel": {
+    "message": "Chave privada"
+  },
+  "enterPasswordToRevealKey": {
+    "message": "Digite a senha para revelar a chave privada."
+  },
+  "nostrKeysEncodedDescription": {
+    "message": "As chaves Nostr podem ser representadas em um formato codificado de acordo com o NIP-19, de modo que as chaves sejam prefixadas com \"npub\" ou \"nsec\"."
+  },
+  "encodeNostrKeys": {
+    "message": "Mostrar codificado"
+  },
+  "nostrPublicKeyLabel": {
+    "message": "Chave pública"
+  },
+  "nostrPublicKeyDescription": {
+    "message": "A chave pública é usada para permitir que outras pessoas o encontrem e entrem em contato."
   }
 }

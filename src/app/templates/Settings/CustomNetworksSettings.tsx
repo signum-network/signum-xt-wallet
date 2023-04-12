@@ -16,7 +16,7 @@ import { COLORS } from 'lib/ui/colors';
 import { useConfirm } from 'lib/ui/dialog';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
-import FormCheckbox from '../atoms/FormCheckbox';
+import FormCheckbox from '../../atoms/FormCheckbox';
 
 interface NetworkFormData {
   name: string;

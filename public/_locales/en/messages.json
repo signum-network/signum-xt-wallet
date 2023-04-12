@@ -2012,5 +2012,29 @@
   },
   "nostrAccountImport": {
     "message": "Also import as nostr account"
+  },
+  "enterSecretToReveal": {
+    "message": "Enter password to reveal"
+  },
+  "nostrPrivateKeyDescription": {
+    "message": "If you want to import your Nostr account in other applications you will need your private key. Enter your password to reveal your private key."
+  },
+  "nostrPrivateKeyLabel": {
+    "message": "Private Key"
+  },
+  "enterPasswordToRevealKey": {
+    "message": "Enter password to reveal the private key."
+  },
+  "nostrKeysEncodedDescription": {
+    "message": "Nostr keys can be represented in an encoded form according to NIP-19, such that keys are prefixed with either \"npub\" or \"nsec\". "
+  },
+  "encodeNostrKeys": {
+    "message": "Show Encoded"
+  },
+  "nostrPublicKeyLabel": {
+    "message": "Public Key"
+  },
+  "nostrPublicKeyDescription": {
+    "message": "The public key is used to let others find and contact you."
   }
 }

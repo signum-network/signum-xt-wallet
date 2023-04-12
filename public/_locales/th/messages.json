@@ -2012,5 +2012,29 @@
   },
   "nostrAccountImport": {
     "message": "นำเข้าเป็นบัญชี nostr ด้วย"
+  },
+  "enterSecretToReveal": {
+    "message": "ป้อนรหัสผ่านเพื่อเปิดเผย"
+  },
+  "nostrPrivateKeyDescription": {
+    "message": "หากคุณต้องการนำเข้าบัญชี Nostr ของคุณในแอปพลิเคชันอื่น คุณจะต้องใช้รหัสส่วนตัวของคุณ ป้อนรหัสผ่านเพื่อเปิดเผยรหัสส่วนตัวของคุณ."
+  },
+  "nostrPrivateKeyLabel": {
+    "message": "คีย์ส่วนตัว"
+  },
+  "enterPasswordToRevealKey": {
+    "message": "ป้อนรหัสผ่านเพื่อเปิดเผยคีย์ส่วนตัว"
+  },
+  "nostrKeysEncodedDescription": {
+    "message": "คีย์ Nostr สามารถแสดงในรูปแบบการเข้ารหัสตาม NIP-19 เช่นคีย์ที่ขึ้นต้นด้วย \"npub\" หรือ \"nsec\""
+  },
+  "encodeNostrKeys": {
+    "message": "แสดงการเข้ารหัส"
+  },
+  "nostrPublicKeyLabel": {
+    "message": "รหัสสาธารณะ"
+  },
+  "nostrPublicKeyDescription": {
+    "message": "รหัสสาธารณะใช้เพื่อให้คนอื่นค้นหาและติดต่อคุณ"
   }
 }
