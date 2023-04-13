@@ -4,12 +4,12 @@ import TabSwitcher from 'app/atoms/TabSwitcher';
 import { ReactComponent as DownloadIcon } from 'app/icons/download.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import { T } from 'lib/i18n/react';
-import { useSetCurrentAccount, useAllAccounts, useNetwork } from 'lib/temple/front';
+import { useSetCurrentAccount, useAllAccounts } from 'lib/temple/front';
 import { navigate } from 'lib/woozie';
 
 import { ByRecoveryPhraseForm } from './ImportAccount/ByMnemonicForm';
-import { WatchOnlyForm } from './ImportAccount/WatchOnlyForm';
 import { ByNostrKeyForm } from './ImportAccount/NostrForm';
+import { WatchOnlyForm } from './ImportAccount/WatchOnlyForm';
 
 type ImportAccountProps = {
   tabSlug: string | null;

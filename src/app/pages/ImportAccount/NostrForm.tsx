@@ -19,7 +19,7 @@ interface ByNostrKeyFormData {
 
 export const ByNostrKeyForm: FC = () => {
   const { importNostrPrivateKeyAccount } = useTempleClient();
-  const { register, watch, handleSubmit, errors, formState } = useForm<ByNostrKeyFormData>();
+  const { register, watch, handleSubmit, formState } = useForm<ByNostrKeyFormData>();
   const [error, setError] = useState<ReactNode>(null);
   const [address, setAddress] = useState('');
   const nsecOrHexKey = watch('nsecOrHex');

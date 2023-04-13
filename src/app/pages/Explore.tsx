@@ -4,8 +4,6 @@ import classNames from 'clsx';
 import { QRCode } from 'react-qr-svg';
 import { Props as TippyProps } from 'tippy.js';
 
-import CopyButton from 'app/atoms/CopyButton';
-import HashShortView from 'app/atoms/HashShortView';
 import Spinner from 'app/atoms/Spinner';
 import { useAppEnv } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
@@ -14,6 +12,7 @@ import { ReactComponent as ExploreIcon } from 'app/icons/explore.svg';
 import { ReactComponent as ReceiveIcon } from 'app/icons/receive.svg';
 import { ReactComponent as SendIcon } from 'app/icons/send-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
+import { NostrAddressChip } from 'app/pages/Explore/NostrAddressChip';
 import Tokens from 'app/pages/Explore/Tokens';
 import AssetBanner from 'app/templates/AssetBanner';
 import Activity from 'app/templates/SignumActivity/Activity';
@@ -32,7 +31,6 @@ import AddressChip from './Explore/AddressChip';
 import EditableTitle from './Explore/EditableTitle';
 import { useOnboardingProgress } from './Onboarding/hooks/useOnboardingProgress.hook';
 import Onboarding from './Onboarding/Onboarding';
-import { NostrAddressChip } from 'app/pages/Explore/NostrAddressChip';
 
 type ExploreProps = {
   tokenId: string;

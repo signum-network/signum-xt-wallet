@@ -37,7 +37,7 @@ const NostrAccount: FC = () => {
     setPrivateKey(PrivkeyDefaultMessage);
     setValue('password', '');
     setPublicKey(account.publicKeyNostr || '');
-  }, [account]);
+  }, [account, setValue]);
 
   const isEncoded = watch('isEncoded');
   const submitting = formState.isSubmitting;

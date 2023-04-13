@@ -11,12 +11,12 @@ import { WS_URL_PATTERN } from 'app/defaults';
 import { ReactComponent as ArrowDown } from 'app/icons/arrow-down-circle.svg';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import { T, t } from 'lib/i18n/react';
+import { shortenString } from 'lib/shortenString';
 import { useSettings, useTempleClient } from 'lib/temple/front';
 import { useConfirm } from 'lib/ui/dialog';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 import FormCheckbox from '../../atoms/FormCheckbox';
-import { shortenString } from 'lib/shortenString';
 
 interface NostrRelayFormData {
   wssRelayUrl: string;
@@ -211,6 +211,7 @@ const RelayListItem: FC<RelayListItemProps> = props => {
     return () => {
       isMounted.current = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -5,7 +5,6 @@ import React, {
   TextareaHTMLAttributes,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState
 } from 'react';

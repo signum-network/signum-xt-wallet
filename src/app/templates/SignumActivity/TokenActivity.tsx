@@ -188,6 +188,7 @@ const TokenActivity = memo<TokenActivityProps>(({ publicKey, className, tokenId 
       console.error(err);
     }
     setLoadingMore(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     transactionIds,
     setLoadingMore,

@@ -41,6 +41,7 @@ const ActivityItem = memo<ActivityItemProps>(({ accountId, transaction, tokenId,
   const feeAmount = useMemo(() => Amount.fromPlanck(transaction.feeNQT).getSigna(), [transaction.feeNQT]);
   const parsedTransaction = useMemo(
     () => parseTransaction(transaction, accountId, prefix),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [transaction, accountId, prefix, tokenId] // tokenId must be here, as additional trigger
   );
 

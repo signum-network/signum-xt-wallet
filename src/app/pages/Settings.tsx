@@ -16,15 +16,15 @@ import CustomNetworksSettings from 'app/templates/Settings/CustomNetworksSetting
 import DAppSettings from 'app/templates/Settings/DAppSettings';
 import GeneralSettings from 'app/templates/Settings/GeneralSettings';
 import HelpAndCommunity from 'app/templates/Settings/HelpAndCommunity';
+import NostrAccount from 'app/templates/Settings/NostrAccount';
+import NostrRelaysSettings from 'app/templates/Settings/NostrRelaysSettings';
 import RemoveAccount from 'app/templates/Settings/RemoveAccount';
 import AddressBook from 'app/templates/Settings/SignumAddressBook';
-import NostrAccount from 'app/templates/Settings/NostrAccount';
 import { T } from 'lib/i18n/react';
 import { useRelevantAccounts } from 'lib/temple/front';
 import { Link } from 'lib/woozie';
 
 import { SettingsSelectors } from './Settings.selectors';
-import NostrRelaysSettings from 'app/templates/Settings/NostrRelaysSettings';
 
 type SettingsProps = {
   tabSlug?: string | null;
