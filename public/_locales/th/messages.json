@@ -513,7 +513,7 @@
     "message": "ท่านต้องการลบ Network Node อันนี้ไหม?"
   },
   "deleteNetworkHint": {
-    "message": "กดปุ่ม X icon เพื่อลบ Network node ทิ้ง ถ้าอยากแก้ Network Node ใหม่ให้ลบทิ้งแล้วกรอกข้อมูลใหม่ซะ"
+    "message": "คลิกไอคอน X เพื่อลบรายการ หากต้องการแก้ไข ให้ลบออกและเพิ่มพารามิเตอร์ใหม่อีกครั้ง"
   },
   "deleteTokenConfirm": {
     "message": "ต้องการลบ Token นี้ทิ้งไหม?"
@@ -2074,5 +2074,38 @@
   },
   "nostrPrivateKeyInputWarning": {
     "message": "กุญแจนี้ใช้ไม่ได้"
+  },
+  "nostrRelays": {
+    "message": "รีเลย์ Nostr"
+  },
+  "nostrRelaysDescription": {
+    "message": "คุณสามารถเพิ่มและลบรีเลย์ Nostr ได้ที่นี่"
+  },
+  "nostrRelayUrl": {
+    "message": "URL รีเลย์ Nostr"
+  },
+  "nostrRelayRead": {
+    "message": "อ่านสิทธิ์"
+  },
+  "nostrRelayWrite": {
+    "message": "เขียนสิทธิ์"
+  },
+  "nostrRelayWriteDescription": {
+    "message": "รีเลย์อนุญาตให้โพสต์เหตุการณ์"
+  },
+  "nostrRelayReadDescription": {
+    "message": "รีเลย์อนุญาตให้อ่านเหตุการณ์"
+  },
+  "addNostrRelay": {
+    "message": "เพิ่มรีเลย์"
+  },
+  "currentNostrRelays": {
+    "message": "รีเลย์ Nostr ปัจจุบัน"
+  },
+  "nostrRelayReachable": {
+    "message": "เข้าถึงรีเลย์ได้"
+  },
+  "nostrRelayNotReachable": {
+    "message": "รีเลย์ไม่สามารถเข้าถึงได้"
   }
 }

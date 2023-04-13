@@ -278,3 +278,12 @@ async function createCustomNetworksSnapshot(settings: XTSettings) {
     }
   } catch {}
 }
+async function createNostrRelayssSnapshot(settings: XTSettings) {
+  try {
+    if (settings.nostrRelays) {
+      await browser.storage.local.set({
+        nostr_relays_snapshot: settings.nostrRelays
+      });
+    }
+  } catch {}
+}

@@ -107,8 +107,15 @@ export interface Contact {
   accountInWallet?: boolean;
 }
 
+export interface NostrRelayPolicy {
+  read: boolean;
+  write: boolean;
+}
+
+export type NostrRelays = Record<string, NostrRelayPolicy>;
 export interface XTSettings {
   customNetworks?: Network[];
+  nostrRelays?: NostrRelays;
   lambdaContracts?: Record<string, string>;
   contacts?: Contact[];
 }

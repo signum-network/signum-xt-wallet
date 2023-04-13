@@ -513,7 +513,7 @@
     "message": "Ви дійсно хочете видалити цей вузол?"
   },
   "deleteNetworkHint": {
-    "message": "Натисніть значок X, щоб видалити вузол. Якщо ви хочете відредагувати його, просто видаліть його та додайте знову з новими параметрами."
+    "message": "Натисніть піктограму X, щоб видалити елемент. Якщо ви хочете його відредагувати, просто видаліть його та додайте знову з новими параметрами."
   },
   "deleteTokenConfirm": {
     "message": "Ви дійсно хочете видалити цей маркер?"
@@ -2074,5 +2074,38 @@
   },
   "nostrPrivateKeyInputWarning": {
     "message": "Недійсний ключ"
+  },
+  "nostrRelays": {
+    "message": "Реле Nostr"
+  },
+  "nostrRelaysDescription": {
+    "message": "Тут ви можете додавати та видаляти реле Nostr."
+  },
+  "nostrRelayUrl": {
+    "message": "Nostr Relay Url"
+  },
+  "nostrRelayRead": {
+    "message": "Дозвіл на читання"
+  },
+  "nostrRelayWrite": {
+    "message": "Дозвіл на запис"
+  },
+  "nostrRelayWriteDescription": {
+    "message": "Реле дозволяє публікувати події."
+  },
+  "nostrRelayReadDescription": {
+    "message": "Реле дозволяє зчитувати події."
+  },
+  "addNostrRelay": {
+    "message": "Додати реле"
+  },
+  "currentNostrRelays": {
+    "message": "Реле струму Nostr"
+  },
+  "nostrRelayReachable": {
+    "message": "Реле доступне"
+  },
+  "nostrRelayNotReachable": {
+    "message": "Реле недоступне"
   }
 }

@@ -510,7 +510,7 @@
     "message": "Вы действительно хотите удалить этот узел?"
   },
   "deleteNetworkHint": {
-    "message": "Щелкните значок X, чтобы удалить узел. Если вы хотите отредактировать его, просто удалите его и добавьте снова с новыми параметрами."
+    "message": "Щелкните значок X, чтобы удалить элемент. Если вы хотите отредактировать его, просто удалите его и добавьте снова с новыми параметрами."
   },
   "deleteTokenConfirm": {
     "message": "Вы действительно хотите удалить этот токен?"
@@ -2074,5 +2074,38 @@
   },
   "nostrPrivateKeyInputWarning": {
     "message": "Неправильный ключ"
+  },
+  "nostrRelays": {
+    "message": "Ностр Реле"
+  },
+  "nostrRelaysDescription": {
+    "message": "Здесь вы можете добавлять и удалять реле Nostr."
+  },
+  "nostrRelayUrl": {
+    "message": "URL-адрес ретрансляции Nostr"
+  },
+  "nostrRelayRead": {
+    "message": "Разрешение на чтение"
+  },
+  "nostrRelayWrite": {
+    "message": "Разрешение на запись"
+  },
+  "nostrRelayWriteDescription": {
+    "message": "Реле позволяет публиковать события."
+  },
+  "nostrRelayReadDescription": {
+    "message": "Реле позволяет считывать события."
+  },
+  "addNostrRelay": {
+    "message": "Добавить реле"
+  },
+  "currentNostrRelays": {
+    "message": "Текущие реле Nostr"
+  },
+  "nostrRelayReachable": {
+    "message": "Реле доступно"
+  },
+  "nostrRelayNotReachable": {
+    "message": "Реле недоступно"
   }
 }

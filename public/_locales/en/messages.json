@@ -516,7 +516,7 @@
     "message": "Do you really want to delete this node?"
   },
   "deleteNetworkHint": {
-    "message": "Click the X icon to delete the node. If you want to edit it, just delete it and add again with new parameters."
+    "message": "Click the X icon to delete an item. If you want to edit it, just delete it and add again with new parameters."
   },
   "deleteTokenConfirm": {
     "message": "Do you really want to delete this token?"
@@ -2074,5 +2074,38 @@
   },
   "nostrPrivateKeyInputWarning": {
     "message": "Invalid Key"
+  },
+  "nostrRelays": {
+    "message": "Nostr Relays"
+  },
+  "nostrRelaysDescription": {
+    "message": "Here you can add and remove Nostr relays. "
+  },
+  "nostrRelayUrl": {
+    "message": "Nostr Relay Url"
+  },
+  "nostrRelayRead": {
+    "message": "Read Permission"
+  },
+  "nostrRelayWrite": {
+    "message": "Write Permission"
+  },
+  "nostrRelayWriteDescription": {
+    "message": "The relay allows posting events."
+  },
+  "nostrRelayReadDescription": {
+    "message": "The relay allows reading events."
+  },
+  "addNostrRelay": {
+    "message": "Add Relay"
+  },
+  "currentNostrRelays": {
+    "message": "Current Nostr Relays"
+  },
+  "nostrRelayReachable": {
+    "message": "Relay Reachable"
+  },
+  "nostrRelayNotReachable": {
+    "message": "Relay Not Reachable"
   }
 }

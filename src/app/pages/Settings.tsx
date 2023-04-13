@@ -24,6 +24,7 @@ import { useRelevantAccounts } from 'lib/temple/front';
 import { Link } from 'lib/woozie';
 
 import { SettingsSelectors } from './Settings.selectors';
+import NostrRelaysSettings from 'app/templates/Settings/NostrRelaysSettings';
 
 type SettingsProps = {
   tabSlug?: string | null;
@@ -91,6 +92,14 @@ const TABS = [
     Component: NostrAccount,
     color: '#9F7AEA',
     descriptionI18nKey: 'nostrAccountDescription'
+  },
+  {
+    slug: 'nostr-relays',
+    titleI18nKey: 'nostrRelays',
+    Icon: SignalAltIcon,
+    Component: NostrRelaysSettings,
+    color: '#824fea',
+    descriptionI18nKey: 'nostrRelaysDescription'
   },
   {
     slug: 'about',

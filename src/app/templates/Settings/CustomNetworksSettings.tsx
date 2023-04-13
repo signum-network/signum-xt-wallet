@@ -8,7 +8,7 @@ import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import Name from 'app/atoms/Name';
 import NetworkBadge from 'app/atoms/NetworkBadge';
 import SubTitle from 'app/atoms/SubTitle';
-import { URL_PATTERN } from 'app/defaults';
+import { HTTP_URL_PATTERN } from 'app/defaults';
 import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import { T, t } from 'lib/i18n/react';
 import { Network, useSettings, useTempleClient, canConnectToNetwork, NetworkName } from 'lib/temple/front';
@@ -183,7 +183,7 @@ const CustomNetworksSettings: FC = () => {
           ref={register({
             required: t('required'),
             pattern: {
-              value: URL_PATTERN,
+              value: HTTP_URL_PATTERN,
               message: t('mustBeValidURL')
             },
             validate: {

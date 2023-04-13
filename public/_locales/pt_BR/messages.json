@@ -510,7 +510,7 @@
     "message": "Você realmente deseja excluir este nó?"
   },
   "deleteNetworkHint": {
-    "message": "Clique no ícone X para excluir o nó. Se você quiser editá-lo, basta excluí-lo e adicionar novamente com novos parâmetros."
+    "message": "Clique no ícone X para excluir um item. Se você quiser editá-lo, basta excluí-lo e adicionar novamente com novos parâmetros."
   },
   "deleteTokenConfirm": {
     "message": "Você realmente deseja excluir este token?"
@@ -2074,5 +2074,38 @@
   },
   "nostrPrivateKeyInputWarning": {
     "message": "Chave inválida"
+  },
+  "nostrRelays": {
+    "message": "Relés Nostr"
+  },
+  "nostrRelaysDescription": {
+    "message": "Aqui você pode adicionar e remover relés Nostr."
+  },
+  "nostrRelayUrl": {
+    "message": "URL de Retransmissão Nostr"
+  },
+  "nostrRelayRead": {
+    "message": "Permissão de leitura"
+  },
+  "nostrRelayWrite": {
+    "message": "Permissão de Gravação"
+  },
+  "nostrRelayWriteDescription": {
+    "message": "O relé permite postar eventos."
+  },
+  "nostrRelayReadDescription": {
+    "message": "O relé permite a leitura de eventos."
+  },
+  "addNostrRelay": {
+    "message": "Adicionar relé"
+  },
+  "currentNostrRelays": {
+    "message": "Relés Nostr Atuais"
+  },
+  "nostrRelayReachable": {
+    "message": "Relé Acessível"
+  },
+  "nostrRelayNotReachable": {
+    "message": "Relé não alcançável"
   }
 }

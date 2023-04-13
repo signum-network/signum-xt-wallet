@@ -510,7 +510,7 @@
     "message": "Möchten Sie diesen Node wirklich löschen?"
   },
   "deleteNetworkHint": {
-    "message": "Klicken Sie auf das X-Symbol, um den Knoten zu löschen. Wenn Sie ihn bearbeiten möchten, löschen Sie ihn einfach und fügen Sie erneut mit neuen Parametern hinzu."
+    "message": "Klicke auf das X-Symbol, um ein Element zu löschen. Wenn du es bearbeiten möchtest, lösche es einfach und fügen es mit neuen Parametern erneut hinzu."
   },
   "deleteTokenConfirm": {
     "message": "Möchten Sie dieses Token wirklich löschen?"
@@ -2074,5 +2074,38 @@
   },
   "nostrPrivateKeyInputWarning": {
     "message": "Ungültiger Schlüssel"
+  },
+  "nostrRelays": {
+    "message": "Nostr Relays"
+  },
+  "nostrRelaysDescription": {
+    "message": "Hier kannst du Nostr-Relais hinzufügen und entfernen."
+  },
+  "nostrRelayUrl": {
+    "message": "Nostr-Relay-URL"
+  },
+  "nostrRelayRead": {
+    "message": "Leseberechtigung"
+  },
+  "nostrRelayWrite": {
+    "message": "Schreibberechtigung"
+  },
+  "nostrRelayWriteDescription": {
+    "message": "Das Relais ermöglicht das Posten von Ereignissen."
+  },
+  "nostrRelayReadDescription": {
+    "message": "Das Relais ermöglicht das Lesen von Ereignissen."
+  },
+  "addNostrRelay": {
+    "message": "Relais hinzufügen"
+  },
+  "currentNostrRelays": {
+    "message": "Aktuelle Nostr-Relais"
+  },
+  "nostrRelayReachable": {
+    "message": "Relais erreichbar"
+  },
+  "nostrRelayNotReachable": {
+    "message": "Relais nicht erreichbar"
   }
 }
