@@ -16,6 +16,7 @@ import { useConfirm } from 'lib/ui/dialog';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
 import FormCheckbox from '../../atoms/FormCheckbox';
+import { shortenString } from 'lib/shortenString';
 
 interface NostrRelayFormData {
   wssRelayUrl: string;
@@ -28,14 +29,20 @@ const SUBMIT_ERROR_TYPE = 'submit-error';
 async function canConnectToRelay(wssRelayUrl: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const ws = new WebSocket(wssRelayUrl);
+    const timer = setTimeout(() => {
+      ws.close();
+      resolve(false);
+    }, 5_000);
     ws.onopen = function () {
       ws.close();
+      clearTimeout(timer);
       resolve(true);
       // Web Socket is connected, send data using send()
     };
 
     ws.onerror = () => {
-      reject(false);
+      clearTimeout(timer);
+      resolve(false);
     };
   });
 }
@@ -67,7 +74,7 @@ const NostrRelaysSettings: FC = () => {
       const canConnect = await canConnectToRelay(wssRelayUrl);
       if (!canConnect) {
         await withErrorHumanDelay(`cannot connect to nostr relay ${wssRelayUrl}`, () =>
-          setError('wssRelayUrl', SUBMIT_ERROR_TYPE, t('cantConnectToNetwork'))
+          setError('wssRelayUrl', SUBMIT_ERROR_TYPE, t('nostrRelayNotReachable'))
         );
         return;
       }
@@ -225,18 +232,18 @@ const RelayListItem: FC<RelayListItemProps> = props => {
         title={t(reachable ? 'nostrRelayReachable' : 'nostrRelayNotReachable')}
       />
       <ArrowDown
-        className={`w-4 h-4 ${policy.read ? 'text-green-600' : 'text-gray-600'} stroke-current stroke-2`}
+        className={`w-4 h-4 ${policy.read ? 'text-green-600' : 'text-gray-500'} stroke-current stroke-2`}
         title={t('nostrRelayRead')}
       />
       <div style={{ transform: 'rotate(180deg)' }}>
         <ArrowDown
-          className={`w-4 h-4 ${policy.write ? 'text-green-600' : 'text-gray-600'} stroke-current stroke-2`}
+          className={`w-4 h-4 ${policy.write ? 'text-green-600' : 'text-gray-500'} stroke-current stroke-2`}
           title={t('nostrRelayWrite')}
         />
       </div>
       <div className="flex flex-col justify-between flex-1">
-        <div className={classNames('text-base text-gray-700 font-light', 'flex items-center')}>
-          <Name className="ml-1 font-normal">{url}</Name>
+        <div className={classNames('text-sm text-gray-700 font-light', 'flex items-center')}>
+          <Name className="ml-1 font-normal">{shortenString(url, 32)}</Name>
         </div>
       </div>
 
