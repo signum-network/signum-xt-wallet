@@ -2,7 +2,7 @@
 
 ## 1.5.0 (TBD)
 
-- Nostr key management
+- Nostr key and relays management
 
 ## 1.4.3
 
