@@ -11,6 +11,7 @@ import browser from 'webextension-polyfill';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
 import { XTAccount, XTAccountType, XTSettings } from 'lib/messaging';
+import { generateNostrKeys, getNostrKeysFromPrivateKey, NostrKeys } from 'lib/nostr';
 import { clearStorage } from 'lib/temple/reset';
 
 import { PublicError } from './defaults';
@@ -25,6 +26,8 @@ enum StorageEntity {
   AccPrivKey = 'accprivkey',
   AccPrivP2PKey = 'accprivp2pkey',
   AccPubKey = 'accpubkey',
+  NostrPubKey = 'nostrpubkey',
+  NostrPrivKey = 'nostrprivkey',
   Accounts = 'accounts',
   Settings = 'settings'
 }
@@ -33,6 +36,8 @@ const checkStrgKey = createStorageKey(StorageEntity.Check);
 const accPrivP2PStrgKey = createDynamicStorageKey(StorageEntity.AccPrivP2PKey);
 const accPrivKeyStrgKey = createDynamicStorageKey(StorageEntity.AccPrivKey);
 const accPubKeyStrgKey = createDynamicStorageKey(StorageEntity.AccPubKey);
+const nostrPubKeyStrgKey = createDynamicStorageKey(StorageEntity.NostrPubKey);
+const nostrPrivKeyStrgKey = createDynamicStorageKey(StorageEntity.NostrPrivKey);
 const accountsStrgKey = createStorageKey(StorageEntity.Accounts);
 const settingsStrgKey = createStorageKey(StorageEntity.Settings);
 
@@ -100,6 +105,14 @@ export class Vault {
     });
   }
 
+  static async revealNostrPrivateKey(accPublicKey: string, password: string) {
+    const passKey = await Vault.toValidPassKey(password);
+    return withError('Failed to reveal Nostr private key', () => {
+      const accountId = Address.fromPublicKey(accPublicKey).getNumericId();
+      return fetchAndDecryptOne<string>(nostrPrivKeyStrgKey(accountId), passKey);
+    });
+  }
+
   private static toValidPassKey(password: string) {
     return withError('Invalid password', async doThrow => {
       const passKey = await Passworder.generateKey(password);
@@ -163,7 +176,7 @@ export class Vault {
     });
   }
 
-  async importAccountSignum(keys: Keys, name?: string): Promise<XTAccount[]> {
+  async importAccount(keys: Keys, name?: string, nostrKeys?: NostrKeys): Promise<XTAccount[]> {
     const errMessage = 'Failed to import account.\nThis may happen because provided Key is invalid';
 
     return withError(errMessage, async () => {
@@ -173,36 +186,52 @@ export class Vault {
         type: XTAccountType.Eigen,
         name: name || getNewAccountName(allAccounts),
         publicKey: keys.publicKey,
+        publicKeyNostr: nostrKeys ? nostrKeys.publicKey : undefined,
         accountId
       };
-
       const newAllAcounts = concatAccount(allAccounts, newAccount);
 
-      await encryptAndSaveMany(
-        [
-          [accPrivP2PStrgKey(accountId), keys.agreementPrivateKey],
-          [accPrivKeyStrgKey(accountId), keys.signPrivateKey],
-          [accPubKeyStrgKey(accountId), keys.publicKey],
-          [accountsStrgKey, newAllAcounts]
-        ],
-        this.passKey
-      );
+      const toEncrypt: [string, any][] = [
+        [accPrivP2PStrgKey(accountId), keys.agreementPrivateKey],
+        [accPrivKeyStrgKey(accountId), keys.signPrivateKey],
+        [accPubKeyStrgKey(accountId), keys.publicKey],
+        [accountsStrgKey, newAllAcounts]
+      ];
+      if (nostrKeys) {
+        toEncrypt.push(
+          [nostrPubKeyStrgKey(accountId), nostrKeys.publicKey],
+          [nostrPrivKeyStrgKey(accountId), nostrKeys.privateKey]
+        );
+      }
+      await encryptAndSaveMany(toEncrypt, this.passKey);
 
       return newAllAcounts;
     });
   }
 
-  async importMnemonicAccount(passphrase: string, name?: string) {
+  async importMnemonicAccount(passphrase: string, name?: string, withNostr?: boolean) {
     return withError('Failed to import account', async () => {
       try {
         const keys = generateMasterKeys(passphrase);
-        return this.importAccountSignum(keys, name);
+        const nostrKeys = withNostr ? await generateNostrKeys(passphrase) : undefined;
+        return this.importAccount(keys, name, nostrKeys);
       } catch (_err) {
         throw new PublicError('Invalid Mnemonic or Password');
       }
     });
   }
 
+  async importAccountFromNostrPrivKey(nsecOrHex: string, name?: string) {
+    return withError('Failed to import account', async () => {
+      try {
+        const nostrKeys = getNostrKeysFromPrivateKey(nsecOrHex);
+        const keys = generateMasterKeys(nostrKeys.privateKey);
+        return this.importAccount(keys, name, nostrKeys);
+      } catch (_err) {
+        throw new PublicError('Invalid Nostr PrivateKey');
+      }
+    });
+  }
   async importWatchOnlyAccount(accPublicKey: string, chainId?: string) {
     return withError('Failed to import Watch Only account', async () => {
       const allAccounts = await this.fetchAccounts();

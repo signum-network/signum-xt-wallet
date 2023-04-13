@@ -11,10 +11,19 @@ type HashShortViewProps = {
   trimAfter?: number;
   firstCharsCount?: number;
   lastCharsCount?: number;
+  delimiter?: string;
 };
 
 const HashShortView = memo<HashShortViewProps>(
-  ({ hash, isAccount = false, trim = true, trimAfter = 32, firstCharsCount = 7, lastCharsCount = 4 }) => {
+  ({
+    hash,
+    isAccount = false,
+    trim = true,
+    trimAfter = 32,
+    firstCharsCount = 7,
+    lastCharsCount = 4,
+    delimiter = '…'
+  }) => {
     const prefix = useSignumAccountPrefix();
     if (!hash) return null;
 
@@ -30,7 +39,7 @@ const HashShortView = memo<HashShortViewProps>(
       return ln > trimAfter ? (
         <>
           {address.slice(0, firstCharsCount)}
-          <span className="opacity-75">...</span>
+          <span className="opacity-75">{delimiter}</span>
           {address.slice(ln - lastCharsCount, ln)}
         </>
       ) : (

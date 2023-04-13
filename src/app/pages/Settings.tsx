@@ -7,21 +7,24 @@ import { ReactComponent as ContactBookIcon } from 'app/icons/contact-book.svg';
 import { ReactComponent as ExtensionIcon } from 'app/icons/extension.svg';
 import { ReactComponent as HelpIcon } from 'app/icons/help.svg';
 import { ReactComponent as MinusIcon } from 'app/icons/minus.svg';
+import { ReactComponent as NostrIcon } from 'app/icons/nostr-logo-no-text-outline-white.svg';
 import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
-import About from 'app/templates/About';
-import CustomNetworksSettings from 'app/templates/CustomNetworksSettings';
-import DAppSettings from 'app/templates/DAppSettings';
-import GeneralSettings from 'app/templates/GeneralSettings';
-import HelpAndCommunity from 'app/templates/HelpAndCommunity';
-import RemoveAccount from 'app/templates/RemoveAccount';
-import AddressBook from 'app/templates/SignumAddressBook';
+import About from 'app/templates/Settings/About';
+import CustomNetworksSettings from 'app/templates/Settings/CustomNetworksSettings';
+import DAppSettings from 'app/templates/Settings/DAppSettings';
+import GeneralSettings from 'app/templates/Settings/GeneralSettings';
+import HelpAndCommunity from 'app/templates/Settings/HelpAndCommunity';
+import RemoveAccount from 'app/templates/Settings/RemoveAccount';
+import AddressBook from 'app/templates/Settings/SignumAddressBook';
+import NostrAccount from 'app/templates/Settings/NostrAccount';
 import { T } from 'lib/i18n/react';
+import { useRelevantAccounts } from 'lib/temple/front';
 import { Link } from 'lib/woozie';
 
-import { useRelevantAccounts } from '../../lib/temple/front';
 import { SettingsSelectors } from './Settings.selectors';
+import NostrRelaysSettings from 'app/templates/Settings/NostrRelaysSettings';
 
 type SettingsProps = {
   tabSlug?: string | null;
@@ -51,7 +54,7 @@ const TABS = [
     titleI18nKey: 'dApps',
     Icon: AppsIcon,
     Component: DAppSettings,
-    color: '#9F7AEA',
+    color: '#eaac7a',
     descriptionI18nKey: 'dAppsDescription',
     testID: SettingsSelectors.DAppsButton
   },
@@ -81,6 +84,22 @@ const TABS = [
     color: 'rgb(245, 101, 101)',
     descriptionI18nKey: 'removeAccountDescription',
     testID: SettingsSelectors.RemoveAccountButton
+  },
+  {
+    slug: 'nostr-account',
+    titleI18nKey: 'nostrAccount',
+    Icon: NostrIcon,
+    Component: NostrAccount,
+    color: '#9F7AEA',
+    descriptionI18nKey: 'nostrAccountDescription'
+  },
+  {
+    slug: 'nostr-relays',
+    titleI18nKey: 'nostrRelays',
+    Icon: SignalAltIcon,
+    Component: NostrRelaysSettings,
+    color: '#824fea',
+    descriptionI18nKey: 'nostrRelaysDescription'
   },
   {
     slug: 'about',

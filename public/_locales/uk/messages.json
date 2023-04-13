@@ -267,13 +267,13 @@
     "message": "Простежено назад"
   },
   "backupNewSeedPhrase": {
-    "message": "Збережіть нову парольну фразу"
+    "message": "Збережіть нову фразу відновлення"
   },
   "backupedInputDescription": {
     "message": "І прийміть ризик, якщо я втрачу фразу\nмої кошти можуть бути втрачені."
   },
   "backupedInputLabel": {
-    "message": "Я зробив резервну копію парольної фрази"
+    "message": "Я зробив резервну копію фрази відновлення"
   },
   "baker": {
     "message": "Бейкер"
@@ -513,7 +513,7 @@
     "message": "Ви дійсно хочете видалити цей вузол?"
   },
   "deleteNetworkHint": {
-    "message": "Натисніть значок X, щоб видалити вузол. Якщо ви хочете відредагувати його, просто видаліть його та додайте знову з новими параметрами."
+    "message": "Натисніть піктограму X, щоб видалити елемент. Якщо ви хочете його відредагувати, просто видаліть його та додайте знову з новими параметрами."
   },
   "deleteTokenConfirm": {
     "message": "Ви дійсно хочете видалити цей маркер?"
@@ -729,13 +729,13 @@
     "message": "Імпорт існуючого гаманця"
   },
   "importExistingWalletDescription": {
-    "message": "Ви вже маєте гаманець? Імпортуйте їх за допомогою вашої парольної фрази"
+    "message": "Вже маєте гаманець? Імпортуйте їх із фразою відновлення"
   },
   "importNewAccountTitle": {
     "message": "Відновити обліковий запис? Бажаєте увійти за допомогою іншого облікового запису?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Імпорт гаманця з парольною фразою"
+    "message": "Імпорт гаманця з фразою відновлення"
   },
   "important": {
     "message": "Важливо"
@@ -904,13 +904,13 @@
     "message": "Мінімальна комісія за цю трансакцію перевищує ваш баланс."
   },
   "mnemonic": {
-    "message": "Мнемонічний"
+    "message": "Фраза для відновлення сигналу"
   },
   "mnemonicInputDescription": {
-    "message": "Ваш секретний пароль; зазвичай 12 слів."
+    "message": "Ваша секретна фраза відновлення; зазвичай 12 слів."
   },
   "mnemonicInputLabel": {
-    "message": "Парольна фраза"
+    "message": "Фраза відновлення"
   },
   "mnemonicInputPlaceholder": {
     "message": "напр. оновлення шкарпеток..."
@@ -1194,7 +1194,7 @@
     "message": "Розкрити"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>Натисніть нижче</b>, щоб переглянути свою нову парольну фразу.\nПотім запишіть цю фразу на аркуші паперу та/або <b>зберігайте її в надійному місці</b>."
+    "message": "<b>Натисніть нижче</b>, щоб переглянути вашу нову фразу відновлення.\nПотім запишіть цю фразу на аркуші паперу та/або <b>збережіть її в безпечному місці</b>."
   },
   "rocketFeeDescription": {
     "message": "Ракета"
@@ -1215,7 +1215,7 @@
     "message": "Переглядайте DApps"
   },
   "seedPhrase": {
-    "message": "Парольна фраза"
+    "message": "Фраза відновлення"
   },
   "selectAnotherAssetPrompt": {
     "message": "Клацніть область, щоб вибрати інший актив або маркер."
@@ -1487,10 +1487,10 @@
     "message": "Дійсна URL-адреса зображення"
   },
   "verifySeedPhrase": {
-    "message": "Перевірте парольну фразу"
+    "message": "Перевірте фразу відновлення"
   },
   "verifySeedPhraseDescription": {
-    "message": "Заповніть пропуски словами, щоб підтвердити свою парольну фразу"
+    "message": "Заповніть порожні поля словами, щоб підтвердити свою фразу відновлення"
   },
   "versionLabel": {
     "message": "Версія: $version$",
@@ -1510,7 +1510,7 @@
     "message": "Подивитись все"
   },
   "watchOnlyAccount": {
-    "message": "Спостерігаючи"
+    "message": "Адреса Signum"
   },
   "website": {
     "message": "Сайт"
@@ -1530,7 +1530,7 @@
     "message": "Так"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "Якщо ви коли-небудь змінюєте браузер або пристрій, вам знадобиться ця парольна фраза для доступу до ваших облікових записів."
+    "message": "Якщо ви коли-небудь зміните браузер або пристрій, вам знадобиться ця фраза відновлення, щоб отримати доступ до своїх облікових записів."
   },
   "yourBalanceIsZero": {
     "message": "Ваш баланс дорівнює нулю."
@@ -2000,5 +2000,112 @@
   },
   "aliasSell": {
     "message": "Продати псевдонім"
+  },
+  "nostrAccount": {
+    "message": "Обліковий запис Nostr"
+  },
+  "viewNostrAccount": {
+    "message": "Переглянути обліковий запис Nostr"
+  },
+  "nostrAccountDescription": {
+    "message": "Тут ви можете переглянути всі деталі свого облікового запису nostr, як-от ключі та статус підтвердження."
+  },
+  "nostrAccountImport": {
+    "message": "Також імпортуйте як обліковий запис Nostr"
+  },
+  "enterSecretToReveal": {
+    "message": "Введіть пароль, щоб відкрити"
+  },
+  "nostrPrivateKeyDescription": {
+    "message": "Якщо ви хочете імпортувати свій обліковий запис Nostr в інші програми, вам знадобиться ваш закритий ключ. Введіть свій пароль, щоб відкрити свій закритий ключ."
+  },
+  "nostrPrivateKeyLabel": {
+    "message": "Приватний ключ"
+  },
+  "enterPasswordToRevealKey": {
+    "message": "Введіть пароль, щоб відкрити закритий ключ."
+  },
+  "nostrKeysEncodedDescription": {
+    "message": "Ключі Nostr можуть бути представлені у закодованій формі відповідно до NIP-19, так що ключі мають префікс «npub» або «nsec»."
+  },
+  "encodeNostrKeys": {
+    "message": "Показати закодований"
+  },
+  "nostrPublicKeyLabel": {
+    "message": "відкритий ключ"
+  },
+  "nostrPublicKeyDescription": {
+    "message": "Відкритий ключ використовується, щоб інші могли знайти вас і зв’язатися з вами."
+  },
+  "noNostrAccount": {
+    "message": "Не обліковий запис Nostr"
+  },
+  "noNostrAccountDescription": {
+    "placeholders": {
+      "account": {
+        "content": "$1"
+      }
+    },
+    "message": "Вибраний обліковий запис $account$ не має приєднаних ключів Nostr. Ви можете імпортувати цей обліковий запис за допомогою фрази відновлення та ввімкнути імпорт Nostr."
+  },
+  "nostrPrivateKey": {
+    "message": "Приватний ключ Nostr"
+  },
+  "nostrAccountImportDescription": {
+    "message": "Ви можете використовувати фразу відновлення Signum для створення облікового запису Nostr. Якщо ви виберете цю опцію, гаманець також можна використовувати з клієнтами Nostr. Ви можете побачити згенеровані ключі в налаштуваннях."
+  },
+  "importAccountRecoveryPhraseDescription": {
+    "message": "Фраза відновлення дозволяє імпортувати обліковий запис повністю. Потім ви можете виконувати транзакції, а DApps також можуть вимагати виконання транзакцій. Ваші ключі підпису зашифровані та зберігаються виключно в цьому екземплярі браузера."
+  },
+  "importAccountWatchOnlyDescription": {
+    "message": "Якщо для імпорту ви використовуєте лише адресу або ідентифікатор облікового запису, здійснювати транзакції буде неможливо. Ви можете спостерігати лише за імпортованим обліковим записом."
+  },
+  "importAccountNostrPrivKeyDescription": {
+    "message": "Якщо у вас є обліковий запис Nostr, але немає облікового запису Signum, ви можете використати свій особистий ключ Nostr, щоб створити відповідний обліковий запис Signum для вашого існуючого облікового запису Nostr. Ви також можете використовувати приватний ключ Nostr в інших гаманцях Signum."
+  },
+  "nostrPrivateKeyInputLabel": {
+    "message": "Приватний ключ Nostr"
+  },
+  "nostrPrivateKeyInputDescription": {
+    "message": "Закритий ключ Nostr у шістнадцятковій формі або формі nsec (NIP19)."
+  },
+  "nostrPrivateKeyInputPlaceholder": {
+    "message": "nsec1c7m0..., c7b6ff7e18...."
+  },
+  "nostrPrivateKeyInputWarning": {
+    "message": "Недійсний ключ"
+  },
+  "nostrRelays": {
+    "message": "Реле Nostr"
+  },
+  "nostrRelaysDescription": {
+    "message": "Тут ви можете додавати та видаляти реле Nostr."
+  },
+  "nostrRelayUrl": {
+    "message": "Nostr Relay Url"
+  },
+  "nostrRelayRead": {
+    "message": "Дозвіл на читання"
+  },
+  "nostrRelayWrite": {
+    "message": "Дозвіл на запис"
+  },
+  "nostrRelayWriteDescription": {
+    "message": "Реле дозволяє публікувати події."
+  },
+  "nostrRelayReadDescription": {
+    "message": "Реле дозволяє зчитувати події."
+  },
+  "addNostrRelay": {
+    "message": "Додати реле"
+  },
+  "currentNostrRelays": {
+    "message": "Реле струму Nostr"
+  },
+  "nostrRelayReachable": {
+    "message": "Реле доступне"
+  },
+  "nostrRelayNotReachable": {
+    "message": "Реле недоступне"
   }
 }

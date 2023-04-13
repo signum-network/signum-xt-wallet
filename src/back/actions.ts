@@ -32,8 +32,6 @@ function isSignumAddress(selection: string) {
 export async function handlePageTextSelected(origin: string, selectedText: string) {
   const enabled = isSignumAddress(selectedText.trim());
 
-  console.log('handlePageTextSelected', selectedText);
-
   await Promise.all([
     setMenuItemEnabled(MenuItems.SendToAddress, enabled),
     setMenuItemEnabled(MenuItems.OpenInExplorer, enabled)
@@ -118,6 +116,9 @@ export function revealPublicKey(accPublicKey: string) {
   return withUnlocked(({ vault }) => vault.revealPublicKey(accPublicKey));
 }
 
+export function revealNostrPrivateKey(accPublicKey: string, password: string) {
+  return withUnlocked(() => Vault.revealNostrPrivateKey(accPublicKey, password));
+}
 export function removeAccount(accPublicKey: string, password: string) {
   return withUnlocked(async () => {
     const updatedAccounts = await Vault.removeAccount(accPublicKey, password);
@@ -144,9 +145,15 @@ export function setAccountActivated(accPublicKey: string) {
   });
 }
 
-export function importMnemonicAccount(mnemonic: string, name?: string) {
+export function importMnemonicAccount(mnemonic: string, name?: string, withNostr?: boolean) {
   return withUnlocked(async ({ vault }) => {
-    const updatedAccounts = await vault.importMnemonicAccount(mnemonic, name);
+    const updatedAccounts = await vault.importMnemonicAccount(mnemonic, name, withNostr);
+    accountsUpdated(updatedAccounts);
+  });
+}
+export function importAccountFromNostrPrivateKey(nsecOrHex: string, name?: string) {
+  return withUnlocked(async ({ vault }) => {
+    const updatedAccounts = await vault.importAccountFromNostrPrivKey(nsecOrHex, name);
     accountsUpdated(updatedAccounts);
   });
 }
@@ -267,6 +274,15 @@ async function createCustomNetworksSnapshot(settings: XTSettings) {
     if (settings.customNetworks) {
       await browser.storage.local.set({
         custom_networks_snapshot: settings.customNetworks
+      });
+    }
+  } catch {}
+}
+async function createNostrRelayssSnapshot(settings: XTSettings) {
+  try {
+    if (settings.nostrRelays) {
+      await browser.storage.local.set({
+        nostr_relays_snapshot: settings.nostrRelays
       });
     }
   } catch {}

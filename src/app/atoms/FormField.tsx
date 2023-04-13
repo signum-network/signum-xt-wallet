@@ -157,10 +157,7 @@ const FormField = forwardRef<FormFieldRef, FormFieldProps>(
       return undefined;
     }, [secret, focused, getFieldEl]);
 
-    const secretBannerDisplayed = useMemo(
-      () => Boolean(secret && localValue !== '' && !focused),
-      [secret, localValue, focused]
-    );
+    const secretBannerDisplayed = Boolean(secret && !focused);
 
     const rootRef = useRef<HTMLDivElement>(null);
 

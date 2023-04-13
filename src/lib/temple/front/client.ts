@@ -209,13 +209,26 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
   );
 
   const importMnemonicAccount = useCallback(
-    async (mnemonic: string, name?) => {
+    async (mnemonic: string, name?: string, withNostr?: boolean) => {
       const res = await request({
         type: XTMessageType.ImportMnemonicAccountRequest,
         mnemonic,
-        name
+        name,
+        withNostr
       });
       assertResponse(res.type === XTMessageType.ImportMnemonicAccountResponse);
+    },
+    [request]
+  );
+
+  const importNostrPrivateKeyAccount = useCallback(
+    async (nsecOrHex: string, name?: string) => {
+      const res = await request({
+        type: XTMessageType.ImportNostrAccountRequest,
+        nsecOrHex,
+        name
+      });
+      assertResponse(res.type === XTMessageType.ImportNostrAccountResponse);
     },
     [request]
   );
@@ -267,6 +280,19 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
         derivationType
       });
       assertResponse(res.type === XTMessageType.CreateLedgerAccountResponse);
+    },
+    [request]
+  );
+
+  const revealNostrPrivateKey = useCallback(
+    async (accountPublicKey: string, password: string) => {
+      const res = await request({
+        type: XTMessageType.RevealNostrPrivateKeyRequest,
+        accountPublicKey,
+        password
+      });
+      assertResponse(res.type === XTMessageType.RevealNostrPrivateKeyResponse);
+      return res.privateKey;
     },
     [request]
   );
@@ -418,10 +444,12 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
     editAccountName,
     setAccountActivated,
     importMnemonicAccount,
+    importNostrPrivateKeyAccount,
     importFundraiserAccount,
     importKTManagedAccount,
     importWatchOnlyAccount,
     createLedgerAccount,
+    revealNostrPrivateKey,
     updateSettings,
     confirmInternal,
     getDAppPayload,

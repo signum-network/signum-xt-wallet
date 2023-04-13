@@ -21,8 +21,11 @@ export const uppercaseLowercaseMixtureRegx = /(?=.*[a-z])(?=.*[A-Z])/;
 export const lettersNumbersMixtureRegx = /(?=.*\d)(?=.*[A-Za-z])/;
 export const specialCharacterRegx = /[!@#$%^&*()_+\-=\]{};':"\\|,.<>?]/;
 
-export const URL_PATTERN =
+export const HTTP_URL_PATTERN =
   /^((?:https:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+)|(http(s)?:\/\/localhost:[0-9]+)$/;
+
+export const WS_URL_PATTERN =
+  /^((?:wss:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+)|(ws(s)?:\/\/localhost:[0-9]+)$/;
 
 export function formatMnemonic(m: string) {
   return m.replace(/\n/g, ' ');

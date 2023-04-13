@@ -18,7 +18,7 @@ type TabSwitcherProps = {
 };
 
 const TabSwitcher: React.FC<TabSwitcherProps> = ({ className, tabs, activeTabSlug, urlPrefix }) => (
-  <div className={classNames('w-full max-w-md mx-auto', 'flex flex-wrap items-center justify-center', className)}>
+  <div className={classNames('w-full mx-auto', 'flex flex-wrap items-center justify-center', className)}>
     {tabs.map(({ slug, i18nKey }) => {
       const active = slug === activeTabSlug;
 

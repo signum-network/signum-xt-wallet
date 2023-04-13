@@ -267,13 +267,13 @@
     "message": "Rastreado"
   },
   "backupNewSeedPhrase": {
-    "message": "Salvar nova frase secreta"
+    "message": "Salvar nova frase de recuperação"
   },
   "backupedInputDescription": {
     "message": "E aceite os riscos que se eu perder a frase\nmeus fundos podem ser perdidos."
   },
   "backupedInputLabel": {
-    "message": "Eu fiz um backup da frase secreta"
+    "message": "Fiz um backup da Frase de Recuperação"
   },
   "baker": {
     "message": "padeiro"
@@ -510,7 +510,7 @@
     "message": "Você realmente deseja excluir este nó?"
   },
   "deleteNetworkHint": {
-    "message": "Clique no ícone X para excluir o nó. Se você quiser editá-lo, basta excluí-lo e adicionar novamente com novos parâmetros."
+    "message": "Clique no ícone X para excluir um item. Se você quiser editá-lo, basta excluí-lo e adicionar novamente com novos parâmetros."
   },
   "deleteTokenConfirm": {
     "message": "Você realmente deseja excluir este token?"
@@ -726,13 +726,13 @@
     "message": "Importar carteira existente"
   },
   "importExistingWalletDescription": {
-    "message": "Já tem carteira? Importe-os com sua frase secreta"
+    "message": "Já tem uma carteira? Importe-os com sua Frase de Recuperação"
   },
   "importNewAccountTitle": {
     "message": "Quer recuperar a conta? Deseja fazer login com uma conta diferente?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Importar carteira com a frase secreta"
+    "message": "Importar carteira com Frase de Recuperação"
   },
   "important": {
     "message": "Importante"
@@ -901,13 +901,13 @@
     "message": "A taxa mínima para esta transação é superior ao seu saldo."
   },
   "mnemonic": {
-    "message": "Frase Secreta"
+    "message": "Frase de Recuperação Signum"
   },
   "mnemonicInputDescription": {
-    "message": "Sua frase secreta; geralmente 12 palavras."
+    "message": "Sua Frase de Recuperação secreta; geralmente 12 palavras."
   },
   "mnemonicInputLabel": {
-    "message": "Frase Secreta"
+    "message": "Frase de Recuperação"
   },
   "mnemonicInputPlaceholder": {
     "message": "por exemplo, venue sock milk update..."
@@ -1191,7 +1191,7 @@
     "message": "Revelar"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>Clique abaixo</b> para ver sua nova senha.\nEm seguida, escreva essa frase em um pedaço de papel e/ou <b>guarde-o em um local seguro</b>. "
+    "message": "<b>Clique abaixo</b> para visualizar sua nova Frase de Recuperação.\nEm seguida, escreva essa frase em um pedaço de papel e/ou <b>guarde-o em um local seguro</b>."
   },
   "rocketFeeDescription": {
     "message": "Foguete"
@@ -1212,7 +1212,7 @@
     "message": "Procurar DApps"
   },
   "seedPhrase": {
-    "message": "Frase Secreta"
+    "message": "Frase de Recuperação"
   },
   "selectAnotherAssetPrompt": {
     "message": "Clique na área para selecionar um ativo ou token diferente."
@@ -1484,10 +1484,10 @@
     "message": "URL de imagem válido"
   },
   "verifySeedPhrase": {
-    "message": "Verificar frase secreta"
+    "message": "Verifique a Frase de Recuperação"
   },
   "verifySeedPhraseDescription": {
-    "message": "Preencha os espaços em branco com as palavras para verificar sua frase secreta"
+    "message": "Preencha os espaços em branco com as palavras para verificar sua Frase de Recuperação"
   },
   "versionLabel": {
     "message": "Versão: $version$",
@@ -1507,7 +1507,7 @@
     "message": "Ver tudo"
   },
   "watchOnlyAccount": {
-    "message": "Observando"
+    "message": "Endereço de Assinatura"
   },
   "website": {
     "message": "Site"
@@ -1527,7 +1527,7 @@
     "message": "Sim"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "Se você mudar de navegador ou dispositivo, precisará dessa frase secreta para acessar suas contas."
+    "message": "Se você mudar de navegador ou dispositivo, precisará desta Frase de Recuperação para acessar suas contas."
   },
   "yourBalanceIsZero": {
     "message": "Seu saldo é zero."
@@ -2000,5 +2000,112 @@
   },
   "aliasSell": {
     "message": "Vender Alias"
+  },
+  "nostrAccount": {
+    "message": "Conta Nostr"
+  },
+  "viewNostrAccount": {
+    "message": "Ver Conta Nostr"
+  },
+  "nostrAccountDescription": {
+    "message": "Aqui você pode ver todos os detalhes da sua conta nostr, como chaves e status de verificação."
+  },
+  "nostrAccountImport": {
+    "message": "Importar também como conta Nostr"
+  },
+  "enterSecretToReveal": {
+    "message": "Digite a senha para revelar"
+  },
+  "nostrPrivateKeyDescription": {
+    "message": "Se você quiser importar sua conta Nostr em outros aplicativos, precisará de sua chave privada. Digite sua senha para revelar sua chave privada."
+  },
+  "nostrPrivateKeyLabel": {
+    "message": "Chave privada"
+  },
+  "enterPasswordToRevealKey": {
+    "message": "Digite a senha para revelar a chave privada."
+  },
+  "nostrKeysEncodedDescription": {
+    "message": "As chaves Nostr podem ser representadas em um formato codificado de acordo com o NIP-19, de modo que as chaves sejam prefixadas com \"npub\" ou \"nsec\"."
+  },
+  "encodeNostrKeys": {
+    "message": "Mostrar codificado"
+  },
+  "nostrPublicKeyLabel": {
+    "message": "Chave pública"
+  },
+  "nostrPublicKeyDescription": {
+    "message": "A chave pública é usada para permitir que outras pessoas o encontrem e entrem em contato."
+  },
+  "noNostrAccount": {
+    "message": "Não é uma conta Nostr"
+  },
+  "noNostrAccountDescription": {
+    "placeholders": {
+      "account": {
+        "content": "$1"
+      }
+    },
+    "message": "A conta selecionada $account$ não possui Nostr-Keys anexada. Você pode querer importar esta conta usando a frase de recuperação e habilitar a importação Nostr."
+  },
+  "nostrPrivateKey": {
+    "message": "Chave Privada Nostr"
+  },
+  "nostrAccountImportDescription": {
+    "message": "Você pode usar a Frase de Recuperação Signum para gerar uma conta Nostr. Se você selecionar a opção, é possível usar a carteira também com clientes Nostr. Você pode ver as chaves geradas nas configurações."
+  },
+  "importAccountRecoveryPhraseDescription": {
+    "message": "A Frase de Recuperação permite que você importe uma conta completamente. Você pode então executar transações e os DApps também podem solicitar que as transações sejam executadas. Suas chaves de assinatura são criptografadas e armazenadas exclusivamente nesta instância do navegador."
+  },
+  "importAccountWatchOnlyDescription": {
+    "message": "Se você usar apenas um endereço de conta ou id de conta para importar, não será possível realizar transações. Você só pode observar a conta importada."
+  },
+  "importAccountNostrPrivKeyDescription": {
+    "message": "Se você tiver uma conta Nostr, mas nenhuma conta Signum, você pode usar sua chave privada Nostr para criar uma conta Signum correspondente para sua conta Nostr existente. Você também pode usar a chave privada Nostr em outras carteiras Signum."
+  },
+  "nostrPrivateKeyInputLabel": {
+    "message": "Chave Privada Nostr"
+  },
+  "nostrPrivateKeyInputDescription": {
+    "message": "Chave privada Nostr em formato hexadecimal ou nsec (NIP19)."
+  },
+  "nostrPrivateKeyInputPlaceholder": {
+    "message": "nsec1c7m0..., c7b6ff7e18...."
+  },
+  "nostrPrivateKeyInputWarning": {
+    "message": "Chave inválida"
+  },
+  "nostrRelays": {
+    "message": "Relés Nostr"
+  },
+  "nostrRelaysDescription": {
+    "message": "Aqui você pode adicionar e remover relés Nostr."
+  },
+  "nostrRelayUrl": {
+    "message": "URL de Retransmissão Nostr"
+  },
+  "nostrRelayRead": {
+    "message": "Permissão de leitura"
+  },
+  "nostrRelayWrite": {
+    "message": "Permissão de Gravação"
+  },
+  "nostrRelayWriteDescription": {
+    "message": "O relé permite postar eventos."
+  },
+  "nostrRelayReadDescription": {
+    "message": "O relé permite a leitura de eventos."
+  },
+  "addNostrRelay": {
+    "message": "Adicionar relé"
+  },
+  "currentNostrRelays": {
+    "message": "Relés Nostr Atuais"
+  },
+  "nostrRelayReachable": {
+    "message": "Relé Acessível"
+  },
+  "nostrRelayNotReachable": {
+    "message": "Relé não alcançável"
   }
 }

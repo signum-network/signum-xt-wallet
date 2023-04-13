@@ -10,9 +10,9 @@ import { useContacts, Contact } from 'lib/temple/front';
 import { useFilteredContacts } from 'lib/temple/front/use-filtered-contacts.hook';
 import { useConfirm } from 'lib/ui/dialog';
 
-import IdenticonSignum from '../../atoms/IdenticonSignum';
-import CustomSelect, { OptionRenderProps } from '../CustomSelect';
-import HashChip from '../HashChip';
+import IdenticonSignum from '../../../atoms/IdenticonSignum';
+import CustomSelect, { OptionRenderProps } from '../../CustomSelect';
+import HashChip from '../../HashChip';
 import AddNewContactForm from './AddNewContactForm';
 
 type ContactActions = {

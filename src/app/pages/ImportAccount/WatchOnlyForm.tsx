@@ -122,6 +122,7 @@ export const WatchOnlyForm: FC = () => {
   return (
     <form className="w-full max-w-sm mx-auto my-8" onSubmit={handleSubmit(onSubmit)}>
       {error && <Alert type="error" title={t('error')} description={error} autoFocus className="mb-6" />}
+      <p className="text-sm text-gray-500 text-justify my-2">{t('importAccountWatchOnlyDescription')}</p>
 
       <Controller
         name="address"

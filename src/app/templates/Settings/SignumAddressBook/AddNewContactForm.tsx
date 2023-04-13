@@ -7,8 +7,8 @@ import { T, t } from 'lib/i18n/react';
 import { useContacts, useSignumAliasResolver, isSignumAddress, useSignumAccountPrefix } from 'lib/temple/front';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
-import FormField from '../../atoms/FormField';
-import FormSubmitButton from '../../atoms/FormSubmitButton';
+import FormField from '../../../atoms/FormField';
+import FormSubmitButton from '../../../atoms/FormSubmitButton';
 import { ContactFormData } from './ContactFormData';
 
 const SUBMIT_ERROR_TYPE = 'submit-error';

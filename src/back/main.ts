@@ -68,6 +68,12 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
         type: XTMessageType.RevealPublicKeyResponse,
         publicKey
       };
+    case XTMessageType.RevealNostrPrivateKeyRequest:
+      const privateKey = await Actions.revealNostrPrivateKey(req.accountPublicKey, req.password);
+      return {
+        type: XTMessageType.RevealNostrPrivateKeyResponse,
+        privateKey
+      };
     case XTMessageType.RemoveAccountRequest:
       await Actions.removeAccount(req.accountPublicKeyHash, req.password);
       DAppNotifications.notifyAccountRemoved(req.accountPublicKeyHash);
@@ -88,9 +94,15 @@ async function processRequest(req: TempleRequest, port: Runtime.Port): Promise<T
       };
 
     case XTMessageType.ImportMnemonicAccountRequest:
-      await Actions.importMnemonicAccount(req.mnemonic, req.name);
+      await Actions.importMnemonicAccount(req.mnemonic, req.name, req.withNostr);
       return {
         type: XTMessageType.ImportMnemonicAccountResponse
+      };
+
+    case XTMessageType.ImportNostrAccountRequest:
+      await Actions.importAccountFromNostrPrivateKey(req.nsecOrHex, req.name);
+      return {
+        type: XTMessageType.ImportNostrAccountResponse
       };
 
     case XTMessageType.ImportWatchOnlyAccountRequest:

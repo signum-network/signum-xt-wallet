@@ -62,7 +62,7 @@ const AddressChip: FC<AddressChipProps> = ({ account, className, small }) => {
     })();
   }, [aliasDisplayedKey, setAliasDisplayed]);
 
-  const handleToggleAliasClick = useCallback(() => {
+  const handleToggleAliasClick = useCallback(async () => {
     setAliasDisplayed(d => {
       const newValue = !d;
       putToStorage(aliasDisplayedKey, newValue);
@@ -73,8 +73,8 @@ const AddressChip: FC<AddressChipProps> = ({ account, className, small }) => {
   const Icon = aliasDisplayed ? AddressIcon : AliasIcon;
 
   return (
-    <div className={classNames('flex flex-col items-center', className)}>
-      <div className="flex items-center">
+    <div className={classNames('flex flex-col items-start', className)}>
+      <div className="flex items-start">
         {aliasName && aliasDisplayed ? (
           <HashChip hash={aliasName} firstCharsCount={7} lastCharsCount={10} small={small} />
         ) : (

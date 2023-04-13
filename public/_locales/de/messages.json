@@ -3,7 +3,7 @@
     "message": "Über"
   },
   "aboutDescription": {
-    "message": "Verwenden Sie diesen Abschnitt, um Informationen über diese Erweiterung anzuzeigen."
+    "message": "Verwende diesen Abschnitt, um Informationen über diese Erweiterung anzuzeigen."
   },
   "acceptTerms": {
     "message": "Bedingungen akzeptieren"
@@ -23,13 +23,13 @@
     "message": "Konto"
   },
   "accountActivated": {
-    "message": "Ihr Konto wurde erfolgreich aktiviert!"
+    "message": "Dein Konto wurde erfolgreich aktiviert!"
   },
   "accountAddressLabel": {
-    "message": "Ihre aktuelle Kontoadresse. Teilen Sie sie, um Geld zu erhalten."
+    "message": "Deine aktuelle Kontoadresse. Teile sie, um Geld zu erhalten."
   },
   "accountAlreadyActivated": {
-    "message": "Ihr Konto ist bereits aktiviert."
+    "message": "Dein Konto ist bereits aktiviert."
   },
   "accountName": {
     "message": "Kontoname"
@@ -120,7 +120,7 @@
     "message": "Adressbuch"
   },
   "addressBookDescription": {
-    "message": "Fügen Sie Ihre Kontakte hinzu, entfernen und verwalten Sie sie."
+    "message": "Füge Deine Kontakte hinzu, entferne und verwalte sie."
   },
   "addressInputDescription": {
     "message": "Adresse oder ID des Signum Kontos"
@@ -167,37 +167,37 @@
     "message": "Bestätigen"
   },
   "analyticsConfirmationDescription": {
-    "message": "Wir verbessern die Wallet ständig und benötigen Ihre Hilfe. Um besser zu verstehen, welcher Abschnitt der Wallet aktualisiert werden sollte, erheben wir anonyme Nutzungsdaten. Diese Daten werden nur verwendet, um die Benutzerfreundlichkeit der Wallet zu verbessern."
+    "message": "Wir verbessern die Wallet ständig und benötigen deine Hilfe. Um besser zu verstehen, welcher Abschnitt der Wallet aktualisiert werden sollte, erheben wir anonyme Nutzungsdaten. Diese Daten werden nur verwendet, um die Benutzerfreundlichkeit der Wallet zu verbessern."
   },
   "analyticsConfirmationNeverCollect": {
     "message": "Wir verfolgen NIE:"
   },
   "analyticsConfirmationNeverCollectDescription": {
-    "message": "Ihre Schlüssel, Adressen, Transaktionen, Salden, Hashes, IP oder andere persönliche Informationen."
+    "message": "Deine Schlüssel, Adressen, Transaktionen, Salden, Hashes, IP oder andere persönliche Informationen."
   },
   "analyticsConfirmationSettingsDescription": {
-    "message": "Sie können die Analyse-Nachverfolgungsfunktion jederzeit in Ihren Wallet-Einstellungen deaktivieren."
+    "message": "Du kannst die Analyse-Nachverfolgungsfunktion jederzeit in den Wallet-Einstellungen deaktivieren."
   },
   "analyticsConfirmationTitle": {
-    "message": "Helfen Sie uns, die Wallet besser zu machen"
+    "message": "Hilf uns, die Wallet besser zu machen"
   },
   "analyticsSettings": {
     "message": "Anonyme Analyse"
   },
   "analyticsSettingsDescription": {
-    "message": "Hier können Sie den Versand anonymer Analysen konfigurieren, die uns helfen, das Produkt zu verbessern."
+    "message": "Hier kannst du den Versand anonymer Analysen konfigurieren, die uns helfen, das Produkt zu verbessern."
   },
   "anotherAccount": {
     "message": "Anderes Konto"
   },
   "appDesc": {
-    "message": "Kryptwährung-Wallet für die grüne Signum 🍀-Blockchain als Erweiterung für Deinen Browser."
+    "message": "Kryptowährung-Wallet für die umweltfreundliche Signum 🍀-Blockchain als Erweiterung für Deinen Browser."
   },
   "appName": {
     "message": "Signum XT Wallet"
   },
   "appRequestsToSign": {
-    "message": "$origin$ fordert Sie auf die Transaktion zu bestätigen",
+    "message": "$origin$ fordert dich auf die Transaktion zu bestätigen",
     "placeholders": {
       "origin": {
         "content": "$1"
@@ -205,7 +205,7 @@
     }
   },
   "appWouldLikeToConnectToYourWallet": {
-    "message": "$origin$ möchte sich mit Ihrer Wallet verbinden",
+    "message": "$origin$ möchte sich mit deiner Wallet verbinden",
     "placeholders": {
       "origin": {
         "content": "$1"
@@ -267,13 +267,13 @@
     "message": "Zurückverfolgt"
   },
   "backupNewSeedPhrase": {
-    "message": "Neue Passphrase sichern"
+    "message": "Speichere neue Recovery Phrase"
   },
   "backupedInputDescription": {
     "message": "Und akzeptiere die Risiken, dass wenn ich die Phrase verliere,\nkönnten meine Gelder verloren gehen."
   },
   "backupedInputLabel": {
-    "message": "Ich habe ein Passphrasen-Backup erstellt"
+    "message": "Ich habe ein Recovery Phrase-Backup erstellt"
   },
   "baker": {
     "message": "Baker"
@@ -308,16 +308,16 @@
     "message": "Sauber"
   },
   "clickIconToResetPermissions": {
-    "message": "Klicken Sie auf das X-Symbol, um die Berechtigungen zurückzusetzen."
+    "message": "Klicke auf das X-Symbol, um die Berechtigungen zurückzusetzen."
   },
   "clickOnCustomDerivationPath": {
-    "message": "Klicken Sie auf 'Benutzerdefinierter Ableitungspfad', um ihn anzupassen."
+    "message": "Klicke auf 'Benutzerdefinierter Ableitungspfad', um ihn anzupassen."
   },
   "clickOnRecipientAccount": {
-    "message": "Klicken Sie auf das Konto, an das Sie Geld senden möchten."
+    "message": "Klicke auf das Konto, an das Du Geld senden möchtest."
   },
   "clickToRevealOrEditField": {
-    "message": "Klicken Sie hier, um dieses Feld anzuzeigen oder zu bearbeiten"
+    "message": "Klicke hier, um dieses Feld anzuzeigen oder zu bearbeiten"
   },
   "collectibles": {
     "message": "Sammlerstücke"
@@ -326,7 +326,7 @@
     "message": "Kommt bald"
   },
   "communityResourcesTitle": {
-    "message": "Sie können jederzeit zusätzliche Informationen über die Signum XT Wallet finden oder um Hilfe bitten:"
+    "message": "Du kannst jederzeit zusätzliche Informationen über die Signum XT Wallet finden oder um Hilfe bitten:"
   },
   "confirm": {
     "message": "Bestätigen"
@@ -383,7 +383,7 @@
     "message": "In die Zwischenablage kopieren"
   },
   "counterErrorDescription": {
-    "message": "Sie können den Vorgang im Moment nicht durchführen!\nBitte warten Sie, wenn Ihr vorheriger Vorgang ausgeführt wurde, und versuchen Sie es erneut."
+    "message": "Du kannst den Vorgang im Moment nicht durchführen!\nBitte warte, wenn der vorherige Vorgang ausgeführt wurde, und versuche es erneut."
   },
   "create": {
     "message": "Erstellen"
@@ -395,7 +395,7 @@
     "message": "Neue Wallet erstellen"
   },
   "createNewWalletDescription": {
-    "message": "Sie sind neu bei Signum und haben noch keine Signum Wallet? Na, dann los! Lassen Sie uns eine neue Wallet erstellen"
+    "message": "Du bist neu bei Signum und hast noch keine Signum Wallet? Na, dann los! Lass uns eine neue Wallet erstellen"
   },
   "currentContacts": {
     "message": "Aktuelle Kontakte"
@@ -414,7 +414,7 @@
     "description": "DApps = Decentralized Applications"
   },
   "dAppsCheckmarkPrompt": {
-    "message": "Klicken Sie auf das Häkchen für um DApps-Interaktionen zu $action$",
+    "message": "Klicke auf das Häkchen um für DApps-Interaktionen zu $action$",
     "description": "DApps = Decentralized Applications",
     "placeholders": {
       "action": {
@@ -423,7 +423,7 @@
     }
   },
   "dAppsDescription": {
-    "message": "In diesem Abschnitt können Sie die Möglichkeit zur Interaktion mit dezentralen Anwendungen aktivieren."
+    "message": "In diesem Abschnitt kannst du die Interaktionen mit dezentralen Anwendungen aktivieren."
   },
   "dAppsInteraction": {
     "message": "DApps-Interaktion",
@@ -501,19 +501,19 @@
     "message": "Löschen"
   },
   "deleteCollectibleConfirm": {
-    "message": "Möchten Sie dieses Sammlerstück wirklich löschen?"
+    "message": "Möchtest Du dieses Sammlerstück wirklich löschen?"
   },
   "deleteContactConfirm": {
-    "message": "Möchten Sie diesen Kontakt wirklich löschen?"
+    "message": "Möchtest Du diesen Kontakt wirklich löschen?"
   },
   "deleteNetworkConfirm": {
-    "message": "Möchten Sie diesen Node wirklich löschen?"
+    "message": "Möchtest Du diesen Node wirklich löschen?"
   },
   "deleteNetworkHint": {
-    "message": "Klicken Sie auf das X-Symbol, um den Knoten zu löschen. Wenn Sie ihn bearbeiten möchten, löschen Sie ihn einfach und fügen Sie erneut mit neuen Parametern hinzu."
+    "message": "Klicke auf das X-Symbol, um ein Element zu löschen. Wenn du es bearbeiten möchtest, lösche es einfach und fügen es mit neuen Parametern erneut hinzu."
   },
   "deleteTokenConfirm": {
-    "message": "Möchten Sie dieses Token wirklich löschen?"
+    "message": "Möchtest Du dieses Token wirklich löschen?"
   },
   "deployNew": {
     "message": "Neu bereitstellen"
@@ -560,7 +560,7 @@
     "message": "Deaktiviert für Beobachter-Konto"
   },
   "doNotSharePhrase": {
-    "message": "<b>Teilen Sie</b> diese Phrase mit NIEMANDEM! Sie kann verwendet werden, um Ihr Guthaben zu stehlen."
+    "message": "<b>Teile</b> diese Phrase mit <b>NIEMANDEM!</b>. Sie kann verwendet werden, um dein Guthaben zu stehlen."
   },
   "domainDoesntResolveToAddress": {
     "message": "Alias \"$value$\" konnte nicht in eine Adresse aufgelöst werden",
@@ -577,7 +577,7 @@
     "message": "E-Mail"
   },
   "emptyImplicitContract": {
-    "message": "Ihr Konto ist leer. Zahlen Sie einen beliebigen Tez-Betrag auf dieses Konto ein, um es zu aktivieren"
+    "message": "Dein Konto ist leer. Zahle einen beliebigen Tez-Betrag auf dieses Konto ein, um es zu aktivieren"
   },
   "enable": {
     "message": "Aktivieren"
@@ -589,7 +589,7 @@
     "message": "Aktiviert"
   },
   "enterPasswordToRemoveAccount": {
-    "message": "Geben Sie das Passwort ein, um das Konto zu entfernen."
+    "message": "Gib das Passwort ein, um das Konto zu entfernen."
   },
   "error": {
     "message": "Fehler"
@@ -691,7 +691,7 @@
     "message": "Hilfe & Community"
   },
   "helpAndCommunityDescription": {
-    "message": "Verwenden Sie diesen Abschnitt, wenn Sie Teil unserer Community werden möchten oder Hilfe benötigen."
+    "message": "Verwende diesen Abschnitt, wenn du Teil unserer Community werden möchtest oder Hilfe benötigst."
   },
   "iconURL": {
     "message": "Symbol-URL"
@@ -703,7 +703,7 @@
     "message": "ID"
   },
   "ifYouDontSeeYourAsset": {
-    "message": "Wenn Sie Ihre Tokens nicht sehen,\nversuchen, Sie auf $toClick$ zu klicken.",
+    "message": "Wenn du deine Tokens nicht siehst,\nklicke auf $toClick$.",
     "placeholders": {
       "toClick": {
         "content": "$1"
@@ -711,10 +711,10 @@
     }
   },
   "ifYouWantToActivateAnotherAccount": {
-    "message": "Wenn Sie ein anderes Konto aktivieren möchten, wählen Sie es bitte in der oberen rechten Dropdown-Liste aus."
+    "message": "Wenn du ein anderes Konto aktivieren möchtest, wähle es bitte in der oberen rechten Dropdown-Liste aus."
   },
   "ifYouWantToRemoveAnotherAccount": {
-    "message": "Wenn Sie ein anderes Konto entfernen möchten, wählen Sie es aus dem Dropdown-Menü oben rechts aus. Sie können das Konto jederzeit erneut importieren. Es gehen keine Daten verloren."
+    "message": "Wenn du ein anderes Konto entfernen möchtest, wählen es aus dem Dropdown-Menü oben rechts aus. Du kannst das Konto jederzeit erneut importieren. Es gehen keine Daten verloren."
   },
   "import": {
     "message": "Importieren"
@@ -726,13 +726,13 @@
     "message": "Bestehende Wallet importieren"
   },
   "importExistingWalletDescription": {
-    "message": "Haben Sie bereits eine Wallet? Importieren Sie sie mit Ihrer Passphrase"
+    "message": "Hast du bereits einen Account/eine Wallet? Importiere sie mit deiner Recovery Phrase."
   },
   "importNewAccountTitle": {
-    "message": "Konto wiederherstellen? Möchten Sie sich mit einem anderen Konto anmelden?"
+    "message": "Konto wiederherstellen? Möchtest du dich mit einem anderen Konto anmelden?"
   },
   "importWalletUsingSeedPhrase": {
-    "message": "Wallet mit Passphrase importieren"
+    "message": "Wallet mit Recovery Phrase importieren"
   },
   "important": {
     "message": "Wichtig"
@@ -752,7 +752,7 @@
     "message": "in USD"
   },
   "incorrectTokenIdErrorMessage": {
-    "message": "Fehler beim Verarbeiten des Tokens mit den bereitgestellten Daten. Stellen Sie sicher, dass die Token-ID korrekt ist."
+    "message": "Fehler beim Verarbeiten des Tokens mit den bereitgestellten Daten. Stelle sicher, dass die Token-ID korrekt ist."
   },
   "interaction": {
     "message": "Kontraktinteraktion"
@@ -778,7 +778,7 @@
     "message": "Ungültiger Pfad"
   },
   "joinPrompt": {
-    "message": "Treten Sie gerne bei und stellen Sie Ihre Fragen "
+    "message": "Tritt bei und stellen uns deine Fragen "
   },
   "lambdaContract": {
     "message": "Lambda View-Kontrakt"
@@ -790,13 +790,13 @@
     "message": "Sprache"
   },
   "ledgerLiveBridgeGuide": {
-    "message": "Um eine Verbindung zum Ledger herzustellen, aktivieren Sie bitte die Ledger-Live-Anwendung auf Ihrem Gerät, öffnen Sie die Tezos Wallet-Anwendung und erlauben Sie eine WebSocket-Verbindung zu Ihrem Konto."
+    "message": "Um eine Verbindung zum Ledger herzustellen, aktiviere bitte die Ledger-Live-Anwendung auf deinem Gerät. öffne die Tezos Wallet-Anwendung und erlaube eine WebSocket-Verbindung zu deinem Konto."
   },
   "ledgerLiveSettings": {
     "message": "Hauptbuch-Live verwenden"
   },
   "ledgerLiveSettingsDescription": {
-    "message": "Mit der neuen Hauptbuch-Live Bridge können Sie Ihr Hauptbuch auf andere Weise verwenden."
+    "message": "Mit der neuen Hauptbuch-Live Bridge kannst du das Hauptbuch auf andere Weise verwenden."
   },
   "ledgerNameConstraint": {
     "message": "1-16 Zeichen, keine Sonderzeichen"
@@ -843,7 +843,7 @@
     }
   },
   "mainAssetBalanceIsZero": {
-    "message": "Ihr Saldo ist Null. Signa wird für die Gebühr benötigt."
+    "message": "Dein Saldo ist Null. Signa wird für die Gebühr benötigt."
   },
   "manage": {
     "message": "Verwalten"
@@ -875,7 +875,7 @@
     "message": "Ansicht maximieren"
   },
   "mayHappenBecauseYouAreOffline": {
-    "message": "Dies kann passieren, weil Sie gerade offline sind"
+    "message": "Dies kann passieren, weil du gerade offline bist"
   },
   "messageTo": {
     "message": "Nachricht an"
@@ -895,19 +895,19 @@
     "message": "Minimal"
   },
   "minimalFeeGreaterThanBalance": {
-    "message": "Die Mindestgebühr für diese Transaktion ist höher als Ihr Guthaben."
+    "message": "Die Mindestgebühr für diese Transaktion ist höher als dein Guthaben."
   },
   "minimalFeeGreaterThanBalanceVerbose": {
-    "message": "Die Mindestgebühr für diese Transaktion ist höher als Ihr Guthaben."
+    "message": "Die Mindestgebühr für diese Transaktion ist höher als dein Guthaben."
   },
   "mnemonic": {
-    "message": "Passphrase"
+    "message": "Signum Recovery Phrase"
   },
   "mnemonicInputDescription": {
-    "message": "Ihre geheime Passphrase; üblicherweise 12 Wörter."
+    "message": "Deine geheime Recovery Phrase; normalerweise 12 Wörter."
   },
   "mnemonicInputLabel": {
-    "message": "Passphrase"
+    "message": "Recovery Phrase"
   },
   "mnemonicInputPlaceholder": {
     "message": "z.B. venue sock milk update..."
@@ -952,7 +952,7 @@
     "message": "Netzwerke"
   },
   "networksDescription": {
-    "message": "In diesem Abschnitt können Sie benutzerdefinierte Signum Nodes/Peers hinzufügen oder löschen."
+    "message": "In diesem Abschnitt kannst du benutzerdefinierte Signum Nodes/Peers hinzufügen oder löschen."
   },
   "newContactPlaceholder": {
     "message": "z.B. Jane Doe"
@@ -1084,7 +1084,7 @@
     "message": "Popup-Modus"
   },
   "popupSettingsDescription": {
-    "message": "Hier können Sie einstellen, ob die Wallet im Pop-Up Modus - also oben rechts im Browser - oder als ganze Seite im Browser geöffnet werden soll."
+    "message": "Hier kannst du einstellen, ob die Wallet im Pop-Up Modus - also oben rechts im Browser - oder als ganze Seite im Browser geöffnet werden soll."
   },
   "positiveIntMessage": {
     "message": "Ganzzahl, 1 oder größer"
@@ -1145,13 +1145,13 @@
     "message": "Konto entfernen"
   },
   "removeAccountDescription": {
-    "message": "Verwenden Sie diesen Abschnitt, um Ihr ausgewähltes Konto zu entfernen."
+    "message": "Verwende diesen Abschnitt, um dein ausgewähltes Konto zu entfernen."
   },
   "repeatPassword": {
     "message": "Passwort wiederholen"
   },
   "repeatPasswordInputDescription": {
-    "message": "Bitte geben Sie das Passwort erneut ein."
+    "message": "Bitte gib das Passwort erneut ein."
   },
   "repo": {
     "message": "Repository"
@@ -1171,10 +1171,10 @@
     "message": "Erweiterung zurücksetzen"
   },
   "resetExtensionConfirmation": {
-    "message": "Möchten Sie die Wallet wirklich zurücksetzen?\nDadurch werden alle Ihre Daten lokal gelöscht.\nIhre aktiven Konten können sie jederzeit wieder importieren."
+    "message": "Möchtest du die Wallet wirklich zurücksetzen?\nDadurch werden alle deine lokalen Daten gelöscht.\nDeine Konten kannst du jederzeit wieder mit der Reecovery Phrase importieren."
   },
   "resetPermissionsConfirmation": {
-    "message": "Möchten Sie die Berechtigungen für\n$origin$ wirklich zurücksetzen?",
+    "message": "Möchtest du die Berechtigungen für\n$origin$ wirklich zurücksetzen?",
     "placeholders": {
       "origin": {
         "content": "$1"
@@ -1194,7 +1194,7 @@
     "message": "Freigeben"
   },
   "revealNewSeedPhrase": {
-    "message": "<b>Klicken Sie auf den unteren Bereich</b>, um Ihre neue Passphrase anzuzeigen.\nSchreiben Sie diese Phrase dann auf ein Blatt Papier und-oder <b>bewahren Sie es an einem sicheren Ort auf</b>."
+    "message": "<b>Klicke unten drauf</b>, um deine neue Recovery Phrase anzuzeigen.\nSchreibe sie dann auf ein Stück Papier und/oder <b>bewahre sie es an einem sicheren Ort auf</b>."
   },
   "rocketFeeDescription": {
     "message": "Rakete"
@@ -1215,10 +1215,10 @@
     "message": "DApps durchsuchen"
   },
   "seedPhrase": {
-    "message": "Passphrase"
+    "message": "Recovery Phrase"
   },
   "selectAnotherAssetPrompt": {
-    "message": "Klicken Sie auf den Bereich, um ein anderes Token auszuwählen."
+    "message": "Klicke auf den Bereich, um ein anderes Token auszuwählen."
   },
   "send": {
     "message": "Senden"
@@ -1312,7 +1312,7 @@
     }
   },
   "timedOutOperationConfirmation": {
-    "message": "Zeitüberschreitung der Bestätigung. Sie können entweder länger warten oder es später erneut versuchen."
+    "message": "Zeitüberschreitung der Bestätigung. Du kannst entweder länger warten oder es später erneut versuchen."
   },
   "toAsset": {
     "message": "An"
@@ -1418,7 +1418,7 @@
     "message": "Erneut versuchen"
   },
   "tryingToTransferToYourself": {
-    "message": "Sie versuchen, Geld an sich selbst zu überweisen.\nBitte stellen Sie sicher, dass es genau das ist, was Sie möchten."
+    "message": "Du versuchst, Geld an dich selbst zu überweisen.\nBitte stelle sicher, dass es genau das ist, was Du möchtest."
   },
   "tvl": {
     "message": "TVL"
@@ -1447,7 +1447,7 @@
     }
   },
   "unknownNetwork": {
-    "message": "Das von der DApp angeforderte Netzwerk ist der Wallet unbekannt. Bitte fügen Sie zuerst einen Netzwerkknoten hinzu, der zum Netzwerk „$networkName$“ gehört",
+    "message": "Das von der DApp angeforderte Netzwerk ist der Wallet unbekannt. Bitte füge zuerst einen Netzwerkknoten hinzu, der zum Netzwerk „$networkName$“ gehört",
     "placeholders": {
       "networkName": {
         "content": "$1"
@@ -1467,7 +1467,7 @@
     "message": "Die Wallet entsperren"
   },
   "unlockWalletPrompt": {
-    "message": "Wenn Sie etwas aus einer bereits vorhandenen Wallet speichern möchten - $link$ und entsperren Sie sie.",
+    "message": "Wenn Du etwas aus einer bereits vorhandenen Wallet speichern möchtest - $link$ und entsperre sie.",
     "placeholders": {
       "link": {
         "content": "$1"
@@ -1475,7 +1475,7 @@
     }
   },
   "updateContactDescription": {
-    "message": "Um einen bestehenden Kontakt zu aktualisieren, entfernen Sie ihn einfach\nund fügen Sie ihn erneut mit anderen Namen hinzu."
+    "message": "Um einen bestehenden Kontakt zu aktualisieren, entferne ihn einfach\nund füge ihn erneut mit anderen Namen hinzu."
   },
   "upload": {
     "message": "Hochladen"
@@ -1487,10 +1487,10 @@
     "message": "Gültige Bild-URL"
   },
   "verifySeedPhrase": {
-    "message": "Passphrase überprüfen"
+    "message": "Überprüfe Recovery Phrase"
   },
   "verifySeedPhraseDescription": {
-    "message": "Füllen Sie die leeren Felder mit den Wörtern aus, um Ihre Passphrase zu überprüfen"
+    "message": "Fülle die Lücken mit den Wörtern aus, um die Recovery Phrase zu bestätigen"
   },
   "versionLabel": {
     "message": "Version: $version$",
@@ -1504,13 +1504,13 @@
     "message": "Über"
   },
   "viewAccountAddressWarning": {
-    "message": "Diese Website fordert den Zugriff an, um Ihre Kontoadresse anzuzeigen. Stellen Sie immer sicher, dass Sie den Websites vertrauen, mit denen Sie interagieren."
+    "message": "Diese Website fordert den Zugriff an, um deine Kontoadresse anzuzeigen. Stelle immer sicher, dass die Websites, mit denen du interagierst, vertrauensvoll sind."
   },
   "viewAll": {
     "message": "Alle ansehen"
   },
   "watchOnlyAccount": {
-    "message": "Beobachten"
+    "message": "Signum-Adresse"
   },
   "website": {
     "message": "Website"
@@ -1530,22 +1530,22 @@
     "message": "Ja"
   },
   "youWillNeedThisSeedPhrase": {
-    "message": "Wenn Sie jemals zwischen Browsern oder Geräten wechseln, benötigen Sie diese Passphrase, um auf Ihre Konten zuzugreifen."
+    "message": "Wenn Du jemals den Browser oder das Gerät wechselst, benötigst Du diesen Recovery Phrase, um auf dein Konto zuzugreifen."
   },
   "yourBalanceIsZero": {
     "message": "Ihr Guthaben ist null."
   },
   "zeroCollectibleText": {
-    "message": "Sie haben noch keine Sammlerstücke!\nGuter Zeitpunkt, um eins zu erhalten"
+    "message": "Du hast noch keine Sammlerstücke!\nGuter Zeitpunkt, um eins zu erhalten"
   },
   "addressBalanceDescription": {
-    "message": "Nachdem Sie ein Konto erstellt haben, erhalten Sie eine eindeutige Adresse – Ihre persönliche Kennung in der Signum-Blockchain. Sie benötigen diese Adresse, um SIGNA zu empfangen und Transaktionen auszuführen, d. h. SIGNA zu senden, Nachrichten zu senden, mit Smart Contracts zu interagieren, Token zu erstellen usw."
+    "message": "Nachdem Du ein Konto erstellt hast, erhältst du eine eindeutige Adresse – Deine persönliche Kennung in der Signum-Blockchain. Du benötigst diese Adresse, um SIGNA zu empfangen und Transaktionen auszuführen, d. h. SIGNA zu senden, Nachrichten zu senden, mit Smart Contracts zu interagieren, Token zu erstellen usw."
   },
   "addressBalanceHint": {
-    "message": "Die Adresse wird als <b>S-A1B2-...</b> für das Hauptnetz oder <b>TS-A1B2-...</b> für das Testnetz dargestellt. Wenn Sie für Ihr Konto einen <b>Alias</b>-Namen erworben haben, wird dieser ebenfalls angezeigt. Sobald Sie ein positives Guthaben haben, wird es unter Ihrer Adresse angezeigt."
+    "message": "Die Adresse wird als <b>S-A1B2-...</b> für das Hauptnetz oder <b>TS-A1B2-...</b> für das Testnetz dargestellt. Wenn du für dein Konto einen <b>Alias</b>-Namen erworben hast, wird dieser ebenfalls angezeigt. Sobald du ein positives Guthaben hast, wird es unter Ihrer Adresse angezeigt."
   },
   "addressBalanceDetails": {
-    "message": "Ihre Adresse und Guthaben"
+    "message": "Deine Adresse und Guthaben"
   },
   "atLeast1SpecialCharacter": {
     "message": "Aufnahme mindestens eines Sonderzeichens, z. B. ! @ # ? ] - (optional, empfohlen)."
@@ -1560,16 +1560,16 @@
     "message": "Alias erstellen/editieren"
   },
   "browserVersionIsOutOfDate": {
-    "message": "Ihre Browserversion ist veraltet, wir empfehlen dringend, auf die neueste Version zu aktualisieren!"
+    "message": "Deine Browserversion ist veraltet, wir empfehlen dringend, auf die neueste Version zu aktualisieren!"
   },
   "congratsDescription1": {
-    "message": "Toll! Sie sind an Bord 🏆"
+    "message": "Super! Du bist mit an Bord 🏆"
   },
   "congratsDescription2": {
-    "message": "Jetzt kennen Sie die grundlegendsten und wichtigsten Funktionen der Signum XT Wallets."
+    "message": "Jetzt kennst du die grundlegendsten und wichtigsten Funktionen der Signum XT Wallet."
   },
   "congratsDescription3": {
-    "message": "Alle Funktionen des Tempels können Sie in unserer „Bildungsreihe“ auf YouTube kennenlernen."
+    "message": "Alle Funktionen des Tempels kannst du in unserer „Bildungsreihe“ auf YouTube kennenlernen."
   },
   "congratsDescription4": {
     "message": "Außerdem sind Anleitungen und Leitfäden in unserer Wissensdatenbank verfügbar."
@@ -1590,25 +1590,25 @@
     "message": "Neu erstellte Konten müssen <b>aus Sicherheitsgründen erst aktiviert</b> werden. Es ist nicht möglich Coins von Börsen an inaktive Konten zu senden."
   },
   "activationDescription2": {
-    "message": "Sollte ein Konto inaktiv sein, weist Sie die Wallet darauf hin und bietet Ihnen die Kontoaktivierung an. Unmittelbar nach der Aktivierung erhalten Sie eine Transaktion, die Ihr Konto aktiviert."
+    "message": "Sollte ein Konto inaktiv sein, weist dich die Wallet darauf hin und bietet dir die Kontoaktivierung an. Unmittelbar nach der Aktivierung erhältst du eine Transaktion, die dein Konto aktiviert und somit besser schützt."
   },
   "activationHint": {
-    "message": "Achten Sie darauf, dass <b>Konten nur innerhalb eines Netzwerkes</b> existieren. Sollten Sie zu einem anderen Netzwerk, z.B. Testnetzwerk, wechseln, erscheint die Meldung zur Aktivierung erneut."
+    "message": "Achte darauf, dass <b>Konten nur innerhalb eines Netzwerkes</b> existieren. Solltest du zu einem anderen Netzwerk, z.B. Testnetzwerk, wechseln, erscheint die Meldung zur Aktivierung erneut."
   },
   "done": {
     "message": "Fertig!"
   },
   "howToStartDescription1": {
-    "message": "Um mit der Nutzung Ihrer Wallet und der Interaktion mit dem Signum DApps-Ökosystem zu beginnen, muss der Kontostand positiv sein, da jede Transaktion Sie eine geringe Gebühr kostet."
+    "message": "Um mit der Nutzung deiner Wallet und der Interaktion mit dem Signum DApps-Ökosystem zu beginnen, muss der Kontostand positiv sein, da jede Transaktion eine geringe Gebühr kostet."
   },
   "howToStartDescription2": {
-    "message": "Sie erhalten SIGNA entweder an einer der Börsen, mittels Schürfen (\"Mining\") auf Festplattern oder auch durch Community-Engagement. Kommen Sie zu uns auf Discord oder Telegram."
+    "message": "Du erhältst SIGNA entweder an einer der Börsen, mittels Schürfen (\"Mining\") auf Festplattern oder auch durch Community-Engagement. Komm zu uns auf Discord oder Telegram."
   },
   "howToStartDetails": {
     "message": "Signa erhalten"
   },
   "howToStartHint": {
-    "message": "Außerdem können Sie Ihre Adresse kopieren oder per QR-Code scannen und Coins von einer anderen Wallet (z.B Phoenix Wallet) oder Börse dorthin senden. Am besten Sie verwenden die „Empfangen“-Aktion auf dem Hauptbildschirm der Wallet."
+    "message": "Außerdem kannst du deine Adresse kopieren oder per QR-Code scannen und Coins von einer anderen Wallet (z.B Phoenix Wallet) oder Börse dorthin senden. Am besten du verwendest die „Empfangen“-Aktion auf dem Hauptbildschirm der Wallet."
   },
   "joinPool": {
     "message": "Pool beitreten"
@@ -1632,19 +1632,19 @@
     "message": "Onboarding"
   },
   "profileRpcDescription": {
-    "message": "Oben auf der Benutzeroberfläche sehen Sie Ihr Kontosymbol. Durch Anklicken öffnet sich ein Menü mit weiteren Aktionen, z.B. Einstellungen und Kontoverwaltung."
+    "message": "Oben auf der Benutzeroberfläche siehst du dein Kontosymbol. Durch Anklicken öffnet sich ein Menü mit weiteren Aktionen, z.B. Einstellungen und Kontoverwaltung."
   },
   "profileRpcDetails": {
     "message": "Profil- und Netzwerkknoten"
   },
   "profileRpcHint1": {
-    "message": "Unter Ihrem Kontonamen sehen Sie die Auswahl „Netzwerke“, mit der Sie einen Knoten auswählen können, mit dem Ihre Wallet verbunden wird.\nHauptnetzknoten sind grünlich, während Testnetzknoten orangefarbene Anzeigen haben. Testnetzknoten dienen zum Experimentieren, ohne echtes Geld zu verwenden"
+    "message": "Unter deinem Kontonamen siehst du die Auswahl „Netzwerke“, mit der du einen Knoten auswählen kannst, mit dem die Wallet verbunden wird.\nHauptnetzknoten sind grünlich, während Testnetzknoten orangefarbene Anzeigen haben. Testnetzknoten dienen zum Experimentieren, ohne echtes Geld zu verwenden"
   },
   "profileRpcHint2": {
-    "message": "Wenn Ihr Guthaben nicht angezeigt wird, versuchen Sie, den Knoten zu ändern."
+    "message": "Wenn dein Guthaben nicht angezeigt wird, versuche den Knoten zu ändern."
   },
   "profileRpcHint3": {
-    "message": "Sie können aus einer vordefinierten Liste auswählen oder Knoten manuell im Abschnitt Einstellungen hinzufügen"
+    "message": "Du kannst aus einer vordefinierten Liste auswählen oder Knoten manuell im Abschnitt Einstellungen hinzufügen"
   },
   "removeCommitment": {
     "message": "Commitment zurücknehmen"
@@ -1653,16 +1653,16 @@
     "message": "Los geht's"
   },
   "tokensCollectibleDescription1": {
-    "message": "Ihr Guthaben an FA1.2- und FA2-Token wird auf der Registerkarte „Tokens“ angezeigt."
+    "message": "Dein Guthaben an FA1.2- und FA2-Token wird auf der Registerkarte „Tokens“ angezeigt."
   },
   "tokensCollectibleDescription2": {
-    "message": "Sie können Adressen von jedem Token senden, überprüfen oder Vertragsadressen prüfen, indem Sie in diesem Abschnitt darauf klicken."
+    "message": "Du kannst Adressen von jedem Token senden, überprüfen oder Vertragsadressen prüfen, indem du in diesem Abschnitt darauf klickst."
   },
   "tokensCollectibleDetails": {
     "message": "Token & Sammlerstück"
   },
   "tokensCollectibleHint": {
-    "message": "Ihre Non-Fungible Tokens (NFT) werden auf der Registerkarte „Collectibles“ angezeigt. Hier können Sie auch mit Ihren eigenen NFTs interagieren, ihre vollständige Ansicht, ID und Vertragsadresse anzeigen."
+    "message": "Dein Non-Fungible Tokens (NFT) werden auf der Registerkarte „Collectibles“ angezeigt. Hier kannst Du auch mit deinen eigenen NFTs interagieren, ihre vollständige Ansicht, ID und Vertragsadresse anzeigen."
   },
   "updateAccountInfo": {
     "message": "Aktualisierung der Kontoinformationen"
@@ -1674,10 +1674,10 @@
     "message": "Achtung"
   },
   "attentionDescription": {
-    "message": "Geben Sie niemals und unter keinen Umständen Ihre privaten Schlüssel und Seed-Phrase an Dritte weiter."
+    "message": "Gib niemals und unter keinen Umständen deine privaten Schlüssel und Recovery-Phrase an Dritte weiter."
   },
   "attentionListItem1": {
-    "message": "Ihre Wallet kann über einen Browser-Zero-Day-Exploit oder über eine andere installierte schädliche Erweiterung angegriffen werden;"
+    "message": "Deine Wallet kann über einen Browser-Zero-Day-Exploit oder über eine andere installierte schädliche Erweiterung angegriffen werden;"
   },
   "attentionListItem2": {
     "message": "Der Bildschirm kann möglicherweise durch im System installierte Schadsoftware manipuliert werden;"
@@ -1689,28 +1689,28 @@
     "message": "Die Wahl schwacher Passwörter kann die Fähigkeit einer Wallet verringern, gegnerischem Brute-Forcing zu widerstehen."
   },
   "attentionListItem5": {
-    "message": "Verschieben Sie Ihr Geld so schnell wie möglich von der „heißen“ Wallets in die „kalte“;"
+    "message": "Verschiebe deine Geld so schnell wie möglich von der „heißen“ Wallets in die „kalte“;"
   },
   "attentionListItem6": {
-    "message": "Verwenden Sie separate Browser für das Surfen im Internet und den Betrieb von Brieftaschen."
+    "message": "Verwende separate Browser für das Surfen im Internet und den Betrieb von Brieftaschen."
   },
   "attentionListItem7": {
-    "message": "Verwenden Sie jeweils nur eine Registerkarte eines Browsers, um Transaktionen durchzuführen;"
+    "message": "Verwende jeweils nur eine Registerkarte eines Browsers, um Transaktionen durchzuführen;"
   },
   "attentionListItem8": {
-    "message": "Halten Sie die Wallet geblockt, wenn sie nicht verwendet wird."
+    "message": "Halte die Wallet geblockt, wenn sie nicht verwendet wird."
   },
   "attentionListTitle1": {
-    "message": "Denken Sie auch daran:"
+    "message": "Denke auch daran:"
   },
   "attentionListTitle2": {
-    "message": "Um Ihr Guthaben zu schützen, empfehlen wir:"
+    "message": "Um dein Guthaben zu schützen, empfehlen wir:"
   },
   "readMore": {
-    "message": "Lesen Sie mehr von der"
+    "message": "Lies mehr von der"
   },
   "takeCare": {
-    "message": "Seien Sie aufmerksam in der Kryptowelt!"
+    "message": "Sei aufmerksam in der Kryptowelt!"
   },
   "thanks": {
     "message": "Ok!"
@@ -1719,46 +1719,46 @@
     "message": "Beispiel"
   },
   "createWalletDescription": {
-    "message": "Erstellen Sie ein Signum-Wallet-Konto und Sie können:"
+    "message": "Erstelle ein Signum-Wallet-Konto und du kannst:"
   },
   "createWalletDescriptionOption1": {
     "message": "Signa senden und empfangen."
   },
   "createWalletDescriptionOption2": {
-    "message": "Verbinden und interagieren Sie mit Signum DApps."
+    "message": "Mit Signum DApps verbinden und interagieren."
   },
   "accountActivationAlertTitle": {
     "message": "Konto nicht aktiviert"
   },
   "accountActivationAlertDescription": {
-    "message": "Dieses Konto ist noch nicht vollständig in der Blockchain registriert. Bitte aktivieren Sie Ihr Konto, um seine Sicherheit zu gewährleisten und es für alle Dienste, einschließlich Börsen, vollständig nutzbar zu machen."
+    "message": "Dieses Konto ist noch nicht vollständig in der Blockchain registriert. Bitte aktiviere dein Konto, um seine Sicherheit zu gewährleisten und es für alle Dienste, einschließlich Börsen, vollständig nutzbar zu machen."
   },
   "activationFailed": {
     "message": "Oh nein, die Aktivierung ist fehlgeschlagen."
   },
   "cantConnectToNetworkHint": {
-    "message": "Versuchen Sie, einen anderen Knoten auszuwählen, oder überprüfen Sie Ihre Internetverbindung."
+    "message": "Versuche einen anderen Knoten auszuwählen, oder überprüfe deine Internetverbindung."
   },
   "accountActivationSuccessDescription": {
-    "message": "Willkommen bei Signum! Falls noch nicht sichtbar, erhalten Sie in wenigen Augenblicken eine eingehende Aktivierungstransaktion."
+    "message": "Willkommen bei Signum! Falls noch nicht sichtbar, erhältst du in wenigen Augenblicken eine eingehende Aktivierungstransaktion."
   },
   "accountActivationSuccessTitle": {
     "message": "Konto erfolgreich aktiviert"
   },
   "attachmentDescription": {
-    "message": "Sie können dieser Transaktion einige Text- oder Binärdaten anhängen. Hier geben Sie auch das von vielen Börsen geforderte Memo ein"
+    "message": "Du kannst dieser Transaktion einige Text- oder Binärdaten anhängen. Hier gib auch das von einigen Börsen geforderte Memo ein"
   },
   "attachmentIsBinary": {
     "message": "Angehängte Daten sind binär"
   },
   "attachmentIsBinaryDescription": {
-    "message": "Binäre Daten werden in hexadezimaler Form codiert und hauptsächlich für Smart Contract-Aufrufe verwendet. Verwenden Sie diese Option nur, wenn Sie wissen, was Sie tun"
+    "message": "Binäre Daten werden in hexadezimaler Form codiert und hauptsächlich für Smart Contract-Aufrufe verwendet. Verwende diese Option nur, wenn du weisst, was du tust."
   },
   "currentNetworkNode": {
     "message": "Aktueller Netzwerkknoten"
   },
   "enterHexCode": {
-    "message": "Geben Sie Hexadezimaldaten ein"
+    "message": "Gib Hexadezimaldaten ein"
   },
   "enterText": {
     "message": "Textnachricht eingeben"
@@ -1786,7 +1786,7 @@
         "content": "$1"
       }
     },
-    "message": "Ihr aktuell ausgewählter Knoten gehört nicht zum angeforderten Netzwerk: $networkName$. Bitte wählen Sie einen anderen Knoten aus und versuchen Sie es erneut"
+    "message": "Der aktuell ausgewählter Knoten gehört nicht zum angeforderten Netzwerk: $networkName$. Bitte wähle einen anderen Knoten aus und versuche es erneut"
   },
   "selectOtherLanguage": {
     "message": "Andere Sprache wählen"
@@ -1801,7 +1801,7 @@
     "message": "Konto hat keinen öffentlichen Schlüssel. Der Import von inaktiven Konten oder Smart Contracts ist nicht möglich."
   },
   "confirmConnectionHint": {
-    "message": "Ihre Verbindung ist an diese DApp-URL und das angeforderte Netzwerk gebunden. Sie können Ihr Konto oder Ihren Netzwerkknoten ändern, während Sie mit der DApp verbunden sind"
+    "message": "Deine Verbindung ist an diese DApp-URL und das angeforderte Netzwerk gebunden. Du kannst dein Konto oder deinen Netzwerkknoten ändern, während du mit der DApp verbunden bist."
   },
   "currentAccount": {
     "message": "Aktuelles Konto"
@@ -1812,7 +1812,7 @@
         "content": "$1"
       }
     },
-    "message": "Diese neue Version bietet neue wichtige Funktionen und Verbesserungen. Leider ist die vorherige Version $previousVersion$ nicht mit dieser Version kompatibel und ein Zurücksetzen ist erforderlich.<b>Ihre Konten und Guthaben sind gesichert und es gibt keinen Verlust.</b> Sie müssen jedoch Ihre Konten, Kontakte und DApp-Berechtigungen erneut importieren . Wir entschuldigen uns für die Unannehmlichkeiten und danken Ihnen für Ihr Verständnis."
+    "message": "Diese neue Version bietet neue wichtige Funktionen und Verbesserungen. Leider ist die vorherige Version $previousVersion$ nicht mit dieser Version kompatibel und ein Zurücksetzen ist erforderlich.<b>Deine Konten und Guthaben sind gesichert und es gibt keinen Verlust.</b> Du musst jedoch deine Konten, Kontakte und DApp-Berechtigungen erneut importieren . Wir entschuldigen uns für die Unannehmlichkeiten und danken für dein Verständnis."
   },
   "optionsPageWarningResetRequiredTitle": {
     "message": "Neues wichtiges Update erfordert einen Reset"
@@ -1824,7 +1824,7 @@
     "message": "🔐 Angehängte Daten sind verschlüsselt"
   },
   "attachmentIsEncryptedDescription": {
-    "message": "Die angehängten Daten werden Ende-zu-Ende verschlüsselt und sind nur für Sie und den Empfänger lesbar. Beachten Sie, dass Smart Contracts verschlüsselte Nachrichten nicht verarbeiten können"
+    "message": "Die angehängten Daten werden Ende-zu-Ende verschlüsselt und sind nur für dich und den Empfänger lesbar. Beachte, dass Smart Contracts verschlüsselte Nachrichten nicht verarbeiten können"
   },
   "clickToReveal": {
     "message": "Zum Ansehen klicken"
@@ -1865,7 +1865,7 @@
     "message": "Münzprägung"
   },
   "pleaseCloseAndOpenWallet": {
-    "message": "Bitte öffnen Sie die Wallet erneut und versuchen Sie es erneut."
+    "message": "Bitte öffne Wallet erneut und versuche es noch einmal."
   },
   "portDisconnectionIssue": {
     "message": "Interner Kommunikationsport wurde getrennt."
@@ -1907,7 +1907,7 @@
     "message": "Verkaufsauftrag erstellen"
   },
   "deleteAllTokensConfirm": {
-    "message": "Möchten Sie wirklich alle hinzugefügten Token löschen?"
+    "message": "Möchtest du wirklich alle hinzugefügten Token löschen?"
   },
   "distribution": {
     "message": "Verteilung"
@@ -1979,7 +1979,7 @@
     "message": "Token bereits hinzugefügt"
   },
   "tokenNotFoundDescription": {
-    "message": "Unter der angegebenen Token-ID $tokenId$ wurde in kein Token gefunden. Bitte überprüfen Sie die Token-ID oder das ausgewählte Netzwerk",
+    "message": "Unter der angegebenen Token-ID $tokenId$ wurde in kein Token gefunden. Bitte überprüfe die Token-ID oder das ausgewählte Netzwerk",
     "placeholders": {
       "tokenId": {
         "content": "$1"
@@ -2000,5 +2000,112 @@
   },
   "aliasSell": {
     "message": "Alias verkaufen"
+  },
+  "nostrAccount": {
+    "message": "Nostr-Konto"
+  },
+  "viewNostrAccount": {
+    "message": "Nostr-Konto anzeigen"
+  },
+  "nostrAccountDescription": {
+    "message": "Hier kannst Du alle Details zu deinem nostr-Konto sie, wie Schlüssel und Verifizierungsstatus."
+  },
+  "nostrAccountImport": {
+    "message": "Zusätzlich als Nostr Account importieren"
+  },
+  "enterSecretToReveal": {
+    "message": "Gib das Passwort ein, um es anzuzeigen"
+  },
+  "nostrPrivateKeyDescription": {
+    "message": "Wenn du dein Nostr-Konto in andere Anwendungen importieren möchtest, benötigst du deinen privaten Schlüssel. Gib dein Passwort ein, um deinen privaten Schlüssel anzuzeigen."
+  },
+  "nostrPrivateKeyLabel": {
+    "message": "Privater Schlüssel"
+  },
+  "enterPasswordToRevealKey": {
+    "message": "Gib dein Passwort ein, um den privaten Schlüssel anzuzeigen."
+  },
+  "nostrKeysEncodedDescription": {
+    "message": "Nostr-Schlüssel können gemäß NIP-19 in verschlüsselter Form dargestellt werden, sodass Schlüsseln entweder „npub“ oder „nsec“ vorangestellt wird."
+  },
+  "encodeNostrKeys": {
+    "message": "Kodiert anzeigen"
+  },
+  "nostrPublicKeyLabel": {
+    "message": "Öffentlicher Schlüssel"
+  },
+  "nostrPublicKeyDescription": {
+    "message": "Der öffentliche Schlüssel wird verwendet, damit andere dich finden und kontaktieren können."
+  },
+  "noNostrAccount": {
+    "message": "Kein Nostr-Konto"
+  },
+  "noNostrAccountDescription": {
+    "placeholders": {
+      "account": {
+        "content": "$1"
+      }
+    },
+    "message": "Dem ausgewählten Konto $account$ sind keine Nostr-Keys zugeordnet. Möglicherweise möchtest du dieses Konto mithilfe der Wiederherstellungsphrase importieren und den Nostr-Import aktivieren."
+  },
+  "nostrPrivateKey": {
+    "message": "Nostr Privater Schlüssel"
+  },
+  "nostrAccountImportDescription": {
+    "message": "Du kannst die Signum Recovery Phrase verwenden um einen Nostr Account zu generieren. Wenn du die Option auswählst ist es moeglich die Wallet auch mit Nostr Clients zu verwenden. Die generierten Schlüssel kannst Du in den Einstellungen einsehen."
+  },
+  "importAccountRecoveryPhraseDescription": {
+    "message": "Mit der Recovery Phrase kannst du ein Konto vollständig importieren. Du kannst dann Transaktionen ausgeführen und DApps können auch die Ausführung von Transaktionen beantragen. Deine Signierungsschlüssel werden verschlüsselt und ausschliesslich auf dieser Browser-Instanz gespeichert."
+  },
+  "importAccountWatchOnlyDescription": {
+    "message": "Wenn du nur eine Konto-Adresse oder Konto-Id zum Importieren verwendest, ist es nicht möglich Transaktionen auszuführen. Du kannst das importierte Konto lediglich beobachten. "
+  },
+  "importAccountNostrPrivKeyDescription": {
+    "message": "Wenn du ein Nostr Konto, aber kein Signum Konto hast, kannst du deinen privaten Nostr Schlüssel verwenden, um zu deinem bestehenden Nostr Account ein passendes Signum Konto zu erstellen. Du kannst den privaten Nostr Schlüssel auch in anderen Signum Wallets verwenden."
+  },
+  "nostrPrivateKeyInputLabel": {
+    "message": "Privater Nostr-Schlüssel"
+  },
+  "nostrPrivateKeyInputDescription": {
+    "message": "Nostr privater Schlüssel in hexadezimaler oder nsec (NIP19) Form."
+  },
+  "nostrPrivateKeyInputPlaceholder": {
+    "message": "nsec1c7m0..., c7b6ff7e18...."
+  },
+  "nostrPrivateKeyInputWarning": {
+    "message": "Ungültiger Schlüssel"
+  },
+  "nostrRelays": {
+    "message": "Nostr Relays"
+  },
+  "nostrRelaysDescription": {
+    "message": "Hier kannst du Nostr-Relais hinzufügen und entfernen."
+  },
+  "nostrRelayUrl": {
+    "message": "Nostr-Relay-URL"
+  },
+  "nostrRelayRead": {
+    "message": "Leseberechtigung"
+  },
+  "nostrRelayWrite": {
+    "message": "Schreibberechtigung"
+  },
+  "nostrRelayWriteDescription": {
+    "message": "Das Relais ermöglicht das Posten von Ereignissen."
+  },
+  "nostrRelayReadDescription": {
+    "message": "Das Relais ermöglicht das Lesen von Ereignissen."
+  },
+  "addNostrRelay": {
+    "message": "Relais hinzufügen"
+  },
+  "currentNostrRelays": {
+    "message": "Aktuelle Nostr-Relais"
+  },
+  "nostrRelayReachable": {
+    "message": "Relais erreichbar"
+  },
+  "nostrRelayNotReachable": {
+    "message": "Relais nicht erreichbar"
   }
 }

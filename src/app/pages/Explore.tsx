@@ -4,6 +4,8 @@ import classNames from 'clsx';
 import { QRCode } from 'react-qr-svg';
 import { Props as TippyProps } from 'tippy.js';
 
+import CopyButton from 'app/atoms/CopyButton';
+import HashShortView from 'app/atoms/HashShortView';
 import Spinner from 'app/atoms/Spinner';
 import { useAppEnv } from 'app/env';
 import ErrorBoundary from 'app/ErrorBoundary';
@@ -30,6 +32,7 @@ import AddressChip from './Explore/AddressChip';
 import EditableTitle from './Explore/EditableTitle';
 import { useOnboardingProgress } from './Onboarding/hooks/useOnboardingProgress.hook';
 import Onboarding from './Onboarding/Onboarding';
+import { NostrAddressChip } from 'app/pages/Explore/NostrAddressChip';
 
 type ExploreProps = {
   tokenId: string;
@@ -86,11 +89,12 @@ const Explore: FC<ExploreProps> = ({ tokenId }) => {
             <Alert type="error" title={t('cantConnectToNetwork')} description={t('cantConnectToNetworkHint')} />
           </div>
         )}
-        <div className="flex flex-row justify-between items-center mb-6">
+        <NostrAddressChip account={account} className="mb-2" />
+        <div className="flex flex-row justify-between items-center mb-2">
           <div className="p-1 bg-gray-100 border-2 border-gray-300 rounded" style={{ maxWidth: '64px' }}>
             <QRCode bgColor="#f7fafc" fgColor="#000000" level="Q" style={{ width: '100%' }} value={account.accountId} />
           </div>
-          <AddressChip account={account} />
+          <AddressChip account={account} className="ml-2" />
         </div>
         <AssetBanner accountId={account.accountId} tokenId={tokenId} />
 

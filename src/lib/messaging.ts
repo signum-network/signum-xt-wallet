@@ -67,6 +67,7 @@ export interface XTAccountBase {
   type: XTAccountType;
   name: string;
   publicKey: string;
+  publicKeyNostr?: string;
   accountId: string;
   isActivated?: boolean;
   hdIndex?: number;
@@ -106,8 +107,15 @@ export interface Contact {
   accountInWallet?: boolean;
 }
 
+export interface NostrRelayPolicy {
+  read: boolean;
+  write: boolean;
+}
+
+export type NostrRelays = Record<string, NostrRelayPolicy>;
 export interface XTSettings {
   customNetworks?: Network[];
+  nostrRelays?: NostrRelays;
   lambdaContracts?: Record<string, string>;
   contacts?: Contact[];
 }
@@ -204,8 +212,8 @@ export enum XTMessageType {
   CreateAccountResponse = 'XT_CREATE_ACCOUNT_RESPONSE',
   RevealPublicKeyRequest = 'XT_REVEAL_PUBLIC_KEY_REQUEST',
   RevealPublicKeyResponse = 'XT_REVEAL_PUBLIC_KEY_RESPONSE',
-  RevealPrivateKeyRequest = 'XT_REVEAL_PRIVATE_KEY_REQUEST',
-  RevealPrivateKeyResponse = 'XT_REVEAL_PRIVATE_KEY_RESPONSE',
+  RevealNostrPrivateKeyRequest = 'XT_REVEAL_NOSTR_PRIVATE_KEY_REQUEST',
+  RevealNostrPrivateKeyResponse = 'XT_REVEAL_NOSTR_PRIVATE_KEY_RESPONSE',
   RevealMnemonicRequest = 'XT_REVEAL_MNEMONIC_REQUEST',
   RevealMnemonicResponse = 'XT_REVEAL_MNEMONIC_RESPONSE',
   RemoveAccountRequest = 'XT_REMOVE_ACCOUNT_REQUEST',
@@ -218,6 +226,8 @@ export enum XTMessageType {
   ImportAccountResponse = 'XT_IMPORT_ACCOUNT_RESPONSE',
   ImportMnemonicAccountRequest = 'XT_IMPORT_MNEMONIC_ACCOUNT_REQUEST',
   ImportMnemonicAccountResponse = 'XT_IMPORT_MNEMONIC_ACCOUNT_RESPONSE',
+  ImportNostrAccountRequest = 'XT_IMPORT_NOSTR_ACCOUNT_REQUEST',
+  ImportNostrAccountResponse = 'XT_IMPORT_NOSTR_ACCOUNT_RESPONSE',
   ImportFundraiserAccountRequest = 'XT_IMPORT_FUNDRAISER_ACCOUNT_REQUEST',
   ImportFundraiserAccountResponse = 'XT_IMPORT_FUNDRAISER_ACCOUNT_RESPONSE',
   ImportManagedKTAccountRequest = 'XT_IMPORT_MANAGED_KT_ACCOUNT_REQUEST',
@@ -274,12 +284,13 @@ export type TempleRequest =
   | TempleLockRequest
   | TempleCreateAccountRequest
   | TempleRevealPublicKeyRequest
-  | TempleRevealPrivateKeyRequest
+  | TempleRevealNostrPrivateKeyRequest
   | TempleRevealMnemonicRequest
   | TempleActivateAccountRequest
   | TempleEditAccountRequest
   | TempleImportAccountRequest
   | TempleImportMnemonicAccountRequest
+  | TempleImportNostrAccountRequest
   | TempleImportFundraiserAccountRequest
   | TempleImportManagedKTAccountRequest
   | TempleImportWatchOnlyAccountRequest
@@ -309,12 +320,13 @@ export type TempleResponse =
   | TempleLockResponse
   | TempleCreateAccountResponse
   | TempleRevealPublicKeyResponse
-  | TempleRevealPrivateKeyResponse
+  | TempleRevealNostrPrivateKeyResponse
   | TempleRevealMnemonicResponse
   | TempleActivateAccountResponse
   | TempleEditAccountResponse
   | TempleImportAccountResponse
   | TempleImportMnemonicAccountResponse
+  | TempleImportNostrAccountResponse
   | TempleImportFundraiserAccountResponse
   | TempleImportManagedKTAccountResponse
   | TempleImportWatchOnlyAccountResponse
@@ -439,14 +451,14 @@ export interface TempleRevealPublicKeyResponse extends TempleMessageBase {
   publicKey: string;
 }
 
-export interface TempleRevealPrivateKeyRequest extends TempleMessageBase {
-  type: XTMessageType.RevealPrivateKeyRequest;
-  accountPublicKeyHash: string;
+export interface TempleRevealNostrPrivateKeyRequest extends TempleMessageBase {
+  type: XTMessageType.RevealNostrPrivateKeyRequest;
+  accountPublicKey: string;
   password: string;
 }
 
-export interface TempleRevealPrivateKeyResponse extends TempleMessageBase {
-  type: XTMessageType.RevealPrivateKeyResponse;
+export interface TempleRevealNostrPrivateKeyResponse extends TempleMessageBase {
+  type: XTMessageType.RevealNostrPrivateKeyResponse;
   privateKey: string;
 }
 
@@ -503,10 +515,21 @@ export interface TempleImportMnemonicAccountRequest extends TempleMessageBase {
   type: XTMessageType.ImportMnemonicAccountRequest;
   mnemonic: string;
   name?: string;
+  withNostr?: boolean;
 }
 
 export interface TempleImportMnemonicAccountResponse extends TempleMessageBase {
   type: XTMessageType.ImportMnemonicAccountResponse;
+}
+
+export interface TempleImportNostrAccountRequest extends TempleMessageBase {
+  type: XTMessageType.ImportNostrAccountRequest;
+  nsecOrHex: string;
+  name?: string;
+}
+
+export interface TempleImportNostrAccountResponse extends TempleMessageBase {
+  type: XTMessageType.ImportNostrAccountResponse;
 }
 
 export interface TempleImportFundraiserAccountRequest extends TempleMessageBase {
