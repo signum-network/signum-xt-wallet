@@ -78,16 +78,6 @@ function injectNostrProvider() {
 async function getPublicKeyRequest() {
   let response = await request({ type: NostrExtensionMessageType.GetPublicKeyRequest });
   assertResponse(response.type === NostrExtensionMessageType.GetPublicKeyResponse);
-  if (response.publicKey) {
-    return response.publicKey;
-  }
-  response = await request({
-    type: NostrExtensionMessageType.PermissionRequest,
-    appMeta: {
-      name: window.location.host
-    }
-  });
-  assertResponse(response.type === NostrExtensionMessageType.PermissionResponse);
   return response.publicKey;
 }
 

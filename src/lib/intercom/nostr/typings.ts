@@ -19,8 +19,8 @@ export interface NostrExtensionMessageBase {
 export enum NostrExtensionMessageType {
   GetPublicKeyRequest = 'NOSTR_GET_PUBLIC_KEY_REQUEST',
   GetPublicKeyResponse = 'NOSTR_GET_PUBLIC_KEY_RESPONSE',
-  PermissionRequest = 'NOSTR_PERMISSION_REQUEST',
-  PermissionResponse = 'NOSTR_PERMISSION_RESPONSE',
+  PermissionRequest = 'PERMISSION_REQUEST', // uses same permission request as signum dapps
+  PermissionResponse = 'PERMISSION_RESPONSE', // uses same permission request as signum dapps
   SignRequest = 'NOSTR_SIGN_REQUEST',
   SignResponse = 'NOSTR_SIGN_RESPONSE',
   SendEncryptedMessageRequest = 'NOSTR_SEND_ENCRYPTED_MSG_REQUEST',

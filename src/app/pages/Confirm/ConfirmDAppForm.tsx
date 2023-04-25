@@ -195,7 +195,9 @@ const ConfirmDAppForm: FC = () => {
     }
   }, [payload.type, payload.origin, payload.appMeta.name, error]);
 
-  const hasCorrectNetwork = payload.network === network.networkName;
+  const isNostr = payload.network.toLowerCase() === 'nostr';
+  const hasCorrectNetwork = payload.network === network.networkName || isNostr;
+  const isCorrectNostrAccount = isNostr ? !!account.publicKeyNostr : true;
 
   return (
     <CustomRpsContext.Provider value={payload.network}>
@@ -251,6 +253,12 @@ const ConfirmDAppForm: FC = () => {
                   {message => <p className="mb-4 text-xs font-medium text-center text-red-500">{message}</p>}
                 </T>
               )}
+
+              {!isCorrectNostrAccount && (
+                <T id="notNostrAccount">
+                  {message => <p className="mb-4 text-xs font-medium text-center text-red-500">{message}</p>}
+                </T>
+              )}
               <PayloadContent payload={payload} accountPkhToConnect={accountToConnect} />
             </>
           )}
@@ -279,7 +287,7 @@ const ConfirmDAppForm: FC = () => {
               className="justify-center w-full"
               loading={confirming}
               onClick={handleConfirmClick}
-              disabled={!hasCorrectNetwork}
+              disabled={!hasCorrectNetwork || !isCorrectNostrAccount}
               testID={content.confirmActionTestID}
             >
               {content.confirmActionTitle}

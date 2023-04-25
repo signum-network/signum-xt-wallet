@@ -13,10 +13,13 @@ type NetworkBannerProps = {
 
 const NetworkBanner: FC<NetworkBannerProps> = ({ networkName, narrow = false }) => {
   const allNetworks = useAllNetworks();
-  const networkIsKnown = useMemo(
-    () => allNetworks.some(n => n.networkName === networkName),
-    [allNetworks, networkName]
-  );
+  const networkIsKnown = useMemo(() => {
+    if (networkName.toLowerCase() === 'nostr') {
+      return true;
+    }
+
+    return allNetworks.some(n => n.networkName === networkName);
+  }, [allNetworks, networkName]);
 
   return (
     <div className={classNames('w-full', narrow ? '-mt-1 mb-2' : 'mb-4', 'flex flex-col')}>

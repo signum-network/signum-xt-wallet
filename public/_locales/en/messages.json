@@ -1900,6 +1900,9 @@
       }
     }
   },
+  "notNostrAccount": {
+    "message": "Your currently selected account is not a Nostr account. Please, select a correct account and retry"
+  },
   "currentNetworkNode": {
     "message": "Current Network Node"
   },

@@ -26,7 +26,7 @@ export async function getPublicKey(
 
   return new Promise(async (resolve, reject) => {
     const id = uuid();
-
+    const host = new URL(origin).host;
     await requestConfirm({
       id,
       payload: {
@@ -34,7 +34,7 @@ export async function getPublicKey(
         origin,
         network: 'Nostr',
         appMeta: {
-          name: origin
+          name: host
         }
       },
       onDecline: () => {
@@ -47,7 +47,7 @@ export async function getPublicKey(
             await setDApp(origin, {
               network: 'Nostr',
               appMeta: {
-                name: origin
+                name: host
               }
             });
             resolve({
