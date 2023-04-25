@@ -81,6 +81,15 @@ async function getPublicKeyRequest() {
   return response.publicKey;
 }
 
+async function signEvent(event: NostrEvent) {
+  let response = await request({
+    type: NostrExtensionMessageType.SignRequest,
+    event
+  });
+  assertResponse(response.type === NostrExtensionMessageType.SignResponse);
+  return response.event;
+}
+
 /**
  * Establish connection to nostr-provider.js and forwards incoming messages to background script
  */
@@ -100,6 +109,10 @@ export function initializeNostrBridge() {
           response = await getPublicKeyRequest();
           break;
         case 'signEvent':
+          if (message.data.params.event) {
+            response = await signEvent(message.data.params.event);
+          }
+          break;
         case 'getRelays':
         case 'nip04.encrypt':
         case 'nip04.decrypt':

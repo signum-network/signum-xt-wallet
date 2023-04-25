@@ -66,9 +66,3 @@ export async function getNetworkHosts(networkName: string) {
   const allNetworks = [...NETWORKS, ...(customNetworksSnapshot ?? [])] as Network[];
   return allNetworks.filter(n => !n.disabled && !n.hidden && n.networkName === networkName);
 }
-
-export async function getNostrRelays() {
-  const { nostr_relays_snapshot } = await browser.storage.local.get('nostr_relays_snapshot');
-
-  return nostr_relays_snapshot as NostrRelays;
-}

@@ -11,7 +11,7 @@ import browser from 'webextension-polyfill';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
 import { XTAccount, XTAccountType, XTSettings } from 'lib/messaging';
-import { generateNostrKeys, getNostrKeysFromPrivateKey, NostrKeys } from 'lib/nostr';
+import { generateNostrKeys, getNostrKeysFromPrivateKey, NostrKeys, signNostrEvent } from 'lib/nostr';
 import { clearStorage } from 'lib/temple/reset';
 
 import { PublicError } from './defaults';
@@ -310,6 +310,18 @@ export class Vault {
         throw new Error('The signed message could not be verified');
       }
       return generateSignedTransactionBytes(unsignedTransactionBytes, signature);
+    });
+  }
+  async signNostrEvent(signumPublicKey: string, event: any) {
+    return withError('Failed to sign nostr Event', async () => {
+      const privateKey = await this.getNostrPrivateKeyFromSignumPublicKey(signumPublicKey);
+      return signNostrEvent(privateKey, event);
+    });
+  }
+  async getNostrPrivateKeyFromSignumPublicKey(signumPublicKey: string) {
+    return withError('Failed to fetch Nostr private key', () => {
+      const accountId = Address.fromPublicKey(signumPublicKey).getNumericId();
+      return fetchAndDecryptOne<string>(nostrPrivKeyStrgKey(accountId), this.passKey);
     });
   }
 

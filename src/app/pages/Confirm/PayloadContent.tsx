@@ -13,6 +13,7 @@ import { XTAccount, TempleDAppPayload } from 'lib/messaging';
 import { useRelevantAccounts } from 'lib/temple/front';
 
 import IdenticonSignum from '../../atoms/IdenticonSignum';
+import NostrSignView from 'app/templates/NostrSignView/NostrSignView';
 
 const AccountIcon: FC<OptionRenderProps<XTAccount>> = ({ item }) => (
   <IdenticonSignum address={item.publicKey} size={32} className="flex-shrink-0 shadow-xs" />
@@ -70,6 +71,10 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, pa
   }
   if (payload.type === 'sign') {
     return <SignView payload={payload} />;
+  }
+
+  if (payload.type === 'signNostr') {
+    return <NostrSignView payload={payload} />;
   }
 
   if (payload.type === 'sendEncryptedMsg') {

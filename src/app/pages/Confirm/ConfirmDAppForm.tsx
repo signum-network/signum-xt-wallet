@@ -166,6 +166,33 @@ const ConfirmDAppForm: FC = () => {
             </div>
           )
         };
+
+      case 'signNostr':
+        return {
+          title: t('confirmAction', t('transaction').toLowerCase()),
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.SignAction_RejectButton,
+          confirmActionTitle: t('signAction'),
+          confirmActionTestID: ConfirmPageSelectors.SignAction_SignButton,
+          want: (
+            <div className={classNames('mb-2 text-sm text-center text-gray-700', 'flex flex-col items-center')}>
+              <div className="flex items-center justify-center">
+                <DAppLogo origin={payload.origin} size={16} className="mr-1" />
+                <Name className="font-semibold" style={{ maxWidth: '10rem' }}>
+                  {payload.appMeta.name}
+                </Name>
+              </div>
+              <T
+                id="appRequestsToSign"
+                substitutions={[
+                  <Name className="max-w-full text-xs italic" key="origin">
+                    {payload.origin}
+                  </Name>
+                ]}
+              />
+            </div>
+          )
+        };
       case 'sendEncryptedMsg':
         return {
           title: t('sendEncryptedMsgAction'),

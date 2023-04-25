@@ -1,13 +1,17 @@
 import { Event as NostrEvent } from 'nostr-tools';
 
+import { NostrRelays } from 'lib/messaging';
+
 export type NostrExtensionRequest =
   | NostrExtensionGetPublicKeyRequest
+  | NostrExtensionGetRelaysRequest
   | NostrExtensionPermissionRequest
   | NostrExtensionSignRequest
   | NostrExtensionSendEncryptedMessageRequest;
 
 export type NostrExtensionResponse =
   | NostrExtensionGetPublicKeyResponse
+  | NostrExtensionGetRelaysResponse
   | NostrExtensionPermissionResponse
   | NostrExtensionSignResponse
   | NostrExtensionSendEncryptedMessageResponse;
@@ -19,6 +23,8 @@ export interface NostrExtensionMessageBase {
 export enum NostrExtensionMessageType {
   GetPublicKeyRequest = 'NOSTR_GET_PUBLIC_KEY_REQUEST',
   GetPublicKeyResponse = 'NOSTR_GET_PUBLIC_KEY_RESPONSE',
+  GetRelaysRequest = 'NOSTR_GET_RELAYS_REQUEST',
+  GetRelaysResponse = 'NOSTR_GET_RELAYS_RESPONSE',
   PermissionRequest = 'PERMISSION_REQUEST', // uses same permission request as signum dapps
   PermissionResponse = 'PERMISSION_RESPONSE', // uses same permission request as signum dapps
   SignRequest = 'NOSTR_SIGN_REQUEST',
@@ -40,6 +46,15 @@ export interface NostrExtensionGetPublicKeyResponse extends NostrExtensionMessag
   publicKey: string;
 }
 
+export interface NostrExtensionGetRelaysRequest extends NostrExtensionMessageBase {
+  type: NostrExtensionMessageType.GetRelaysRequest;
+}
+
+export interface NostrExtensionGetRelaysResponse extends NostrExtensionMessageBase {
+  type: NostrExtensionMessageType.GetRelaysResponse;
+  relays: NostrRelays;
+}
+
 export interface NostrExtensionPermissionRequest extends NostrExtensionMessageBase {
   type: NostrExtensionMessageType.PermissionRequest;
   appMeta: NostrExtensionDAppMetadata;
@@ -52,7 +67,7 @@ export interface NostrExtensionPermissionResponse extends NostrExtensionMessageB
 
 export interface NostrExtensionSignRequest extends NostrExtensionMessageBase {
   type: NostrExtensionMessageType.SignRequest;
-  payload: string;
+  event: NostrEvent;
 }
 
 export interface NostrExtensionSignResponse extends NostrExtensionMessageBase {
@@ -77,7 +92,8 @@ export interface NostrExtensionSendEncryptedMessageResponse extends NostrExtensi
 export enum NostrExtensionErrorType {
   NotGranted = 'NOT_GRANTED',
   InvalidParams = 'INVALID_PARAMS',
-  InvalidEvent = 'INVALID_EVENT'
+  InvalidEvent = 'INVALID_EVENT',
+  NoNostrAccount = 'NOT_A_NOSTR_ACCOUNT'
 }
 
 export type NostrExtensionPermission = {

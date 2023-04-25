@@ -275,6 +275,12 @@ export async function processDApp(
 
     case NostrExtensionMessageType.GetPublicKeyRequest:
       return withInited(() => NostrDApp.getPublicKey(origin, req));
+
+    case NostrExtensionMessageType.GetRelaysRequest:
+      return withInited(() => NostrDApp.getRelays(origin, req));
+
+    case NostrExtensionMessageType.SignRequest:
+      return withInited(() => NostrDApp.requestSignEvent(origin, req));
   }
 }
 

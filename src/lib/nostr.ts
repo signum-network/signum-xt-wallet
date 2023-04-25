@@ -1,5 +1,5 @@
 import * as secp256k1 from '@noble/secp256k1';
-import { nip19 } from 'nostr-tools';
+import { nip19, Event as NostrEvent, signEvent, validateEvent, getEventHash } from 'nostr-tools';
 
 import { shortenString } from 'lib/shortenString';
 
@@ -74,4 +74,17 @@ export async function encodePubKey(pubKey: string) {
 
 export function shortenPublicKey(pubKey: string): string {
   return shortenString(pubKey, 16, ':');
+}
+
+export function signNostrEvent(privKey: string, event: NostrEvent): NostrEvent {
+  const { publicKey, privateKey } = getNostrKeysFromPrivateKey(privKey);
+
+  if (!event.pubkey) event.pubkey = publicKey;
+  if (!event.id) event.id = getEventHash(event);
+  if (!validateEvent(event)) {
+    throw new Event('Invalid Nostr Event');
+  }
+  event.sig = signEvent(event, privateKey);
+
+  return event;
 }

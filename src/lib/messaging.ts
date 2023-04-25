@@ -161,6 +161,13 @@ export interface TempleDAppConnectPayload extends TempleDAppPayloadBase {
   type: 'connect';
 }
 
+export interface TempleNostrSignPayload extends TempleDAppPayloadBase {
+  type: 'signNostr';
+  sourcePkh: string;
+  nostrPubKey: string;
+  event: object; // Nostr Event Type
+}
+
 export interface TempleDAppSignPayload extends TempleDAppPayloadBase {
   type: 'sign';
   sourcePkh: string;
@@ -180,7 +187,8 @@ export interface TempleDAppSendEncryptedMessagePayload extends TempleDAppPayload
 export type TempleDAppPayload =
   | TempleDAppConnectPayload
   | TempleDAppSignPayload
-  | TempleDAppSendEncryptedMessagePayload;
+  | TempleDAppSendEncryptedMessagePayload
+  | TempleNostrSignPayload;
 
 /**
  * Messages
