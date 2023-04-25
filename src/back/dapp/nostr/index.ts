@@ -1,0 +1,1 @@
+export { getPublicKey } from './getPublicKey';

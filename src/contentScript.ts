@@ -2,8 +2,9 @@ import 'mv3-hot-reload/content';
 import browser from 'webextension-polyfill';
 
 import { debounce } from 'lib/debounce';
-import { IntercomClient } from 'lib/intercom/client';
+import { IntercomClient, SignumPageMessageType, SignumPageMessage } from 'lib/intercom';
 import { serializeError } from 'lib/intercom/helpers';
+import { initializeNostrBridge } from 'lib/intercom/nostr/client';
 import { XTMessageType, TempleResponse } from 'lib/messaging';
 
 async function testIntercomConnection() {
@@ -35,18 +36,9 @@ if (manifest.manifest_version === 3) {
   keepSWAlive();
 }
 
-interface SignumPageMessage {
-  type: SignumPageMessageType;
-  payload: any;
-  reqId?: string | number;
-}
-
-enum SignumPageMessageType {
-  Request = 'SIGNUM_PAGE_REQUEST',
-  Response = 'SIGNUM_PAGE_RESPONSE',
-  ErrorResponse = 'SIGNUM_PAGE_ERROR_RESPONSE'
-}
-
+/**
+ * Coming from a Signum/Nostr compatible extension
+ */
 window.addEventListener(
   'message',
   evt => {
@@ -114,6 +106,9 @@ const AcceptedMessageTypes = new Set([
   XTMessageType.DAppAccountChanged
 ]);
 
+/**
+ * Broadcasted/outgoing messages...
+ */
 function handleWalletNotification(msg: any) {
   if (AcceptedMessageTypes.has(msg?.type)) {
     window.postMessage(msg, window.location.origin);
@@ -129,3 +124,5 @@ function getIntercom() {
   }
   return intercom;
 }
+
+initializeNostrBridge();

@@ -70,7 +70,8 @@ export class Vault {
       const passKey = await Passworder.generateKey(password);
       await clearStorage();
       await browser.storage.local.set({
-        account_publickey: keys.publicKey
+        account_publickey: keys.publicKey,
+        account_type: initialAccount.type
       });
       await encryptAndSaveMany(
         [

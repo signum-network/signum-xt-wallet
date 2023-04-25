@@ -36,11 +36,13 @@ function setDApps(newDApps: DAppSessions) {
 }
 
 export async function getCurrentAccountInfo() {
-  const { account_publickey: publicKey, account_type: type } = await browser.storage.local.get([
-    'account_publickey',
-    'account_type'
-  ]);
+  const {
+    account_publickey: publicKey,
+    account_publickey_nostr: publicKeyNostr,
+    account_type: type
+  } = await browser.storage.local.get(['account_publickey', 'account_publickey_nostr', 'account_type']);
   return {
+    publicKeyNostr,
     publicKey,
     type
   };

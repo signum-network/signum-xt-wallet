@@ -77,12 +77,14 @@ function useReadyTemple() {
   const defaultAcc = allAccounts[0];
   const [accountPkh, updateAccountPkh] = usePassiveStorage('account_publickey', defaultAcc.publicKey);
   const [, updateAccountType] = usePassiveStorage('account_type', defaultAcc.type);
+  const [, updateNostrAccount] = usePassiveStorage('account_publickey_nostr', defaultAcc.publicKeyNostr || '');
 
   const setCurrentAccount = useCallback(
     (account: XTAccount) => {
       templeFront.selectAccount(account.publicKey); // propagate to back and dapp
       updateAccountPkh(account.publicKey);
       updateAccountType(account.type);
+      updateNostrAccount(account.publicKeyNostr || '');
     },
     [updateAccountPkh, updateAccountType, templeFront]
   );
