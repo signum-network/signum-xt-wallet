@@ -1,4 +1,6 @@
+import { getEventHash, validateEvent } from 'nostr-tools';
 import { v4 as uuid } from 'uuid';
+import browser from 'webextension-polyfill';
 
 import {
   NostrExtensionErrorType,
@@ -11,13 +13,35 @@ import { XTMessageType } from 'lib/messaging';
 import { withUnlocked } from '../../store';
 import { getCurrentAccountInfo, getDApp } from '../dapp';
 import { requestConfirm } from '../requestConfirm';
-import { getEventHash, validateEvent } from 'nostr-tools';
+
+async function isAutoConfirmationExpired() {
+  // see AutoConfirmationSelect.tsx
+  const { nostr_confirmation_timeout } = await browser.storage.local.get('nostr_confirmation_timeout');
+
+  if (!nostr_confirmation_timeout) {
+    return true;
+  }
+  const { started = 0, timeout = 0 } = nostr_confirmation_timeout;
+  const elapsed = Math.floor(Date.now() / 1000) - started;
+  console.log('isAutoConfirmationExpired', started, timeout, elapsed);
+
+  if (elapsed > timeout) {
+    // reset it
+    await browser.storage.local.set({ nostr_confirmation_timeout: { started: 0, timeout: 0 } });
+  }
+
+  return elapsed > timeout;
+}
 
 export async function requestSignEvent(
   origin: string,
   req: NostrExtensionSignRequest
 ): Promise<NostrExtensionSignResponse> {
-  const [dApp, account] = await Promise.all([getDApp(origin), getCurrentAccountInfo()]);
+  const [dApp, account, isConfirmationExpired] = await Promise.all([
+    getDApp(origin),
+    getCurrentAccountInfo(),
+    isAutoConfirmationExpired()
+  ]);
 
   // TODO: check if permission is required again!
   if (!dApp) {
@@ -33,6 +57,14 @@ export async function requestSignEvent(
   if (!event.id) event.id = getEventHash(event);
   if (!validateEvent(event)) {
     throw new Event('Invalid Nostr Event');
+  }
+
+  if (!isConfirmationExpired) {
+    const signedEvent = await withUnlocked(({ vault }) => vault.signNostrEvent(account.publicKey, req.event));
+    return {
+      type: NostrExtensionMessageType.SignResponse,
+      event: signedEvent
+    };
   }
 
   return new Promise(async (resolve, reject) => {

@@ -72,10 +72,6 @@ export async function encodePubKey(pubKey: string) {
   return nip19.npubEncode(pubKey);
 }
 
-export function shortenPublicKey(pubKey: string): string {
-  return shortenString(pubKey, 16, ':');
-}
-
 export function signNostrEvent(privKey: string, event: NostrEvent): NostrEvent {
   const { publicKey, privateKey } = getNostrKeysFromPrivateKey(privKey);
 

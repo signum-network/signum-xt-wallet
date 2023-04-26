@@ -207,6 +207,14 @@
       }
     }
   },
+  "appRequestsToSignNostrEvent": {
+    "message": "$origin$ asks you to confirm the event",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
   "appWouldLikeToConnectToYourWallet": {
     "message": "$origin$ wants to connect to your wallet",
     "placeholders": {
@@ -1432,6 +1440,9 @@
   "transaction": {
     "message": "Transaction"
   },
+  "nostrEvent": {
+    "message": "Nostr event"
+  },
   "transactionId": {
     "message": "Transaction ID:"
   },
@@ -2110,5 +2121,20 @@
   },
   "nostrRelayNotReachable": {
     "message": "Relay Not Reachable"
+  },
+  "autoConfirmationTitle": {
+    "message": "Automatic Confirmation"
+  },
+  "autoConfirmationDescription": {
+    "message": "You can enable automatic confirmation for the given period. This way you don't need to confirm each action manually."
+  },
+  "autoConfirmationTimeoutNever": {
+    "message": "Never"
+  },
+  "autoConfirmationTimeoutOneDay": {
+    "message": "One Day"
+  },
+  "autoConfirmationTimeoutOneHour": {
+    "message": "One Hour"
   }
 }

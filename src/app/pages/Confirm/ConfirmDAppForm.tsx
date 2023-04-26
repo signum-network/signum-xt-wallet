@@ -69,6 +69,7 @@ const ConfirmDAppForm: FC = () => {
         case 'connect':
           return confirmDAppPermission(id, confirmed, accountToConnect);
         case 'sign':
+        case 'signNostr':
           return confirmDAppSign(id, confirmed);
         case 'sendEncryptedMsg':
           return confirmDAppSendEncryptedMessage(id, confirmed);
@@ -166,10 +167,9 @@ const ConfirmDAppForm: FC = () => {
             </div>
           )
         };
-
       case 'signNostr':
         return {
-          title: t('confirmAction', t('transaction').toLowerCase()),
+          title: t('confirmAction', t('nostrEvent').toLowerCase()),
           declineActionTitle: t('cancel'),
           declineActionTestID: ConfirmPageSelectors.SignAction_RejectButton,
           confirmActionTitle: t('signAction'),
@@ -183,7 +183,7 @@ const ConfirmDAppForm: FC = () => {
                 </Name>
               </div>
               <T
-                id="appRequestsToSign"
+                id="appRequestsToSignNostrEvent"
                 substitutions={[
                   <Name className="max-w-full text-xs italic" key="origin">
                     {payload.origin}
@@ -273,7 +273,7 @@ const ConfirmDAppForm: FC = () => {
                 />
               )}
 
-              <NetworkBanner networkName={payload.network} narrow={payload.type === 'connect'} />
+              {!isNostr && <NetworkBanner networkName={payload.network} narrow={payload.type === 'connect'} />}
 
               {!hasCorrectNetwork && (
                 <T id="wrongCurrentNetworkNode" substitutions={[payload.network]}>

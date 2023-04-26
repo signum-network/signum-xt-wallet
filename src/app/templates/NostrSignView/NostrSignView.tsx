@@ -4,6 +4,7 @@ import classNames from 'clsx';
 
 import { ReactComponent as CodeAltIcon } from 'app/icons/code-alt.svg';
 import { ReactComponent as EyeIcon } from 'app/icons/eye.svg';
+import AutoConfirmationSelect from 'app/templates/NostrSignView/AutoConfirmationSelect';
 import ViewsSwitcher from 'app/templates/ViewsSwitcher/ViewsSwitcher';
 import { T, t } from 'lib/i18n/react';
 import { TempleNostrSignPayload } from 'lib/temple/front';
@@ -55,6 +56,10 @@ const NostrSignView: FC<Props> = ({ payload }) => {
 
   return (
     <div className="flex flex-col w-full">
+      <div className="mb-3">
+        <AutoConfirmationSelect />
+      </div>
+
       <h2 className="mb-3 leading-tight flex items-center">
         <T id="payloadToSign">
           {message => <span className="mr-2 text-base font-semibold text-gray-700">{message}</span>}
