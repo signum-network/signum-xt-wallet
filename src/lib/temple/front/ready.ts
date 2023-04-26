@@ -86,7 +86,7 @@ function useReadyTemple() {
       updateAccountType(account.type);
       updateNostrAccount(account.publicKeyNostr || '');
     },
-    [updateAccountPkh, updateAccountType, templeFront]
+    [updateNostrAccount, updateAccountPkh, updateAccountType, templeFront]
   );
 
   useEffect(() => {

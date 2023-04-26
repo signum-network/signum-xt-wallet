@@ -1,5 +1,3 @@
-import browser from 'webextension-polyfill';
-
 export const DEFAULT_ERROR_MESSAGE = 'Unexpected error occurred';
 
 export function serializeError(err: any) {

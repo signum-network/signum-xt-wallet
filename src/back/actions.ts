@@ -293,7 +293,7 @@ async function createCustomNetworksSnapshot(settings: XTSettings) {
     }
   } catch {}
 }
-async function createNostrRelayssSnapshot(settings: XTSettings) {
+async function createNostrRelaysSnapshot(settings: XTSettings) {
   try {
     if (settings.nostrRelays) {
       await browser.storage.local.set({

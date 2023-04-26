@@ -1,8 +1,6 @@
 import * as secp256k1 from '@noble/secp256k1';
 import { nip19, Event as NostrEvent, signEvent, validateEvent, getEventHash } from 'nostr-tools';
 
-import { shortenString } from 'lib/shortenString';
-
 export interface NostrKeys {
   publicKey: string;
   privateKey: string;

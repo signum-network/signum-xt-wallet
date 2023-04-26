@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 
-import { DAppSession, DAppSessions, Network, NostrRelays } from 'lib/messaging';
+import { DAppSession, DAppSessions, Network } from 'lib/messaging';
 import { NETWORKS } from 'lib/temple/networks';
 
 const STORAGE_KEY = 'dapp_sessions';
