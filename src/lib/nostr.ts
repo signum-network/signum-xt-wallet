@@ -1,5 +1,5 @@
 import * as secp256k1 from '@noble/secp256k1';
-import { nip19, Event as NostrEvent, signEvent, validateEvent, getEventHash } from 'nostr-tools';
+import { nip19, Kind, Event as NostrEvent, signEvent, validateEvent, getEventHash } from 'nostr-tools';
 
 export interface NostrKeys {
   publicKey: string;
@@ -68,6 +68,10 @@ export function isAcceptableNostrPrivKey(nsecOrHex: string): boolean {
 
 export async function encodePubKey(pubKey: string) {
   return nip19.npubEncode(pubKey);
+}
+
+export function getNostrEventName(kind: number): string {
+  return Kind[kind] || 'Unknown';
 }
 
 export function signNostrEvent(privKey: string, event: NostrEvent): NostrEvent {

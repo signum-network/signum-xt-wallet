@@ -3,7 +3,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 import { Ledger, LedgerClientFactory } from '@signumjs/core';
 import constate from 'constate';
 
-import { ReadyState, AppState, WalletStatus, usePassiveStorage, useTempleClient, XTAccount } from 'lib/temple/front';
+import { ReadyState, AppState, WalletStatus, useSharedStorage, useTempleClient, XTAccount } from 'lib/temple/front';
 
 export const [
   ReadyTempleProvider,
@@ -38,7 +38,7 @@ function useReadyTemple() {
    */
 
   const defaultNet = allNetworks[0];
-  const [networkId, updateNetworkId] = usePassiveStorage('network_id', '');
+  const [networkId, updateNetworkId] = useSharedStorage('network_id', '');
 
   const setNetworkId = useCallback(
     (id: string) => {
@@ -75,9 +75,9 @@ function useReadyTemple() {
    */
 
   const defaultAcc = allAccounts[0];
-  const [accountPkh, updateAccountPkh] = usePassiveStorage('account_publickey', defaultAcc.publicKey);
-  const [, updateAccountType] = usePassiveStorage('account_type', defaultAcc.type);
-  const [, updateNostrAccount] = usePassiveStorage('account_publickey_nostr', defaultAcc.publicKeyNostr || '');
+  const [accountPkh, updateAccountPkh] = useSharedStorage('account_publickey', defaultAcc.publicKey);
+  const [, updateAccountType] = useSharedStorage('account_type', defaultAcc.type);
+  const [, updateNostrAccount] = useSharedStorage('account_publickey_nostr', defaultAcc.publicKeyNostr || '');
 
   const setCurrentAccount = useCallback(
     (account: XTAccount) => {

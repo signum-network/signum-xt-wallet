@@ -3,7 +3,7 @@ import React, { FC, useMemo } from 'react';
 import classNames from 'clsx';
 
 import { T } from 'lib/i18n/react';
-import { usePassiveStorage } from 'lib/temple/front';
+import { useSharedStorage } from 'lib/temple/front';
 
 import IconifiedSelect, { IconifiedSelectOptionRenderProps } from '../IconifiedSelect';
 
@@ -35,7 +35,7 @@ const getKey = ({ timeout }: TimeoutOption) => timeout;
 
 const AutoConfirmationSelect = () => {
   const [confirmationTimeout, setConfirmationTimeout] =
-    usePassiveStorage<{ started: number; timeout: number }>('nostr_confirmation_timeout');
+    useSharedStorage<{ started: number; timeout: number }>('nostr_confirmation_timeout');
 
   const value =
     (confirmationTimeout && timeoutOptions.find(t => t.timeout === confirmationTimeout.timeout)) || timeoutOptions[0];

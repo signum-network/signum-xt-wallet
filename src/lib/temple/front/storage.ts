@@ -32,7 +32,7 @@ export function useStorage<T = any>(key: string, fallback?: T): [T, (val: SetSta
   return useMemo(() => [value, setValue], [value, setValue]);
 }
 
-export function usePassiveStorage<T = any>(key: string, fallback?: T): [T, Dispatch<SetStateAction<T>>] {
+export function useSharedStorage<T = any>(key: string, fallback?: T): [T, Dispatch<SetStateAction<T>>] {
   const { data } = useRetryableSWR<T>(key, fetchFromStorage, {
     suspense: true,
     revalidateOnFocus: false,
