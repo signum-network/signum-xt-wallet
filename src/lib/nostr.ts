@@ -1,9 +1,43 @@
 import * as secp256k1 from '@noble/secp256k1';
-import { nip19, Kind, Event as NostrEvent, signEvent, validateEvent, getEventHash, nip04 } from 'nostr-tools';
+import { nip19, Event as NostrEvent, signEvent, validateEvent, getEventHash, nip04 } from 'nostr-tools';
 
 export interface NostrKeys {
   publicKey: string;
   privateKey: string;
+}
+
+export enum Kind {
+  Metadata = 0,
+  Text = 1,
+  RecommendRelay = 2,
+  Contacts = 3,
+  EncryptedDirectMessage = 4,
+  EventDeletion = 5,
+  Reposts = 6,
+  Reaction = 7,
+  BadgeAward = 8,
+  ChannelCreation = 40,
+  ChannelMetadata = 41,
+  ChannelMessage = 42,
+  ChannelHideMessage = 43,
+  ChannelMuteUser = 44,
+  FileMetadata = 1063,
+  Reporting = 1984,
+  ZapRequest = 9734,
+  Zap = 9735,
+  MuteList = 10000,
+  PinList = 10000,
+  RelayList = 10002,
+  ClientAuth = 22242,
+  NostrConnect = 24133,
+  CategorizedPeopleList = 30000,
+  CategorizedBookmarkList = 30001,
+  BadgeDefinition = 30008,
+  ProfileBadge = 30009,
+  EditStall = 30017,
+  EditProduct = 30018,
+  Article = 30023,
+  ApplicationData = 30078
 }
 
 /*
