@@ -2131,6 +2131,14 @@
   "autoConfirmationTimeoutNever": {
     "message": "Never"
   },
+  "autoConfirmationTimeoutMinutes": {
+    "message": "$minutes$ Minutes",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
   "autoConfirmationTimeoutOneDay": {
     "message": "One Day"
   },

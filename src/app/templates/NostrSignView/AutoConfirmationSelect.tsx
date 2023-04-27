@@ -10,6 +10,7 @@ import IconifiedSelect, { IconifiedSelectOptionRenderProps } from '../IconifiedS
 type TimeoutOption = {
   timeout: number;
   label: string;
+  labelParam?: number | string;
 };
 
 const Minute = 60;
@@ -20,6 +21,11 @@ const timeoutOptions: TimeoutOption[] = [
   {
     timeout: 0,
     label: 'autoConfirmationTimeoutNever'
+  },
+  {
+    timeout: 5 * Minute,
+    label: 'autoConfirmationTimeoutMinutes',
+    labelParam: 5
   },
   {
     timeout: Hour,
@@ -80,10 +86,10 @@ const AutoConfirmationSelect = () => {
 export default AutoConfirmationSelect;
 
 const Icon: FC<IconifiedSelectOptionRenderProps<TimeoutOption>> = () => null;
-const InMenuContent: FC<IconifiedSelectOptionRenderProps<TimeoutOption>> = ({ option: { label } }) => {
+const InMenuContent: FC<IconifiedSelectOptionRenderProps<TimeoutOption>> = ({ option: { label, labelParam } }) => {
   return (
     <div className={classNames('relative w-full text-base text-gray-700')}>
-      <T id={label} />
+      <T id={label} substitutions={labelParam ? [labelParam] : []} />
     </div>
   );
 };

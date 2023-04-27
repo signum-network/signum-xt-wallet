@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import classNames from 'clsx';
+import { Event as NostrEvent } from 'nostr-tools/lib/event';
 
 import Identicon from 'app/atoms/Identicon';
 import { ReactComponent as CodeAltIcon } from 'app/icons/code-alt.svg';
@@ -87,14 +88,16 @@ const NostrSignView: FC<Props> = ({ payload }) => {
           <Identicon hash={parsedEvent.kindName} size={24} />
           <h2 className="ml-2 font-bold text-gray-600">{`${parsedEvent.kind} - ${parsedEvent.kindName}`}</h2>
         </div>
-        {parsedEvent.content && (
-          <pre className="p-1 my-1 border rounded text-gray-600 whitespace-normal break-all">
-            {shortenString(parsedEvent.content, 92)}
-          </pre>
-        )}
-        {parsedEvent.tags.map((t, i) => (
-          <TagLine key={`tagline-${i}`} tag={t} />
-        ))}
+        <div className={'overflow-y-auto'} style={{ height: '110px' }}>
+          {parsedEvent.content && (
+            <pre className="p-1 my-1 border rounded text-gray-600 whitespace-normal break-all">
+              {shortenString(parsedEvent.content, 92)}
+            </pre>
+          )}
+          {parsedEvent.tags.map((t, i) => (
+            <TagLine key={`tagline-${i}`} tag={t} />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -106,16 +109,31 @@ interface TagLineProps {
   tag: string[];
 }
 
+function getValue(type: string, entry: string, position: number) {
+  // relay urls are bigger
+  if (position === 1 && (type === 'a' || type === 'e' || type === 'p')) {
+    return shortenString(entry, 48);
+  }
+
+  if (position === 0 && (type === 'relay' || type === 'r')) {
+    return shortenString(entry, 48);
+  }
+
+  return shortenString(entry);
+}
 const TagLine = ({ tag }: TagLineProps) => {
   const [head, ...tail] = tag;
+
   return (
     <span className="flex flex-row flex-wrap justify-start items-center text-xs my-1">
       <div className="px-1 mr-2 font-bold bg-gray-400 text-gray-700 border rounded uppercase">{head}</div>
-      {tail.map((s, i) => (
-        <div key={`${head}-${i}`} className="px-1 text-xs text-gray-600 border rounded" style={{ margin: '2px 2px' }}>
-          {shortenString(s)}
-        </div>
-      ))}
+      {tail.map((entry, i) => {
+        return (
+          <div key={`${head}-${i}`} className="px-1 text-xs text-gray-600 border rounded" style={{ margin: '2px 2px' }}>
+            {getValue(head, entry, i)}
+          </div>
+        );
+      })}
     </span>
   );
 };
