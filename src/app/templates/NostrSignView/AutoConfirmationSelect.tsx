@@ -94,11 +94,11 @@ const InMenuContent: FC<IconifiedSelectOptionRenderProps<TimeoutOption>> = ({ op
   );
 };
 
-const SelectedContent: FC<IconifiedSelectOptionRenderProps<TimeoutOption>> = ({ option: { label } }) => {
+const SelectedContent: FC<IconifiedSelectOptionRenderProps<TimeoutOption>> = ({ option: { label, labelParam } }) => {
   return (
     <div className="flex flex-col items-start py-2">
       <div className="text-sm text-gray-700">
-        <T id={label} />
+        <T id={label} substitutions={labelParam ? [labelParam] : []} />
       </div>
     </div>
   );

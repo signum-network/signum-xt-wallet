@@ -2139,6 +2139,23 @@
       }
     }
   },
+  "autoConfirmationTimeoutReset": {
+    "message": "Revoke Nostr Auto Signing"
+  },
+  "autoConfirmationTimeoutResetDescription": {
+    "message": "Nostr Auto Signing is still valid for $time$. You can revoke the automatic signing here.",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTimeoutExpiredDescription": {
+    "message": "Nostr Auto Signing is expired."
+  },
+  "revoke": {
+    "message": "Revoke "
+  },
   "autoConfirmationTimeoutOneDay": {
     "message": "One Day"
   },
