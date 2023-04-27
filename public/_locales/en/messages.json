@@ -2075,7 +2075,13 @@
     "message": "If you only use an account address or account id to import, it will not be possible to carry out transactions. You can only observe the imported account."
   },
   "importAccountNostrPrivKeyDescription": {
-    "message": "If you have a Nostr account but no Signum account, you can use your private Nostr key to create a matching Signum account for your existing Nostr account. You can also use the private Nostr key in other Signum wallets."
+    "message": "If you have a Nostr account but no Signum account, you can use your private Nostr key to create a matching Signum account for your existing Nostr account. You can also use the private Nostr key (in hex form only!!!) in other Signum wallets."
+  },
+  "nostrPrivateKeyImportWarn": {
+    "message": "Note that this option is provided only in case you want to use your private nostr key as recovery phrase. Please check the resulting address before importing!"
+  },
+  "nostrPrivateKeyImportWarnTitle": {
+    "message": "Verify Address"
   },
   "nostrPrivateKeyInputLabel": {
     "message": "Private Nostr Key"

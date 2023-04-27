@@ -2,7 +2,16 @@
 
 ## 1.5.0 (TBD)
 
-- Nostr key and relays management
+### New features
+
+- 🦩Nostr integration (NIP07)
+  - (Multi) Key Management
+  - Signing
+  - P2P encryption NIP04
+
+### Bugfixes
+
+- Alias Resolving (#72)
 
 ## 1.4.3
 

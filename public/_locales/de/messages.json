@@ -2161,5 +2161,11 @@
   },
   "revoke": {
     "message": "Widerrufen"
+  },
+  "nostrPrivateKeyImportWarn": {
+    "message": "Beachte, dass diese Option nur angeboten wird, wenn du deinen privaten Nostr-Schlüssel als Wiederherstellungsphrase verwenden möchtest. Bitte überprüfe die resultierende Adresse vor dem Import!"
+  },
+  "nostrPrivateKeyImportWarnTitle": {
+    "message": "Verifiziere Adresse"
   }
 }

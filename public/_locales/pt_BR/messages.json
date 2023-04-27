@@ -2161,5 +2161,11 @@
   },
   "revoke": {
     "message": "Revogar"
+  },
+  "nostrPrivateKeyImportWarn": {
+    "message": "Observe que esta opção é fornecida apenas no caso de você querer usar sua chave nostr privada como frase de recuperação. Verifique o endereço resultante antes de importar!"
+  },
+  "nostrPrivateKeyImportWarnTitle": {
+    "message": "Verificar endereço"
   }
 }

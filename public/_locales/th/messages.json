@@ -2161,5 +2161,11 @@
   },
   "revoke": {
     "message": "ถอน"
+  },
+  "nostrPrivateKeyImportWarn": {
+    "message": "โปรดทราบว่าตัวเลือกนี้มีให้ในกรณีที่คุณต้องการใช้คีย์ nostr ส่วนตัวเป็นวลีการกู้คืนเท่านั้น โปรดตรวจสอบที่อยู่ผลลัพธ์ก่อนนำเข้า!"
+  },
+  "nostrPrivateKeyImportWarnTitle": {
+    "message": "ยืนยันที่อยู่"
   }
 }
