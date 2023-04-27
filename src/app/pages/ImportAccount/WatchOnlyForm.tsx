@@ -25,7 +25,7 @@ interface WatchOnlyFormData {
 export const WatchOnlyForm: FC = () => {
   const { importWatchOnlyAccount } = useTempleClient();
   const signum = useSignum();
-  const { resolveAliasToAccountPk } = useSignumAliasResolver();
+  const { resolveAliasToAccountId } = useSignumAliasResolver();
   const prefix = useSignumAccountPrefix();
   const { watch, handleSubmit, errors, control, formState, setValue, triggerValidation } = useForm<WatchOnlyFormData>({
     mode: 'onChange'
@@ -37,22 +37,22 @@ export const WatchOnlyForm: FC = () => {
   const resolveAlias = useCallback(
     async (address: string) => {
       if (!isSignumAddress(address)) {
-        const publicKey = await resolveAliasToAccountPk(address);
-        if (!publicKey) {
+        const accountId = await resolveAliasToAccountId(address);
+        if (!accountId) {
           throw new Error(t('domainDoesntResolveToAddress', address));
         }
-        return publicKey;
+        return accountId;
       } else {
         return address;
       }
     },
-    [resolveAliasToAccountPk]
+    [resolveAliasToAccountId]
   );
 
   useEffect(() => {
     resolveAlias(addressValue)
-      .then(publickey => {
-        setResolvedAddress(publickey);
+      .then(accountId => {
+        setResolvedAddress(accountId);
       })
       .catch(() => {
         setResolvedAddress('');

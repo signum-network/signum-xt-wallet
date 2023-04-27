@@ -106,19 +106,18 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
         if (id === BURN_ADDRESS) {
           return null;
         }
-        const { publicKey } = await signum.account.getAccount({
+        return await signum.account.getAccount({
           accountId: id,
           includeEstimatedCommitment: false,
           includeCommittedAmount: false
         });
-        return publicKey;
       } catch (e) {
         return resolveAliasToAccountPk(address);
       }
     },
     [resolveAliasToAccountPk, signum.account]
   );
-  const { data: resolvedPublicKey } = useSWR(['resolveAlias', toValue], addressResolver, {
+  const { data: resolvedAccount } = useSWR(['resolveAlias', toValue], addressResolver, {
     shouldRetryOnError: false,
     revalidateOnFocus: false
   });
@@ -127,20 +126,19 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
 
   const toResolved = useMemo(() => {
     try {
-      if (resolvedPublicKey && resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY) {
-        return Address.create(resolvedPublicKey).getNumericId();
+      if (resolvedAccount && resolvedAccount.publicKey !== SMART_CONTRACT_PUBLIC_KEY) {
+        return resolvedAccount.account;
       }
       return Address.create(toValue).getNumericId();
     } catch (e) {
       return '';
     }
-  }, [resolvedPublicKey, toValue]);
+  }, [resolvedAccount, toValue]);
 
   const filledContact = useMemo(() => {
-    if (!resolvedPublicKey) return null;
-    const accId = Address.fromPublicKey(resolvedPublicKey).getNumericId();
-    return allContacts.find(c => c.accountId === accId);
-  }, [allContacts, resolvedPublicKey]);
+    if (!resolvedAccount) return null;
+    return allContacts.find(c => c.accountId === resolvedAccount.account);
+  }, [allContacts, resolvedAccount]);
 
   const cleanToField = useCallback(() => {
     setValue('to', '');
@@ -223,7 +221,8 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
       }
       let address = value;
       if (!isSignumAddress(address)) {
-        address = await resolveAliasToAccountPk(address);
+        const acc = await resolveAliasToAccountPk(address);
+        address = acc?.account;
       }
       return isSignumAddress(address) ? true : t('invalidAddressOrDomain');
     },
@@ -236,12 +235,12 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
         return undefined;
       }
 
-      if (messageFormData.isEncrypted) {
-        if (!resolvedPublicKey) {
+      if (messageFormData.isEncrypted && resolvedAccount) {
+        if (!resolvedAccount.publicKey || resolvedAccount.publicKey === SMART_CONTRACT_PUBLIC_KEY) {
           throw new Error(t('p2pNotPossible'));
         }
 
-        const encryptedMessage = encryptMessage(messageFormData.message, resolvedPublicKey, p2pKey);
+        const encryptedMessage = encryptMessage(messageFormData.message, resolvedAccount.publicKey, p2pKey);
         return new AttachmentEncryptedMessage({
           ...encryptedMessage,
           isText: !messageFormData.isBinary
@@ -399,13 +398,13 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
         <div className={classNames('mb-4 -mt-3', 'text-xs font-light text-gray-600', 'flex flex-wrap items-center')}>
           <span className="mr-1 whitespace-no-wrap">{t('resolvedAddress')}:</span>
 
-          {resolvedPublicKey === SMART_CONTRACT_PUBLIC_KEY && (
+          {resolvedAccount?.publicKey === SMART_CONTRACT_PUBLIC_KEY && (
             <span className="font-normal">🤖 {Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
           )}
 
           {toResolved === BURN_ADDRESS && <span className="font-normal">🔥 {t('burnAddress')}</span>}
 
-          {resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY && toResolved !== BURN_ADDRESS && (
+          {resolvedAccount?.publicKey !== SMART_CONTRACT_PUBLIC_KEY && toResolved !== BURN_ADDRESS && (
             <span className="font-normal">{Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
           )}
         </div>
@@ -458,7 +457,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
       <MessageForm
         ref={messageFormRef}
         onChange={setMessageFormData}
-        showEncrypted={resolvedPublicKey ? resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY : false}
+        showEncrypted={resolvedAccount ? resolvedAccount.publicKey !== SMART_CONTRACT_PUBLIC_KEY : false}
         mode="transfer"
       />
 

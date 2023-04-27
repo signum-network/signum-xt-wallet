@@ -30,7 +30,6 @@ const IdenticonSignum = memo<IdenticonProps>(({ address, size = 100, className, 
         });
         const descriptor = DescriptorData.parse(description, false);
         if (descriptor.avatar) {
-          console.log(descriptor.avatar);
           // @ts-ignore
           return 'https://ipfs.io/ipfs/' + descriptor.avatar.ipfsCid;
         }

@@ -23,9 +23,7 @@ function tryGetAccountIdFromAliasContent(content: string): string | null {
   }
 
   try {
-    return detectedAccount.startsWith('s-')
-      ? Address.fromReedSolomonAddress(detectedAccount).getNumericId()
-      : Address.fromNumericId(detectedAccount).getNumericId();
+    return Address.create(detectedAccount).getNumericId();
   } catch (e: any) {
     return null;
   }
@@ -61,21 +59,36 @@ export function useSignumAliasResolver() {
     [signum]
   );
 
-  const resolveAliasToAccountPk = useCallback(
+  // const resolveAliasToAccountPk = useCallback(
+  //   async aliasName => {
+  //     try {
+  //       if (aliasName.length < 2) {
+  //         return null;
+  //       }
+  //       const { aliasURI } = await signum.alias.getAliasByName(aliasName);
+  //       const accountId = tryGetAccountIdFromAliasContent(aliasURI);
+  //       if (!accountId) return null;
+  //       const acc = await signum.account.getAccount({
+  //         accountId: accountId,
+  //         includeEstimatedCommitment: false,
+  //         includeCommittedAmount: false
+  //       });
+  //       return acc;
+  //     } catch (e) {
+  //       return null;
+  //     }
+  //   },
+  //   [signum]
+  // );
+
+  const resolveAliasToAccountId = useCallback(
     async aliasName => {
       try {
         if (aliasName.length < 2) {
           return null;
         }
-        const { account, aliasURI } = await signum.alias.getAliasByName(aliasName);
-        const accountId = tryGetAccountIdFromAliasContent(aliasURI);
-        if (!accountId) return null;
-        const acc = await signum.account.getAccount({
-          accountId: account,
-          includeEstimatedCommitment: false,
-          includeCommittedAmount: false
-        });
-        return acc.publicKey;
+        const { aliasURI } = await signum.alias.getAliasByName(aliasName);
+        return tryGetAccountIdFromAliasContent(aliasURI);
       } catch (e) {
         return null;
       }
@@ -83,8 +96,26 @@ export function useSignumAliasResolver() {
     [signum]
   );
 
+  const resolveAliasToAccountPk = useCallback(
+    async aliasName => {
+      try {
+        const accountId = await resolveAliasToAccountId(aliasName);
+        if (!accountId) return null;
+        return await signum.account.getAccount({
+          accountId: accountId,
+          includeEstimatedCommitment: false,
+          includeCommittedAmount: false
+        });
+      } catch (e) {
+        return null;
+      }
+    },
+    [resolveAliasToAccountId, signum]
+  );
+
   return {
     resolveAccountPkToAlias,
-    resolveAliasToAccountPk
+    resolveAliasToAccountPk,
+    resolveAliasToAccountId
   };
 }

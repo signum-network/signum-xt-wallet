@@ -89,20 +89,18 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
         if (id === BURN_ADDRESS) {
           return null;
         }
-        const a = await signum.account.getAccount({
+        return await signum.account.getAccount({
           accountId: id,
           includeEstimatedCommitment: false,
           includeCommittedAmount: false
         });
-        // @ts-ignore
-        return a.publicKey;
       } catch (e) {
         return resolveAliasToAccountPk(address);
       }
     },
     [resolveAliasToAccountPk, signum.account]
   );
-  const { data: resolvedPublicKey } = useSWR(['resolveAlias', toValue], addressResolver, {
+  const { data: resolvedAccount } = useSWR(['resolveAlias', toValue], addressResolver, {
     shouldRetryOnError: false,
     revalidateOnFocus: false
   });
@@ -111,20 +109,19 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
 
   const toResolved = useMemo(() => {
     try {
-      if (resolvedPublicKey && resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY) {
-        return Address.create(resolvedPublicKey).getNumericId();
+      if (resolvedAccount && resolvedAccount.publicKey !== SMART_CONTRACT_PUBLIC_KEY) {
+        return resolvedAccount.account;
       }
       return Address.create(toValue).getNumericId();
     } catch (e) {
       return '';
     }
-  }, [resolvedPublicKey, toValue]);
+  }, [resolvedAccount, toValue]);
 
   const filledContact = useMemo(() => {
-    if (!resolvedPublicKey) return null;
-    const accId = Address.fromPublicKey(resolvedPublicKey).getNumericId();
-    return allContacts.find(c => c.accountId === accId);
-  }, [allContacts, resolvedPublicKey]);
+    if (!resolvedAccount) return null;
+    return allContacts.find(c => c.accountId === resolvedAccount.account);
+  }, [allContacts, resolvedAccount]);
 
   const cleanToField = useCallback(() => {
     setValue('to', '');
@@ -160,7 +157,8 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
       }
       let address = value;
       if (!isSignumAddress(address)) {
-        address = await resolveAliasToAccountPk(address);
+        const acc = await resolveAliasToAccountPk(address);
+        address = acc?.account;
       }
       return isSignumAddress(address) ? true : t('invalidAddressOrDomain');
     },
@@ -181,7 +179,7 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
       const keys = await client.getSignumTransactionKeys(acc.publicKey);
       const recipientId = Address.create(toResolved).getNumericId();
       if (messageFormData.isEncrypted) {
-        if (!resolvedPublicKey) {
+        if (!resolvedAccount || !resolvedAccount.publicKey) {
           throw new Error(t('p2pNotPossible'));
         }
         transaction = (await signum.message.sendEncryptedMessage({
@@ -189,8 +187,8 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
           messageIsText: !messageFormData.isBinary,
           senderAgreementKey: keys.p2pKey,
           feePlanck: Amount.fromSigna(feeValue).getPlanck(),
-          recipientPublicKey: resolvedPublicKey,
-          recipientId: Address.fromPublicKey(resolvedPublicKey).getNumericId(),
+          recipientPublicKey: resolvedAccount.publicKey,
+          recipientId: resolvedAccount.account,
           senderPublicKey: keys.publicKey,
           senderPrivateKey: keys.signingKey
         })) as TransactionId;
@@ -310,13 +308,13 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
         <div className={classNames('mb-4 -mt-3', 'text-xs font-light text-gray-600', 'flex flex-wrap items-center')}>
           <span className="mr-1 whitespace-no-wrap">{t('resolvedAddress')}:</span>
 
-          {resolvedPublicKey === SMART_CONTRACT_PUBLIC_KEY && (
+          {resolvedAccount?.publicKey === SMART_CONTRACT_PUBLIC_KEY && (
             <span className="font-normal">🤖 {Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
           )}
 
           {toResolved === BURN_ADDRESS && <span className="font-normal">🔥 {t('burnAddress')}</span>}
 
-          {resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY && toResolved !== BURN_ADDRESS && (
+          {resolvedAccount?.publicKey !== SMART_CONTRACT_PUBLIC_KEY && toResolved !== BURN_ADDRESS && (
             <span className="font-normal">{Address.create(toResolved, prefix).getReedSolomonAddress()}</span>
           )}
         </div>
@@ -337,7 +335,7 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
       <MessageForm
         ref={messageFormRef}
         onChange={setMessageFormData}
-        showEncrypted={resolvedPublicKey ? resolvedPublicKey !== SMART_CONTRACT_PUBLIC_KEY : false}
+        showEncrypted={resolvedAccount ? resolvedAccount.publicKey !== SMART_CONTRACT_PUBLIC_KEY : false}
         mode="p2pMessage"
       />
 

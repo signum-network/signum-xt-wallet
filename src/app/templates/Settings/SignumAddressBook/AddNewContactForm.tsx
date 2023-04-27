@@ -15,7 +15,7 @@ const SUBMIT_ERROR_TYPE = 'submit-error';
 
 const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
   const { addContact } = useContacts();
-  const { resolveAliasToAccountPk } = useSignumAliasResolver();
+  const { resolveAliasToAccountId } = useSignumAliasResolver();
   const prefix = useSignumAccountPrefix();
 
   const {
@@ -32,16 +32,16 @@ const AddNewContactForm: React.FC<{ className?: string }> = ({ className }) => {
   const resolveAlias = useCallback(
     async (address: string) => {
       if (!isSignumAddress(address)) {
-        const accountPublicKey = await resolveAliasToAccountPk(address);
-        if (!accountPublicKey) {
+        const accountId = await resolveAliasToAccountId(address);
+        if (!accountId) {
           throw new Error(t('domainDoesntResolveToAddress', address));
         }
-        return accountPublicKey;
+        return accountId;
       } else {
         return address;
       }
     },
-    [resolveAliasToAccountPk]
+    [resolveAliasToAccountId]
   );
 
   const onAddContactSubmit = useCallback(
