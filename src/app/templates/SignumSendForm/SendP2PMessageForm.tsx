@@ -109,10 +109,7 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
 
   const toResolved = useMemo(() => {
     try {
-      if (resolvedAccount && resolvedAccount.publicKey !== SMART_CONTRACT_PUBLIC_KEY) {
-        return resolvedAccount.account;
-      }
-      return Address.create(toValue).getNumericId();
+      return resolvedAccount ? resolvedAccount.account : Address.create(toValue).getNumericId();
     } catch (e) {
       return '';
     }

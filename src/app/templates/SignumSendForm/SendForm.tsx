@@ -126,10 +126,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
 
   const toResolved = useMemo(() => {
     try {
-      if (resolvedAccount && resolvedAccount.publicKey !== SMART_CONTRACT_PUBLIC_KEY) {
-        return resolvedAccount.account;
-      }
-      return Address.create(toValue).getNumericId();
+      return resolvedAccount ? resolvedAccount.account : Address.create(toValue).getNumericId();
     } catch (e) {
       return '';
     }
