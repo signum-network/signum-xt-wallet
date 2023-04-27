@@ -1,7 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import classNames from 'clsx';
-import { Event as NostrEvent } from 'nostr-tools/lib/event';
 
 import Identicon from 'app/atoms/Identicon';
 import { ReactComponent as CodeAltIcon } from 'app/icons/code-alt.svg';
