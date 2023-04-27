@@ -59,7 +59,7 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
   const { registerBackHandler } = useAppEnv();
   const assetMetadata = useSignumAssetMetadata(tokenId);
   const signumMetadata = useSignumAssetMetadata(SIGNA_TOKEN_ID);
-  const { resolveAliasToAccountPk } = useSignumAliasResolver();
+  const { resolveAliasToAccount } = useSignumAliasResolver();
   const formAnalytics = useFormAnalytics('SendForm');
   const { allContacts } = useFilteredContacts();
   const acc = useAccount();
@@ -112,10 +112,10 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
           includeCommittedAmount: false
         });
       } catch (e) {
-        return resolveAliasToAccountPk(address);
+        return resolveAliasToAccount(address);
       }
     },
-    [resolveAliasToAccountPk, signum.account]
+    [resolveAliasToAccount, signum.account]
   );
   const { data: resolvedAccount } = useSWR(['resolveAlias', toValue], addressResolver, {
     shouldRetryOnError: false,
@@ -218,12 +218,12 @@ export const SendForm: FC<FormProps> = ({ setOperation, onAddContactRequested, t
       }
       let address = value;
       if (!isSignumAddress(address)) {
-        const acc = await resolveAliasToAccountPk(address);
+        const acc = await resolveAliasToAccount(address);
         address = acc?.account;
       }
       return isSignumAddress(address) ? true : t('invalidAddressOrDomain');
     },
-    [resolveAliasToAccountPk]
+    [resolveAliasToAccount]
   );
 
   const getTransactionAttachment = useCallback(

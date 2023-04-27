@@ -59,28 +59,6 @@ export function useSignumAliasResolver() {
     [signum]
   );
 
-  // const resolveAliasToAccountPk = useCallback(
-  //   async aliasName => {
-  //     try {
-  //       if (aliasName.length < 2) {
-  //         return null;
-  //       }
-  //       const { aliasURI } = await signum.alias.getAliasByName(aliasName);
-  //       const accountId = tryGetAccountIdFromAliasContent(aliasURI);
-  //       if (!accountId) return null;
-  //       const acc = await signum.account.getAccount({
-  //         accountId: accountId,
-  //         includeEstimatedCommitment: false,
-  //         includeCommittedAmount: false
-  //       });
-  //       return acc;
-  //     } catch (e) {
-  //       return null;
-  //     }
-  //   },
-  //   [signum]
-  // );
-
   const resolveAliasToAccountId = useCallback(
     async aliasName => {
       try {
@@ -96,7 +74,7 @@ export function useSignumAliasResolver() {
     [signum]
   );
 
-  const resolveAliasToAccountPk = useCallback(
+  const resolveAliasToAccount = useCallback(
     async aliasName => {
       try {
         const accountId = await resolveAliasToAccountId(aliasName);
@@ -115,7 +93,7 @@ export function useSignumAliasResolver() {
 
   return {
     resolveAccountPkToAlias,
-    resolveAliasToAccountPk,
+    resolveAliasToAccount,
     resolveAliasToAccountId
   };
 }

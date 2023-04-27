@@ -50,7 +50,7 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
   const messageFormRef = useRef();
   const { registerBackHandler } = useAppEnv();
   const assetMetadata = useSignumAssetMetadata();
-  const { resolveAliasToAccountPk } = useSignumAliasResolver();
+  const { resolveAliasToAccount } = useSignumAliasResolver();
   const { allContacts } = useFilteredContacts();
   const acc = useAccount();
   const signum = useSignum();
@@ -95,10 +95,10 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
           includeCommittedAmount: false
         });
       } catch (e) {
-        return resolveAliasToAccountPk(address);
+        return resolveAliasToAccount(address);
       }
     },
-    [resolveAliasToAccountPk, signum.account]
+    [resolveAliasToAccount, signum.account]
   );
   const { data: resolvedAccount } = useSWR(['resolveAlias', toValue], addressResolver, {
     shouldRetryOnError: false,
@@ -154,12 +154,12 @@ export const SendP2PMessageForm: FC<FormProps> = ({ setOperation, onAddContactRe
       }
       let address = value;
       if (!isSignumAddress(address)) {
-        const acc = await resolveAliasToAccountPk(address);
+        const acc = await resolveAliasToAccount(address);
         address = acc?.account;
       }
       return isSignumAddress(address) ? true : t('invalidAddressOrDomain');
     },
-    [resolveAliasToAccountPk]
+    [resolveAliasToAccount]
   );
 
   const onSubmit = useCallback(async () => {
