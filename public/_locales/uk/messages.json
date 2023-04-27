@@ -2107,5 +2107,59 @@
   },
   "nostrRelayNotReachable": {
     "message": "Реле недоступне"
+  },
+  "appRequestsToSignNostrEvent": {
+    "message": "$origin$ просить вас підтвердити подію",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationDescription": {
+    "message": "Ви можете увімкнути автоматичне підтвердження на вказаний період. Таким чином вам не потрібно буде підтверджувати кожну дію вручну."
+  },
+  "autoConfirmationTimeoutExpiredDescription": {
+    "message": "Термін дії автоматичного підпису Nostr минув."
+  },
+  "autoConfirmationTimeoutMinutes": {
+    "message": "$minutes$ хвилин",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTimeoutNever": {
+    "message": "Ніколи"
+  },
+  "autoConfirmationTimeoutOneDay": {
+    "message": "Одного дня"
+  },
+  "autoConfirmationTimeoutOneHour": {
+    "message": "Одна година"
+  },
+  "autoConfirmationTimeoutReset": {
+    "message": "Скасувати автоматичний підпис Nostr"
+  },
+  "autoConfirmationTimeoutResetDescription": {
+    "message": "Автоматичний підпис Nostr дійсний $time$. Ви можете скасувати автоматичний підпис тут.",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTitle": {
+    "message": "Автоматичне підтвердження"
+  },
+  "nostrEvent": {
+    "message": "Подія Nostr"
+  },
+  "notNostrAccount": {
+    "message": "Ваш поточний вибраний обліковий запис не є обліковим записом Nostr. Виберіть правильний обліковий запис і повторіть спробу."
+  },
+  "revoke": {
+    "message": "Відкликати"
   }
 }

@@ -2107,5 +2107,59 @@
   },
   "nostrRelayNotReachable": {
     "message": "Relais nicht erreichbar"
+  },
+  "appRequestsToSignNostrEvent": {
+    "message": "$origin$ fordert dich auf, das Event zu bestätigen",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationDescription": {
+    "message": "Du kannst die automatische Bestätigung für den angegebenen Zeitraum aktivieren. Auf diese Weise musst du nicht jede Aktion manuell bestätigen."
+  },
+  "autoConfirmationTimeoutExpiredDescription": {
+    "message": "Nostr Auto Signing ist abgelaufen."
+  },
+  "autoConfirmationTimeoutMinutes": {
+    "message": "$minutes$ Minuten",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTimeoutNever": {
+    "message": "Niemals"
+  },
+  "autoConfirmationTimeoutOneDay": {
+    "message": "Ein Tag"
+  },
+  "autoConfirmationTimeoutOneHour": {
+    "message": "Eine Stunde"
+  },
+  "autoConfirmationTimeoutReset": {
+    "message": "Automatisches Nostr-Signing widerrufen"
+  },
+  "autoConfirmationTimeoutResetDescription": {
+    "message": "Nostr Auto Signing ist noch für $time$ gültig. Hier kannst Du die automatische Signierung widerrufen.",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTitle": {
+    "message": "Automatische Bestätigung"
+  },
+  "nostrEvent": {
+    "message": "Nostr Event"
+  },
+  "notNostrAccount": {
+    "message": "Dein ausgewähltes Konto ist kein Nostr-Konto. Bitte wähle ein Nostr-Konto aus und versuchen es nochmal."
+  },
+  "revoke": {
+    "message": "Widerrufen"
   }
 }

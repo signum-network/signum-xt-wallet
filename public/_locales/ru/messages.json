@@ -2107,5 +2107,59 @@
   },
   "nostrRelayNotReachable": {
     "message": "Реле недоступно"
+  },
+  "appRequestsToSignNostrEvent": {
+    "message": "$origin$ просит вас подтвердить событие",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationDescription": {
+    "message": "Вы можете включить автоматическое подтверждение на заданный период. Таким образом, вам не нужно подтверждать каждое действие вручную."
+  },
+  "autoConfirmationTimeoutExpiredDescription": {
+    "message": "Срок действия автоматического подписания Nostr истек."
+  },
+  "autoConfirmationTimeoutMinutes": {
+    "message": "$minutes$ минут",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTimeoutNever": {
+    "message": "Никогда"
+  },
+  "autoConfirmationTimeoutOneDay": {
+    "message": "Один день"
+  },
+  "autoConfirmationTimeoutOneHour": {
+    "message": "Один час"
+  },
+  "autoConfirmationTimeoutReset": {
+    "message": "Отменить автоматическое подписание Nostr"
+  },
+  "autoConfirmationTimeoutResetDescription": {
+    "message": "Автоматическая подпись Nostr по-прежнему действительна в течение $time$. Вы можете отменить автоматическую подпись здесь.",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTitle": {
+    "message": "Автоматическое подтверждение"
+  },
+  "nostrEvent": {
+    "message": "Ностр событие"
+  },
+  "notNostrAccount": {
+    "message": "Выбранная вами учетная запись не является учетной записью Nostr. Пожалуйста, выберите правильный аккаунт и повторите попытку."
+  },
+  "revoke": {
+    "message": "Отозвать"
   }
 }

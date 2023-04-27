@@ -2107,5 +2107,59 @@
   },
   "nostrRelayNotReachable": {
     "message": "รีเลย์ไม่สามารถเข้าถึงได้"
+  },
+  "appRequestsToSignNostrEvent": {
+    "message": "$origin$ ขอให้คุณยืนยันกิจกรรม",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationDescription": {
+    "message": "คุณสามารถเปิดใช้งานการยืนยันอัตโนมัติในช่วงเวลาที่กำหนด ด้วยวิธีนี้คุณไม่จำเป็นต้องยืนยันการดำเนินการแต่ละอย่างด้วยตนเอง"
+  },
+  "autoConfirmationTimeoutExpiredDescription": {
+    "message": "Nostr Auto Signing หมดอายุแล้ว"
+  },
+  "autoConfirmationTimeoutMinutes": {
+    "message": "$minutes$ นาที",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTimeoutNever": {
+    "message": "ไม่เคย"
+  },
+  "autoConfirmationTimeoutOneDay": {
+    "message": "วันหนึ่ง"
+  },
+  "autoConfirmationTimeoutOneHour": {
+    "message": "หนึ่งชั่วโมง"
+  },
+  "autoConfirmationTimeoutReset": {
+    "message": "เพิกถอนการลงนามอัตโนมัติของ Nostr"
+  },
+  "autoConfirmationTimeoutResetDescription": {
+    "message": "Nostr Auto Signing ยังคงใช้ได้ในราคา $time$ คุณสามารถยกเลิกการเซ็นชื่ออัตโนมัติได้ที่นี่",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTitle": {
+    "message": "การยืนยันอัตโนมัติ"
+  },
+  "nostrEvent": {
+    "message": "เหตุการณ์ Nostr"
+  },
+  "notNostrAccount": {
+    "message": "บัญชีที่คุณเลือกในปัจจุบันไม่ใช่บัญชี Nostr โปรดเลือกบัญชีที่ถูกต้องแล้วลองอีกครั้ง"
+  },
+  "revoke": {
+    "message": "ถอน"
   }
 }

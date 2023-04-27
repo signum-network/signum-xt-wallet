@@ -2107,5 +2107,59 @@
   },
   "nostrRelayNotReachable": {
     "message": "Relé no accesible"
+  },
+  "appRequestsToSignNostrEvent": {
+    "message": "$origin$ te pide que confirmes el evento",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationDescription": {
+    "message": "Puede habilitar la confirmación automática para el período dado. De esta manera, no necesita confirmar cada acción manualmente."
+  },
+  "autoConfirmationTimeoutExpiredDescription": {
+    "message": "La firma automática de Nostr ha caducado."
+  },
+  "autoConfirmationTimeoutMinutes": {
+    "message": "$minutes$ Minutos",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTimeoutNever": {
+    "message": "Nunca"
+  },
+  "autoConfirmationTimeoutOneDay": {
+    "message": "Un día"
+  },
+  "autoConfirmationTimeoutOneHour": {
+    "message": "Una hora"
+  },
+  "autoConfirmationTimeoutReset": {
+    "message": "Revocar la firma automática de Nostr"
+  },
+  "autoConfirmationTimeoutResetDescription": {
+    "message": "Nostr Auto Signing sigue siendo válido por $time$. Puede revocar la firma automática aquí.",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTitle": {
+    "message": "Confirmación automática"
+  },
+  "nostrEvent": {
+    "message": "Evento Nostr"
+  },
+  "notNostrAccount": {
+    "message": "Su cuenta actualmente seleccionada no es una cuenta de Nostr. Por favor, seleccione una cuenta correcta y vuelva a intentarlo."
+  },
+  "revoke": {
+    "message": "Revocar"
   }
 }
