@@ -3,6 +3,8 @@ import { v4 as uuid } from 'uuid';
 import browser from 'webextension-polyfill';
 
 import {
+  NostrDecryptParams,
+  NostrEncryptParams,
   NostrExtensionErrorType,
   NostrExtensionMessageType,
   NostrExtensionRequest,
@@ -93,6 +95,26 @@ async function getRelays() {
   return response.relays;
 }
 
+async function nip04Encrypt({ peer, plaintext }: NostrEncryptParams) {
+  const response = await request({
+    type: NostrExtensionMessageType.EncryptMessageRequest,
+    peer,
+    plaintext
+  });
+  assertResponse(response.type === NostrExtensionMessageType.EncryptMessageResponse);
+  return response.cipherText;
+}
+
+async function nip04Decrypt({ peer, ciphertext }: NostrDecryptParams) {
+  const response = await request({
+    type: NostrExtensionMessageType.DecryptMessageRequest,
+    peer,
+    ciphertext
+  });
+  assertResponse(response.type === NostrExtensionMessageType.DecryptMessageResponse);
+  return response.plainText;
+}
+
 /**
  * Establish connection to nostr-provider.js and forwards incoming messages to background script
  */
@@ -120,7 +142,11 @@ export function initializeNostrBridge() {
           response = await getRelays();
           break;
         case 'nip04.encrypt':
+          response = await nip04Encrypt(message.data.params);
+          break;
         case 'nip04.decrypt':
+          response = await nip04Decrypt(message.data.params);
+          break;
         default:
       }
     } catch (error) {

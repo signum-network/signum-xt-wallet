@@ -1,5 +1,5 @@
 import * as secp256k1 from '@noble/secp256k1';
-import { nip19, Kind, Event as NostrEvent, signEvent, validateEvent, getEventHash } from 'nostr-tools';
+import { nip19, Kind, Event as NostrEvent, signEvent, validateEvent, getEventHash, nip04 } from 'nostr-tools';
 
 export interface NostrKeys {
   publicKey: string;
@@ -53,8 +53,11 @@ export async function generateNostrKeys(seed: string): Promise<NostrKeys> {
   };
 }
 
+function ensureHexPrivateKey(nsecOrHex: string): string {
+  return nsecOrHex.startsWith('nsec') ? (nip19.decode(nsecOrHex).data as string) : nsecOrHex;
+}
 export function getNostrKeysFromPrivateKey(nsecOrHex: string): NostrKeys {
-  const privateKey = nsecOrHex.startsWith('nsec') ? (nip19.decode(nsecOrHex).data as string) : nsecOrHex;
+  const privateKey = ensureHexPrivateKey(nsecOrHex);
   const publicKey = secp256k1.utils.bytesToHex(secp256k1.schnorr.getPublicKey(privateKey));
   return {
     publicKey,
@@ -74,6 +77,15 @@ export function getNostrEventName(kind: number): string {
   return Kind[kind] || 'Unknown';
 }
 
+export async function encryptNostrMessage(privKey: string, peerPubKey: string, plaintext: string): Promise<string> {
+  const privateKey = ensureHexPrivateKey(privKey);
+  return nip04.encrypt(privateKey, peerPubKey, plaintext);
+}
+
+export async function decryptNostrMessage(privKey: string, peerPubKey: string, ciphertext: string): Promise<string> {
+  const privateKey = ensureHexPrivateKey(privKey);
+  return nip04.decrypt(privateKey, peerPubKey, ciphertext);
+}
 export function signNostrEvent(privKey: string, event: NostrEvent): NostrEvent {
   const { publicKey, privateKey } = getNostrKeysFromPrivateKey(privKey);
 

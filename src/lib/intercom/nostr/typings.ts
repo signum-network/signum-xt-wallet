@@ -2,19 +2,31 @@ import { Event as NostrEvent } from 'nostr-tools';
 
 import { NostrRelays } from 'lib/messaging';
 
+export interface NostrEncryptParams {
+  peer: string;
+  plaintext: string;
+}
+
+export interface NostrDecryptParams {
+  peer: string;
+  ciphertext: string;
+}
+
 export type NostrExtensionRequest =
   | NostrExtensionGetPublicKeyRequest
   | NostrExtensionGetRelaysRequest
   | NostrExtensionPermissionRequest
   | NostrExtensionSignRequest
-  | NostrExtensionSendEncryptedMessageRequest;
+  | NostrExtensionEncryptMessageRequest
+  | NostrExtensionDecryptMessageRequest;
 
 export type NostrExtensionResponse =
   | NostrExtensionGetPublicKeyResponse
   | NostrExtensionGetRelaysResponse
   | NostrExtensionPermissionResponse
   | NostrExtensionSignResponse
-  | NostrExtensionSendEncryptedMessageResponse;
+  | NostrExtensionEncryptMessageResponse
+  | NostrExtensionDecryptMessageResponse;
 
 export interface NostrExtensionMessageBase {
   type: NostrExtensionMessageType;
@@ -29,8 +41,10 @@ export enum NostrExtensionMessageType {
   PermissionResponse = 'PERMISSION_RESPONSE', // uses same permission request as signum dapps
   SignRequest = 'NOSTR_SIGN_REQUEST',
   SignResponse = 'NOSTR_SIGN_RESPONSE',
-  SendEncryptedMessageRequest = 'NOSTR_SEND_ENCRYPTED_MSG_REQUEST',
-  SendEncryptedMessageResponse = 'NOSTR_SEND_ENCRYPTED_MSG_RESPONSE'
+  EncryptMessageRequest = 'NOSTR_ENCRYPT_MSG_REQUEST',
+  EncryptMessageResponse = 'NOSTR_ENCRYPT_MSG_RESPONSE',
+  DecryptMessageRequest = 'NOSTR_DECRYPT_MSG_REQUEST',
+  DecryptMessageResponse = 'NOSTR_DeCRYPT_MSG_RESPONSE'
 }
 
 /**
@@ -75,18 +89,26 @@ export interface NostrExtensionSignResponse extends NostrExtensionMessageBase {
   event: NostrEvent;
 }
 
-export interface NostrExtensionSendEncryptedMessageRequest extends NostrExtensionMessageBase {
-  type: NostrExtensionMessageType.SendEncryptedMessageRequest;
-  plainMessage: string;
-  messageIsText: boolean;
-  recipientPublicKey: string;
-  feeSigna?: string;
+export interface NostrExtensionEncryptMessageRequest extends NostrExtensionMessageBase {
+  type: NostrExtensionMessageType.EncryptMessageRequest;
+  peer: string;
+  plaintext: string;
 }
 
-export interface NostrExtensionSendEncryptedMessageResponse extends NostrExtensionMessageBase {
-  type: NostrExtensionMessageType.SendEncryptedMessageResponse;
-  transactionId: string;
-  fullHash: string;
+export interface NostrExtensionEncryptMessageResponse extends NostrExtensionMessageBase {
+  type: NostrExtensionMessageType.EncryptMessageResponse;
+  cipherText: string;
+}
+
+export interface NostrExtensionDecryptMessageRequest extends NostrExtensionMessageBase {
+  type: NostrExtensionMessageType.DecryptMessageRequest;
+  peer: string;
+  ciphertext: string;
+}
+
+export interface NostrExtensionDecryptMessageResponse extends NostrExtensionMessageBase {
+  type: NostrExtensionMessageType.DecryptMessageResponse;
+  plainText: string;
 }
 
 export enum NostrExtensionErrorType {

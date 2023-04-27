@@ -282,6 +282,12 @@ export async function processDApp(
 
     case NostrExtensionMessageType.SignRequest:
       return withInited(() => NostrDApp.requestSignEvent(origin, req));
+
+    case NostrExtensionMessageType.EncryptMessageRequest:
+      return withInited(() => NostrDApp.requestEncryptMessage(origin, req));
+
+    case NostrExtensionMessageType.DecryptMessageRequest:
+      return withInited(() => NostrDApp.requestDecryptMessage(origin, req));
   }
 }
 
