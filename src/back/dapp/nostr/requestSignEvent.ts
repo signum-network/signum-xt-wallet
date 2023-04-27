@@ -23,7 +23,6 @@ async function isAutoConfirmationExpired() {
   }
   const { started = 0, timeout = 0 } = nostr_confirmation_timeout;
   const elapsed = Math.floor(Date.now() / 1000) - started;
-  console.log('isAutoConfirmationExpired', started, timeout, elapsed);
 
   if (elapsed > timeout) {
     // reset it

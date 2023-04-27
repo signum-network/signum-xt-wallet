@@ -71,18 +71,26 @@ function injectNostrProvider() {
 }
 
 async function getPublicKeyRequest() {
-  let response = await request({ type: NostrExtensionMessageType.GetPublicKeyRequest });
+  const response = await request({ type: NostrExtensionMessageType.GetPublicKeyRequest });
   assertResponse(response.type === NostrExtensionMessageType.GetPublicKeyResponse);
   return response.publicKey;
 }
 
 async function signEvent(event: NostrEvent) {
-  let response = await request({
+  const response = await request({
     type: NostrExtensionMessageType.SignRequest,
     event
   });
   assertResponse(response.type === NostrExtensionMessageType.SignResponse);
   return response.event;
+}
+
+async function getRelays() {
+  const response = await request({
+    type: NostrExtensionMessageType.GetRelaysRequest
+  });
+  assertResponse(response.type === NostrExtensionMessageType.GetRelaysResponse);
+  return response.relays;
 }
 
 /**
@@ -109,6 +117,8 @@ export function initializeNostrBridge() {
           }
           break;
         case 'getRelays':
+          response = await getRelays();
+          break;
         case 'nip04.encrypt':
         case 'nip04.decrypt':
         default:

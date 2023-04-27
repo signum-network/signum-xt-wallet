@@ -170,6 +170,7 @@ export function updateSettings(settings: Partial<XTSettings>) {
   return withUnlocked(async ({ vault }) => {
     const updatedSettings = await vault.updateSettings(settings);
     createCustomNetworksSnapshot(updatedSettings);
+    createNostrRelaysSnapshot(updatedSettings);
     settingsUpdated(updatedSettings);
   });
 }
