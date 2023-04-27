@@ -259,8 +259,6 @@ export async function processDApp(
   origin: string,
   req: NostrExtensionRequest | ExtensionRequest
 ): Promise<NostrExtensionResponse | ExtensionResponse | void> {
-  // Add NostrActions!
-
   switch (req?.type) {
     case ExtensionMessageType.GetCurrentPermissionRequest:
       return withInited(() => SignumDApp.getCurrentPermission(origin));

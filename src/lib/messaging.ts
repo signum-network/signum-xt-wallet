@@ -277,7 +277,6 @@ export enum XTMessageType {
   DAppSelectAccountResponse = 'XT_DAPP_SELECT_ACCOUNT_RESPONSE',
   NostrGetPublicKeyRequest = 'XT_NOSTR_PUBLIC_KEY_REQUEST',
   NostrGetPublicKeyResponse = 'XT_NOSTR_PUBLIC_KEY_RESPONSE'
-  // FIXME: add more here
 }
 
 export type TempleNotification =

@@ -37,33 +37,28 @@ const NostrAutoConfirmationSettings = () => {
           {distance ? (
             <T id="autoConfirmationTimeoutResetDescription" substitutions={[distance]} />
           ) : (
-            <T id="autoConfirmationTimeoutExpiredDescription" substitutions={[distance]} />
+            <T id="autoConfirmationTimeoutExpiredDescription" />
           )}
         </span>
       </label>
 
-      <T id="confirm">
-        {message => (
-          <button
-            className={classNames(
-              'mb-6',
-              'px-4 py-1',
-              'bg-red-500 rounded',
-              'border border-black border-opacity-5',
-              'flex items-center',
-              'text-white text-shadow-black',
-              'text-sm font-semibold',
-              'transition duration-300 ease-in-out',
-              'opacity-90 hover:opacity-100',
-              'shadow-sm hover:shadow'
-            )}
-            onClick={handleReset}
-            // disabled={!distance}
-          >
-            {t('revoke')}
-          </button>
+      <button
+        className={classNames(
+          'mb-6',
+          'px-4 py-1',
+          'bg-red-500 rounded',
+          'border border-black border-opacity-5',
+          'flex items-center',
+          'text-white text-shadow-black',
+          'text-sm font-semibold',
+          'transition duration-300 ease-in-out',
+          'opacity-90 hover:opacity-100',
+          'shadow-sm hover:shadow'
         )}
-      </T>
+        onClick={handleReset}
+      >
+        {t('revoke')}
+      </button>
     </>
   );
 };
