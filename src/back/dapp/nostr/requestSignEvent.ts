@@ -1,6 +1,5 @@
 import { getEventHash, validateEvent } from 'nostr-tools';
 import { v4 as uuid } from 'uuid';
-import browser from 'webextension-polyfill';
 
 import {
   NostrExtensionErrorType,
@@ -9,6 +8,7 @@ import {
   NostrExtensionSignResponse
 } from 'lib/intercom/nostr/typings';
 import { XTMessageType } from 'lib/messaging';
+
 import { withUnlocked } from '../../store';
 import { getCurrentAccountInfo, getDApp } from '../dapp';
 import { requestConfirm } from '../requestConfirm';
@@ -23,7 +23,6 @@ export async function requestSignEvent(
     isAutoConfirmationExpired()
   ]);
 
-  // TODO: check if permission is required again!
   if (!dApp) {
     throw new Error(NostrExtensionErrorType.NotGranted);
   }
