@@ -113,6 +113,7 @@ export interface NostrRelayPolicy {
 }
 
 export type NostrRelays = Record<string, NostrRelayPolicy>;
+
 export interface XTSettings {
   customNetworks?: Network[];
   nostrRelays?: NostrRelays;
@@ -160,6 +161,13 @@ export interface TempleDAppConnectPayload extends TempleDAppPayloadBase {
   type: 'connect';
 }
 
+export interface TempleNostrSignPayload extends TempleDAppPayloadBase {
+  type: 'signNostr';
+  sourcePkh: string;
+  nostrPubKey: string;
+  event: object; // Nostr Event Type
+}
+
 export interface TempleDAppSignPayload extends TempleDAppPayloadBase {
   type: 'sign';
   sourcePkh: string;
@@ -179,7 +187,8 @@ export interface TempleDAppSendEncryptedMessagePayload extends TempleDAppPayload
 export type TempleDAppPayload =
   | TempleDAppConnectPayload
   | TempleDAppSignPayload
-  | TempleDAppSendEncryptedMessagePayload;
+  | TempleDAppSendEncryptedMessagePayload
+  | TempleNostrSignPayload;
 
 /**
  * Messages
@@ -191,7 +200,7 @@ export enum XTMessageType {
   ConfirmationRequested = 'XT_CONFIRMATION_REQUESTED',
   ConfirmationExpired = 'XT_CONFIRMATION_EXPIRED',
 
-  // DAppNotifications
+  // Outgoing DAppNotifications
   DAppNetworkChanged = 'XT_DAPP_NETWORK_CHANGED',
   DAppAccountChanged = 'XT_DAPP_ACCOUNT_CHANGED',
   DAppPermissionRemoved = 'XT_DAPP_PERMISSION_REMOVED',
@@ -265,7 +274,9 @@ export enum XTMessageType {
   DAppSelectNetworkRequest = 'XT_DAPP_SELECT_NETWORK_REQUEST',
   DAppSelectNetworkResponse = 'XT_DAPP_SELECT_NETWORK_RESPONSE',
   DAppSelectAccountRequest = 'XT_DAPP_SELECT_ACCOUNT_REQUEST',
-  DAppSelectAccountResponse = 'XT_DAPP_SELECT_ACCOUNT_RESPONSE'
+  DAppSelectAccountResponse = 'XT_DAPP_SELECT_ACCOUNT_RESPONSE',
+  NostrGetPublicKeyRequest = 'XT_NOSTR_PUBLIC_KEY_REQUEST',
+  NostrGetPublicKeyResponse = 'XT_NOSTR_PUBLIC_KEY_RESPONSE'
 }
 
 export type TempleNotification =
@@ -310,7 +321,8 @@ export type TempleRequest =
   | TempleRemoveDAppSessionRequest
   | TempleDAppSelectNetworkRequest
   | TempleDAppSelectAccountRequest
-  | TemplePageTextSelectedRequest;
+  | TemplePageTextSelectedRequest
+  | TempleNostrGetPublicKeyRequest;
 
 export type TempleResponse =
   | TempleGetStateResponse
@@ -346,7 +358,8 @@ export type TempleResponse =
   | TempleRemoveDAppSessionResponse
   | TempleDAppSelectNetworkResponse
   | TempleDAppSelectAccountResponse
-  | TemplePageTextSelectedResponse;
+  | TemplePageTextSelectedResponse
+  | TempleNostrGetPublicKeyResponse;
 
 export interface TempleMessageBase {
   type: XTMessageType;
@@ -735,6 +748,15 @@ export interface TempleDAppSelectAccountRequest extends TempleMessageBase {
 
 export interface TempleDAppSelectAccountResponse extends TempleMessageBase {
   type: XTMessageType.DAppSelectAccountResponse;
+}
+
+export interface TempleNostrGetPublicKeyRequest extends TempleMessageBase {
+  type: XTMessageType.NostrGetPublicKeyRequest;
+}
+
+export interface TempleNostrGetPublicKeyResponse extends TempleMessageBase {
+  type: XTMessageType.NostrGetPublicKeyResponse;
+  publicKey: string;
 }
 
 export type OperationsPreview = any[] | { branch: string; contents: any[] };

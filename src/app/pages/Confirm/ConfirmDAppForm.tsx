@@ -69,6 +69,7 @@ const ConfirmDAppForm: FC = () => {
         case 'connect':
           return confirmDAppPermission(id, confirmed, accountToConnect);
         case 'sign':
+        case 'signNostr':
           return confirmDAppSign(id, confirmed);
         case 'sendEncryptedMsg':
           return confirmDAppSendEncryptedMessage(id, confirmed);
@@ -166,6 +167,32 @@ const ConfirmDAppForm: FC = () => {
             </div>
           )
         };
+      case 'signNostr':
+        return {
+          title: t('confirmAction', t('nostrEvent').toLowerCase()),
+          declineActionTitle: t('cancel'),
+          declineActionTestID: ConfirmPageSelectors.SignAction_RejectButton,
+          confirmActionTitle: t('signAction'),
+          confirmActionTestID: ConfirmPageSelectors.SignAction_SignButton,
+          want: (
+            <div className={classNames('mb-2 text-sm text-center text-gray-700', 'flex flex-col items-center')}>
+              <div className="flex items-center justify-center">
+                <DAppLogo origin={payload.origin} size={16} className="mr-1" />
+                <Name className="font-semibold" style={{ maxWidth: '10rem' }}>
+                  {payload.appMeta.name}
+                </Name>
+              </div>
+              <T
+                id="appRequestsToSignNostrEvent"
+                substitutions={[
+                  <Name className="max-w-full text-xs italic" key="origin">
+                    {payload.origin}
+                  </Name>
+                ]}
+              />
+            </div>
+          )
+        };
       case 'sendEncryptedMsg':
         return {
           title: t('sendEncryptedMsgAction'),
@@ -195,7 +222,9 @@ const ConfirmDAppForm: FC = () => {
     }
   }, [payload.type, payload.origin, payload.appMeta.name, error]);
 
-  const hasCorrectNetwork = payload.network === network.networkName;
+  const isNostr = payload.network.toLowerCase() === 'nostr';
+  const hasCorrectNetwork = payload.network === network.networkName || isNostr;
+  const isCorrectNostrAccount = isNostr ? !!account.publicKeyNostr : true;
 
   return (
     <CustomRpsContext.Provider value={payload.network}>
@@ -244,10 +273,16 @@ const ConfirmDAppForm: FC = () => {
                 />
               )}
 
-              <NetworkBanner networkName={payload.network} narrow={payload.type === 'connect'} />
+              {!isNostr && <NetworkBanner networkName={payload.network} narrow={payload.type === 'connect'} />}
 
               {!hasCorrectNetwork && (
                 <T id="wrongCurrentNetworkNode" substitutions={[payload.network]}>
+                  {message => <p className="mb-4 text-xs font-medium text-center text-red-500">{message}</p>}
+                </T>
+              )}
+
+              {!isCorrectNostrAccount && (
+                <T id="notNostrAccount">
                   {message => <p className="mb-4 text-xs font-medium text-center text-red-500">{message}</p>}
                 </T>
               )}
@@ -279,7 +314,7 @@ const ConfirmDAppForm: FC = () => {
               className="justify-center w-full"
               loading={confirming}
               onClick={handleConfirmClick}
-              disabled={!hasCorrectNetwork}
+              disabled={!hasCorrectNetwork || !isCorrectNostrAccount}
               testID={content.confirmActionTestID}
             >
               {content.confirmActionTitle}

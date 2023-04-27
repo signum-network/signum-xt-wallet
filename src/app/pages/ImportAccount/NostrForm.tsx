@@ -85,11 +85,12 @@ export const ByNostrKeyForm: FC = () => {
         className="resize-none"
         errorCaption={error}
       />
-      <>
+      <div className="my-4">
         <span className="text-base font-semibold text-gray-700">{t('address')}:</span>
         <span className="text-base font-semibold text-gray-700">&nbsp;{address}</span>
-      </>
+      </div>
 
+      <Alert type="warn" title={t('nostrPrivateKeyImportWarnTitle')} description={t('nostrPrivateKeyImportWarn')} />
       <FormSubmitButton loading={formState.isSubmitting} className="my-4" disabled={!!error}>
         {t('importAccount')}
       </FormSubmitButton>

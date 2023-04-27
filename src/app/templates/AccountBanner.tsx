@@ -5,6 +5,7 @@ import classNames from 'clsx';
 import AccountTypeBadge from 'app/atoms/AccountTypeBadge';
 import Money from 'app/atoms/Money';
 import Name from 'app/atoms/Name';
+import { NostrAddressChip } from 'app/pages/Explore/NostrAddressChip';
 import Balance from 'app/templates/Balance';
 import { t } from 'lib/i18n/react';
 import { useSignumAssetMetadata, XTAccount } from 'lib/temple/front';
@@ -46,7 +47,6 @@ const AccountBanner = memo<AccountBannerProps>(
           <div className="flex flex-col items-start ml-2">
             <div className="flex flex-wrap items-center">
               <Name className="text-sm font-medium leading-tight text-gray-800">{account.name}</Name>
-
               <AccountTypeBadge account={account} />
             </div>
 
@@ -65,6 +65,12 @@ const AccountBanner = memo<AccountBannerProps>(
                 </Balance>
               )}
             </div>
+
+            {account.publicKeyNostr && (
+              <div className="mx-auto">
+                <NostrAddressChip account={account} clickable={false} />
+              </div>
+            )}
           </div>
         </div>
       </div>

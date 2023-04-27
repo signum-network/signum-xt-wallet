@@ -2107,5 +2107,65 @@
   },
   "nostrRelayNotReachable": {
     "message": "Relé não alcançável"
+  },
+  "appRequestsToSignNostrEvent": {
+    "message": "$origin$ pede para você confirmar o evento",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationDescription": {
+    "message": "Você pode ativar a confirmação automática para o período determinado. Dessa forma, você não precisa confirmar cada ação manualmente."
+  },
+  "autoConfirmationTimeoutExpiredDescription": {
+    "message": "A assinatura automática Nostr expirou."
+  },
+  "autoConfirmationTimeoutMinutes": {
+    "message": "$minutes$ Minutos",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTimeoutNever": {
+    "message": "Nunca"
+  },
+  "autoConfirmationTimeoutOneDay": {
+    "message": "Um dia"
+  },
+  "autoConfirmationTimeoutOneHour": {
+    "message": "Uma hora"
+  },
+  "autoConfirmationTimeoutReset": {
+    "message": "Revogar assinatura automática Nostr"
+  },
+  "autoConfirmationTimeoutResetDescription": {
+    "message": "A assinatura automática Nostr ainda é válida por $time$. Você pode revogar a assinatura automática aqui.",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTitle": {
+    "message": "Confirmação Automática"
+  },
+  "nostrEvent": {
+    "message": "Evento Nostr"
+  },
+  "notNostrAccount": {
+    "message": "Sua conta atualmente selecionada não é uma conta Nostr. Selecione uma conta correta e tente novamente."
+  },
+  "revoke": {
+    "message": "Revogar"
+  },
+  "nostrPrivateKeyImportWarn": {
+    "message": "Observe que esta opção é fornecida apenas no caso de você querer usar sua chave nostr privada como frase de recuperação. Verifique o endereço resultante antes de importar!"
+  },
+  "nostrPrivateKeyImportWarnTitle": {
+    "message": "Verificar endereço"
   }
 }

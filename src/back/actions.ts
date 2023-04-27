@@ -1,21 +1,22 @@
 import browser, { Runtime } from 'webextension-polyfill';
 
-import { AppState, XTMessageType, TempleRequest, XTSettings, XTSharedStorageKey } from 'lib/messaging';
+import { NostrExtensionMessageType, NostrExtensionRequest, NostrExtensionResponse } from 'lib/intercom/nostr/typings';
+import { AppState, TempleRequest, XTMessageType, XTSettings, XTSharedStorageKey } from 'lib/messaging';
 import { createQueue } from 'lib/queue';
 
 import { MenuItems, setMenuItemEnabled } from './context-menus';
-import { getCurrentPermission, requestPermission, requestSign, getAllDApps, removeDApp } from './dapp';
-import { requestSendEncryptedMessage } from './dapp/requestSendEncryptedMessage';
+import * as SignumDApp from './dapp';
+import * as NostrDApp from './dapp/nostr';
 import { ExtensionMessageType, ExtensionRequest, ExtensionResponse } from './dapp/typings';
 import { intercom } from './defaults';
 import {
-  toFront,
-  store,
+  accountsUpdated,
   inited,
   locked,
-  unlocked,
-  accountsUpdated,
   settingsUpdated,
+  store,
+  toFront,
+  unlocked,
   withInited,
   withUnlocked
 } from './store';
@@ -169,16 +170,17 @@ export function updateSettings(settings: Partial<XTSettings>) {
   return withUnlocked(async ({ vault }) => {
     const updatedSettings = await vault.updateSettings(settings);
     createCustomNetworksSnapshot(updatedSettings);
+    createNostrRelaysSnapshot(updatedSettings);
     settingsUpdated(updatedSettings);
   });
 }
 
 export function getAllDAppSessions() {
-  return getAllDApps();
+  return SignumDApp.getAllDApps();
 }
 
 export function removeDAppSession(origin: string) {
-  return removeDApp(origin);
+  return SignumDApp.removeDApp(origin);
 }
 
 export function getSignumTxKeys(accPublicKey: string) {
@@ -253,19 +255,37 @@ export function sign(port: Runtime.Port, id: string, sourcePkh: string, bytes: s
   );
 }
 
-export async function processDApp(origin: string, req: ExtensionRequest): Promise<ExtensionResponse | void> {
+export async function processDApp(
+  origin: string,
+  req: NostrExtensionRequest | ExtensionRequest
+): Promise<NostrExtensionResponse | ExtensionResponse | void> {
   switch (req?.type) {
     case ExtensionMessageType.GetCurrentPermissionRequest:
-      return withInited(() => getCurrentPermission(origin));
+      return withInited(() => SignumDApp.getCurrentPermission(origin));
 
     case ExtensionMessageType.PermissionRequest:
-      return withInited(() => requestPermission(origin, req));
+      return withInited(() => SignumDApp.requestPermission(origin, req));
 
     case ExtensionMessageType.SignRequest:
-      return withInited(() => requestSign(origin, req));
+      return withInited(() => SignumDApp.requestSign(origin, req));
 
     case ExtensionMessageType.SendEncryptedMessageRequest:
-      return withInited(() => requestSendEncryptedMessage(origin, req));
+      return withInited(() => SignumDApp.requestSendEncryptedMessage(origin, req));
+
+    case NostrExtensionMessageType.GetPublicKeyRequest:
+      return withInited(() => NostrDApp.getPublicKey(origin, req));
+
+    case NostrExtensionMessageType.GetRelaysRequest:
+      return withInited(() => NostrDApp.getRelays(origin, req));
+
+    case NostrExtensionMessageType.SignRequest:
+      return withInited(() => NostrDApp.requestSignEvent(origin, req));
+
+    case NostrExtensionMessageType.EncryptMessageRequest:
+      return withInited(() => NostrDApp.requestEncryptMessage(origin, req));
+
+    case NostrExtensionMessageType.DecryptMessageRequest:
+      return withInited(() => NostrDApp.requestDecryptMessage(origin, req));
   }
 }
 
@@ -278,7 +298,7 @@ async function createCustomNetworksSnapshot(settings: XTSettings) {
     }
   } catch {}
 }
-async function createNostrRelayssSnapshot(settings: XTSettings) {
+async function createNostrRelaysSnapshot(settings: XTSettings) {
   try {
     if (settings.nostrRelays) {
       await browser.storage.local.set({

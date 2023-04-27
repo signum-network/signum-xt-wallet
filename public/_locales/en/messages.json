@@ -207,6 +207,14 @@
       }
     }
   },
+  "appRequestsToSignNostrEvent": {
+    "message": "$origin$ asks you to confirm the event",
+    "placeholders": {
+      "origin": {
+        "content": "$1"
+      }
+    }
+  },
   "appWouldLikeToConnectToYourWallet": {
     "message": "$origin$ wants to connect to your wallet",
     "placeholders": {
@@ -1432,6 +1440,9 @@
   "transaction": {
     "message": "Transaction"
   },
+  "nostrEvent": {
+    "message": "Nostr event"
+  },
   "transactionId": {
     "message": "Transaction ID:"
   },
@@ -1900,6 +1911,9 @@
       }
     }
   },
+  "notNostrAccount": {
+    "message": "Your currently selected account is not a Nostr account. Please, select a correct account and retry."
+  },
   "currentNetworkNode": {
     "message": "Current Network Node"
   },
@@ -2061,7 +2075,13 @@
     "message": "If you only use an account address or account id to import, it will not be possible to carry out transactions. You can only observe the imported account."
   },
   "importAccountNostrPrivKeyDescription": {
-    "message": "If you have a Nostr account but no Signum account, you can use your private Nostr key to create a matching Signum account for your existing Nostr account. You can also use the private Nostr key in other Signum wallets."
+    "message": "If you have a Nostr account but no Signum account, you can use your private Nostr key to create a matching Signum account for your existing Nostr account. You can also use the private Nostr key (in hex form only!!!) in other Signum wallets."
+  },
+  "nostrPrivateKeyImportWarn": {
+    "message": "Note that this option is provided only in case you want to use your private nostr key as recovery phrase. Please check the resulting address before importing!"
+  },
+  "nostrPrivateKeyImportWarnTitle": {
+    "message": "Verify Address"
   },
   "nostrPrivateKeyInputLabel": {
     "message": "Private Nostr Key"
@@ -2107,5 +2127,45 @@
   },
   "nostrRelayNotReachable": {
     "message": "Relay Not Reachable"
+  },
+  "autoConfirmationTitle": {
+    "message": "Automatic Confirmation"
+  },
+  "autoConfirmationDescription": {
+    "message": "You can enable automatic confirmation for the given period. This way you don't need to confirm each action manually."
+  },
+  "autoConfirmationTimeoutNever": {
+    "message": "Never"
+  },
+  "autoConfirmationTimeoutMinutes": {
+    "message": "$minutes$ Minutes",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTimeoutReset": {
+    "message": "Revoke Nostr Auto Signing"
+  },
+  "autoConfirmationTimeoutResetDescription": {
+    "message": "Nostr Auto Signing is still valid for $time$. You can revoke the automatic signing here.",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "autoConfirmationTimeoutExpiredDescription": {
+    "message": "Nostr Auto Signing is expired."
+  },
+  "revoke": {
+    "message": "Revoke "
+  },
+  "autoConfirmationTimeoutOneDay": {
+    "message": "One Day"
+  },
+  "autoConfirmationTimeoutOneHour": {
+    "message": "One Hour"
   }
 }

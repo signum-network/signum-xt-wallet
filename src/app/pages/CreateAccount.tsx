@@ -56,13 +56,12 @@ const CreateAccount: FC = () => {
   const submitting = formState.isSubmitting;
   const accountName = watch('name');
 
-  const onSubmit = async () => {
+  const onSubmit = async ({ withNostr }: any) => {
     if (submitting) return;
     if (!accountName || !mnemonic) return;
     clearError('name');
-
     try {
-      await importMnemonicAccount(mnemonic, accountName);
+      await importMnemonicAccount(mnemonic, accountName, withNostr);
     } catch (err: any) {
       console.error(err);
       await withErrorHumanDelay(err, () => {

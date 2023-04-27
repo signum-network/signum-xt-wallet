@@ -1,11 +1,43 @@
 import * as secp256k1 from '@noble/secp256k1';
-import { nip19 } from 'nostr-tools';
-
-import { shortenString } from 'lib/shortenString';
+import { nip19, Event as NostrEvent, signEvent, validateEvent, getEventHash, nip04 } from 'nostr-tools';
 
 export interface NostrKeys {
   publicKey: string;
   privateKey: string;
+}
+
+export enum Kind {
+  Metadata = 0,
+  Text = 1,
+  RecommendRelay = 2,
+  Contacts = 3,
+  EncryptedDirectMessage = 4,
+  EventDeletion = 5,
+  Reposts = 6,
+  Reaction = 7,
+  BadgeAward = 8,
+  ChannelCreation = 40,
+  ChannelMetadata = 41,
+  ChannelMessage = 42,
+  ChannelHideMessage = 43,
+  ChannelMuteUser = 44,
+  FileMetadata = 1063,
+  Reporting = 1984,
+  ZapRequest = 9734,
+  Zap = 9735,
+  MuteList = 10000,
+  PinList = 10000,
+  RelayList = 10002,
+  ClientAuth = 22242,
+  NostrConnect = 24133,
+  CategorizedPeopleList = 30000,
+  CategorizedBookmarkList = 30001,
+  BadgeDefinition = 30008,
+  ProfileBadge = 30009,
+  EditStall = 30017,
+  EditProduct = 30018,
+  Article = 30023,
+  ApplicationData = 30078
 }
 
 /*
@@ -55,8 +87,11 @@ export async function generateNostrKeys(seed: string): Promise<NostrKeys> {
   };
 }
 
+function ensureHexPrivateKey(nsecOrHex: string): string {
+  return nsecOrHex.startsWith('nsec') ? (nip19.decode(nsecOrHex).data as string) : nsecOrHex;
+}
 export function getNostrKeysFromPrivateKey(nsecOrHex: string): NostrKeys {
-  const privateKey = nsecOrHex.startsWith('nsec') ? (nip19.decode(nsecOrHex).data as string) : nsecOrHex;
+  const privateKey = ensureHexPrivateKey(nsecOrHex);
   const publicKey = secp256k1.utils.bytesToHex(secp256k1.schnorr.getPublicKey(privateKey));
   return {
     publicKey,
@@ -72,6 +107,28 @@ export async function encodePubKey(pubKey: string) {
   return nip19.npubEncode(pubKey);
 }
 
-export function shortenPublicKey(pubKey: string): string {
-  return shortenString(pubKey, 16, ':');
+export function getNostrEventName(kind: number): string {
+  return Kind[kind] || 'Unknown';
+}
+
+export async function encryptNostrMessage(privKey: string, peerPubKey: string, plaintext: string): Promise<string> {
+  const privateKey = ensureHexPrivateKey(privKey);
+  return nip04.encrypt(privateKey, peerPubKey, plaintext);
+}
+
+export async function decryptNostrMessage(privKey: string, peerPubKey: string, ciphertext: string): Promise<string> {
+  const privateKey = ensureHexPrivateKey(privKey);
+  return nip04.decrypt(privateKey, peerPubKey, ciphertext);
+}
+export function signNostrEvent(privKey: string, event: NostrEvent): NostrEvent {
+  const { publicKey, privateKey } = getNostrKeysFromPrivateKey(privKey);
+
+  if (!event.pubkey) event.pubkey = publicKey;
+  if (!event.id) event.id = getEventHash(event);
+  if (!validateEvent(event)) {
+    throw new Event('Invalid Nostr Event');
+  }
+  event.sig = signEvent(event, privateKey);
+
+  return event;
 }

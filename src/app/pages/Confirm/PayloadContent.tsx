@@ -6,6 +6,7 @@ import AccountTypeBadge from 'app/atoms/AccountTypeBadge';
 import HashShortView from 'app/atoms/HashShortView';
 import Name from 'app/atoms/Name';
 import { OptionRenderProps } from 'app/templates/CustomSelect';
+import NostrSignView from 'app/templates/NostrSignView/NostrSignView';
 import EncryptMsgView from 'app/templates/SignumEncryptMsgView/EncryptMsgView';
 import SignView from 'app/templates/SignumSignView/SignView';
 import { T } from 'lib/i18n/react';
@@ -70,6 +71,10 @@ const PayloadContent: React.FC<PayloadContentProps> = ({ accountPkhToConnect, pa
   }
   if (payload.type === 'sign') {
     return <SignView payload={payload} />;
+  }
+
+  if (payload.type === 'signNostr') {
+    return <NostrSignView payload={payload} />;
   }
 
   if (payload.type === 'sendEncryptedMsg') {

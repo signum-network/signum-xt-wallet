@@ -7,7 +7,7 @@ import useForceUpdate from 'use-force-update';
 import { createQueue } from 'lib/queue';
 import { useRetryableSWR } from 'lib/swr';
 import {
-  usePassiveStorage,
+  useSharedStorage,
   AssetMetadata,
   fetchTokenMetadata,
   SIGNA_METADATA,
@@ -121,7 +121,7 @@ const defaultAllTokensBaseMetadata = {};
 const enqueueSetAllTokensBaseMetadata = createQueue();
 
 export const [TokensMetadataProvider, useTokensMetadata] = constate(() => {
-  const [initialAllTokensBaseMetadata] = usePassiveStorage<Record<string, AssetMetadata>>(
+  const [initialAllTokensBaseMetadata] = useSharedStorage<Record<string, AssetMetadata>>(
     ALL_TOKENS_BASE_METADATA_STORAGE_KEY,
     defaultAllTokensBaseMetadata
   );

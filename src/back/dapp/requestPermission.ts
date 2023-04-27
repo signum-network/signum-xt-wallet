@@ -32,7 +32,8 @@ export async function requestPermission(
   const publicKey = account.publicKey;
   const watchOnly = account.type === XTAccountType.WatchOnly;
   const accountId = Address.fromPublicKey(publicKey).getNumericId();
-  if (dApp && req.network === dApp.network && req.appMeta.name === dApp.appMeta.name) {
+  const hasCorrectNetwork = dApp && (req.network.toLowerCase() === 'nostr' || req.network === dApp.network);
+  if (dApp && hasCorrectNetwork && req.appMeta.name === dApp.appMeta.name) {
     return {
       type: ExtensionMessageType.PermissionResponse,
       availableNodeHosts: hostUrls,

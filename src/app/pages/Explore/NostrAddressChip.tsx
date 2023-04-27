@@ -13,8 +13,9 @@ import { navigate } from 'lib/woozie';
 type AddressChipProps = {
   account: XTAccount;
   className?: string;
+  clickable?: boolean;
 };
-export const NostrAddressChip = ({ account, className }: AddressChipProps) => {
+export const NostrAddressChip = ({ account, className, clickable = true }: AddressChipProps) => {
   const [pubKey, setPubKey] = useState('');
   const buttonRef = useTippy<HTMLButtonElement>({
     delay: 500,
@@ -43,13 +44,15 @@ export const NostrAddressChip = ({ account, className }: AddressChipProps) => {
       <CopyButton text={account.publicKeyNostr} className="bg-purple-200">
         <HashShortView hash={pubKey} firstCharsCount={8} lastCharsCount={8} delimiter=":" />
       </CopyButton>
-      <Button
-        ref={buttonRef}
-        onClick={handleNostrClick}
-        className="hover:bg-purple-300 transition ease-in-out duration-300"
-      >
-        <NostrIcon className="h-8 w-auto p-1" />
-      </Button>
+      {clickable && (
+        <Button
+          ref={buttonRef}
+          onClick={handleNostrClick}
+          className="hover:bg-purple-300 transition ease-in-out duration-300"
+        >
+          <NostrIcon className="h-8 w-auto p-1" />
+        </Button>
+      )}
     </div>
   );
 };

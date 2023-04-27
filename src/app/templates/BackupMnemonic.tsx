@@ -6,10 +6,12 @@ import Alert from 'app/atoms/Alert';
 import FormCheckbox from 'app/atoms/FormCheckbox';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
+import { ReactComponent as NostrIcon } from 'app/icons/nostr-logo.svg';
 import { T, t } from 'lib/i18n/react';
 
 interface BackupFormData {
   backuped: boolean;
+  withNostr: boolean;
 }
 
 type BackupProps = {
@@ -21,7 +23,7 @@ type BackupProps = {
 
 const BackupMnemonic: FC<BackupProps> = ({ mnemonic, buttonLabelId, onBackupComplete, disabled = false }) => {
   const { register, handleSubmit, errors, formState, watch } = useForm<BackupFormData>({
-    defaultValues: { backuped: false }
+    defaultValues: { backuped: false, withNostr: false }
   });
   const submitting = formState.isSubmitting;
   const backuped = watch('backuped');
@@ -58,7 +60,20 @@ const BackupMnemonic: FC<BackupProps> = ({ mnemonic, buttonLabelId, onBackupComp
         value={mnemonic}
       />
 
-      <form className="w-full mt-8" onSubmit={handleSubmit(onBackupComplete)}>
+      <form className="w-full" onSubmit={handleSubmit(onBackupComplete)}>
+        <div className="mb-2">
+          <div className="flex flex-row items-center w-full">
+            <FormCheckbox
+              containerClassName="w-full"
+              name="withNostr"
+              ref={register()}
+              label={t('nostrAccountImport')}
+            />
+            <NostrIcon className="ml-2 h-10 w-auto" />
+          </div>
+          <div className="text-xs text-gray-500 text-justify">{t('nostrAccountImportDescription')}</div>
+        </div>
+
         <FormCheckbox
           ref={register({
             validate: val => val || t('unableToContinueWithoutConfirming')

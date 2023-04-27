@@ -30,3 +30,18 @@ export interface ErrorMessage extends ReqResMessage {
 export interface SubscriptionMessage extends Message {
   type: MessageType.Sub;
 }
+
+/**
+ * These are incoming/external message types
+ */
+export interface SignumPageMessage {
+  type: SignumPageMessageType;
+  payload: any;
+  reqId?: string | number;
+}
+
+export enum SignumPageMessageType {
+  Request = 'SIGNUM_PAGE_REQUEST',
+  Response = 'SIGNUM_PAGE_RESPONSE',
+  ErrorResponse = 'SIGNUM_PAGE_ERROR_RESPONSE'
+}
