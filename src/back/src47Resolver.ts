@@ -4,7 +4,7 @@ import browser, { WebNavigation } from 'webextension-polyfill';
 
 import { getCurrentNetworkHost } from './dapp';
 
-function findSRC47URI(url: URL): string {
+function extractSRC47URI(url: URL): string {
   const parse = (str: string) => {
     try {
       str = str.endsWith('/') ? str.substring(0, str.length - 1) : str;
@@ -15,12 +15,21 @@ function findSRC47URI(url: URL): string {
       return '';
     }
   };
+
+  if (url.origin === 'https://signum' || url.origin === 'http://signum') {
+    const alias = url.username;
+    const tld = url.password || 'signum';
+    return parse(`signum://${alias}:${tld}`);
+  }
+
   const uri = parse(url.origin);
   if (!uri) {
     const search = url.searchParams;
     for (let [, value] of search) {
-      const validURI = parse(value);
-      if (validURI) return validURI;
+      console.log('resolver', value);
+      if (value.endsWith('@signum')) {
+        return parse(`signum://${value.replace('@signum', '')}`);
+      }
     }
   }
   return uri;
@@ -44,12 +53,13 @@ const SWHackyLedger = (nodeHost: string) => ({
 async function handleBeforeNavigate(details: WebNavigation.OnBeforeNavigateDetailsType) {
   if (details.frameId > 0) return;
   try {
-    const foundURI = findSRC47URI(new URL(details.url));
-    if (!foundURI) return;
+    // url in format: https://<alias>:<namespace>@signum
+    const uri = extractSRC47URI(new URL(details.url));
+    if (!uri) return;
     const { rpcBaseURL: nodeHost } = await getCurrentNetworkHost();
     // @ts-ignore
     const resolver = new URIResolver(SWHackyLedger(nodeHost));
-    const resolved = await resolver.resolve(foundURI);
+    const resolved = await resolver.resolve(uri);
     if (typeof resolved !== 'string') return;
     new URL(resolved); // throws on invalid URL
     const url = sanitizeUrl(resolved);
