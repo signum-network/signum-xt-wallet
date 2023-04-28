@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.0 (TBD)
+## 1.5.0
 
 ### New features
 
