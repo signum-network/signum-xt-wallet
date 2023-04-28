@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.1 (firefox only)
+
+- Hotfix for loading the Nostr Provider in MV2
+
 ## 1.5.0
 
 ### New features

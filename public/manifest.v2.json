@@ -65,8 +65,8 @@
     {
       "matches": ["http://localhost/*", "http://127.0.0.1/*", "https://*/*"],
       "js": ["contentScript.js"],
-      "run_at": "document_start",
       "all_frames": true
     }
-  ]
+  ],
+  "web_accessible_resources": ["nostr-provider.js"]
 }
