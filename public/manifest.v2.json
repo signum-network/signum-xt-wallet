@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Signum XT Wallet",
   "version": "__VERSION__",
-  "omnibox": { "keyword": "siggi" },
+  "omnibox": { "keyword": "siggy" },
 
   "icons": {
     "16": "misc/signum-icon-16.png",
