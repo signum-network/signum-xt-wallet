@@ -18,6 +18,10 @@ const NostrAutoConfirmationSettings = () => {
   };
 
   const distance = useMemo(() => {
+    if (!confirmationTimeout) {
+      return '';
+    }
+
     const { timeout, started } = confirmationTimeout;
     const targetTimeout = (started + timeout) * 1000;
     if (Date.now() > targetTimeout) {

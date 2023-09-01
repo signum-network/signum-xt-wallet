@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { Address, Alias } from '@signumjs/core';
+import { URIResolver } from '@signumjs/standards';
 
 import { useSignum } from './ready';
 
@@ -39,15 +40,13 @@ export function useSignumAliasResolver() {
         const accountId = address.getNumericId();
         const rs = address.getReedSolomonAddress(false);
         const { aliases } = await signum.service.query<AliasList>('getAliases', { account: accountId });
-        // TODO: this legacy pattern is deprecated
-        const aliasPattern = new RegExp(`acct:(s|ts|burst)-${rs.toLowerCase()}@burst`);
         const accountsAliases = aliases.filter(({ aliasURI }) => {
           try {
             // checking for SRC44 spec
             const json = JSON.parse(aliasURI);
             return json.ac === accountId;
           } catch (e) {
-            return aliasPattern.test(aliasURI);
+            return null;
           }
         });
         // Aliases are ordered by times - newest is last
@@ -65,8 +64,9 @@ export function useSignumAliasResolver() {
         if (aliasName.length < 2) {
           return null;
         }
-        const { aliasURI } = await signum.alias.getAliasByName(aliasName);
-        return tryGetAccountIdFromAliasContent(aliasURI);
+
+        const resolver = new URIResolver(signum);
+        return (await resolver.resolve(`https://${aliasName}/ac`)) as string;
       } catch (e) {
         return null;
       }

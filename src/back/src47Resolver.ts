@@ -4,10 +4,15 @@ import browser, { WebNavigation } from 'webextension-polyfill';
 
 import { getCurrentNetworkHost } from './dapp';
 
+const stripTrailingSlash = (url: string) => {
+  return url.endsWith('/') ? url.substring(0, url.length - 1) : url;
+};
 function extractSRC47URI(url: URL): string {
   const parse = (str: string) => {
     try {
-      str = str.endsWith('/') ? str.substring(0, str.length - 1) : str;
+      if (!str.startsWith('https://') && !str.startsWith('http://')) {
+        str = `https://${str}`;
+      }
       URIResolver.parseURI(str);
       return str;
     } catch (e: any) {
@@ -16,19 +21,14 @@ function extractSRC47URI(url: URL): string {
     }
   };
 
-  if (url.origin === 'https://signum' || url.origin === 'http://signum') {
-    const alias = url.username;
-    const tld = url.password || 'signum';
-    return parse(`signum://${alias}:${tld}`);
-  }
-
-  const uri = parse(url.origin);
+  let uri = parse(url.href);
   if (!uri) {
+    // check search string
     const search = url.searchParams;
     for (let [, value] of search) {
-      console.log('resolver', value);
-      if (value.endsWith('@signum')) {
-        return parse(`signum://${value.replace('@signum', '')}`);
+      uri = parse(value);
+      if (uri) {
+        break;
       }
     }
   }
@@ -38,8 +38,12 @@ function extractSRC47URI(url: URL): string {
 // Service Workers can only use fetch api.... SignumJS legder uses Axios and does not work here
 const SWHackyLedger = (nodeHost: string) => ({
   alias: {
-    getAliasByName: async (aliasName: string) => {
-      const response = await fetch(`${nodeHost}/api?requestType=getAlias&aliasName=${aliasName}`);
+    getAliasByName: async (aliasName: string, tld?: string) => {
+      let url = `${nodeHost}/api?requestType=getAlias&aliasName=${aliasName}`;
+      if (tld) {
+        url += `&tld=${tld}`;
+      }
+      const response = await fetch(url);
       const result = await response.json();
       if (result.errorCode) {
         // @ts-ignore
@@ -50,24 +54,41 @@ const SWHackyLedger = (nodeHost: string) => ({
   }
 });
 
+let lastResolved = '';
 async function handleBeforeNavigate(details: WebNavigation.OnBeforeNavigateDetailsType) {
+  // Handles SRC47 Links: https://github.com/signum-network/SIPs/blob/master/SIP/sip-47.md
+  // url in format: https://<subdomain>.<domain>@<namespace>
+  // url in format: https://<subdomain>.<domain>.<namespace>
   if (details.frameId > 0) return;
   try {
-    // url in format: https://<alias>:<namespace>@signum
-    const uri = extractSRC47URI(new URL(details.url));
-    if (!uri) return;
+    const link = stripTrailingSlash(details.url);
+    console.debug('[Signum SRC47 Resolver] - incoming link: ', link);
+    if (link === lastResolved) {
+      console.debug('[Signum SRC47 Resolver] - already resolved - skipping', lastResolved);
+      return;
+    }
+    lastResolved = '';
+    const uri = extractSRC47URI(new URL(link));
+
+    if (!uri) {
+      console.debug('[Signum SRC47 Resolver] - Not a Signum URI', link);
+      return;
+    }
+    console.debug('[Signum SRC47 Resolver] - found Signum URI', uri);
     const { rpcBaseURL: nodeHost } = await getCurrentNetworkHost();
     // @ts-ignore
     const resolver = new URIResolver(SWHackyLedger(nodeHost));
+    console.debug('[Signum SRC47 Resolver] - resolving', uri, 'using', nodeHost);
     const resolved = await resolver.resolve(uri);
     if (typeof resolved !== 'string') return;
     new URL(resolved); // throws on invalid URL
     const url = sanitizeUrl(resolved);
-    console.debug('SRC47 URI found and resolved to:', url);
+    console.debug('[Signum SRC47 Resolver] - resolved to', url);
+    lastResolved = url;
     await browser.tabs.update({ url });
   } catch (e: any) {
     // no op
-    console.debug(e.message);
+    console.debug('[Signum SRC47 Resolver] - error', e.message);
   }
 }
 
