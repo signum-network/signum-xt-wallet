@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.5.2
+
+### New features
+
+- Full Support for [SRC47](https://github.com/signum-network/SIPs/blob/master/SIP/sip-47.md) and [SRC48](https://github.com/signum-network/SIPs/blob/master/SIP/sip-48.md)
+  - URL Resolution in URL Bar for SRC48
+  - Account Resolution for SRC47 conformant aliases, with subdomains, domains and STLDs
+  - Removed support for legacy account urls (@burst)
+
+### Bugfixes
+
+- Settings Issue (#75)
+
 ## 1.5.1 (firefox only)
 
 - Hotfix for loading the Nostr Provider in MV2
