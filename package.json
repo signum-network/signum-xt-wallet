@@ -1,6 +1,6 @@
 {
   "name": "signum-xt-wallet",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Cryptocurrency wallet for the green Signum 🍀 blockchain as an extension for your browser.",
   "private": true,
   "scripts": {
