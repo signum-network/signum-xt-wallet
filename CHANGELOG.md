@@ -8,6 +8,7 @@
   - URL Resolution in URL Bar for SRC48
   - Account Resolution for SRC47 conformant aliases, with subdomains, domains and STLDs
   - Removed support for legacy account urls (@burst)
+- Keyword for Omnibox changed from `signum` to `siggy`
 
 ### Bugfixes
 

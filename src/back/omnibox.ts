@@ -5,7 +5,7 @@ export function initOmnibox() {
     const suggestions = [
       {
         description: 'Resolve Signum Domain: ' + text,
-        content: `https://${text}@signum`
+        content: `https://${text}`
       },
       {
         description: 'Search Explorer for: ' + text,
