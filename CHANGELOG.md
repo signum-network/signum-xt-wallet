@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.3
+
+### Bugfix
+
+- Updated SignumJS lib with a fix for SRC48 URI Resolution
+
 ## 1.5.2
 
 ### New features

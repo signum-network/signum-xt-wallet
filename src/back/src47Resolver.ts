@@ -10,9 +10,13 @@ const stripTrailingSlash = (url: string) => {
 function extractSRC47URI(url: URL): string {
   const parse = (str: string) => {
     try {
+      if (str.endsWith('/')) {
+        str = str.substring(0, str.length - 1);
+      }
       if (!str.startsWith('https://') && !str.startsWith('http://')) {
         str = `https://${str}`;
       }
+
       URIResolver.parseURI(str);
       return str;
     } catch (e: any) {
@@ -61,7 +65,7 @@ async function handleBeforeNavigate(details: WebNavigation.OnBeforeNavigateDetai
   // url in format: https://<subdomain>.<domain>.<namespace>
   if (details.frameId > 0) return;
   try {
-    const link = stripTrailingSlash(details.url);
+    const link = details.url;
     console.debug('[Signum SRC47 Resolver] - incoming link: ', link);
     if (link === lastResolved) {
       console.debug('[Signum SRC47 Resolver] - already resolved - skipping', lastResolved);
