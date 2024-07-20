@@ -3,6 +3,7 @@ import React, { FC, useCallback } from 'react';
 import classNames from 'clsx';
 import { useForm } from 'react-hook-form';
 
+import FormCheckbox from 'app/atoms/FormCheckbox';
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
 import SubTitle from 'app/atoms/SubTitle';
@@ -13,7 +14,6 @@ import { COLORS } from 'lib/ui/colors';
 import { useConfirm } from 'lib/ui/dialog';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
-import FormCheckbox from '../../../atoms/FormCheckbox';
 import { NetworksListItem } from './NetworksListItem';
 
 interface NetworkFormData {
