@@ -100,7 +100,7 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
       return res;
     } catch (e: any) {
       if (e.message === 'Attempting to use a disconnected port object') {
-        console.debug('Reviving intercom...');
+        console.debug('Resurrecting intercom...');
         unsubscribeIntercom();
         intercom.destroy();
         intercom = new IntercomClient();
@@ -119,7 +119,6 @@ export const [TempleClientProvider, useTempleClient] = constate(() => {
   const idle = status === WalletStatus.Idle;
   const locked = status === WalletStatus.Locked;
   const ready = status === WalletStatus.Ready;
-
   const customNetworks = useMemo(() => settings?.customNetworks ?? [], [settings]);
   const networks = useMemo(() => [...defaultNetworks, ...customNetworks], [defaultNetworks, customNetworks]);
 

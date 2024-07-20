@@ -1,8 +1,17 @@
+import { tr } from 'date-fns/locale';
 import browser from 'webextension-polyfill';
 
 import { XTAccountType, WalletStatus } from 'lib/messaging';
 
-import { accountsUpdated, inited as initEvent, locked, settingsUpdated, store, unlocked } from './store';
+import {
+  accountsUpdated,
+  inited as initEvent,
+  locked,
+  networksUpdated,
+  settingsUpdated,
+  store,
+  unlocked
+} from './store';
 import { Vault } from './vault';
 
 describe('Store tests', () => {
@@ -22,13 +31,13 @@ describe('Store tests', () => {
     expect(settings).toBeNull();
   });
   it('Inited event', () => {
-    initEvent(false);
+    initEvent({ inited: false, networks: [] });
     const { inited, status } = store.getState();
     expect(inited).toBeTruthy();
     expect(status).toBe(WalletStatus.Idle);
   });
   it('Inited event with Vault', () => {
-    initEvent(true);
+    initEvent({ inited: true, networks: [] });
     const { status } = store.getState();
     expect(status).toBe(WalletStatus.Locked);
   });

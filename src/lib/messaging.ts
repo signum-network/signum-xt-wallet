@@ -115,6 +115,7 @@ export interface NostrRelayPolicy {
 export type NostrRelays = Record<string, NostrRelayPolicy>;
 
 export interface XTSettings {
+  publicResourceUrl?: string;
   customNetworks?: Network[];
   nostrRelays?: NostrRelays;
   lambdaContracts?: Record<string, string>;

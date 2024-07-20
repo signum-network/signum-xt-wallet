@@ -17,6 +17,7 @@ export async function start() {
   initOmnibox();
   await Actions.init();
   const frontStore = store.map(toFront);
+
   frontStore.watch(() => {
     intercom.broadcast({ type: XTMessageType.StateUpdated });
   });

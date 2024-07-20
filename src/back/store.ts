@@ -1,7 +1,6 @@
 import { createStore, createEvent } from 'effector';
 
-import { AppState, WalletStatus, XTAccount, XTSettings } from 'lib/messaging';
-import { NETWORKS } from 'lib/temple/networks';
+import { AppState, Network, WalletStatus, XTAccount, XTSettings } from 'lib/messaging';
 
 import { Vault } from './vault';
 
@@ -27,7 +26,7 @@ export function toFront({ status, accounts, networks, settings }: StoreState): A
  * Events
  */
 
-export const inited = createEvent<boolean>('Inited');
+export const inited = createEvent<{ inited: boolean; networks: Network[] }>('Inited');
 
 export const locked = createEvent('Locked');
 
@@ -41,6 +40,8 @@ export const accountsUpdated = createEvent<XTAccount[]>('Accounts updated');
 
 export const settingsUpdated = createEvent<XTSettings>('Settings updated');
 
+export const networksUpdated = createEvent<Network[]>('Networks updated');
+
 /**
  * Store
  */
@@ -53,24 +54,24 @@ export const store = createStore<StoreState>({
   networks: [],
   settings: null
 })
-  .on(inited, (state, vaultExist) => ({
+  .on(inited, (state, { inited, networks }) => ({
     ...state,
-    inited: true,
-    status: vaultExist ? WalletStatus.Locked : WalletStatus.Idle,
-    networks: NETWORKS
+    inited,
+    status: inited ? WalletStatus.Locked : WalletStatus.Idle,
+    networks: inited ? networks : []
   }))
-  .on(locked, () => ({
+  .on(locked, ({ networks }) => ({
     // Attention!
     // Security stuff!
-    // Don't merge new state to exisitng!
+    // Don't merge new state to existing!
     // Build a new state from scratch
-    // Reset all properties!
+    // Reset all user specific properties
     inited: true,
     vault: null,
     status: WalletStatus.Locked,
     accounts: [],
-    networks: NETWORKS,
-    settings: null
+    settings: null,
+    networks // are public anyways!
   }))
   .on(unlocked, (state, { vault, accounts, settings }) => ({
     ...state,
