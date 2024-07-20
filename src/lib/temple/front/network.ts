@@ -1,4 +1,4 @@
-import { AddressPrefix, LedgerClientFactory } from '@signumjs/core';
+import { AddressPrefix } from '@signumjs/core';
 
 import { useNetwork } from './ready';
 
@@ -7,12 +7,20 @@ export function useSignumAccountPrefix() {
   return (network.type === 'test' ? AddressPrefix.TestNet : AddressPrefix.MainNet).toString();
 }
 
-export async function canConnectToNetwork(rpcUrl: string, type: 'main' | 'test'): Promise<boolean> {
+export async function canConnectToNetwork(nodeUrl: string, timeout = 5000) {
   try {
-    const ledger = LedgerClientFactory.createClient({ nodeHost: rpcUrl });
-    await ledger.network.getBlockchainStatus();
+    await Promise.race([
+      fetch(`${nodeUrl}/api?requestType=getBlockchainStatus`),
+      new Promise((_, reject) =>
+        setTimeout(() => {
+          reject(new Error('Request timed out'));
+        }, timeout)
+      )
+    ]);
+    console.log('all fine');
     return true;
   } catch (e) {
+    console.error(e);
     return false;
   }
 }

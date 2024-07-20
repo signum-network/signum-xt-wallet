@@ -3,6 +3,7 @@ import browser, { Runtime } from 'webextension-polyfill';
 import { NostrExtensionMessageType, NostrExtensionRequest, NostrExtensionResponse } from 'lib/intercom/nostr/typings';
 import { AppState, TempleRequest, XTMessageType, XTSettings, XTSharedStorageKey } from 'lib/messaging';
 import { createQueue } from 'lib/queue';
+import { fetchKnownNetworks } from 'lib/temple/networks';
 
 import { MenuItems, setMenuItemEnabled } from './context-menus';
 import * as SignumDApp from './dapp';
@@ -13,6 +14,7 @@ import {
   accountsUpdated,
   inited,
   locked,
+  networksUpdated,
   settingsUpdated,
   store,
   toFront,
@@ -23,6 +25,7 @@ import {
 import { Vault } from './vault';
 
 const NaiveAddressCheck = /^(S|TS)-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{5}$/;
+
 function isSignumAddress(selection: string) {
   return (
     (selection.length === 22 || selection.length === 23) && // fast check
@@ -47,8 +50,12 @@ const AUTODECLINE_AFTER = 60_000;
 const enqueueUnlock = createQueue();
 
 export async function init() {
-  const vaultExist = await Vault.isExist();
-  inited(vaultExist);
+  const [vaultExist, networks] = await Promise.all([Vault.isExist(), fetchKnownNetworks()]);
+  networksUpdated(networks);
+  inited({
+    inited: vaultExist,
+    networks
+  });
 }
 
 export async function getFrontState(): Promise<AppState> {
@@ -120,6 +127,7 @@ export function revealPublicKey(accPublicKey: string) {
 export function revealNostrPrivateKey(accPublicKey: string, password: string) {
   return withUnlocked(() => Vault.revealNostrPrivateKey(accPublicKey, password));
 }
+
 export function removeAccount(accPublicKey: string, password: string) {
   return withUnlocked(async () => {
     const updatedAccounts = await Vault.removeAccount(accPublicKey, password);
@@ -152,6 +160,7 @@ export function importMnemonicAccount(mnemonic: string, name?: string, withNostr
     accountsUpdated(updatedAccounts);
   });
 }
+
 export function importAccountFromNostrPrivateKey(nsecOrHex: string, name?: string) {
   return withUnlocked(async ({ vault }) => {
     const updatedAccounts = await vault.importAccountFromNostrPrivKey(nsecOrHex, name);
@@ -298,6 +307,7 @@ async function createCustomNetworksSnapshot(settings: XTSettings) {
     }
   } catch {}
 }
+
 async function createNostrRelaysSnapshot(settings: XTSettings) {
   try {
     if (settings.nostrRelays) {

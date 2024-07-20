@@ -5,18 +5,16 @@ import { useForm } from 'react-hook-form';
 
 import FormField from 'app/atoms/FormField';
 import FormSubmitButton from 'app/atoms/FormSubmitButton';
-import Name from 'app/atoms/Name';
-import NetworkBadge from 'app/atoms/NetworkBadge';
 import SubTitle from 'app/atoms/SubTitle';
 import { HTTP_URL_PATTERN } from 'app/defaults';
-import { ReactComponent as CloseIcon } from 'app/icons/close.svg';
 import { T, t } from 'lib/i18n/react';
-import { Network, useSettings, useTempleClient, canConnectToNetwork, NetworkName } from 'lib/temple/front';
+import { canConnectToNetwork, NetworkName, useSettings, useTempleClient } from 'lib/temple/front';
 import { COLORS } from 'lib/ui/colors';
 import { useConfirm } from 'lib/ui/dialog';
 import { withErrorHumanDelay } from 'lib/ui/humanDelay';
 
-import FormCheckbox from '../../atoms/FormCheckbox';
+import FormCheckbox from '../../../atoms/FormCheckbox';
+import { NetworksListItem } from './NetworksListItem';
 
 interface NetworkFormData {
   name: string;
@@ -58,7 +56,7 @@ const CustomNetworksSettings: FC = () => {
       if (submitting) return;
       clearError();
       const type = isTestnet ? 'test' : 'main';
-      const canConnect = await canConnectToNetwork(rpcBaseURL, type);
+      const canConnect = await canConnectToNetwork(rpcBaseURL);
       if (!canConnect) {
         await withErrorHumanDelay(`cannot connect to ${rpcBaseURL}`, () =>
           setError('rpcBaseURL', SUBMIT_ERROR_TYPE, t('cantConnectToNetwork'))
@@ -120,17 +118,10 @@ const CustomNetworksSettings: FC = () => {
     <div className="w-full max-w-sm p-2 pb-4 mx-auto">
       <div className="flex flex-col mb-8">
         <h2 className={classNames('mb-4', 'leading-tight', 'flex flex-col')}>
-          <T id="currentNetworks">
-            {message => <span className="text-base font-semibold text-gray-700">{message}</span>}
-          </T>
-
-          <T id="deleteNetworkHint">
-            {message => (
-              <span className={classNames('mt-1', 'text-xs font-light text-gray-600')} style={{ maxWidth: '90%' }}>
-                {message}
-              </span>
-            )}
-          </T>
+          <span className="text-base font-semibold text-gray-700">{t('currentNetworks')}</span>
+          <span className={classNames('mt-1', 'text-xs font-light text-gray-600')} style={{ maxWidth: '90%' }}>
+            {t('deleteNetworkHint')}
+          </span>
         </h2>
 
         <div
@@ -213,74 +204,3 @@ const CustomNetworksSettings: FC = () => {
 };
 
 export default CustomNetworksSettings;
-
-type NetworksListItemProps = {
-  canRemove: boolean;
-  network: Network;
-  onRemoveClick?: (baseUrl: string) => void;
-  last: boolean;
-};
-
-const NetworksListItem: FC<NetworksListItemProps> = props => {
-  const {
-    network: { name, nameI18nKey, rpcBaseURL, color, networkName },
-    canRemove,
-    onRemoveClick,
-    last
-  } = props;
-  const handleRemoveClick = useCallback(() => onRemoveClick?.(rpcBaseURL), [onRemoveClick, rpcBaseURL]);
-
-  return (
-    <div
-      className={classNames(
-        'block w-full',
-        'overflow-hidden',
-        !last && 'border-b border-gray-200',
-        'flex items-stretch',
-        'text-gray-700',
-        'transition ease-in-out duration-200',
-        'focus:outline-none',
-        'opacity-90 hover:opacity-100'
-      )}
-      style={{
-        padding: '0.4rem 0.375rem 0.4rem 0.375rem'
-      }}
-    >
-      <div
-        className={classNames('mt-1 ml-2 mr-3', 'w-3 h-3', 'border border-primary-white', 'rounded-full shadow-xs')}
-        style={{ background: color }}
-      />
-
-      <div className="flex flex-col justify-between flex-1">
-        <div className="flex flex-row justify-between">
-          <Name className="mb-1 text-sm font-medium leading-tight">
-            {(nameI18nKey && <T id={nameI18nKey} />) || name}
-          </Name>
-          <NetworkBadge networkName={networkName} />
-        </div>
-
-        <div
-          className={classNames('text-xs text-gray-700 font-light', 'flex items-center')}
-          style={{
-            marginBottom: '0.125rem'
-          }}
-        >
-          URL:<Name className="ml-1 font-normal">{rpcBaseURL}</Name>
-        </div>
-      </div>
-
-      {canRemove && (
-        <button
-          className={classNames(
-            'flex-none p-2',
-            'text-gray-500 hover:text-gray-600',
-            'transition ease-in-out duration-200'
-          )}
-          onClick={handleRemoveClick}
-        >
-          <CloseIcon className="w-auto h-5 stroke-current stroke-2" title={t('delete')} />
-        </button>
-      )}
-    </div>
-  );
-};

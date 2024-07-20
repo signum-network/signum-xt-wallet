@@ -12,7 +12,7 @@ import { ReactComponent as SettingsIcon } from 'app/icons/settings.svg';
 import { ReactComponent as SignalAltIcon } from 'app/icons/signal-alt.svg';
 import PageLayout from 'app/layouts/PageLayout';
 import About from 'app/templates/Settings/About';
-import CustomNetworksSettings from 'app/templates/Settings/CustomNetworksSettings';
+import CustomNetworksSettings from 'app/templates/Settings/NetworkSettings/CustomNetworksSettings';
 import DAppSettings from 'app/templates/Settings/DAppSettings';
 import GeneralSettings from 'app/templates/Settings/GeneralSettings';
 import HelpAndCommunity from 'app/templates/Settings/HelpAndCommunity';

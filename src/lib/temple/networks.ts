@@ -1,4 +1,5 @@
 import { Network } from 'lib/messaging';
+import { COLORS } from 'lib/ui/colors';
 
 // get from getConstants of the nodes
 export const NetworkName = {
@@ -6,11 +7,12 @@ export const NetworkName = {
   Testnet: 'Signum-TESTNET'
 };
 
-export const NETWORKS: Network[] = [
+// These are static Default networks
+export const DEFAULT_NETWORKS: Network[] = [
   {
     id: 'signum-europe',
     networkName: NetworkName.Mainnet,
-    name: 'Europe 1',
+    name: 'Europe',
     description: 'Featured Node from Europe',
     type: 'main',
     rpcBaseURL: 'https://europe.signum.network',
@@ -20,7 +22,7 @@ export const NETWORKS: Network[] = [
   {
     id: 'signum-europe-1',
     networkName: NetworkName.Mainnet,
-    name: 'Europe 2',
+    name: 'Europe 1',
     description: 'Another Featured Node from Europe',
     type: 'main',
     rpcBaseURL: 'https://europe1.signum.network',
@@ -30,7 +32,7 @@ export const NETWORKS: Network[] = [
   {
     id: 'signum-europe-2',
     networkName: NetworkName.Mainnet,
-    name: 'Europe 3',
+    name: 'Europe 2',
     description: 'Another Featured Node from Europe',
     type: 'main',
     rpcBaseURL: 'https://europe2.signum.network',
@@ -58,23 +60,13 @@ export const NETWORKS: Network[] = [
     disabled: false
   },
   {
-    id: 'signum-us-central',
-    networkName: NetworkName.Mainnet,
-    name: 'US Central',
-    description: 'Featured Node from the US',
-    type: 'main',
-    rpcBaseURL: 'https://us-central.signum.network',
-    color: '#009186',
-    disabled: false
-  },
-  {
     id: 'signum-canada',
     networkName: NetworkName.Mainnet,
     name: 'Canada',
     description: 'Featured Node from Canada',
     type: 'main',
     rpcBaseURL: 'https://canada.signum.network',
-    color: '#00B7AE',
+    color: '#009186',
     disabled: false
   },
   {
@@ -84,7 +76,7 @@ export const NETWORKS: Network[] = [
     description: 'Featured Node from Latin America',
     type: 'main',
     rpcBaseURL: 'https://latam.signum.network',
-    color: '#0090A2',
+    color: '#00B7AE',
     disabled: false
   },
   {
@@ -94,7 +86,7 @@ export const NETWORKS: Network[] = [
     description: 'Featured Node from South America',
     type: 'main',
     rpcBaseURL: 'https://brazil.signum.network',
-    color: '#0070A2',
+    color: '#0090A2',
     disabled: false
   },
   {
@@ -104,7 +96,7 @@ export const NETWORKS: Network[] = [
     description: 'Featured Node from Australia',
     type: 'main',
     rpcBaseURL: 'https://australia.signum.network',
-    color: '#005669',
+    color: '#0070A2',
     disabled: false
   },
   {
@@ -114,7 +106,7 @@ export const NETWORKS: Network[] = [
     description: 'Featured Node from Singapore',
     type: 'main',
     rpcBaseURL: 'https://singapore.signum.network',
-    color: '#001b69',
+    color: '#005669',
     disabled: false
   },
   {
@@ -130,7 +122,7 @@ export const NETWORKS: Network[] = [
   {
     id: 'signum-testnet-europe',
     networkName: NetworkName.Testnet,
-    name: 'Europe Testnet ',
+    name: 'Europe Testnet',
     description: 'Public Testnet Node Europe',
     type: 'test',
     rpcBaseURL: 'https://europe3.testnet.signum.network',
@@ -148,3 +140,60 @@ export const NETWORKS: Network[] = [
     disabled: false
   }
 ];
+
+interface NetworkResource {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+}
+
+interface PublicNetworkResources {
+  mainnet: NetworkResource[];
+  testnet: NetworkResource[];
+}
+
+async function fetchPublicNetworkResources() {
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/signum-network/public-resources/main/nodes.json');
+    if (response.ok) {
+      return (await response.json()) as PublicNetworkResources;
+    }
+  } catch (e) {
+    console.error('Error loading public network resources');
+  }
+  return null;
+}
+
+export async function fetchKnownNetworks() {
+  const publicNetworks = await fetchPublicNetworkResources();
+  if (publicNetworks) {
+    const mainnet: Network[] = publicNetworks.mainnet.map((n, i) => ({
+      type: 'main',
+      networkName: NetworkName.Mainnet,
+      rpcBaseURL: n.url,
+      name: n.name,
+      id: n.id,
+      description: n.description,
+      disabled: false,
+      hidden: false,
+      color: COLORS[57 + (i % 16)]
+    }));
+
+    const testnet: Network[] = publicNetworks.testnet.map((n, i) => ({
+      type: 'test',
+      networkName: NetworkName.Testnet,
+      rpcBaseURL: n.url,
+      name: n.name,
+      id: n.id,
+      description: n.description,
+      disabled: false,
+      hidden: false,
+      color: COLORS[21 + (i % 6)]
+    }));
+
+    return [...mainnet, ...testnet];
+  } else {
+    return DEFAULT_NETWORKS;
+  }
+}
