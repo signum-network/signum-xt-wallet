@@ -1,7 +1,6 @@
 import browser from 'webextension-polyfill';
 
 import { DAppSession, DAppSessions, Network } from 'lib/messaging';
-import { DEFAULT_NETWORKS } from 'lib/temple/networks';
 
 const STORAGE_KEY = 'dapp_sessions';
 
@@ -49,20 +48,22 @@ export async function getCurrentAccountInfo() {
 }
 
 export async function getCurrentNetworkHost() {
-  const { network_id: networkId, custom_networks_snapshot: customNetworksSnapshot } = await browser.storage.local.get([
-    'network_id',
-    'custom_networks_snapshot'
-  ]);
+  const {
+    network_id: networkId,
+    custom_networks_snapshot: customNetworksSnapshot,
+    networks
+  } = await browser.storage.local.get(['network_id', 'networks', 'custom_networks_snapshot']);
 
-  const allNetworks = [...DEFAULT_NETWORKS, ...(customNetworksSnapshot ?? [])] as Network[];
+  const allNetworks = [...networks, ...(customNetworksSnapshot ?? [])] as Network[];
   return allNetworks.find(n => !n.disabled && !n.hidden && n.id === networkId) as Network;
 }
 
 export async function getNetworkHosts(networkName: string) {
-  const { custom_networks_snapshot: customNetworksSnapshot } = await browser.storage.local.get(
+  const { custom_networks_snapshot: customNetworksSnapshot, networks } = await browser.storage.local.get([
+    'networks',
     'custom_networks_snapshot'
-  );
+  ]);
 
-  const allNetworks = [...DEFAULT_NETWORKS, ...(customNetworksSnapshot ?? [])] as Network[];
+  const allNetworks = [...networks, ...(customNetworksSnapshot ?? [])] as Network[];
   return allNetworks.filter(n => !n.disabled && !n.hidden && n.networkName === networkName);
 }

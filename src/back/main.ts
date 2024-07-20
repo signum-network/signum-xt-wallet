@@ -18,8 +18,6 @@ export async function start() {
   await Actions.init();
   const frontStore = store.map(toFront);
 
-  console.log('frontStore', frontStore.getState());
-
   frontStore.watch(() => {
     intercom.broadcast({ type: XTMessageType.StateUpdated });
   });

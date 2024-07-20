@@ -8,7 +8,7 @@ export const NetworkName = {
 };
 
 // These are static Default networks
-export const DEFAULT_NETWORKS: Network[] = [
+const DEFAULT_NETWORKS: Network[] = [
   {
     id: 'signum-europe',
     networkName: NetworkName.Mainnet,

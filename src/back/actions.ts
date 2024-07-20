@@ -51,6 +51,7 @@ const enqueueUnlock = createQueue();
 
 export async function init() {
   const [vaultExist, networks] = await Promise.all([Vault.isExist(), fetchKnownNetworks()]);
+  await browser.storage.local.set({ networks });
   networksUpdated(networks);
   inited({
     inited: vaultExist,
