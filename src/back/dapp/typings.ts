@@ -2,13 +2,17 @@ export type ExtensionRequest =
   | ExtensionGetCurrentPermissionRequest
   | ExtensionPermissionRequest
   | ExtensionSignRequest
-  | ExtensionSendEncryptedMessageRequest;
+  | ExtensionSendEncryptedMessageRequest
+  | ExtensionMessageEncryptRequest
+  | ExtensionMessageDecryptRequest;
 
 export type ExtensionResponse =
   | ExtensionGetCurrentPermissionResponse
   | ExtensionPermissionResponse
   | ExtensionSignResponse
-  | ExtensionSendEncryptedMessageResponse;
+  | ExtensionSendEncryptedMessageResponse
+  | ExtensionMessageEncryptResponse
+  | ExtensionMessageDecryptResponse;
 
 export interface ExtensionMessageBase {
   type: ExtensionMessageType;
@@ -17,6 +21,10 @@ export interface ExtensionMessageBase {
 export enum ExtensionMessageType {
   GetCurrentPermissionRequest = 'GET_CURRENT_PERMISSION_REQUEST',
   GetCurrentPermissionResponse = 'GET_CURRENT_PERMISSION_RESPONSE',
+  MessageEncryptRequest = 'MESSAGE_ENCRYPT_REQUEST',
+  MessageEncryptResponse = 'MESSAGE_ENCRYPT_RESPONSE',
+  MessageDecryptRequest = 'MESSAGE_DECRYPT_REQUEST',
+  MessageDecryptResponse = 'MESSAGE_DECRYPT_RESPONSE',
   PermissionRequest = 'PERMISSION_REQUEST',
   PermissionResponse = 'PERMISSION_RESPONSE',
   SignRequest = 'SIGN_REQUEST',
@@ -76,6 +84,34 @@ export interface ExtensionSendEncryptedMessageResponse extends ExtensionMessageB
   type: ExtensionMessageType.SendEncryptedMessageResponse;
   transactionId: string;
   fullHash: string;
+}
+
+export interface ExtensionMessageEncryptRequest extends ExtensionMessageBase {
+  type: ExtensionMessageType.MessageEncryptRequest;
+  plainMessage: string;
+  messageIsText: boolean;
+  recipientPublicKey: string;
+}
+
+export interface ExtensionMessageEncryptResponse extends ExtensionMessageBase {
+  type: ExtensionMessageType.MessageEncryptResponse;
+  cipherMessageHex: string;
+  nonceHex: string;
+  messageIsText: boolean;
+}
+
+export interface ExtensionMessageDecryptRequest extends ExtensionMessageBase {
+  type: ExtensionMessageType.MessageDecryptRequest;
+  cipherMessageHex: string;
+  nonceHex: string;
+  messageIsText: boolean;
+  senderPublicKey: string;
+}
+
+export interface ExtensionMessageDecryptResponse extends ExtensionMessageBase {
+  type: ExtensionMessageType.MessageDecryptResponse;
+  plainText: string;
+  messageIsText: boolean;
 }
 
 export enum ExtensionErrorType {

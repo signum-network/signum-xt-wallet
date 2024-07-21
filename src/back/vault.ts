@@ -1,5 +1,10 @@
 import { Address } from '@signumjs/core';
 import {
+  decryptData,
+  decryptMessage,
+  encryptData,
+  EncryptedMessage,
+  encryptMessage,
   generateMasterKeys,
   generateSignature,
   generateSignedTransactionBytes,
@@ -7,6 +12,7 @@ import {
   verifySignature
 } from '@signumjs/crypto';
 import { convertByteArrayToHexString } from '@signumjs/util';
+import { Buffer } from 'buffer';
 import browser from 'webextension-polyfill';
 
 import { generateSignumMnemonic } from 'lib/generateSignumMnemonic';
@@ -240,6 +246,7 @@ export class Vault {
       }
     });
   }
+
   async importWatchOnlyAccount(accPublicKey: string, chainId?: string) {
     return withError('Failed to import Watch Only account', async () => {
       const allAccounts = await this.fetchAccounts();
@@ -309,6 +316,33 @@ export class Vault {
     });
   }
 
+  async signumEncrypt(accPublicKey: string, plainMessage: string, recipientPublicKey: string, isText: boolean) {
+    return withError('Failed to encrypt', async () => {
+      const { p2pEncryptionKey } = await this.getSignumTxKeys(accPublicKey);
+      return isText
+        ? encryptMessage(plainMessage, recipientPublicKey, p2pEncryptionKey)
+        : encryptData(Buffer.from(plainMessage, 'hex'), recipientPublicKey, p2pEncryptionKey);
+    });
+  }
+
+  async signumDecrypt(accPublicKey: string, encryptedMessage: EncryptedMessage, senderPublicKey: string) {
+    return withError('Failed to decrypt', async () => {
+      const { p2pEncryptionKey } = await this.getSignumTxKeys(accPublicKey);
+      return encryptedMessage.isText
+        ? decryptMessage(encryptedMessage, senderPublicKey, p2pEncryptionKey)
+        : Buffer.from(
+            decryptData(
+              {
+                data: Buffer.from(encryptedMessage.data, 'hex'),
+                nonce: Buffer.from(encryptedMessage.nonce, 'hex')
+              },
+              senderPublicKey,
+              p2pEncryptionKey
+            )
+          ).toString('hex');
+    });
+  }
+
   async signumSign(accPublicKey: string, unsignedTransactionBytes: string) {
     return withError('Failed to sign', async () => {
       const { publicKey, signingKey } = await this.getSignumTxKeys(accPublicKey);
@@ -319,6 +353,7 @@ export class Vault {
       return generateSignedTransactionBytes(unsignedTransactionBytes, signature);
     });
   }
+
   async signNostrEvent(signumPublicKey: string, event: any) {
     return withError('Failed to sign nostr Event', async () => {
       const privateKey = await this.getNostrPrivateKeyFromSignumPublicKey(signumPublicKey);
@@ -339,6 +374,7 @@ export class Vault {
       return decryptNostrMessage(privateKey, peerPubKey, cipherText);
     });
   }
+
   async getNostrPrivateKeyFromSignumPublicKey(signumPublicKey: string) {
     return withError('Failed to fetch Nostr private key', () => {
       const accountId = Address.fromPublicKey(signumPublicKey).getNumericId();

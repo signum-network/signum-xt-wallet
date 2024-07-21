@@ -282,6 +282,12 @@ export async function processDApp(
     case ExtensionMessageType.SendEncryptedMessageRequest:
       return withInited(() => SignumDApp.requestSendEncryptedMessage(origin, req));
 
+    case ExtensionMessageType.MessageEncryptRequest:
+      return withInited(() => SignumDApp.requestEncryptMessage(origin, req));
+
+    case ExtensionMessageType.MessageDecryptRequest:
+      return withInited(() => SignumDApp.requestDecryptMessage(origin, req));
+
     case NostrExtensionMessageType.GetPublicKeyRequest:
       return withInited(() => NostrDApp.getPublicKey(origin, req));
 
