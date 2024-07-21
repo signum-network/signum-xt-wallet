@@ -5,3 +5,5 @@ export * from './getCurrentPermission';
 export * from './requestSendEncryptedMessage';
 export * from './dapp';
 export * from './notifications';
+export * from './requestDecryptMessage';
+export * from './requestEncryptMessage';
